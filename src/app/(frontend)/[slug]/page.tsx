@@ -5,6 +5,7 @@ import { SeoType } from '@/types/seo'
 import { Page as PageType } from '@/sanity.types'
 import PageRenderer from '@/components/Page'
 import { getPageQuery } from '@/sanity/lib/queries'
+//import { notFound } from 'next/headers'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -33,5 +34,10 @@ export default async function Page(props: Props) {
     params,
   })
 
-  return <PageRenderer page={page as unknown as PageType} />
+  if (!page) {
+    //notFound()
+    return
+  }
+
+  return <PageRenderer page={page} />
 }
