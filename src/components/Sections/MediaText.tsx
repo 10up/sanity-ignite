@@ -1,9 +1,9 @@
-import { MediaText } from '@/sanity.types'
-import { Image } from 'next-sanity/image'
-import { urlForImage } from '@/sanity/lib/utils'
-import { type PortableTextBlock } from 'next-sanity'
-import PortableText from '@/components/PortableText'
-import { cn } from '@/sanity/lib/styles'
+import { MediaText } from '@/sanity.types';
+import { Image } from 'next-sanity/image';
+import { urlForImage } from '@/sanity/lib/utils';
+import { type PortableTextBlock } from 'next-sanity';
+import PortableText from '@/components/PortableText';
+import { cn } from '@/utils/styles';
 
 export default function MediaTextSection({ section }: { section: MediaText }) {
   return (
@@ -28,5 +28,5 @@ export default function MediaTextSection({ section }: { section: MediaText }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,45 +1,46 @@
-'use client'
+'use client';
 
 /**
  * This config is used to configure your Sanity Studio.
  * Learn more: https://www.sanity.io/docs/configuration
  */
 
-import { defineConfig } from 'sanity'
-import { structureTool } from 'sanity/structure'
-import { visionTool } from '@sanity/vision'
-import { schemaTypes } from './src/sanity/schemaTypes'
-import { structure } from './src/sanity/structure'
+import { defineConfig } from 'sanity';
+import { structureTool } from 'sanity/structure';
+import { visionTool } from '@sanity/vision';
+import { schemaTypes } from './src/sanity/schema';
+import { structure } from './src/sanity/structure';
 import {
   presentationTool,
   defineDocuments,
   defineLocations,
   type DocumentLocation,
-} from 'sanity/presentation'
-import { assist } from '@sanity/assist'
-import { seoMetaFields } from 'sanity-plugin-seo'
+} from 'sanity/presentation';
+import { assist } from '@sanity/assist';
+import { seoMetaFields } from 'sanity-plugin-seo';
+import { clientEnv } from './src/env/client';
 
 // Environment variables for project configuration
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'your-projectID'
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+const projectId = clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID;
+const dataset = clientEnv.NEXT_PUBLIC_SANITY_DATASET;
 
 // Define the home location for the presentation tool
 const homeLocation = {
   title: 'Home',
   href: '/',
-} satisfies DocumentLocation
+} satisfies DocumentLocation;
 
 // resolveHref() is a convenience function that resolves the URL
 // path for different document types and used in the presentation tool.
 function resolveHref(documentType?: string, slug?: string): string | undefined {
   switch (documentType) {
     case 'post':
-      return slug ? `/posts/${slug}` : undefined
+      return slug ? `/posts/${slug}` : undefined;
     case 'page':
-      return slug ? `/${slug}` : undefined
+      return slug ? `/${slug}` : undefined;
     default:
-      console.warn('Invalid document type:', documentType)
-      return undefined
+      console.warn('Invalid document type:', documentType);
+      return undefined;
   }
 }
 
@@ -126,4 +127,4 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
   },
-})
+});

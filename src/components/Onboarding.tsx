@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
 /**
  * This file is used for onboarding when you don't have content yet and are using the template for the first time.
  * Once you have provided a url for the environment variable NEXT_PUBLIC_SANITY_STUDIO_URL, and have content, you can delete this file.
  */
 
-import Link from 'next/link'
+import Link from 'next/link';
 
-import { studioUrl } from '@/sanity/lib/api'
+import { studioUrl } from '@/sanity/lib/env';
 
 export default function Onboarding() {
   return (
@@ -64,20 +64,20 @@ export default function Onboarding() {
         />
       )}
     </div>
-  )
+  );
 }
 
 type OnboardingMessageProps = {
   message: {
-    title: string
-    description: string
-  }
+    title: string;
+    description: string;
+  };
   link: {
-    title: string
-    href: string
-    showIcon?: boolean
-  }
-}
+    title: string;
+    href: string;
+    showIcon?: boolean;
+  };
+};
 
 const OnboardingMessage = ({ message, link }: OnboardingMessageProps) => {
   return (
@@ -102,8 +102,8 @@ const OnboardingMessage = ({ message, link }: OnboardingMessageProps) => {
         </Link>
       </div>
     </>
-  )
-}
+  );
+};
 
 export function PageOnboarding() {
   return (
@@ -160,5 +160,5 @@ export function PageOnboarding() {
         />
       )}
     </div>
-  )
+  );
 }

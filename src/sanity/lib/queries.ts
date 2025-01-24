@@ -1,14 +1,14 @@
-import { defineQuery } from 'next-sanity'
+import { defineQuery } from 'next-sanity';
 
-export const twitterQuery = /* groq */ `
-_type,
-site,
-creator,
-cardType,
-handle
-`
+export const twitterFragment = defineQuery(`{
+  _type,
+  site,
+  creator,
+  cardType,
+  handle
+}`);
 
-export const imageFields = /* groq */ `
+export const imageFragment = defineQuery(`
 _type,
 crop{
 _type,
@@ -25,55 +25,56 @@ height,
 width,
 },
 asset->{...}
-`
+`);
 
-export const openGraphQuery = /* groq */ `
+export const openGraphFragment = defineQuery(`
 _type,
 siteName,
 url,
 description,
 title,
 image{
-${imageFields}
+${imageFragment}
 }
-`
+`);
 
-export const metaAttributesQuery = /* groq */ `
+export const metaAttributesFragment = defineQuery(`
 _type,
 attributeValueString,
 attributeType,
 attributeKey,
 attributeValueImage{
-${imageFields}
+${imageFragment}
 }
-`
+`);
 
-export const seoFields = /* groq */ `
+export const seoFragment = defineQuery(`
 _type,
 metaTitle,
 nofollowAttributes,
 seoKeywords,
 metaDescription,
 openGraph{
-${openGraphQuery}
+${openGraphFragment}
 },
 twitter{
-${twitterQuery}
+${twitterFragment}
 },
 additionalMetaTags[]{
 _type,
 metaAttributes[]{
-${metaAttributesQuery}
+${metaAttributesFragment}
 }
 }
-`
-export const seo = `seo{
-  ${seoFields}
-  }`
+`);
 
-const postFields = /* groq */ `
+export const seo = `seo{
+  ${seoFragment}
+  }`;
+
+const postFragment = defineQuery(`
   _id,
-  "status": select(_originalId in path("drafts.**") => "draft", "published"),
+  "status": select(_originalId in path("drafts.**") => "draft", "published");,
   "title": coalesce(title, "Untitled"),
   "slug": slug.current,
   excerpt,
@@ -82,9 +83,9 @@ const postFields = /* groq */ `
   "date": coalesce(date, _updatedAt),
   "author": author->{firstName, lastName, picture},
   ${seo},
-`
+`);
 
-const linkFields = /* groq */ `
+const linkFragment = defineQuery(`
   link {
       ...,
       _type == "link" => {
@@ -92,7 +93,7 @@ const linkFields = /* groq */ `
         "post": post->slug.current
         }
       }
-`
+`);
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
   title,
@@ -103,14 +104,14 @@ export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
     name,
     isHome
   }
-}`)
+}`);
 
 export const homePageQuery = defineQuery(`*[_type == "homePage"][0]{
   _id,
   _type,
   pageSections,
   ${seo},
-}`)
+}`);
 
 export const getPageQuery = defineQuery(`
   *[_type == 'page' && slug.current == $slug][0]{
@@ -121,19 +122,19 @@ export const getPageQuery = defineQuery(`
     pageSections,
     ${seo}
   }
-`)
+`);
 
 export const allPostsQuery = defineQuery(`
-  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {
-    ${postFields}
+  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc); {
+    ${postFragment}
   }
-`)
+`);
 
 export const morePostsQuery = defineQuery(`
-  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
-    ${postFields}
+  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc); [0...$limit] {
+    ${postFragment}
   }
-`)
+`);
 
 export const postQuery = defineQuery(`
   *[_type == "post" && slug.current == $slug] [0] {
@@ -141,19 +142,19 @@ export const postQuery = defineQuery(`
     ...,
     markDefs[]{
       ...,
-      ${linkFields}
+      ${linkFragment}
     }
   },
-    ${postFields}
+    ${postFragment}
   }
-`)
+`);
 
 export const postPagesSlugs = defineQuery(`
   *[_type == "post" && defined(slug.current)]
   {"slug": slug.current}
-`)
+`);
 
 export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
-`)
+`);
