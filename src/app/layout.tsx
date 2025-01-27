@@ -4,6 +4,8 @@
  * performance.
  */
 
+import category from '@/sanity/schema/documents/category';
+
 export default function RootLayout({
   children,
 }: Readonly<{
