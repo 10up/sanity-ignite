@@ -1,14 +1,14 @@
-import Link from 'next/link'
-import { sanityFetch } from '@/sanity/lib/live'
-import { settingsQuery } from '@/sanity/lib/queries'
+import Link from 'next/link';
+import { sanityFetch } from '@/sanity/lib/live';
+import { settingsQuery } from '@/sanity/queries/queries';
 
 export default async function Header() {
   const { data: settings } = await sanityFetch({
     query: settingsQuery,
-  })
+  });
 
   if (!settings) {
-    return null
+    return null;
   }
 
   return (
@@ -28,12 +28,12 @@ export default async function Header() {
             >
               {settings.menuItems &&
                 settings.menuItems.map((item) => {
-                  let href = '/'
+                  let href = '/';
 
                   if (item.isHome) {
-                    href = '/'
+                    href = '/';
                   } else if (item._type === 'page') {
-                    href = `/${item.slug?.current}`
+                    href = `/${item.slug?.current}`;
                   }
                   return (
                     <li key={item._id} className="m-0 p-0">
@@ -41,12 +41,12 @@ export default async function Header() {
                         {item.name}
                       </Link>
                     </li>
-                  )
+                  );
                 })}
             </ul>
           </nav>
         </div>
       </div>
     </header>
-  )
+  );
 }
