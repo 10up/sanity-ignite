@@ -1,4 +1,4 @@
-'server-only';
+import 'server-only';
 
 import { createEnv } from '@/utils/createEnv';
 import * as v from 'valibot';

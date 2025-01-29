@@ -1,22 +1,20 @@
 import { createClient } from 'next-sanity';
-
-import { apiVersion, dataset, projectId, studioUrl } from '@/sanity/lib/env';
+import { clientEnv } from '@/env/client';
 
 export const client = createClient({
-  projectId,
-  dataset,
-  apiVersion,
+  projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
+  apiVersion: clientEnv.NEXT_PUBLIC_SANITY_API_VERSION,
   useCdn: true,
   perspective: 'published',
   stega: {
-    studioUrl,
+    studioUrl: clientEnv.NEXT_PUBLIC_SANITY_STUDIO_URL,
     // Set logger to 'console' for more verbose logging
     // logger: console,
     filter: (props) => {
       if (props.sourcePath.at(-1) === 'title') {
         return true;
       }
-
       return props.filterDefault(props);
     },
   },

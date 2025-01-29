@@ -1,11 +1,11 @@
 import createImageUrlBuilder from '@sanity/image-url';
 import { Link } from '@/sanity.types';
-import { dataset, projectId, studioUrl } from '@/sanity/lib/env';
+import { clientEnv } from '@/env/client';
 import { createDataAttribute, CreateDataAttributeProps } from 'next-sanity';
 
 const imageBuilder = createImageUrlBuilder({
-  projectId: projectId || '',
-  dataset: dataset || '',
+  projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
 });
 
 export const urlForImage = (source: any) => {
@@ -56,8 +56,8 @@ type DataAttributeConfig = CreateDataAttributeProps &
 
 export function dataAttr(config: DataAttributeConfig) {
   return createDataAttribute({
-    projectId,
-    dataset,
-    baseUrl: studioUrl,
+    projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
+    dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
+    baseUrl: clientEnv.NEXT_PUBLIC_SANITY_STUDIO_URL,
   }).combine(config);
 }
