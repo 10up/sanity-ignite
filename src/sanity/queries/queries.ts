@@ -9,22 +9,22 @@ export const twitterFragment = defineQuery(`{
 }`);
 
 export const imageFragment = defineQuery(`
-_type,
-crop{
-_type,
-right,
-top,
-left,
-bottom
-},
-hotspot{
-_type,
-x,
-y,
-height,
-width,
-},
-asset->{...}
+  _type,
+  crop{
+  _type,
+  right,
+  top,
+  left,
+  bottom
+  },
+  hotspot{
+  _type,
+  x,
+  y,
+  height,
+  width,
+  },
+  asset->{...}
 `);
 
 export const openGraphFragment = defineQuery(`
