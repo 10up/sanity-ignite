@@ -5,14 +5,12 @@
  * Learn more: https://www.sanity.io/docs/cli
  */
 
-import { defineCliConfig } from 'sanity/cli'
-
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'your-projectID'
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+import { defineCliConfig } from 'sanity/cli';
+import { clientEnv } from '@/env/client';
 
 export default defineCliConfig({
   api: {
-    projectId,
-    dataset,
+    projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
+    dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
   },
-})
+});

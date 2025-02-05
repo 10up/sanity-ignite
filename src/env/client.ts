@@ -7,5 +7,5 @@ const envSchema = {
   NEXT_PUBLIC_SANITY_API_VERSION: v.pipe(v.string(), v.minLength(1)),
   NEXT_PUBLIC_SANITY_STUDIO_URL: v.pipe(v.string(), v.url()),
 };
-const clientEnv = createEnv(envSchema, process.env);
+const clientEnv = createEnv(envSchema);
 export { clientEnv };

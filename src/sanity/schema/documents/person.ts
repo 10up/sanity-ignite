@@ -1,5 +1,5 @@
-import { UserIcon } from '@sanity/icons'
-import { defineField, defineType } from 'sanity'
+import { UserIcon } from '@sanity/icons';
+import { defineField, defineType } from 'sanity';
 
 /**
  * Person schema.  Define and edit the fields for the 'person' content type.
@@ -38,10 +38,10 @@ export default defineType({
             // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
             return rule.custom((alt, context) => {
               if ((context.document?.picture as any)?.asset?._ref && !alt) {
-                return 'Required'
+                return 'Required';
               }
-              return true
-            })
+              return true;
+            });
           },
         }),
       ],
@@ -51,6 +51,11 @@ export default defineType({
           imageDescriptionField: 'alt',
         },
       },
+    }),
+    defineField({
+      name: 'role',
+      title: 'Role',
+      type: 'string',
     }),
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views
@@ -65,7 +70,7 @@ export default defineType({
         title: `${selection.firstName} ${selection.lastName}`,
         subtitle: 'Person',
         media: selection.picture,
-      }
+      };
     },
   },
-})
+});

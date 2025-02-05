@@ -1,12 +1,8 @@
 import { watch } from 'chokidar';
 import { exec } from 'child_process';
+import data from './sanity-typegen.json' assert { type: 'json' };
 
-const directoriesToWatch = [
-  'src/sanity/schema/documents',
-  'src/sanity/schema/objects',
-  'src/sanity/schema/singletons',
-  'src/sanity/schema/fragments',
-];
+const directoriesToWatch = data.path;
 
 const runTypegen = () => {
   console.log('Running Sanity Typegen...');
