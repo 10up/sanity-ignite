@@ -1,24 +1,24 @@
-import '../globals.css'
+import '../globals.css';
 
-import { Inter } from 'next/font/google'
-import { draftMode } from 'next/headers'
-import { VisualEditing } from 'next-sanity'
-import { Toaster } from 'sonner'
+import { Inter } from 'next/font/google';
+import { draftMode } from 'next/headers';
+import { VisualEditing } from 'next-sanity';
+import { Toaster } from 'sonner';
 
-import DraftModeToast from '@/components/DraftModeToast'
-import Footer from '@/components/Layout/Footer'
-import Header from '@/components/Layout/Header'
-import { SanityLive } from '@/sanity/lib/live'
-import { handleError } from './client-utils'
+import DraftModeToast from '@/components/DraftModeToast';
+import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
+import { SanityLive } from '@/sanity/lib/live';
+import { handleError } from './client-utils';
 
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
   display: 'swap',
-})
+});
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled: isDraftMode } = await draftMode()
+  const { isEnabled: isDraftMode } = await draftMode();
 
   return (
     <html lang="en" className={`${inter.variable} bg-white text-black`}>
@@ -41,5 +41,5 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </section>
       </body>
     </html>
-  )
+  );
 }

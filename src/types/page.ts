@@ -1,16 +1,16 @@
-import { Cta, Hero, MediaText, PostList } from '@/sanity.types'
+import { Cta, Hero, MediaText, PostList } from '@/sanity.types';
 
 export type PageSections = Array<
   | ({
-      _key: string
+      _key: string;
     } & Cta)
   | ({
-      _key: string
+      _key: string;
     } & Hero)
   | ({
-      _key: string
+      _key: string;
     } & MediaText)
   | ({
-      _key: string
+      _key: string;
     } & PostList)
-> | null
+> | null;
