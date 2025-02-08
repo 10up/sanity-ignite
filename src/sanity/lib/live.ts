@@ -7,7 +7,7 @@ import { client } from './client';
  * Learn more: https://github.com/sanity-io/next-sanity?tab=readme-ov-file#1-configure-definelive
  */
 
-export const { sanityFetch, SanityLive } = defineLive({
+export const { sanityFetch: sanityLiveFetch, SanityLive } = defineLive({
   client,
   // Required for showing draft content when the Sanity Presentation Tool is used, or to enable the Vercel Toolbar Edit Mode
   serverToken: process.env.SANITY_API_READ_TOKEN,
