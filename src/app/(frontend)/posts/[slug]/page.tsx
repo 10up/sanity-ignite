@@ -4,6 +4,7 @@ import { sanityFetch } from '@/sanity/lib/live';
 import { postQuery } from '@/sanity/queries/queries';
 import { formatMetaData } from '@/sanity/lib/seo';
 import { SeoType } from '@/types/seo';
+import CustomPortableText from '@/components/PortableText';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -37,5 +38,10 @@ export default async function PostPage(props: Props) {
     return notFound();
   }
 
-  return <>Post</>;
+  return (
+    <main className="[&>*]:mx-auto [&>*]:max-w-3xl">
+      <h1>{post.title}</h1>
+      <CustomPortableText value={post.content} />
+    </main>
+  );
 }
