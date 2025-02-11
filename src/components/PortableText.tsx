@@ -111,7 +111,6 @@ export default function CustomPortableText({
     marks: {
       code: ({ children }) => <code>{children}</code>,
       em: ({ children }) => <em>{children}</em>,
-      // TODO: handle page/post links
       link: ({ children, value: link }) => {
         return <ResolvedLink link={link}>{children}</ResolvedLink>;
       },
