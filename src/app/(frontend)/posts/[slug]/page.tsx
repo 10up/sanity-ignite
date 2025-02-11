@@ -39,7 +39,7 @@ export default async function PostPage(props: Props) {
   }
 
   return (
-    <main className="">
+    <main>
       <h1>{post.title}</h1>
       <CustomPortableText value={post.content} />
     </main>

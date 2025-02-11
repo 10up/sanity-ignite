@@ -62,7 +62,7 @@ export const linkReferenceFragment = groq`
   _type == "link" => {
     "page": page->slug.current,
     "post": post->slug.current
-    }
+  }
 `;
 
 export const postFragment = groq`
