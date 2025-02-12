@@ -65,6 +65,13 @@ export const linkReferenceFragment = groq`
   }
 `;
 
+export const linkFragment = groq`
+  link {
+    ...,
+    ${linkReferenceFragment}
+  }
+`;
+
 export const postFragment = groq`
   _id,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
