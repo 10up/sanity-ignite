@@ -17,16 +17,16 @@ import { PropsWithChildren } from 'react';
 
 type HeadingProps = PropsWithChildren<{
   as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  key: string | undefined;
+  id: string | undefined;
 }>;
 
-function Heading({ as, children, key }: HeadingProps) {
+function Heading({ as, children, id }: HeadingProps) {
   const Element = as;
   return (
     <Element className="group relative">
       {children}
       <a
-        href={`#${key}`}
+        href={`#${id}`}
         className="absolute left-0 top-0 bottom-0 -ml-6 flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
       >
         <svg
@@ -58,41 +58,41 @@ export default function CustomPortableText({
   const components: PortableTextComponents = {
     block: {
       h1: ({ children, value }) => (
-        <Heading as="h1" key={value?._key}>
+        <Heading as="h1" id={value?._key}>
           {children}
         </Heading>
       ),
       h2: ({ children, value }) => {
         return (
-          <Heading as="h2" key={value?._key}>
+          <Heading as="h2" id={value?._key}>
             {children}
           </Heading>
         );
       },
       h3: ({ children, value }) => {
         return (
-          <Heading as="h3" key={value?._key}>
+          <Heading as="h3" id={value?._key}>
             {children}
           </Heading>
         );
       },
       h4: ({ children, value }) => {
         return (
-          <Heading as="h4" key={value?._key}>
+          <Heading as="h4" id={value?._key}>
             {children}
           </Heading>
         );
       },
       h5: ({ children, value }) => {
         return (
-          <Heading as="h5" key={value?._key}>
+          <Heading as="h5" id={value?._key}>
             {children}
           </Heading>
         );
       },
       h6: ({ children, value }) => {
         return (
-          <Heading as="h6" key={value?._key}>
+          <Heading as="h6" id={value?._key}>
             {children}
           </Heading>
         );
