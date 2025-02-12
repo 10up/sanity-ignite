@@ -1,6 +1,6 @@
 import createImageUrlBuilder from '@sanity/image-url';
 import { Link } from '@/sanity.types';
-import { clientEnv } from '@/env/client';
+import { clientEnv } from '@/env/clientEnv';
 import { createDataAttribute, CreateDataAttributeProps } from 'next-sanity';
 
 const imageBuilder = createImageUrlBuilder({
