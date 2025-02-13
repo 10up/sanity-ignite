@@ -1,7 +1,7 @@
 import { defineEnableDraftMode } from 'next-sanity/draft-mode';
 
 import { client } from '@/sanity/lib/client';
-import { serverEnv } from '@/env/server';
+import { serverEnv } from '@/env/serverEnv';
 
 /**
  * defineEnableDraftMode() is used to enable draft mode. Set the route of this file
