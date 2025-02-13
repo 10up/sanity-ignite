@@ -18,11 +18,11 @@ import {
 } from 'sanity/presentation';
 import { assist } from '@sanity/assist';
 import { seoMetaFields } from 'sanity-plugin-seo';
-// import { clientEnv } from './src/env/client';
+import { clientEnv } from './src/env/client';
 
 // Environment variables for project configuration
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+const projectId = clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID;
+const dataset = clientEnv.NEXT_PUBLIC_SANITY_DATASET;
 
 // Define the home location for the presentation tool
 const homeLocation = {
@@ -50,8 +50,8 @@ export default defineConfig({
   name: 'default',
   title: 'Sanity Starter',
 
-  projectId: projectId,
-  dataset: dataset,
+  projectId,
+  dataset,
 
   plugins: [
     // Presentation tool configuration for Visual Editing
