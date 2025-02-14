@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { sanityLiveFetch } from '@/sanity/lib/live';
+import { fetch } from '@/sanity/lib/fetch';
 import { formatMetaData } from '@/sanity/lib/seo';
 import { SeoType } from '@/types/seo';
 import { Page as PageType } from '@/sanity.types';
@@ -14,7 +14,8 @@ type Props = {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
 
-  const { data: page } = await sanityLiveFetch({
+  const { data: page } = await fetch({
+    live: true,
     query: getPageQuery,
     params,
     stega: false,
@@ -30,7 +31,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function Page(props: Props) {
   const params = await props.params;
 
-  const { data: page } = await sanityLiveFetch({
+  const { data: page } = await fetch({
+    live: true,
     query: getPageQuery,
     params,
   });

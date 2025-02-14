@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { sanityLiveFetch } from '@/sanity/lib/live';
+import { fetch } from '@/sanity/lib/fetch';
 import { postQuery } from '@/sanity/queries/queries';
 import { formatMetaData } from '@/sanity/lib/seo';
 import { SeoType } from '@/types/seo';
@@ -15,7 +15,8 @@ type Props = {
  */
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
-  const { data: post } = await sanityLiveFetch({
+  const { data: post } = await fetch({
+    live: true,
     query: postQuery,
     params,
     // Metadata should never contain stega
@@ -31,7 +32,11 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function PostPage(props: Props) {
   const params = await props.params;
-  const [{ data: post }] = await Promise.all([sanityLiveFetch({ query: postQuery, params })]);
+  const { data: post } = await fetch({
+    live: true,
+    query: postQuery,
+    params,
+  });
 
   if (!post?._id) {
     return notFound();
