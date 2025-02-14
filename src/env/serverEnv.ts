@@ -5,6 +5,7 @@ import * as v from 'valibot';
 
 const envSchema = {
   SANITY_API_READ_TOKEN: v.pipe(v.string(), v.minLength(1)),
+  SANITY_REVALIDATE_SECRET: v.pipe(v.string(), v.minLength(1)),
 };
 const serverEnv = createEnv(envSchema);
 export { serverEnv };

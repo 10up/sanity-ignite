@@ -1,6 +1,7 @@
 import { parseBody } from 'next-sanity/webhook';
 import { revalidateTag } from 'next/cache';
 import { type NextRequest, NextResponse } from 'next/server';
+import { serverEnv } from '@/env/serverEnv';
 
 type WebhookPayload = {
   _type: string;
@@ -9,8 +10,7 @@ type WebhookPayload = {
 
 export async function POST(req: NextRequest) {
   try {
-    // TODO: note to myself: replace it with createEnv once I figure that out.
-    const revalidateSecret = process.env.SANITY_REVALIDATE_SECRET;
+    const revalidateSecret = serverEnv.SANITY_REVALIDATE_SECRET;
     if (!revalidateSecret) {
       return new Response('Missing environment variable SANITY_REVALIDATE_SECRET', { status: 500 });
     }

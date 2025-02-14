@@ -18,7 +18,7 @@ type SanityCachedFetchType = <const QueryString extends string>(options: {
 }>;
 
 /**
- * Use the cached fetch function if you want to cache the requests and then revalidate them based on the tags.
+ * Use the cached fetch function if you want to cache the requests and then revalidate them based on tags.
  * You can use a webhook to trigger the revalidation or you can use the live client to listen for events and then revalidate the content.
  * Learn mode: https://github.com/sanity-io/next-sanity/tree/main/packages/next-sanity#sanityfetch-helper-function.
  */
