@@ -59,12 +59,12 @@ export const postQuery = defineQuery(`
   }
 `);
 
-export const postPagesSlugs = defineQuery(`
+export const postPagesSlugsQuery = defineQuery(`
   *[_type == "post" && defined(slug.current)]
   {"slug": slug.current}
 `);
 
-export const pagesSlugs = defineQuery(`
+export const pagesSlugsQuery = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
 `);

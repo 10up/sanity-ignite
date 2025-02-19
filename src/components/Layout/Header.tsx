@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { sanityFetch } from '@/sanity/lib/live';
 import { settingsQuery } from '@/sanity/queries/queries';
+import { fetch } from '@/sanity/lib/fetch';
 
 export default async function Header() {
-  const { data: settings } = await sanityFetch({
+  const { data: settings } = await fetch({
+    live: true,
     query: settingsQuery,
   });
 

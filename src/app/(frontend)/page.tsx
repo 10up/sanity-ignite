@@ -1,15 +1,16 @@
 import { homePageQuery } from '@/sanity/queries/queries';
-import { sanityFetch } from '@/sanity/lib/live';
+import { fetch } from '@/sanity/lib/fetch';
 import { formatMetaData } from '@/sanity/lib/seo';
 import { HomePage } from '@/sanity.types';
 import PageRenderer from '@/components/Page';
 import { SeoType } from '@/types/seo';
 
 export async function generateMetadata() {
-  const { data: homePage } = await sanityFetch({
+  const { data: homePage } = await fetch({
+    live: true,
     query: homePageQuery,
+    stega: false,
   });
-
   if (!homePage?.seo) {
     return {};
   }
@@ -18,7 +19,8 @@ export async function generateMetadata() {
 }
 
 export default async function Page() {
-  const { data: homePage } = await sanityFetch({
+  const { data: homePage } = await fetch({
+    live: true,
     query: homePageQuery,
   });
 
