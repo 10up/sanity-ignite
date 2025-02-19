@@ -51,26 +51,27 @@ const { sanityFetch: sanityLiveFetch, SanityLive } = defineLive({
   browserToken: serverEnv.SANITY_API_READ_TOKEN,
 });
 
-type LiveFetchType = Parameters<DefinedSanityFetchType>[0] & {
-  live: true;
-};
+type FetchArgsType<QueryString> =
+  | (Omit<Parameters<DefinedSanityFetchType>[0], 'query'> & { live: true; query: QueryString })
+  | (Omit<Parameters<SanityCachedFetchType>[0], 'query'> & { live: false; query: QueryString });
 
-type CachedFetchType = Parameters<SanityCachedFetchType>[0] & {
-  live: false;
-};
-
-type FetchType = LiveFetchType | CachedFetchType;
+type FetchReturnType<T> = T extends { live: true }
+  ? ReturnType<DefinedSanityFetchType>
+  : ReturnType<SanityCachedFetchType>;
 
 /**
  * Fetch wrapper used to query data from Sanity. It narrows down the type according to the "live" argument you provide.
- * @param args -
+ * @param args - fetch arguments according to the fetch type (if it's live or not)
  * @returns - queried data
  */
-async function fetch(args: FetchType) {
+async function fetch<
+  const QueryString extends string,
+  T extends FetchArgsType<QueryString> = FetchArgsType<QueryString>,
+>(args: T): Promise<FetchReturnType<T>> {
   const { live, query, params, stega } = args;
 
   if (live) {
-    return sanityLiveFetch({ query, params, stega });
+    return sanityLiveFetch({ query, params, stega }) as FetchReturnType<T>;
   }
 
   const { data } = await sanityCachedFetch({
@@ -81,8 +82,8 @@ async function fetch(args: FetchType) {
     tags: args.tags,
   });
 
-  return { data };
+  return { data } as ClientReturn<QueryString>;
 }
 
-export type { FetchType };
+export type { FetchArgsType, FetchReturnType };
 export { SanityLive, fetch };

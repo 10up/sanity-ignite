@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { fetch } from '@/sanity/lib/fetch';
 import { formatMetaData } from '@/sanity/lib/seo';
 import { SeoType } from '@/types/seo';
-import { Page as PageType } from '@/sanity.types';
+// import { type GetPageQueryResult, Page as PageType } from '@/sanity.types';
 import PageRenderer from '@/components/Page';
 import { getPageQuery } from '@/sanity/queries/queries';
 //import { notFound } from 'next/headers'
@@ -31,6 +31,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function Page(props: Props) {
   const params = await props.params;
 
+  // const {data: page} = await fetch<NonNullable<GetPageQueryResult>>({
   const { data: page } = await fetch({
     live: true,
     query: getPageQuery,
