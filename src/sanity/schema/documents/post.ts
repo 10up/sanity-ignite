@@ -1,6 +1,6 @@
-import { DocumentTextIcon } from '@sanity/icons'
-import { format, parseISO } from 'date-fns'
-import { defineField, defineType } from 'sanity'
+import { DocumentTextIcon } from '@sanity/icons';
+import { format, parseISO } from 'date-fns';
+import { defineField, defineType } from 'sanity';
 
 /**
  * Post schema.  Define and edit the fields for the 'post' content type.
@@ -61,10 +61,10 @@ export default defineType({
             // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
             return rule.custom((alt, context) => {
               if ((context.document?.coverImage as any)?.asset?._ref && !alt) {
-                return 'Required'
+                return 'Required';
               }
-              return true
-            })
+              return true;
+            });
           },
         },
       ],
@@ -87,11 +87,11 @@ export default defineType({
       type: 'reference',
       to: [{ type: 'person' }],
     }),
-    {
+    defineField({
       title: 'Seo',
       name: 'seo',
       type: 'seoMetaFields',
-    },
+    }),
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views
   preview: {
@@ -106,9 +106,9 @@ export default defineType({
       const subtitles = [
         authorFirstName && authorLastName && `by ${authorFirstName} ${authorLastName}`,
         date && `on ${format(parseISO(date), 'LLL d, yyyy')}`,
-      ].filter(Boolean)
+      ].filter(Boolean);
 
-      return { title, media, subtitle: subtitles.join(' ') }
+      return { title, media, subtitle: subtitles.join(' ') };
     },
   },
-})
+});

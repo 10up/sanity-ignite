@@ -17,7 +17,6 @@ import {
   type DocumentLocation,
 } from 'sanity/presentation';
 import { assist } from '@sanity/assist';
-import { seoMetaFields } from 'sanity-plugin-seo';
 import { clientEnv } from '@/env/clientEnv';
 
 // Define the home location for the presentation tool
@@ -116,7 +115,6 @@ export default defineConfig({
     // Additional plugins for enhanced functionality
     assist(),
     visionTool(),
-    seoMetaFields(),
   ],
   schema: {
     types: schemaTypes,

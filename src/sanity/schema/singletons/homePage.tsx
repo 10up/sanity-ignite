@@ -1,5 +1,5 @@
-import { defineType, defineField } from 'sanity'
-import { HomeIcon } from '@sanity/icons'
+import { defineType, defineField } from 'sanity';
+import { HomeIcon } from '@sanity/icons';
 
 export default defineType({
   name: 'homePage',
@@ -32,10 +32,10 @@ export default defineType({
         },
       },*/
     }),
-    {
+    defineField({
       title: 'Seo',
       name: 'seo',
       type: 'seoMetaFields',
-    },
+    }),
   ],
-})
+});
