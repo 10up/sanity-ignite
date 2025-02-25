@@ -1,6 +1,6 @@
-import groq from 'groq';
+// import groq from 'groq';
 
-export const twitterFragment = groq`
+export const twitterFragment = /* groq */ `
   _type,
   site,
   creator,
@@ -8,7 +8,7 @@ export const twitterFragment = groq`
   handle
 `;
 
-export const imageFragment = groq`
+export const imageFragment = /* groq */ `
   _type,
   crop {
     _type,
@@ -27,7 +27,7 @@ export const imageFragment = groq`
   asset->{...}
 `;
 
-export const openGraphFragment = groq`
+export const openGraphFragment = /* groq */ `
   _type,
   siteName,
   url,
@@ -38,7 +38,7 @@ export const openGraphFragment = groq`
   }
 `;
 
-export const metaAttributesFragment = groq`
+export const metaAttributesFragment = /* groq */ `
   _type,
   attributeValueString,
   attributeType,
@@ -48,7 +48,7 @@ export const metaAttributesFragment = groq`
   }
 `;
 
-export const seoFragment = groq`
+export const seoFragment = /* groq */ `
   _type,
   metaTitle,
   nofollowAttributes,
@@ -58,7 +58,7 @@ export const seoFragment = groq`
     ${openGraphFragment}
   }`;
 
-export const linkFragment = groq`
+export const linkFragment = /* groq */ `
   link {
       ...,
       _type == "link" => {
@@ -68,7 +68,7 @@ export const linkFragment = groq`
       }
 `;
 
-export const postFragment = groq`
+export const postFragment = /* groq */ `
   _id,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
   "title": coalesce(title, "Untitled"),
