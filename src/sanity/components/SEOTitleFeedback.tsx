@@ -1,10 +1,9 @@
-import { useFormValue, useClient, set, StringInputProps } from 'sanity';
-import React, { useEffect } from 'react';
+import { useFormValue, StringInputProps } from 'sanity';
+import React from 'react';
 import { Stack, Text } from '@sanity/ui';
 
 const SEOTitleFeedback = (props: StringInputProps) => {
-  const client = useClient({ apiVersion: '2021-06-07' });
-  const { value, onChange, renderDefault } = props;
+  const { value, renderDefault } = props;
 
   // Access the parent object to get keywords from the `seoKeywords` field
   const { path } = props;
@@ -14,19 +13,6 @@ const SEOTitleFeedback = (props: StringInputProps) => {
   };
 
   const keywords = parent?.seoKeywords || [];
-
-  // If current value is empty, fetch `metaTitle` from `homePage` and set
-  useEffect(() => {
-    if (value) return; // Only fetch if there's no title yet
-    const fetchData = async () => {
-      const data = await client.fetch("*[_type=='homePage'][0]{'title':seo.metaTitle}");
-      const titleFromHomePage = data?.title;
-      if (titleFromHomePage && !value) {
-        onChange(set(titleFromHomePage));
-      }
-    };
-    fetchData();
-  }, [client, onChange, value]);
 
   /**
    * Returns an array of feedback items.
@@ -112,7 +98,7 @@ const SEOTitleFeedback = (props: StringInputProps) => {
                 backgroundColor: item.color,
               }}
             />
-            <Text weight="bold" muted size={14}>
+            <Text weight="bold" muted size={1}>
               {item.text}
             </Text>
           </div>

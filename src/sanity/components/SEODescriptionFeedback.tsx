@@ -1,10 +1,8 @@
-import { StringInputProps, useFormValue, useClient, set } from 'sanity';
-import { useEffect } from 'react';
+import { StringInputProps, useFormValue } from 'sanity';
 import { Stack, Text } from '@sanity/ui';
 
 const SEODescriptionFeedback = (props: StringInputProps) => {
-  const { value, renderDefault, onChange } = props;
-  const client = useClient({ apiVersion: '2021-06-07' });
+  const { value, renderDefault } = props;
 
   const { path } = props;
   const parentPath = path.slice(0, -1);
@@ -13,21 +11,6 @@ const SEODescriptionFeedback = (props: StringInputProps) => {
   };
 
   const description = parent?.metaDescription || '';
-
-  // If current value is empty, fetch `metaDescription` from `homePage` and set
-  useEffect(() => {
-    const fetchData = async () => {
-      await client
-        .fetch("*[_type=='homePage'][0]{'description':seo.metaDescription}")
-        .then((data) => {
-          const descriptionFromHomePage = data?.description;
-          if (descriptionFromHomePage && !value) {
-            onChange(set(descriptionFromHomePage));
-          }
-        });
-    };
-    fetchData();
-  }, [client, onChange, value]);
 
   /**
    * Returns feedback about a page’s meta description based on Yoast SEO-style best practices.
@@ -92,7 +75,7 @@ const SEODescriptionFeedback = (props: StringInputProps) => {
             }}
           />
         </div>
-        <Text weight="bold" muted size={14}>
+        <Text weight="bold" muted size={1}>
           Meta description length: {text}
         </Text>
       </div>
