@@ -5,12 +5,12 @@ export default defineField({
   title: 'Meta tag',
   type: 'object',
   fields: [
-    {
+    defineField({
       name: 'metaAttributes',
       title: 'Meta Attributes',
       type: 'array',
       of: [{ type: 'metaAttribute' }],
-    },
+    }),
   ],
   preview: {
     select: {

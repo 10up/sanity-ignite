@@ -75,7 +75,7 @@ const SEODescriptionFeedback = (props: StringInputProps) => {
             }}
           />
         </div>
-        <Text weight="bold" muted size={1}>
+        <Text weight="semibold" muted size={1}>
           Meta description length: {text}
         </Text>
       </div>

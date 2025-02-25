@@ -98,7 +98,7 @@ const SEOTitleFeedback = (props: StringInputProps) => {
                 backgroundColor: item.color,
               }}
             />
-            <Text weight="bold" muted size={1}>
+            <Text weight="semibold" muted size={1}>
               {item.text}
             </Text>
           </div>

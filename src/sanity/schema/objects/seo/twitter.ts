@@ -5,25 +5,25 @@ export default defineField({
   title: 'Twitter',
   type: 'object',
   fields: [
-    {
+    defineField({
       name: 'cardType',
       title: 'CardType',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'creator',
       title: 'Creator',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'site',
       title: 'Site',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'handle',
       title: 'Handle',
       type: 'string',
-    },
+    }),
   ],
 });
