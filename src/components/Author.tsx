@@ -1,13 +1,13 @@
 import { Person } from '@/sanity.types';
 import * as v from 'valibot';
 
-const propSchema = v.object({
+const requiredPropSchema = v.object({
   firstName: v.string(),
   lastName: v.string(),
 });
 
 export default function Author({ author }: { author: Person }) {
-  const result = v.safeParse(propSchema, author);
+  const result = v.safeParse(requiredPropSchema, author);
 
   if (!result.success) {
     return null;

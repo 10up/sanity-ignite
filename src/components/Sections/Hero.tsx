@@ -3,8 +3,19 @@ import { Image } from 'next-sanity/image';
 import { urlForImage } from '@/sanity/lib/utils';
 import { type PortableTextBlock } from 'next-sanity';
 import PortableText from '@/components/PortableText';
+import * as v from 'valibot';
+
+const requiredPropSchema = v.object({
+  image: v.any(),
+  heading: v.string(),
+});
 
 export default function HeroSection({ section }: { section: Hero }) {
+  const result = v.safeParse(requiredPropSchema, section);
+  if (!result.success) {
+    return null;
+  }
+
   return (
     <div className="relative">
       {section.image ? (
