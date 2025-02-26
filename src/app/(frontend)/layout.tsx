@@ -6,10 +6,10 @@ import { VisualEditing } from 'next-sanity';
 import { Toaster } from 'sonner';
 
 import DraftModeToast from '@/components/DraftModeToast';
-import Footer from '@/components/Layout/Footer';
-import Header from '@/components/Layout/Header';
+import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
 import { SanityLive } from '@/sanity/lib/live';
-import { handleError } from './client-utils';
+import { handleError } from './_utils/client-utils';
 
 const inter = Inter({
   variable: '--font-inter',
