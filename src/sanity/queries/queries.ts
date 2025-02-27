@@ -3,6 +3,7 @@ import { seoFragment, postFragment, linkReferenceFragment } from './fragments/fr
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
   title,
+  description,
   menuItems[]->{
     _id,
     _type,

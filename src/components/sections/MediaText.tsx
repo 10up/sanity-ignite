@@ -8,12 +8,14 @@ import { cn } from '@/utils/styles';
 export default function MediaTextSection({ section }: { section: MediaText }) {
   return (
     <div
-      className={cn('flex flex-col lg:flex-row', { 'order-2': section?.imagePosition === 'right' })}
+      className={cn('container py-12 mx-auto flex flex-col lg:flex-row', {
+        'order-2': section?.imagePosition === 'right',
+      })}
     >
       <div className="lg:w-1/2">
         <Image
           alt={section.image?.alt || ''}
-          className=""
+          className="shadow-md rounded-4xl"
           width="1000"
           height="667"
           src={urlForImage(section.image)?.width(1000).height(667).url() as string}

@@ -57,6 +57,7 @@ export default function CustomPortableText({
 }) {
   const components: PortableTextComponents = {
     block: {
+      p: ({ children }) => <p className="mb-4">{children}</p>,
       h1: ({ children, value }) => (
         <Heading as="h1" id={value?._key}>
           {children}
