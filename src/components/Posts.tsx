@@ -11,7 +11,7 @@ export default async function Posts() {
   }
 
   return (
-    <div>
+    <div className="max-w-4xl mx-auto space-y-12">
       {posts.map((post: PostType) => {
         if (post) {
           return <Post key={post._id} post={post} />;

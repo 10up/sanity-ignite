@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { sanityFetch } from '@/sanity/lib/live';
 import { settingsQuery } from '@/sanity/queries/queries';
-import Logo from '../Icons/Logo';
+import { Button } from '../ui/button';
+import Logo from '../icons/Logo';
 export default async function Header() {
   const { data: settings } = await sanityFetch({
     query: settingsQuery,
@@ -25,6 +26,7 @@ export default async function Header() {
           <nav className="hidden md:flex items-center space-x-6">
             <ul className="flex space-x-4">
               {settings.menuItems &&
+                // @ts-expect-error Fix later
                 settings.menuItems.map((item) => {
                   let href = '/';
 
@@ -43,18 +45,12 @@ export default async function Header() {
                 })}
             </ul>
             <div className="flex space-x-2">
-              <a
-                href="#"
-                className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Sign Up
-              </a>
-              <a
-                href="#"
-                className="bg-transparent hover:bg-gray-100 text-gray-800 px-4 py-2 rounded-md text-sm font-medium border border-gray-300 transition-colors"
-              >
-                Log In
-              </a>
+              <Button asChild variant="default">
+                <Link href={'/'}>Get Started</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href={'/'}>Log In</Link>
+              </Button>
             </div>
           </nav>
         </div>

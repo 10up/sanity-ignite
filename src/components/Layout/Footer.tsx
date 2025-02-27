@@ -1,6 +1,7 @@
-import Logo from '../Icons/Logo';
+import Logo from '../icons/Logo';
 import { sanityFetch } from '@/sanity/lib/live';
 import { settingsQuery } from '@/sanity/queries/queries';
+import { Button } from '../ui/button';
 
 export default async function Footer() {
   const { data: settings } = await sanityFetch({
@@ -89,14 +90,11 @@ export default async function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-3 py-2 w-full bg-white rounded-l-md focus:outline-none focus:ring-2 focus:ring-pink-400"
+                className="px-3 py-2 w-full text-sm bg-white rounded-l-md focus:outline-none focus:ring-2 focus:ring-pink-400"
               />
-              <button
-                type="submit"
-                className="bg-pink-500 text-white px-4 py-2 rounded-r-md hover:bg-pink-600 transition-colors"
-              >
+              <Button type="submit" className="py-2 h-auto rounded-tl-none rounded-bl-none">
                 Subscribe
-              </button>
+              </Button>
             </form>
           </div>
         </div>
