@@ -1,5 +1,5 @@
-import { useFormValue } from 'sanity';
-import React from 'react';
+// eslint-disable-next-line import/named
+import { StringInputProps, useFormValue } from 'sanity';
 import { Stack, Text } from '@sanity/ui';
 
 const TITLE_MIN_LENGTH = 50;

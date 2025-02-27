@@ -1,9 +1,19 @@
+// eslint-disable-next-line import/named
 import { StringInputProps, useFormValue } from 'sanity';
 import { Stack, Text } from '@sanity/ui';
 
 const META_DESCRIPTION_MIN_LENGTH = 100;
 const META_DESCRIPTION_MAX_LENGTH = 160;
 
+/**
+ * Returns feedback about a page’s meta description based on Yoast SEO-style best practices.
+ *
+ * Typical guidance:
+ * - Write *some* description (don’t leave it empty).
+ * - Aim for roughly 100–160 characters.
+ * - If it’s under ~100, it’s likely too short.
+ * - If it’s over ~160, it might get truncated in search engine results.
+ */
 const getDescriptionFeedback = (metaDescription: string): { text: string; color: string } => {
   if (!metaDescription || !metaDescription.trim()) {
     return {
@@ -45,17 +55,6 @@ const SEODescription = (props: StringInputProps) => {
   };
 
   const description = parent?.metaDescription || '';
-
-  /**
-   * Returns feedback about a page’s meta description based on Yoast SEO-style best practices.
-   *
-   * Typical guidance:
-   * - Write *some* description (don’t leave it empty).
-   * - Aim for roughly 100–160 characters.
-   * - If it’s under ~100, it’s likely too short.
-   * - If it’s over ~160, it might get truncated in search engine results.
-   */
-
   const { text, color } = getDescriptionFeedback(value || description);
 
   return (
