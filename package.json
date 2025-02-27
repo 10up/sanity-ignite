@@ -28,11 +28,11 @@
     "server-only": "^0.0.1",
     "sonner": "^1.7.1",
     "styled-components": "^6.1.13",
-    "tailwind-merge": "^2.5.5",
+    "tailwind-merge": "^3",
     "valibot": "^1.0.0-beta.14"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.15",
+    "@tailwindcss/postcss": "^4",
     "@types/chokidar": "^2.1.7",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -47,7 +47,7 @@
     "npm-run-all": "^4.1.5",
     "postcss": "^8",
     "prettier": "^3.3.3",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^4",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   }

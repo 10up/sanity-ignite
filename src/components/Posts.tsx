@@ -12,9 +12,9 @@ export default async function Posts() {
 
   return (
     <div>
-      {posts.map((post) => {
+      {posts.map((post: PostType) => {
         if (post) {
-          return <Post key={post._id} post={post as unknown as PostType} />;
+          return <Post key={post._id} post={post} />;
         }
       })}
     </div>
