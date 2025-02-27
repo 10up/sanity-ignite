@@ -34,6 +34,17 @@ export const getPageQuery = defineQuery(`
   }
 `);
 
+export const getSitemapQuery = defineQuery(`
+  *[((_type in ["page", "post"] && defined(slug.current)) || (_type == "homePage"))]{
+    "href": select(
+      _type == "page" => "/" + slug.current,
+      _type == "post" => "/posts/" + slug.current,
+      _type == "homePage" => ""
+    ),
+    _updatedAt
+  }
+`);
+
 export const allPostsQuery = defineQuery(`
   *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {
     ${postFragment}
