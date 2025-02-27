@@ -1,5 +1,5 @@
-import SEODescriptionFeedback from '@/sanity/components/SEODescriptionFeedback';
-import SEOTitleFeedback from '@/sanity/components/SEOTitleFeedback';
+import SEOTitle from '@/sanity/components/SEOTitle';
+import SEODescription from '@/sanity/components/SEODescription';
 import { defineField } from 'sanity';
 
 export default defineField({
@@ -24,7 +24,7 @@ export default defineField({
       title: 'Title',
       type: 'string',
       components: {
-        input: SEOTitleFeedback,
+        input: SEOTitle,
       },
     }),
     defineField({
@@ -32,7 +32,7 @@ export default defineField({
       title: 'Description',
       type: 'string',
       components: {
-        input: SEODescriptionFeedback,
+        input: SEODescription,
       },
     }),
     defineField({

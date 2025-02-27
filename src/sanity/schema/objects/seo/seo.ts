@@ -1,6 +1,6 @@
 import { defineField, defineType } from 'sanity';
-import SEOTitleFeedback from '@/sanity/components/SEOTitleFeedback';
-import SEODescriptionFeedback from '@/sanity/components/SEODescriptionFeedback';
+import SEOTitle from '@/sanity/components/SEOTitle';
+import SEODescription from '@/sanity/components/SEODescription';
 
 export default defineType({
   title: 'Seo MetaFields',
@@ -20,7 +20,7 @@ export default defineType({
       title: 'Title',
       type: 'string',
       components: {
-        input: SEOTitleFeedback,
+        input: SEOTitle,
       },
     }),
     defineField({
@@ -29,7 +29,7 @@ export default defineType({
       type: 'text',
       rows: 3,
       components: {
-        input: SEODescriptionFeedback,
+        input: SEODescription,
       },
     }),
     defineField({

@@ -39,7 +39,8 @@ export const getSitemapQuery = defineQuery(`
     "href": select(
       _type == "page" => "/" + slug.current,
       _type == "post" => "/posts/" + slug.current,
-      _type == "homePage" => ""
+      _type == "homePage" => "/",
+      slug.current
     ),
     _updatedAt
   }
