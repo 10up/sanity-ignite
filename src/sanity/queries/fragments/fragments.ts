@@ -1,5 +1,3 @@
-// import groq from 'groq';
-
 export const twitterFragment = /* groq */ `
   _type,
   site,
@@ -56,7 +54,11 @@ export const seoFragment = /* groq */ `
   metaDescription,
   openGraph {
     ${openGraphFragment}
-  }`;
+  },
+  twitter {
+    ${twitterFragment}
+  }
+`;
 
 export const linkFragment = /* groq */ `
   link {
