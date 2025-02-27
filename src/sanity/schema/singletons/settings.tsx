@@ -1,7 +1,7 @@
-import { CogIcon } from '@sanity/icons'
-import { defineArrayMember, defineField, defineType } from 'sanity'
+import { CogIcon } from '@sanity/icons';
+import { defineField, defineType } from 'sanity';
 
-import * as demo from '@/sanity/lib/demo'
+import * as demo from '@/sanity/lib/demo';
 
 /**
  * Settings schema Singleton.  Singletons are single documents that are displayed not in a collection, handy for things like site settings and other global configurations.
@@ -43,34 +43,7 @@ export default defineType({
       name: 'description',
       description: 'Used both for the <meta> description tag for SEO, and the blog subheader.',
       title: 'Description',
-      type: 'array',
-      initialValue: demo.description,
-      of: [
-        // Define a minified block content field for the description. https://www.sanity.io/docs/block-content
-        defineArrayMember({
-          type: 'block',
-          options: {},
-          styles: [],
-          lists: [],
-          marks: {
-            decorators: [],
-            annotations: [
-              defineField({
-                type: 'object',
-                name: 'link',
-                fields: [
-                  {
-                    type: 'string',
-                    name: 'href',
-                    title: 'URL',
-                    validation: (rule) => rule.required(),
-                  },
-                ],
-              }),
-            ],
-          },
-        }),
-      ],
+      type: 'text',
     }),
     defineField({
       name: 'ogImage',
@@ -92,10 +65,10 @@ export default defineType({
           validation: (rule) => {
             return rule.custom((alt, context) => {
               if ((context.document?.ogImage as any)?.asset?._ref && !alt) {
-                return 'Required'
+                return 'Required';
               }
-              return true
-            })
+              return true;
+            });
           },
         }),
         defineField({
@@ -117,7 +90,7 @@ export default defineType({
     prepare() {
       return {
         title: 'Settings',
-      }
+      };
     },
   },
-})
+});

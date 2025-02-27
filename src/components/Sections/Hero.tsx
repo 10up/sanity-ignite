@@ -1,32 +1,39 @@
 import { Hero } from '@/sanity.types';
 import { Image } from 'next-sanity/image';
 import { urlForImage } from '@/sanity/lib/utils';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { type PortableTextBlock } from 'next-sanity';
 import PortableText from '@/components/PortableText';
 
 export default function HeroSection({ section }: { section: Hero }) {
   return (
-    <div className="relative">
-      {section.image ? (
-        <Image
-          alt={section.image.alt || ''}
-          className="object-cover w-full sm:max-h-[700px] min-h-[400px] brightness-50"
-          width="1000"
-          height="667"
-          src={urlForImage(section.image)?.width(1000).height(667).url() as string}
-        />
-      ) : null}
-      <div className="p-12 flex flex-col justify-center absolute h-full items-center w-full top-0 left-0 right-0 bottom-0">
-        <h2 className="text-4xl text-white font-bold text-center leading-tight tracking-tighter lg:text-5xl mb-5">
-          {section?.heading}
-        </h2>
-        <div>
-          <PortableText
-            className="text-xl text-white text-center"
-            value={section.text as PortableTextBlock[]}
-          />
+    <section className="py-16 md:py-24 bg-white">
+      <div className="container mx-auto">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">{section?.heading}</h1>
+            <PortableText className="text-xl" value={section.text as PortableTextBlock[]} />
+
+            <div className="mt-8">
+              <Button asChild variant="default" size={'xl'}>
+                <Link href={'/'}>Get Started</Link>
+              </Button>
+            </div>
+          </div>
+          <div className="relative">
+            <Image
+              src={urlForImage(section.image)?.width(1000).height(667).url() as string}
+              alt={section?.image?.alt || ''}
+              width={600}
+              height={400}
+              className="rounded-4xl shadow-xl"
+            />
+            <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-pink-500 rounded-full opacity-50"></div>
+            <div className="absolute -top-4 -right-4 w-16 h-16 bg-blue-500 rounded-full opacity-50"></div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

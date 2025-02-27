@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { sanityFetch } from '@/sanity/lib/live';
 import { settingsQuery } from '@/sanity/queries/queries';
-
+import { Button } from '../ui/button';
+import Logo from '../icons/Logo';
 export default async function Header() {
   const { data: settings } = await sanityFetch({
     query: settingsQuery,
@@ -12,22 +13,21 @@ export default async function Header() {
   }
 
   return (
-    <header className="fixed z-50 h-24 inset-0 bg-white/80 flex items-center backdrop-blur-lg">
-      <div className="container py-6">
+    <header className="inset-0 bg-white/80 flex items-center">
+      <div className="container py-6 mx-auto">
         <div className="flex items-center justify-between gap-5">
           {typeof settings.title !== undefined && (
-            <Link className="flex items-center gap-2" href="/">
-              <span className="text-lg pl-2 font-semibold">{settings.title}</span>
+            <Link className="flex items-center space-x-4" href="/">
+              <Logo />
+              <span className="text-2xl font-bold">{settings.title}</span>
             </Link>
           )}
 
-          <nav>
-            <ul
-              role="list"
-              className="flex items-center gap-4 md:gap-6 leading-5 text-sm md:text-base tracking-tight font-normal"
-            >
+          <nav className="hidden md:flex items-center space-x-6">
+            <ul className="flex space-x-4">
               {settings.menuItems &&
-                settings.menuItems.filter(Boolean).map((item) => {
+                // @ts-expect-error Fix later
+                settings.menuItems.map((item) => {
                   let href = '/';
 
                   if (item._type === 'page') {
@@ -35,14 +35,22 @@ export default async function Header() {
                   }
 
                   return (
-                    <li key={item._id} className="m-0 p-0">
-                      <Link href={href} className="hover:underline">
+                    <li key={item._id}>
+                      <Link href={href} className="hover:text-gray-600 transition-colorse">
                         {item.name}
                       </Link>
                     </li>
                   );
                 })}
             </ul>
+            <div className="flex space-x-2">
+              <Button asChild variant="default">
+                <Link href={'/'}>Get Started</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href={'/'}>Log In</Link>
+              </Button>
+            </div>
           </nav>
         </div>
       </div>

@@ -1,5 +1,5 @@
 {
-  "name": "@10up/sanity-starter",
+  "name": "@10up/sanity-ignite",
   "private": true,
   "version": "1.0.0",
   "scripts": {
@@ -14,12 +14,15 @@
     "watch-typegen": "tsx watch-typegen.ts"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.2",
     "@sanity/assist": "^3.0.8",
     "@sanity/icons": "^3.4.0",
     "@sanity/image-url": "^1.1.0",
     "@sanity/react-loader": "^1.10.28",
     "@sanity/vision": "^3.64.0",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.476.0",
     "next": "^15.0.3",
     "next-sanity": "^9.8.12",
     "react": "^18.3.1",
@@ -29,7 +32,8 @@
     "server-only": "^0.0.1",
     "sonner": "^1.7.1",
     "styled-components": "^6.1.13",
-    "tailwind-merge": "^3",
+    "tailwind-merge": "^3.0.2",
+    "tailwindcss-animate": "^1.0.7",
     "valibot": "^1.0.0-beta.14"
   },
   "devDependencies": {
