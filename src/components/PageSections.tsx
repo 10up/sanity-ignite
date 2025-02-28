@@ -1,8 +1,8 @@
 import { PageSections as PageSectionsType } from '../types/page';
-import Hero from './Sections/Hero';
-import CTA from './Sections/CTA';
-import MediaText from './Sections/MediaText';
-import PostList from './Sections/PostList';
+import Hero from './sections/Hero';
+import CTA from './sections/CTA';
+import MediaText from './sections/MediaText';
+import PostList from './sections/PostList';
 
 export default function PageSections({ sections }: { sections: PageSectionsType }) {
   return sections?.map((section) => {

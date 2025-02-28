@@ -76,8 +76,8 @@ export const postFragment = /* groq */ `
   "title": coalesce(title, "Untitled"),
   "slug": slug.current,
   excerpt,
-  coverImage,
-  "category": category->{title, description},
+  image,
+  "categories": categories[]->{title, description},
   "date": coalesce(date, _updatedAt),
   "author": author->{firstName, lastName, picture},
   seo {
