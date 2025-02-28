@@ -10,7 +10,7 @@ import postList from './objects/sections/postList';
 import settings from './singletons/settings';
 import link from './objects/link';
 import blockContent from './objects/blockContent';
-import { seoTypes } from './objects/seo';
+import seoTypes from './objects/seo';
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
 

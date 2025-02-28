@@ -46,12 +46,23 @@ export const metaAttributesFragment = /* groq */ `
   }
 `;
 
+export const additionalMetaTagFragment = /* groq */ `
+  _key,
+  _type,
+  metaAttributes[] {
+    ${metaAttributesFragment}
+  }
+`;
+
 export const seoFragment = /* groq */ `
   _type,
   metaTitle,
-  nofollowAttributes,
+  noIndex,
   seoKeywords,
   metaDescription,
+  additionalMetaTags[]{
+    ${additionalMetaTagFragment}
+  },
   openGraph {
     ${openGraphFragment}
   },

@@ -8,12 +8,12 @@ export default defineType({
   type: 'object',
   fields: [
     defineField({
-      name: 'nofollowAttributes',
-      title: 'Index',
+      name: 'noIndex',
+      title: 'No Index',
       type: 'boolean',
       initialValue: false,
       description:
-        "To prevent a URL from being indexed, you'll also need to select the true index on the tag.",
+        "If checked, this document won't be indexed by search engines and it won't render in the sitemap file",
     }),
     defineField({
       name: 'metaTitle',

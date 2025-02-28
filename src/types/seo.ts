@@ -1,9 +1,10 @@
 export type SeoType = {
-  _type?: 'seo';
-  nofollowAttributes?: boolean;
-  metaDescription?: string;
+  _type: 'seoMetaFields';
+  noIndex?: boolean;
   additionalMetaTags?: MetaTagType[];
   metaTitle?: string;
+  metaDescription?: string;
+  metaImage?: CustomImageType;
   seoKeywords?: string[];
   openGraph?: OpenGraphType;
   twitter?: Twitter;
@@ -17,7 +18,7 @@ export type MetaTagType = {
 export type MetaAttributeType = {
   _type: 'metaAttribute';
   attributeKey?: string;
-  attributeType?: string;
+  attributeType?: 'string' | 'image';
   attributeValueString?: string;
   attributeValueImage?: CustomImageType;
 };
@@ -40,10 +41,10 @@ export type Twitter = {
 };
 
 export type CustomImageType = {
-  _type: 'customImage';
+  _type: 'image';
   asset?: SanityImageAssetType;
   crop?: {
-    _type: 'SanityImageCrop';
+    _type: 'sanity.imageAsset';
     right: number;
     top: number;
     left: number;
@@ -53,20 +54,20 @@ export type CustomImageType = {
     x: number;
     y: number;
     height: number;
-    _type: 'SanityImageHotspot';
+    _type: 'sanity.imageHotspot';
     width?: number;
   };
 };
 
 export type SanityImageAssetType = {
-  _type?: 'SanityImageAsset';
+  _type?: 'sanity.imageAsset';
   _id?: string;
   path?: string;
   url?: string;
   metadata?: {
-    _type?: 'SanityImageMetadata';
+    _type?: 'sanity.imageMetadata';
     dimensions?: {
-      _type?: 'SanityImageDimensions';
+      _type?: 'sanity.imageDimensions';
       height?: number;
       width?: number;
     };
