@@ -27,7 +27,6 @@ function parseImage(image: CustomImageType | undefined): ImageDescriptor {
 }
 
 function parseAdditionalMetaTags(additionalMetaTags: MetaTagType[] | undefined) {
-  console.log({ additionalMetaTags });
   if (!additionalMetaTags) {
     return undefined;
   }
