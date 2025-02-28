@@ -1,5 +1,5 @@
-import { defineField, defineType } from 'sanity'
-import { DocumentTextIcon } from '@sanity/icons'
+import { defineField, defineType } from 'sanity';
+import { DocumentTextIcon } from '@sanity/icons';
 
 export default defineType({
   name: 'hero',
@@ -27,6 +27,11 @@ export default defineType({
         }),
       ],
     }),
+    defineField({
+      name: 'buttons',
+      type: 'array',
+      of: [{ type: 'button' }],
+    }),
   ],
   preview: {
     select: {
@@ -38,7 +43,7 @@ export default defineType({
         title: title || 'Untitled',
         content: 'Hero text',
         media: image || DocumentTextIcon,
-      }
+      };
     },
   },
-})
+});

@@ -1,5 +1,5 @@
-import { defineType, defineField } from 'sanity'
-import { HomeIcon } from '@sanity/icons'
+import { defineType, defineField } from 'sanity';
+import { HomeIcon } from '@sanity/icons';
 
 export default defineType({
   name: 'homePage',
@@ -18,7 +18,13 @@ export default defineType({
       name: 'pageSections',
       title: 'Page Sections',
       type: 'array',
-      of: [{ type: 'cta' }, { type: 'hero' }, { type: 'mediaText' }, { type: 'postList' }],
+      of: [
+        { type: 'cta' },
+        { type: 'hero' },
+        { type: 'mediaText' },
+        { type: 'postList' },
+        { type: 'featureCards' },
+      ],
       /*options: {
         insertMenu: {
           // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
@@ -38,4 +44,4 @@ export default defineType({
       type: 'seoMetaFields',
     },
   ],
-})
+});

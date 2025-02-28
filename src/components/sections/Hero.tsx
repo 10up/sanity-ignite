@@ -7,6 +7,7 @@ import { type PortableTextBlock } from 'next-sanity';
 import PortableText from '@/components/PortableText';
 
 export default function HeroSection({ section }: { section: Hero }) {
+  console.log(section);
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="container mx-auto">
@@ -15,11 +16,15 @@ export default function HeroSection({ section }: { section: Hero }) {
             <h1 className="text-4xl md:text-5xl font-bold mb-6">{section?.heading}</h1>
             <PortableText className="text-xl" value={section.text as PortableTextBlock[]} />
 
-            <div className="mt-8">
-              <Button asChild variant="default" size={'xl'}>
-                <Link href={'/'}>Get Started</Link>
-              </Button>
-            </div>
+            {section?.buttons && section?.buttons.length ? (
+              <div className="mt-8 gap-4 flex">
+                {section?.buttons.map((button) => (
+                  <Button asChild variant={button.variant} size={'xl'} key={button._key}>
+                    <Link href={button?.href || ''}>{button.text}</Link>
+                  </Button>
+                ))}
+              </div>
+            ) : null}
           </div>
           <div className="relative">
             <Image
