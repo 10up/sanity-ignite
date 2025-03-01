@@ -43,7 +43,7 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
 export default defineConfig({
   basePath: '/studio',
   name: 'default',
-  title: 'Sanity Starter',
+  title: 'Sanity Ignite',
   projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
   plugins: [

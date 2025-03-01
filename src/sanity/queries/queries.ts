@@ -36,7 +36,7 @@ export const getPageQuery = defineQuery(`
 `);
 
 export const getSitemapQuery = defineQuery(`
-  *[((_type in ["page", "post"] && defined(slug.current)) || (_type == "homePage"))]{
+  *[((_type in ["page", "post"] && defined(slug.current)) || (_type == "homePage")) && seo.noIndex != true]{
     "href": select(
       _type == "page" => "/" + slug.current,
       _type == "post" => "/posts/" + slug.current,
