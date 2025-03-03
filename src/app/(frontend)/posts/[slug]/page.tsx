@@ -37,8 +37,8 @@ export default async function PostPage(props: Props) {
   }
 
   return (
-    <main className="max-w-7xl mx-auto">
-      <section className="container mx-auto py-16 md:py-24">
+    <main className="container mx-auto">
+      <section className="py-16 md:py-24">
         <h1 className="text-5xl md:text-7xl font-bold mb-6">{post.title}</h1>
         {post.author ? (
           <div className="mb-6">
@@ -46,11 +46,14 @@ export default async function PostPage(props: Props) {
           </div>
         ) : null}
         {post.image?.asset?._ref ? (
-          <div className="mb-6 md:mb-12">
+          <div className="mb-6 md:mb-14">
             <CoverImage image={post.image} priority />
           </div>
         ) : null}
-        <CustomPortableText value={post.content as PortableTextBlock[]} className="max-w-6xl" />
+        <CustomPortableText
+          value={post.content as PortableTextBlock[]}
+          className="max-w-5xl mx-auto"
+        />
       </section>
     </main>
   );

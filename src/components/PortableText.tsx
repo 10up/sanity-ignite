@@ -60,12 +60,14 @@ export default function CustomPortableText({
 }) {
   const components: PortableTextComponents = {
     block: {
-      normal: ({ children }) => <p className="text-xl mb-4">{children}</p>,
+      normal: ({ children }) => (
+        <p className="text-lg leading-relaxed text-gray-700 mb-6">{children}</p>
+      ),
       h1: ({ children, value }) => (
         <Heading
           as="h1"
           id={parseChildrenToSlug(value.children)}
-          className="text-4xl md:text-5xl font-bold mb-6"
+          className="text-4xl md:text-5xl font-bold mb-8 text-gray-900 scroll-mt-20"
         >
           {children}
         </Heading>
@@ -74,7 +76,7 @@ export default function CustomPortableText({
         <Heading
           as="h2"
           id={parseChildrenToSlug(value.children)}
-          className="text-4xl font-bold leading-tight tracking-tighter lg:text-5xl mb-5"
+          className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 scroll-mt-20"
         >
           {children}
         </Heading>
@@ -83,47 +85,73 @@ export default function CustomPortableText({
         <Heading
           as="h3"
           id={parseChildrenToSlug(value.children)}
-          className="text-3xl font-bold mb-3"
+          className="text-2xl md:text-3xl font-bold mb-4 text-gray-900 scroll-mt-20"
         >
           {children}
         </Heading>
       ),
       h4: ({ children, value }) => (
-        <Heading as="h4" id={parseChildrenToSlug(value.children)} className="">
+        <Heading
+          as="h4"
+          id={parseChildrenToSlug(value.children)}
+          className="text-xl md:text-2xl font-bold mb-4 text-gray-900 scroll-mt-20"
+        >
           {children}
         </Heading>
       ),
       h5: ({ children, value }) => (
-        <Heading as="h5" id={parseChildrenToSlug(value.children)} className="">
+        <Heading
+          as="h5"
+          id={parseChildrenToSlug(value.children)}
+          className="text-lg md:text-xl font-bold mb-4 text-gray-900 scroll-mt-20"
+        >
           {children}
         </Heading>
       ),
       h6: ({ children, value }) => (
-        <Heading as="h6" id={parseChildrenToSlug(value.children)} className="">
+        <Heading
+          as="h6"
+          id={parseChildrenToSlug(value.children)}
+          className="text-base md:text-lg font-bold mb-4 text-gray-900 scroll-mt-20"
+        >
           {children}
         </Heading>
       ),
-      blockquote: ({ children }) => <blockquote>{children}</blockquote>,
+      blockquote: ({ children }) => (
+        <blockquote className="border-l-4 border-gray-300 pl-4 my-6 italic text-gray-600">
+          {children}
+        </blockquote>
+      ),
     },
     list: {
-      bullet: ({ children }) => <ul>{children}</ul>,
-      number: ({ children }) => <ol>{children}</ol>,
+      bullet: ({ children }) => (
+        <ul className="list-disc list-outside ml-6 mb-6 space-y-2 text-gray-700">{children}</ul>
+      ),
+      number: ({ children }) => (
+        <ol className="list-decimal list-outside ml-6 mb-6 space-y-2 text-gray-700">{children}</ol>
+      ),
     },
     listItem: {
-      bullet: ({ children }) => <li>{children}</li>,
-      number: ({ children }) => <li>{children}</li>,
+      bullet: ({ children }) => <li className="pl-2">{children}</li>,
+      number: ({ children }) => <li className="pl-2">{children}</li>,
     },
     marks: {
-      code: ({ children }) => <code>{children}</code>,
-      em: ({ children }) => <em>{children}</em>,
+      code: ({ children }) => (
+        <code className="bg-gray-100 rounded px-1 py-0.5 font-mono text-sm">{children}</code>
+      ),
+      em: ({ children }) => <em className="italic">{children}</em>,
       link: ({ children, value: link }) => {
-        return <ResolvedLink link={link}>{children}</ResolvedLink>;
+        return (
+          <ResolvedLink link={link} className="text-blue-600 hover:text-blue-800 underline">
+            {children}
+          </ResolvedLink>
+        );
       },
-      strong: ({ children }) => <strong>{children}</strong>,
-      'strike-through': ({ children }) => <del>{children}</del>,
-      underline: ({ children }) => <u>{children}</u>,
-      sup: ({ children }) => <sup>{children}</sup>,
-      sub: ({ children }) => <sub>{children}</sub>,
+      strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+      'strike-through': ({ children }) => <del className="line-through">{children}</del>,
+      underline: ({ children }) => <u className="underline">{children}</u>,
+      sup: ({ children }) => <sup className="text-xs">{children}</sup>,
+      sub: ({ children }) => <sub className="text-xs">{children}</sub>,
     },
     types: {
       image: (props) => {
@@ -133,19 +161,22 @@ export default function CustomPortableText({
         }
 
         return (
-          <Image
-            width="1000"
-            height="667"
-            src={urlForImage(value)?.width(1000).height(667).url() as string}
-            alt={value?.alt || ''}
-          />
+          <div className="my-8 rounded-lg overflow-hidden shadow-lg">
+            <Image
+              width="1000"
+              height="667"
+              src={urlForImage(value)?.width(1000).height(667).url() as string}
+              alt={value?.alt || ''}
+              className="w-full h-auto"
+            />
+          </div>
         );
       },
     },
   };
 
   return (
-    <div className={['prose', className].filter(Boolean).join(' ')}>
+    <div className={cn('prose max-w-none prose-lg prose-gray', className)}>
       <PortableText components={components} value={value} />
     </div>
   );
