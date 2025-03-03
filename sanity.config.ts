@@ -10,6 +10,7 @@ import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
 import { schemaTypes } from './src/sanity/schema';
 import { structure } from './src/sanity/structure';
+import { iconPicker } from 'sanity-plugin-icon-picker';
 import {
   presentationTool,
   defineDocuments,
@@ -117,6 +118,7 @@ export default defineConfig({
     assist(),
     visionTool(),
     seoMetaFields(),
+    iconPicker(),
   ],
   schema: {
     types: schemaTypes,

@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity';
 import { HomeIcon } from '@sanity/icons';
+import pageSections from '../fields/pageSections';
 
 export default defineType({
   name: 'homePage',
@@ -14,30 +15,7 @@ export default defineType({
       type: 'string',
       initialValue: 'Home Page',
     }),
-    defineField({
-      name: 'pageSections',
-      title: 'Page Sections',
-      type: 'array',
-      of: [
-        { type: 'cta' },
-        { type: 'hero' },
-        { type: 'mediaText' },
-        { type: 'postList' },
-        { type: 'featureCards' },
-      ],
-      /*options: {
-        insertMenu: {
-          // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
-          views: [
-            {
-              name: 'grid',
-              previewImageUrl: (schemaTypeName) =>
-                `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
-            },
-          ],
-        },
-      },*/
-    }),
+    pageSections,
     {
       title: 'Seo',
       name: 'seo',

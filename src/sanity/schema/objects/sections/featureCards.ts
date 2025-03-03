@@ -1,22 +1,13 @@
 import { defineField, defineType } from 'sanity';
 import { InlineIcon } from '@sanity/icons';
 import { preview } from 'sanity-plugin-icon-picker';
-
-defineField({
-  name: 'icon',
-  title: 'Icon',
-  options: {
-    storeSvg: true,
-    providers: ['fi'],
-  },
-  type: 'iconPicker',
-});
+import iconPicker from '../../fields/iconPicker';
 
 const featureCard = defineField({
   name: 'featureCard',
   type: 'object',
   icon: InlineIcon,
-  title: 'Feature Cards',
+  title: 'Card',
   fields: [
     defineField({
       name: 'heading',
@@ -26,15 +17,7 @@ const featureCard = defineField({
       name: 'text',
       type: 'blockContent',
     }),
-    defineField({
-      name: 'icon',
-      title: 'Icon',
-      options: {
-        storeSvg: true,
-        providers: ['fi'],
-      },
-      type: 'iconPicker',
-    }),
+    iconPicker,
   ],
   preview: {
     select: {

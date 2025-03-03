@@ -28,13 +28,14 @@ export const schemaTypes = [
   person,
   category,
 
-  // Objects
-  blockContent,
+  cta,
   hero,
   mediaText,
   postList,
   featureCards,
-  cta,
+
+  // Objects
+  blockContent,
   link,
   url,
   button,

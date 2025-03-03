@@ -134,7 +134,7 @@ export const featureCardFragment = /* groq */ `
 `;
 
 export const featureCardsSectionFragment = /* groq */ `
-  ${featureCardFragment}
+  ${featureCardFragment},
   cards[]{${featureCardFragment}}
 `;
 
@@ -147,6 +147,6 @@ export const pageBuilderFragment = /* groq */ `
     ${mediaTextSectionFragment},
     ${postListSectionFragment},
     ${ctaSectionFragment},
-    ${featureCardsSectionFragment},
+    ${featureCardsSectionFragment}
   }
 `;
