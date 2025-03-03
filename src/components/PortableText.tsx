@@ -14,16 +14,19 @@ import ResolvedLink from '@/components/ResolvedLink';
 import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PropsWithChildren } from 'react';
+import { cn } from '@/lib/utils';
+import { parseChildrenToSlug } from '@/utils/string';
 
 type HeadingProps = PropsWithChildren<{
   as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  id: string | undefined;
+  id: string;
+  className?: string;
 }>;
 
-function Heading({ as, children, id }: HeadingProps) {
+function Heading({ as, id, children, className = '' }: HeadingProps) {
   const Element = as;
   return (
-    <Element className="group relative">
+    <Element className={cn('relative group', className)}>
       {children}
       <a
         href={`#${id}`}
@@ -57,48 +60,49 @@ export default function CustomPortableText({
 }) {
   const components: PortableTextComponents = {
     block: {
-      p: ({ children }) => <p className="mb-4">{children}</p>,
+      normal: ({ children }) => <p className="text-lg mb-4">{children}</p>,
       h1: ({ children, value }) => (
-        <Heading as="h1" id={value?._key}>
+        <Heading
+          as="h1"
+          id={parseChildrenToSlug(value.children)}
+          className="text-4xl md:text-5xl font-bold mb-6"
+        >
           {children}
         </Heading>
       ),
-      h2: ({ children, value }) => {
-        return (
-          <Heading as="h2" id={value?._key}>
-            {children}
-          </Heading>
-        );
-      },
-      h3: ({ children, value }) => {
-        return (
-          <Heading as="h3" id={value?._key}>
-            {children}
-          </Heading>
-        );
-      },
-      h4: ({ children, value }) => {
-        return (
-          <Heading as="h4" id={value?._key}>
-            {children}
-          </Heading>
-        );
-      },
-      h5: ({ children, value }) => {
-        return (
-          <Heading as="h5" id={value?._key}>
-            {children}
-          </Heading>
-        );
-      },
-      h6: ({ children, value }) => {
-        return (
-          <Heading as="h6" id={value?._key}>
-            {children}
-          </Heading>
-        );
-      },
-      normal: ({ children }) => <p>{children}</p>,
+      h2: ({ children, value }) => (
+        <Heading
+          as="h2"
+          id={parseChildrenToSlug(value.children)}
+          className="text-4xl font-bold leading-tight tracking-tighter lg:text-5xl mb-5"
+        >
+          {children}
+        </Heading>
+      ),
+      h3: ({ children, value }) => (
+        <Heading
+          as="h3"
+          id={parseChildrenToSlug(value.children)}
+          className="text-3xl font-bold mb-3"
+        >
+          {children}
+        </Heading>
+      ),
+      h4: ({ children, value }) => (
+        <Heading as="h4" id={parseChildrenToSlug(value.children)} className="">
+          {children}
+        </Heading>
+      ),
+      h5: ({ children, value }) => (
+        <Heading as="h5" id={parseChildrenToSlug(value.children)} className="">
+          {children}
+        </Heading>
+      ),
+      h6: ({ children, value }) => (
+        <Heading as="h6" id={parseChildrenToSlug(value.children)} className="">
+          {children}
+        </Heading>
+      ),
       blockquote: ({ children }) => <blockquote>{children}</blockquote>,
     },
     list: {
