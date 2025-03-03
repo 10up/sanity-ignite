@@ -5,9 +5,9 @@ import { postQuery } from '@/sanity/queries/queries';
 import { formatMetaData } from '@/sanity/lib/seo';
 import { SeoType } from '@/types/seo';
 import CustomPortableText from '@/components/PortableText';
-import { Image } from 'next-sanity/image';
-import { urlForImage } from '@/sanity/lib/utils';
 import Avatar from '@/components/Avatar';
+import CoverImage from '@/components/CoverImage';
+import { type PortableTextBlock } from 'next-sanity';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -46,15 +46,11 @@ export default async function PostPage(props: Props) {
           </div>
         ) : null}
         {post.image?.asset?._ref ? (
-          <Image
-            alt={post.image?.alt || ''}
-            className="shadow-md rounded-4xl mb-6 md:mb-12"
-            width="2000"
-            height="1000"
-            src={urlForImage(post.image)?.width(2000).height(1000).url() as string}
-          />
+          <div className="mb-6 md:mb-12">
+            <CoverImage image={post.image} priority />
+          </div>
         ) : null}
-        <CustomPortableText value={post.content} />
+        <CustomPortableText value={post.content as PortableTextBlock[]} className="max-w-6xl" />
       </section>
     </main>
   );

@@ -60,7 +60,7 @@ export default function CustomPortableText({
 }) {
   const components: PortableTextComponents = {
     block: {
-      normal: ({ children }) => <p className="text-lg mb-4">{children}</p>,
+      normal: ({ children }) => <p className="text-xl mb-4">{children}</p>,
       h1: ({ children, value }) => (
         <Heading
           as="h1"
