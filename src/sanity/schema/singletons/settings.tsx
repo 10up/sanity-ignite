@@ -1,6 +1,5 @@
 import { CogIcon } from '@sanity/icons';
 import { defineField, defineType } from 'sanity';
-
 import * as demo from '@/sanity/lib/demo';
 
 /**
@@ -23,21 +22,10 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'menuItems',
-      title: 'Main Menu Items',
-      description: 'Links displayed on the header of your site.',
+      name: 'menu',
       type: 'array',
-      of: [
-        {
-          title: 'Reference',
-          type: 'reference',
-          to: [
-            {
-              type: 'page',
-            },
-          ],
-        },
-      ],
+      of: [{ type: 'menuItem' }],
+      description: 'Build a menu to display on the header of your site.',
     }),
     defineField({
       name: 'description',

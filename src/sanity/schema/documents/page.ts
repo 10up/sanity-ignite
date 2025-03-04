@@ -1,5 +1,6 @@
-import { defineField, defineType } from 'sanity'
-import { DocumentIcon } from '@sanity/icons'
+import { defineField, defineType } from 'sanity';
+import { DocumentIcon } from '@sanity/icons';
+import pageSections from '../fields/pageSections';
 
 /**
  * Page schema.  Define and edit the fields for the 'page' content type.
@@ -28,28 +29,11 @@ export default defineType({
         maxLength: 96,
       },
     }),
-    defineField({
-      name: 'pageSections',
-      title: 'Page Sections',
-      type: 'array',
-      of: [{ type: 'cta' }, { type: 'hero' }, { type: 'mediaText' }, { type: 'postList' }],
-      options: {
-        insertMenu: {
-          // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/array-type#efb1fe03459d
-          views: [
-            {
-              name: 'grid',
-              previewImageUrl: (schemaTypeName) =>
-                `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
-            },
-          ],
-        },
-      },
-    }),
+    pageSections,
     {
       title: 'Seo',
       name: 'seo',
       type: 'seoMetaFields',
     },
   ],
-})
+});

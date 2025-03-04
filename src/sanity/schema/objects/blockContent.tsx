@@ -1,3 +1,4 @@
+
 import { ImageIcon } from '@sanity/icons';
 import { defineArrayMember, defineType, defineField } from 'sanity';
 
@@ -55,7 +56,7 @@ export default defineType({
             title: 'Link',
             fields: [
               defineField({
-                name: 'linkType',
+                name: 'customLink',
                 title: 'Link Type',
                 type: 'string',
                 initialValue: 'href',

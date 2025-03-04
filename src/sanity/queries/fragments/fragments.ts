@@ -63,6 +63,7 @@ export const linkReferenceFragment = /* groq */ `
   }
 `;
 
+
 export const linkFragment = /* groq */ `
   link {
     ...,
@@ -83,4 +84,116 @@ export const postFragment = /* groq */ `
   seo {
     ${seoFragment}
   }
+`;
+
+export const urlFragment = /* groq */ `
+  _type,
+  "openInNewTab": url.openInNewTab,
+  "href": select(
+    url.type == "internal" => url.internal->slug.current,
+    url.type == "external" => url.external,
+    url.href
+  )
+`;
+
+export const buttonsFragment = /* groq */ `
+  buttons[]{
+    text,
+    variant,
+    _key,
+    _type,
+    ${urlFragment}
+  }
+`;
+
+export const heroSectionFragment = /* groq */ `
+  _type,
+  heading,
+  text,
+  ${buttonsFragment}
+`;
+
+export const mediaTextSectionFragment = /* groq */ `
+  _type,
+  heading,
+  text,
+  media,
+  mediaPosition,
+  ${buttonsFragment}
+`;
+
+export const postListSectionFragment = /* groq */ `
+  _type,
+  heading,
+  text,
+  ${postFragment}
+`;
+
+export const dividerSectionFragment = /* groq */ `
+  _type,
+  height
+`;
+
+export const ctaSectionFragment = /* groq */ `
+  _type,
+  heading,
+  text,
+  ${buttonsFragment}
+`;
+
+export const subscribeSectionFragment = /* groq */ `
+  _type,
+  heading,
+  text
+`;
+
+export const cardGridFragment = /* groq */ `
+  _type,
+  heading,
+  text,
+  icon
+`;
+
+export const cardGridsSectionFragment = /* groq */ `
+  ${cardGridFragment},
+  cards[]{${cardGridFragment}}
+`;
+
+export const pageBuilderFragment = /* groq */ `
+  pageSections[]{
+    ...,
+    _type,
+    ${ctaSectionFragment},
+    ${heroSectionFragment},
+    ${mediaTextSectionFragment},
+    ${postListSectionFragment},
+    ${ctaSectionFragment},
+    ${cardGridsSectionFragment},
+    ${dividerSectionFragment},
+    ${subscribeSectionFragment}
+  }
+`;
+
+export const menuItemFragment = /* groq */ `
+  _type,
+  _key,
+  text,
+  type,
+  ${urlFragment}
+`;
+
+export const menuFragment = /* groq */ `
+  menu[]{
+  ${menuItemFragment},
+  childMenu[]{
+    ${menuItemFragment}
+  }
+  }
+`;
+
+export const pageFragment = /* groq */ `
+  ${pageBuilderFragment},
+  seo {
+    ${seoFragment}
+  },
 `;

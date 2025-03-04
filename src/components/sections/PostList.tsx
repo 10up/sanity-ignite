@@ -14,7 +14,7 @@ export default async function PostListSection({ section }: { section: PostList }
   }
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-10 md:py-14">
       <div className="container mx-auto">
         <div className="max-w-2xl mx-auto text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">{section?.heading}</h2>

@@ -13,7 +13,7 @@ export default async function Footer() {
   }
 
   return (
-    <footer className=" text-gray-600 py-12 relative bg-gray-100">
+    <footer className=" text-gray-600 py-12 md:py-16 relative bg-gray-100">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
