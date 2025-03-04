@@ -1,6 +1,6 @@
-import { DocumentTextIcon } from '@sanity/icons'
-import { format, parseISO } from 'date-fns'
-import { defineField, defineType } from 'sanity'
+import { DocumentTextIcon } from '@sanity/icons';
+import { format, parseISO } from 'date-fns';
+import { defineField, defineType } from 'sanity';
 
 /**
  * Post schema.  Define and edit the fields for the 'post' content type.
@@ -32,16 +32,6 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'content',
-      title: 'Content',
-      type: 'blockContent',
-    }),
-    defineField({
-      name: 'excerpt',
-      title: 'Excerpt',
-      type: 'text',
-    }),
-    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
@@ -61,13 +51,23 @@ export default defineType({
             // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
             return rule.custom((alt, context) => {
               if ((context.document?.coverImage as any)?.asset?._ref && !alt) {
-                return 'Required'
+                return 'Required';
               }
-              return true
-            })
+              return true;
+            });
           },
         },
       ],
+    }),
+    defineField({
+      name: 'content',
+      title: 'Content',
+      type: 'blockContent',
+    }),
+    defineField({
+      name: 'excerpt',
+      title: 'Excerpt',
+      type: 'text',
     }),
     defineField({
       name: 'categories',
@@ -106,9 +106,9 @@ export default defineType({
       const subtitles = [
         authorFirstName && authorLastName && `by ${authorFirstName} ${authorLastName}`,
         date && `on ${format(parseISO(date), 'LLL d, yyyy')}`,
-      ].filter(Boolean)
+      ].filter(Boolean);
 
-      return { title, media, subtitle: subtitles.join(' ') }
+      return { title, media, subtitle: subtitles.join(' ') };
     },
   },
-})
+});

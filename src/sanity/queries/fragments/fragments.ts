@@ -56,14 +56,19 @@ export const seoFragment = /* groq */ `
     ${openGraphFragment}
   }`;
 
+export const linkReferenceFragment = /* groq */ `
+  _type == "link" => {
+    "page": page->slug.current,
+    "post": post->slug.current
+  }
+`;
+
+
 export const linkFragment = /* groq */ `
   link {
-      ...,
-      _type == "link" => {
-        "page": page->slug.current,
-        "post": post->slug.current
-        }
-      }
+    ...,
+    ${linkReferenceFragment}
+  }
 `;
 
 export const postFragment = /* groq */ `
