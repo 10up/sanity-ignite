@@ -1,4 +1,4 @@
-import { PostList, Post as PostType } from '@/sanity.types';
+import { PostList } from '@/sanity.types';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { sanityFetch } from '@/sanity/lib/live';
@@ -21,7 +21,7 @@ export default async function PostListSection({ section }: { section: PostList }
           <p className="text-gray-600">Latest updates and insights from our team</p>
         </div>
         <div className="max-w-4xl mx-auto space-y-12">
-          {posts.map((post: PostType) => {
+          {posts.map((post) => {
             if (post) {
               return <Post key={post._id} post={post} />;
             }

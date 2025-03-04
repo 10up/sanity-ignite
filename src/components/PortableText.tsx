@@ -10,7 +10,7 @@
 
 import { PortableText, type PortableTextComponents, type PortableTextBlock } from 'next-sanity';
 
-import ResolvedLink from '@/components/ResolvedLink';
+import Link from '@/components/Link';
 import Image from 'next/image';
 import { urlForImage } from '@/sanity/lib/utils';
 import { PropsWithChildren } from 'react';
@@ -140,11 +140,11 @@ export default function CustomPortableText({
         <code className="bg-gray-100 rounded px-1 py-0.5 font-mono text-sm">{children}</code>
       ),
       em: ({ children }) => <em className="italic">{children}</em>,
-      link: ({ children, value: link }) => {
+      link: ({ children, value: url }) => {
         return (
-          <ResolvedLink link={link} className="text-blue-600 hover:text-blue-800 underline">
+          <Link url={url} className="text-blue-600 hover:text-blue-800 underline">
             {children}
-          </ResolvedLink>
+          </Link>
         );
       },
       strong: ({ children }) => <strong className="font-bold">{children}</strong>,

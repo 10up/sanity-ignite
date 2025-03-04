@@ -63,7 +63,6 @@ export const linkReferenceFragment = /* groq */ `
   }
 `;
 
-
 export const linkFragment = /* groq */ `
   link {
     ...,
@@ -73,6 +72,7 @@ export const linkFragment = /* groq */ `
 
 export const postFragment = /* groq */ `
   _id,
+  ...,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
   "title": coalesce(title, "Untitled"),
   "slug": slug.current,

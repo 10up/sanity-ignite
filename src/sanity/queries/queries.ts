@@ -1,5 +1,10 @@
 import { defineQuery } from 'next-sanity';
-import { seoFragment, postFragment, linkReferenceFragment, pageFragment, menuFragment } from './fragments/fragments';
+import {
+  postFragment,
+  linkReferenceFragment,
+  pageFragment,
+  menuFragment,
+} from './fragments/fragments';
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
   title,
@@ -10,6 +15,7 @@ export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
 export const homePageQuery = defineQuery(`*[_type == "homePage"][0]{
   _id,
   _type,
+  ...,
   ${pageFragment}
 }`);
 
