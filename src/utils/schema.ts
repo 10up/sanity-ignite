@@ -8,7 +8,7 @@ export const createRadioListLayout = (
   const list = items.map((item) => {
     if (typeof item === 'string') {
       return {
-        title: upperCaseWords(item),
+        title: upperCaseWords(item.replace('-', ' ')),
         value: item,
       };
     }

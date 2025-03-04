@@ -1,15 +1,13 @@
 import { Hero } from '@/sanity.types';
 import { Image } from 'next-sanity/image';
 import { urlForImage } from '@/sanity/lib/utils';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import { type PortableTextBlock } from 'next-sanity';
 import PortableText from '@/components/PortableText';
+import ButtonsGroup from '../ButtonsGroup';
 
 export default function HeroSection({ section }: { section: Hero }) {
-  console.log(section);
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="py-10 md:py-14 bg-white">
       <div className="container mx-auto">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
@@ -18,11 +16,9 @@ export default function HeroSection({ section }: { section: Hero }) {
 
             {section?.buttons && section?.buttons.length ? (
               <div className="mt-8 gap-4 flex">
-                {section?.buttons.map((button) => (
-                  <Button asChild variant={button.variant} size={'xl'} key={button._key}>
-                    <Link href={button?.href || ''}>{button.text}</Link>
-                  </Button>
-                ))}
+                {section?.buttons.length > 1 && (
+                  <ButtonsGroup className="w-full md:w-auto" buttons={section?.buttons} />
+                )}
               </div>
             ) : null}
           </div>

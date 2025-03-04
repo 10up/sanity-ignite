@@ -28,15 +28,6 @@ export default defineType({
       type: 'string',
       title: 'URL',
       hidden: ({ parent }) => parent?.type !== 'external',
-      validation: (Rule) => [
-        Rule.custom((value, { parent }) => {
-          const type = (parent as { type?: string })?.type;
-          if (type === 'external') {
-            if (!value) return "Url can't be empty";
-          }
-          return true;
-        }),
-      ],
     }),
     defineField({
       name: 'href',
@@ -51,13 +42,6 @@ export default defineType({
       options: { disableNew: true },
       hidden: ({ parent }) => parent?.type !== 'internal',
       to: allLinkableTypes,
-      validation: (rule) => [
-        rule.custom((value, { parent }) => {
-          const type = (parent as { type?: string })?.type;
-          if (type === 'internal' && !value?._ref) return "internal can't be empty";
-          return true;
-        }),
-      ],
     }),
   ],
   preview: {

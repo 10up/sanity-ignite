@@ -9,6 +9,8 @@ export default defineField({
     { type: 'hero' },
     { type: 'mediaText' },
     { type: 'postList' },
-    { type: 'featureCards' },
+    { type: 'cardGrid' },
+    { type: 'divider' },
+    { type: 'subscribe' },
   ],
 });
