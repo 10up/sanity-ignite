@@ -10,7 +10,9 @@ export default function SubscribeSection({ section }: { section: Subscribe }) {
         <div className="">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{section?.heading}</h2>
-            <PortableText className="" value={section.content as PortableTextBlock[]} />
+            <div className="text-white">
+              <PortableText className="" value={section.content as PortableTextBlock[]} />
+            </div>
             <form className="flex flex-col md:flex-row gap-4 justify-center">
               <div className="flex-grow max-w-md">
                 <label htmlFor="email" className="sr-only">
