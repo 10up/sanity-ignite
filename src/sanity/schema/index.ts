@@ -7,17 +7,23 @@ import hero from './objects/sections/hero';
 import category from './documents/category';
 import mediaText from './objects/sections/mediaText';
 import postList from './objects/sections/postList';
+import cardGrid from './objects/sections/cardGrid';
 import settings from './singletons/settings';
-import link from './objects/link';
 import blockContent from './objects/blockContent';
+import url from './objects/url';
+import button from './objects/button';
+import blogPage from './singletons/blogPage';
+import card from './objects/sections/card';
+import divider from './objects/sections/divider';
+import subscribe from './objects/sections/subscribe';
+import menuItem from './objects/menuItem';
 import seoTypes from './objects/seo';
-
-// Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
 
 export const schemaTypes = [
   // Singletons
   settings,
   homePage,
+  blogPage,
 
   // Documents
   page,
@@ -25,12 +31,19 @@ export const schemaTypes = [
   person,
   category,
 
-  // Objects
-  blockContent,
+  // Sections
   cta,
   hero,
-  link,
   mediaText,
   postList,
+  card,
+  cardGrid,
+  divider,
+  subscribe,
+  // Objects
+  blockContent,
+  url,
+  button,
+  menuItem,
   ...seoTypes,
 ];

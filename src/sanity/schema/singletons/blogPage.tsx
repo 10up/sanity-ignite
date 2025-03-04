@@ -1,25 +1,23 @@
 import { defineType, defineField } from 'sanity';
-import { HomeIcon } from '@sanity/icons';
-import pageSections from '../fields/pageSections';
+import { DocumentIcon } from '@sanity/icons';
 
 export default defineType({
-  name: 'homePage',
-  title: 'Home Page',
+  name: 'blogPage',
+  title: 'Blog Page',
   type: 'document',
-  icon: HomeIcon,
+  icon: DocumentIcon,
   fields: [
     defineField({
       name: 'name',
       hidden: true,
       readOnly: true,
       type: 'string',
-      initialValue: 'Home Page',
+      initialValue: 'Blog Page',
     }),
-    pageSections,
-    defineField({
+    {
       title: 'Seo',
       name: 'seo',
       type: 'seoMetaFields',
-    }),
+    },
   ],
 });

@@ -71,18 +71,35 @@ export const seoFragment = /* groq */ `
   }
 `;
 
-export const linkFragment = /* groq */ `
-  link {
-      ...,
-      _type == "link" => {
-        "page": page->slug.current,
-        "post": post->slug.current
-        }
-      }
+const customLinkFragment = /* groq */ `
+  ...customLink{
+    openInNewTab,
+    "href": select(
+      type == "internal" => internal->slug.current,
+      type == "external" => external,
+      "#"
+    ),
+  }
+`;
+
+const markDefsFragment = /* groq */ `
+  markDefs[]{
+    ...,
+    ${customLinkFragment}
+  }
+`;
+
+const contentFragment = /* groq */ `
+  content[]{
+    ...,
+    ${markDefsFragment}
+  }
 `;
 
 export const postFragment = /* groq */ `
   _id,
+  ...,
+  ${contentFragment},
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
   "title": coalesce(title, "Untitled"),
   "slug": slug.current,
@@ -94,4 +111,116 @@ export const postFragment = /* groq */ `
   seo {
     ${seoFragment}
   }
+`;
+
+export const urlFragment = /* groq */ `
+  _type,
+  "openInNewTab": url.openInNewTab,
+  "href": select(
+    url.type == "internal" => url.internal->slug.current,
+    url.type == "external" => url.external,
+    url.href
+  )
+`;
+
+export const buttonsFragment = /* groq */ `
+  buttons[]{
+    text,
+    variant,
+    _key,
+    _type,
+    ${urlFragment}
+  }
+`;
+
+export const heroSectionFragment = /* groq */ `
+  _type,
+  heading,
+  text,
+  ${buttonsFragment}
+`;
+
+export const mediaTextSectionFragment = /* groq */ `
+  _type,
+  heading,
+  text,
+  media,
+  mediaPosition,
+  ${buttonsFragment}
+`;
+
+export const postListSectionFragment = /* groq */ `
+  _type,
+  heading,
+  text,
+  ${postFragment}
+`;
+
+export const dividerSectionFragment = /* groq */ `
+  _type,
+  height
+`;
+
+export const ctaSectionFragment = /* groq */ `
+  _type,
+  heading,
+  text,
+  ${buttonsFragment}
+`;
+
+export const subscribeSectionFragment = /* groq */ `
+  _type,
+  heading,
+  text
+`;
+
+export const cardGridFragment = /* groq */ `
+  _type,
+  heading,
+  ${contentFragment},
+  icon
+`;
+
+export const cardGridsSectionFragment = /* groq */ `
+  ${cardGridFragment},
+  cards[]{${cardGridFragment}}
+`;
+
+export const pageBuilderFragment = /* groq */ `
+  pageSections[]{
+    ...,
+    _type,
+    ${ctaSectionFragment},
+    ${heroSectionFragment},
+    ${mediaTextSectionFragment},
+    ${postListSectionFragment},
+    ${ctaSectionFragment},
+    ${cardGridsSectionFragment},
+    ${dividerSectionFragment},
+    ${subscribeSectionFragment}
+  }
+`;
+
+export const menuItemFragment = /* groq */ `
+  _type,
+  _key,
+  text,
+  type,
+  ${urlFragment}
+`;
+
+export const menuFragment = /* groq */ `
+  menu[]{
+  ${menuItemFragment},
+  childMenu[]{
+    ${menuItemFragment}
+  }
+  }
+`;
+
+export const pageFragment = /* groq */ `
+  ${pageBuilderFragment},
+  seo {
+    ${seoFragment}
+  },
 `;

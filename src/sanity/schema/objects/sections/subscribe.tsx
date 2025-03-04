@@ -1,11 +1,11 @@
 import { defineField, defineType } from 'sanity';
-import { BulbOutlineIcon } from '@sanity/icons';
+import { EqualIcon } from '@sanity/icons';
 
 export default defineType({
-  name: 'cta',
-  title: 'Call to Action',
+  name: 'subscribe',
+  title: 'Subscribe',
   type: 'object',
-  icon: BulbOutlineIcon,
+  icon: EqualIcon,
   fields: [
     defineField({
       name: 'heading',
@@ -14,14 +14,16 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'text',
+      name: 'content',
       title: 'Text',
-      type: 'text',
+      type: 'blockContent',
     }),
     defineField({
-      name: 'buttons',
-      type: 'array',
-      of: [{ type: 'button' }],
+      name: 'buttonText',
+      title: 'Button Text',
+      type: 'string',
+      initialValue: () => 'Sign Up',
+      validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {
@@ -33,7 +35,7 @@ export default defineType({
 
       return {
         title: title,
-        subtitle: 'Call to Action',
+        subtitle: 'Subscribe',
       };
     },
   },

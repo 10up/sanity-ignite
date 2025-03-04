@@ -9,11 +9,13 @@
     "next:debug": "NEXT_PRIVATE_DEBUG_CACHE=1 next:build && next:start",
     "lint": "next lint",
     "dev": "npm-run-all --parallel --race next:dev watch-typegen",
-    "sanity:typegen": "sanity schema extract --path=.sanity/schema.json && sanity typegen generate",
+    "sanity:typegen": "sanity schema extract --path=src/schema.json && sanity typegen generate",
     "typecheck": "tsc --noEmit",
     "watch-typegen": "tsx watch-typegen.ts"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-navigation-menu": "^1.2.5",
     "@radix-ui/react-slot": "^1.1.2",
     "@sanity/assist": "^3.0.8",
     "@sanity/icons": "^3.4.0",
