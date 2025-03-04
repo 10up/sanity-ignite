@@ -68,6 +68,60 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type Twitter = {
+  _type: 'twitter';
+  cardType?: string;
+  creator?: string;
+  site?: string;
+  handle?: string;
+};
+
+export type OpenGraph = {
+  _type: 'openGraph';
+  url?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  title?: string;
+  description?: string;
+  siteName?: string;
+};
+
+export type MetaTag = {
+  _type: 'metaTag';
+  metaAttributes?: Array<
+    {
+      _key: string;
+    } & MetaAttribute
+  >;
+};
+
+export type MetaAttribute = {
+  _type: 'metaAttribute';
+  attributeKey?: string;
+  attributeType?: 'string' | 'image';
+  attributeValueImage?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  attributeValueString?: string;
+};
+
 export type MenuItem = {
   _type: 'menuItem';
   text?: string;
@@ -365,6 +419,32 @@ export type HomePage = {
   seo?: SeoMetaFields;
 };
 
+export type SeoMetaFields = {
+  _type: 'seoMetaFields';
+  noIndex?: boolean;
+  metaTitle?: string;
+  metaDescription?: string;
+  metaImage?: {
+    asset?: {
+      _ref: string;
+      _type: 'reference';
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: 'image';
+  };
+  seoKeywords?: Array<string>;
+  openGraph?: OpenGraph;
+  additionalMetaTags?: Array<
+    {
+      _key: string;
+    } & MetaTag
+  >;
+  twitter?: Twitter;
+};
+
 export type CustomUrl = {
   _type: 'customUrl';
   type?: 'internal' | 'external';
@@ -412,86 +492,6 @@ export type Settings = {
     metadataBase?: string;
     _type: 'image';
   };
-};
-
-export type MetaTag = {
-  _type: 'metaTag';
-  metaAttributes?: Array<
-    {
-      _key: string;
-    } & MetaAttribute
-  >;
-};
-
-export type MetaAttribute = {
-  _type: 'metaAttribute';
-  attributeKey?: string;
-  attributeType?: 'string' | 'image';
-  attributeValueImage?: {
-    asset?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: 'image';
-  };
-  attributeValueString?: string;
-};
-
-export type SeoMetaFields = {
-  _type: 'seoMetaFields';
-  nofollowAttributes?: boolean;
-  metaTitle?: string;
-  metaDescription?: string;
-  metaImage?: {
-    asset?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: 'image';
-  };
-  seoKeywords?: Array<string>;
-  openGraph?: OpenGraph;
-  additionalMetaTags?: Array<
-    {
-      _key: string;
-    } & MetaTag
-  >;
-  twitter?: Twitter;
-};
-
-export type Twitter = {
-  _type: 'twitter';
-  cardType?: string;
-  creator?: string;
-  site?: string;
-  handle?: string;
-};
-
-export type OpenGraph = {
-  _type: 'openGraph';
-  url?: string;
-  image?: {
-    asset?: {
-      _ref: string;
-      _type: 'reference';
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: 'image';
-  };
-  title?: string;
-  description?: string;
-  siteName?: string;
 };
 
 export type SanityImageCrop = {
@@ -692,6 +692,10 @@ export type AllSanitySchemaTypes =
   | SanityImageDimensions
   | SanityFileAsset
   | Geopoint
+  | Twitter
+  | OpenGraph
+  | MetaTag
+  | MetaAttribute
   | MenuItem
   | Button
   | BlockContent
@@ -710,13 +714,9 @@ export type AllSanitySchemaTypes =
   | Slug
   | BlogPage
   | HomePage
+  | SeoMetaFields
   | CustomUrl
   | Settings
-  | MetaTag
-  | MetaAttribute
-  | SeoMetaFields
-  | Twitter
-  | OpenGraph
   | SanityImageCrop
   | SanityImageHotspot
   | SanityImageAsset
@@ -759,7 +759,7 @@ export type SettingsQueryResult = {
   }> | null;
 } | null;
 // Variable: homePageQuery
-// Query: *[_type == "homePage"][0]{  _id,  _type,  ...,      pageSections[]{    ...,    _type,      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,  media,  mediaPosition,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,    _id,  ...,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{title, description},  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  seo {      _type,  metaTitle,  nofollowAttributes,  seoKeywords,  metaDescription,  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  },      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },        _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  icon,  cards[]{  _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  icon},      _type,  height,      _type,  heading,  text  },  seo {      _type,  metaTitle,  nofollowAttributes,  seoKeywords,  metaDescription,  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  },}
+// Query: *[_type == "homePage"][0]{  _id,  _type,  ...,      pageSections[]{    ...,    _type,      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,  media,  mediaPosition,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,    _id,  ...,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{title, description},  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  },  twitter {      _type,  site,  creator,  cardType,  handle  }  },      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },        _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  icon,  cards[]{  _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  icon},      _type,  height,      _type,  heading,  text  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  },  twitter {      _type,  site,  creator,  cardType,  handle  }  },}
 export type HomePageQueryResult = {
   _id: string;
   _type: 'homePage';
@@ -1145,9 +1145,58 @@ export type HomePageQueryResult = {
   seo: {
     _type: 'seoMetaFields';
     metaTitle: string | null;
-    nofollowAttributes: boolean | null;
+    noIndex: boolean | null;
     seoKeywords: Array<string> | null;
     metaDescription: string | null;
+    additionalMetaTags: Array<{
+      _key: string;
+      _type: 'metaTag';
+      metaAttributes: Array<{
+        _type: 'metaAttribute';
+        attributeValueString: string | null;
+        attributeType: 'image' | 'string' | null;
+        attributeKey: string | null;
+        attributeValueImage: {
+          _type: 'image';
+          crop: {
+            _type: 'sanity.imageCrop';
+            right: number | null;
+            top: number | null;
+            left: number | null;
+            bottom: number | null;
+          } | null;
+          hotspot: {
+            _type: 'sanity.imageHotspot';
+            x: number | null;
+            y: number | null;
+            height: number | null;
+            width: number | null;
+          } | null;
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+        } | null;
+      }> | null;
+    }> | null;
     openGraph: {
       _type: 'openGraph';
       siteName: string | null;
@@ -1194,10 +1243,17 @@ export type HomePageQueryResult = {
         } | null;
       } | null;
     } | null;
+    twitter: {
+      _type: 'twitter';
+      site: string | null;
+      creator: string | null;
+      cardType: string | null;
+      handle: string | null;
+    } | null;
   } | null;
 } | null;
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,        pageSections[]{    ...,    _type,      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,  media,  mediaPosition,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,    _id,  ...,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{title, description},  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  seo {      _type,  metaTitle,  nofollowAttributes,  seoKeywords,  metaDescription,  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  },      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },        _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  icon,  cards[]{  _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  icon},      _type,  height,      _type,  heading,  text  },  seo {      _type,  metaTitle,  nofollowAttributes,  seoKeywords,  metaDescription,  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  },  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,        pageSections[]{    ...,    _type,      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,  media,  mediaPosition,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },      _type,  heading,  text,    _id,  ...,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{title, description},  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  },  twitter {      _type,  site,  creator,  cardType,  handle  }  },      _type,  heading,  text,    buttons[]{    text,    variant,    _key,    _type,      _type,  "openInNewTab": url.openInNewTab,  "href": select(    url.type == "internal" => url.internal->slug.current,    url.type == "external" => url.external,    url.href  )  },        _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  icon,  cards[]{  _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  icon},      _type,  height,      _type,  heading,  text  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  },  twitter {      _type,  site,  creator,  cardType,  handle  }  },  }
 export type GetPageQueryResult = {
   _id: string;
   _type: 'page';
@@ -1581,9 +1637,58 @@ export type GetPageQueryResult = {
   seo: {
     _type: 'seoMetaFields';
     metaTitle: string | null;
-    nofollowAttributes: boolean | null;
+    noIndex: boolean | null;
     seoKeywords: Array<string> | null;
     metaDescription: string | null;
+    additionalMetaTags: Array<{
+      _key: string;
+      _type: 'metaTag';
+      metaAttributes: Array<{
+        _type: 'metaAttribute';
+        attributeValueString: string | null;
+        attributeType: 'image' | 'string' | null;
+        attributeKey: string | null;
+        attributeValueImage: {
+          _type: 'image';
+          crop: {
+            _type: 'sanity.imageCrop';
+            right: number | null;
+            top: number | null;
+            left: number | null;
+            bottom: number | null;
+          } | null;
+          hotspot: {
+            _type: 'sanity.imageHotspot';
+            x: number | null;
+            y: number | null;
+            height: number | null;
+            width: number | null;
+          } | null;
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+        } | null;
+      }> | null;
+    }> | null;
     openGraph: {
       _type: 'openGraph';
       siteName: string | null;
@@ -1630,10 +1735,29 @@ export type GetPageQueryResult = {
         } | null;
       } | null;
     } | null;
+    twitter: {
+      _type: 'twitter';
+      site: string | null;
+      creator: string | null;
+      cardType: string | null;
+      handle: string | null;
+    } | null;
   } | null;
 } | null;
+// Variable: getSitemapQuery
+// Query: *[((_type in ["page", "post"] && defined(slug.current)) || (_type == "homePage")) && seo.noIndex != true]{    "href": select(      _type == "page" => "/" + slug.current,      _type == "post" => "/posts/" + slug.current,      _type == "homePage" => "/",      slug.current    ),    _updatedAt  }
+export type GetSitemapQueryResult = Array<
+  | {
+      href: '/';
+      _updatedAt: string;
+    }
+  | {
+      href: string | null;
+      _updatedAt: string;
+    }
+>;
 // Variable: allPostsQuery
-// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {      _id,  ...,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{title, description},  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  seo {      _type,  metaTitle,  nofollowAttributes,  seoKeywords,  metaDescription,  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  }  }
+// Query: *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {      _id,  ...,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{title, description},  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  },  twitter {      _type,  site,  creator,  cardType,  handle  }  }  }
 export type AllPostsQueryResult = Array<{
   _id: string;
   _type: 'post';
@@ -1711,9 +1835,58 @@ export type AllPostsQueryResult = Array<{
   seo: {
     _type: 'seoMetaFields';
     metaTitle: string | null;
-    nofollowAttributes: boolean | null;
+    noIndex: boolean | null;
     seoKeywords: Array<string> | null;
     metaDescription: string | null;
+    additionalMetaTags: Array<{
+      _key: string;
+      _type: 'metaTag';
+      metaAttributes: Array<{
+        _type: 'metaAttribute';
+        attributeValueString: string | null;
+        attributeType: 'image' | 'string' | null;
+        attributeKey: string | null;
+        attributeValueImage: {
+          _type: 'image';
+          crop: {
+            _type: 'sanity.imageCrop';
+            right: number | null;
+            top: number | null;
+            left: number | null;
+            bottom: number | null;
+          } | null;
+          hotspot: {
+            _type: 'sanity.imageHotspot';
+            x: number | null;
+            y: number | null;
+            height: number | null;
+            width: number | null;
+          } | null;
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+        } | null;
+      }> | null;
+    }> | null;
     openGraph: {
       _type: 'openGraph';
       siteName: string | null;
@@ -1760,11 +1933,18 @@ export type AllPostsQueryResult = Array<{
         } | null;
       } | null;
     } | null;
+    twitter: {
+      _type: 'twitter';
+      site: string | null;
+      creator: string | null;
+      cardType: string | null;
+      handle: string | null;
+    } | null;
   } | null;
   status: 'draft' | 'published';
 }>;
 // Variable: morePostsQuery
-// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  ...,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{title, description},  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  seo {      _type,  metaTitle,  nofollowAttributes,  seoKeywords,  metaDescription,  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  }  }
+// Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  ...,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{title, description},  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  },  twitter {      _type,  site,  creator,  cardType,  handle  }  }  }
 export type MorePostsQueryResult = Array<{
   _id: string;
   _type: 'post';
@@ -1842,9 +2022,58 @@ export type MorePostsQueryResult = Array<{
   seo: {
     _type: 'seoMetaFields';
     metaTitle: string | null;
-    nofollowAttributes: boolean | null;
+    noIndex: boolean | null;
     seoKeywords: Array<string> | null;
     metaDescription: string | null;
+    additionalMetaTags: Array<{
+      _key: string;
+      _type: 'metaTag';
+      metaAttributes: Array<{
+        _type: 'metaAttribute';
+        attributeValueString: string | null;
+        attributeType: 'image' | 'string' | null;
+        attributeKey: string | null;
+        attributeValueImage: {
+          _type: 'image';
+          crop: {
+            _type: 'sanity.imageCrop';
+            right: number | null;
+            top: number | null;
+            left: number | null;
+            bottom: number | null;
+          } | null;
+          hotspot: {
+            _type: 'sanity.imageHotspot';
+            x: number | null;
+            y: number | null;
+            height: number | null;
+            width: number | null;
+          } | null;
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+        } | null;
+      }> | null;
+    }> | null;
     openGraph: {
       _type: 'openGraph';
       siteName: string | null;
@@ -1891,11 +2120,18 @@ export type MorePostsQueryResult = Array<{
         } | null;
       } | null;
     } | null;
+    twitter: {
+      _type: 'twitter';
+      site: string | null;
+      creator: string | null;
+      cardType: string | null;
+      handle: string | null;
+    } | null;
   } | null;
   status: 'draft' | 'published';
 }>;
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {      _id,  ...,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{title, description},  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  seo {      _type,  metaTitle,  nofollowAttributes,  seoKeywords,  metaDescription,  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  }  }
+// Query: *[_type == "post" && slug.current == $slug] [0] {      _id,  ...,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{title, description},  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  },  twitter {      _type,  site,  creator,  cardType,  handle  }  }  }
 export type PostQueryResult = {
   _id: string;
   _type: 'post';
@@ -1973,9 +2209,58 @@ export type PostQueryResult = {
   seo: {
     _type: 'seoMetaFields';
     metaTitle: string | null;
-    nofollowAttributes: boolean | null;
+    noIndex: boolean | null;
     seoKeywords: Array<string> | null;
     metaDescription: string | null;
+    additionalMetaTags: Array<{
+      _key: string;
+      _type: 'metaTag';
+      metaAttributes: Array<{
+        _type: 'metaAttribute';
+        attributeValueString: string | null;
+        attributeType: 'image' | 'string' | null;
+        attributeKey: string | null;
+        attributeValueImage: {
+          _type: 'image';
+          crop: {
+            _type: 'sanity.imageCrop';
+            right: number | null;
+            top: number | null;
+            left: number | null;
+            bottom: number | null;
+          } | null;
+          hotspot: {
+            _type: 'sanity.imageHotspot';
+            x: number | null;
+            y: number | null;
+            height: number | null;
+            width: number | null;
+          } | null;
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+        } | null;
+      }> | null;
+    }> | null;
     openGraph: {
       _type: 'openGraph';
       siteName: string | null;
@@ -2022,6 +2307,13 @@ export type PostQueryResult = {
         } | null;
       } | null;
     } | null;
+    twitter: {
+      _type: 'twitter';
+      site: string | null;
+      creator: string | null;
+      cardType: string | null;
+      handle: string | null;
+    } | null;
   } | null;
   status: 'draft' | 'published';
 } | null;
@@ -2041,11 +2333,12 @@ import '@sanity/client';
 declare module '@sanity/client' {
   interface SanityQueries {
     '*[_type == "settings"][0]{\n  title,\n  description,\n  \n  menu[]{\n  \n  _type,\n  _key,\n  text,\n  type,\n  \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n,\n  childMenu[]{\n    \n  _type,\n  _key,\n  text,\n  type,\n  \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n\n  }\n  }\n\n}': SettingsQueryResult;
-    '*[_type == "homePage"][0]{\n  _id,\n  _type,\n  ...,\n  \n  \n  pageSections[]{\n    ...,\n    _type,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  media,\n  mediaPosition,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  nofollowAttributes,\n  seoKeywords,\n  metaDescription,\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  icon\n,\n  cards[]{\n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  icon\n}\n,\n    \n  _type,\n  height\n,\n    \n  _type,\n  heading,\n  text\n\n  }\n,\n  seo {\n    \n  _type,\n  metaTitle,\n  nofollowAttributes,\n  seoKeywords,\n  metaDescription,\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n  },\n\n}': HomePageQueryResult;
-    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    \n  \n  pageSections[]{\n    ...,\n    _type,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  media,\n  mediaPosition,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  nofollowAttributes,\n  seoKeywords,\n  metaDescription,\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  icon\n,\n  cards[]{\n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  icon\n}\n,\n    \n  _type,\n  height\n,\n    \n  _type,\n  heading,\n  text\n\n  }\n,\n  seo {\n    \n  _type,\n  metaTitle,\n  nofollowAttributes,\n  seoKeywords,\n  metaDescription,\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n  },\n\n  }\n': GetPageQueryResult;
-    '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  nofollowAttributes,\n  seoKeywords,\n  metaDescription,\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n  }\n\n  }\n': AllPostsQueryResult;
-    '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  nofollowAttributes,\n  seoKeywords,\n  metaDescription,\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n  }\n\n  }\n': MorePostsQueryResult;
-    '\n  *[_type == "post" && slug.current == $slug] [0] {\n    \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  nofollowAttributes,\n  seoKeywords,\n  metaDescription,\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n  }\n\n  }\n': PostQueryResult;
+    '*[_type == "homePage"][0]{\n  _id,\n  _type,\n  ...,\n  \n  \n  pageSections[]{\n    ...,\n    _type,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  media,\n  mediaPosition,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle\n\n  }\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  icon\n,\n  cards[]{\n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  icon\n}\n,\n    \n  _type,\n  height\n,\n    \n  _type,\n  heading,\n  text\n\n  }\n,\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle\n\n  }\n\n  },\n\n}': HomePageQueryResult;
+    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    \n  \n  pageSections[]{\n    ...,\n    _type,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  media,\n  mediaPosition,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle\n\n  }\n\n  }\n\n,\n    \n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    text,\n    variant,\n    _key,\n    _type,\n    \n  _type,\n  "openInNewTab": url.openInNewTab,\n  "href": select(\n    url.type == "internal" => url.internal->slug.current,\n    url.type == "external" => url.external,\n    url.href\n  )\n\n  }\n\n,\n    \n  \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  icon\n,\n  cards[]{\n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  icon\n}\n,\n    \n  _type,\n  height\n,\n    \n  _type,\n  heading,\n  text\n\n  }\n,\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle\n\n  }\n\n  },\n\n  }\n': GetPageQueryResult;
+    '\n  *[((_type in ["page", "post"] && defined(slug.current)) || (_type == "homePage")) && seo.noIndex != true]{\n    "href": select(\n      _type == "page" => "/" + slug.current,\n      _type == "post" => "/posts/" + slug.current,\n      _type == "homePage" => "/",\n      slug.current\n    ),\n    _updatedAt\n  }\n': GetSitemapQueryResult;
+    '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle\n\n  }\n\n  }\n\n  }\n': AllPostsQueryResult;
+    '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle\n\n  }\n\n  }\n\n  }\n': MorePostsQueryResult;
+    '\n  *[_type == "post" && slug.current == $slug] [0] {\n    \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle\n\n  }\n\n  }\n\n  }\n': PostQueryResult;
     '\n  *[_type == "post" && defined(slug.current)]\n  {"slug": slug.current}\n': PostPagesSlugsResult;
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult;
   }
