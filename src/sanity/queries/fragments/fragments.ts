@@ -56,23 +56,35 @@ export const seoFragment = /* groq */ `
     ${openGraphFragment}
   }`;
 
-export const linkReferenceFragment = /* groq */ `
-  _type == "link" => {
-    "page": page->slug.current,
-    "post": post->slug.current
+const customLinkFragment = /* groq */ `
+  ...customLink{
+    openInNewTab,
+    "href": select(
+      type == "internal" => internal->slug.current,
+      type == "external" => external,
+      "#"
+    ),
   }
 `;
 
-export const linkFragment = /* groq */ `
-  link {
+const markDefsFragment = /* groq */ `
+  markDefs[]{
     ...,
-    ${linkReferenceFragment}
+    ${customLinkFragment}
+  }
+`;
+
+const contentFragment = /* groq */ `
+  content[]{
+    ...,
+    ${markDefsFragment}
   }
 `;
 
 export const postFragment = /* groq */ `
   _id,
   ...,
+  ${contentFragment},
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
   "title": coalesce(title, "Untitled"),
   "slug": slug.current,
@@ -150,7 +162,7 @@ export const subscribeSectionFragment = /* groq */ `
 export const cardGridFragment = /* groq */ `
   _type,
   heading,
-  text,
+  ${contentFragment},
   icon
 `;
 

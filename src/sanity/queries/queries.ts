@@ -1,10 +1,5 @@
 import { defineQuery } from 'next-sanity';
-import {
-  postFragment,
-  linkReferenceFragment,
-  pageFragment,
-  menuFragment,
-} from './fragments/fragments';
+import { postFragment, pageFragment, menuFragment } from './fragments/fragments';
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
   title,
@@ -43,13 +38,6 @@ export const morePostsQuery = defineQuery(`
 
 export const postQuery = defineQuery(`
   *[_type == "post" && slug.current == $slug] [0] {
-    content[]{
-    ...,
-    markDefs[]{
-      ...,
-      ${linkReferenceFragment}
-    }
-  },
     ${postFragment}
   }
 `);

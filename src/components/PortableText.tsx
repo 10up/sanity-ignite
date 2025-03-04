@@ -142,7 +142,7 @@ export default function CustomPortableText({
       em: ({ children }) => <em className="italic">{children}</em>,
       link: ({ children, value: url }) => {
         return (
-          <Link url={url} className="text-blue-600 hover:text-blue-800 underline">
+          <Link url={url} className="text-primary hover:no-underline underline">
             {children}
           </Link>
         );

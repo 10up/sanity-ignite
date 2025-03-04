@@ -12,7 +12,7 @@ export default defineField({
       type: 'string',
     }),
     defineField({
-      name: 'text',
+      name: 'content',
       type: 'blockContent',
     }),
   ],

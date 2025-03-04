@@ -26,7 +26,7 @@ export default function MediaTextSection({ section }: { section: MediaText }) {
           {section?.heading}
         </h2>
         <div className="text-xl mb-5">
-          <PortableText className="" value={section.text as PortableTextBlock[]} />
+          <PortableText className="" value={section.content as PortableTextBlock[]} />
         </div>
       </div>
     </div>

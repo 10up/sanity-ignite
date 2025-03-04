@@ -10,14 +10,22 @@ export default function Post({ post }: { post: AllPostsQueryResult[number] }) {
 
   return (
     <article className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
-      <Link href={`/posts/${post.slug}`}>
+      <Link href={`/blog/${post.slug}`}>
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="relative h-64 md:h-full">
+          <div className="relative h-64 md:h-full relative">
             <Image
               src={urlForImage(image)?.width(1000).height(667).url() as string}
               alt={image?.alt || 'Blog Post Image'}
-              layout="fill"
-              objectFit="cover"
+              style={{
+                objectFit: 'fill',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+              }}
+              width={1000}
+              height={667}
               className="group-hover:scale-105 transition-transform duration-300"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

@@ -30,7 +30,7 @@ export default async function PostListSection({ section }: { section: PostList }
 
         <div className="text-center mt-12">
           <Button asChild variant="gradient" size={'xl'}>
-            <Link href={'/posts'}>
+            <Link href={'/blog'}>
               View All Posts <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
           </Button>

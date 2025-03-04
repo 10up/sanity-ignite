@@ -1,5 +1,7 @@
 import { Subscribe } from '@/sanity.types';
 import { Button } from '../ui/button';
+import PortableText from '../PortableText';
+import { type PortableTextBlock } from 'next-sanity';
 
 export default function SubscribeSection({ section }: { section: Subscribe }) {
   return (
@@ -8,7 +10,7 @@ export default function SubscribeSection({ section }: { section: Subscribe }) {
         <div className="">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{section?.heading}</h2>
-            <p className="text-xl text-white mb-8">{section?.text}</p>
+            <PortableText className="" value={section.content as PortableTextBlock[]} />
             <form className="flex flex-col md:flex-row gap-4 justify-center">
               <div className="flex-grow max-w-md">
                 <label htmlFor="email" className="sr-only">

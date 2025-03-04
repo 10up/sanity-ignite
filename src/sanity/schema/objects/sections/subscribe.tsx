@@ -14,9 +14,9 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'text',
+      name: 'content',
       title: 'Text',
-      type: 'text',
+      type: 'blockContent',
     }),
     defineField({
       name: 'buttonText',

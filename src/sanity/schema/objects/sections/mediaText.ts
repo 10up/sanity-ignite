@@ -1,5 +1,5 @@
-import { defineField, defineType } from 'sanity'
-import { PanelLeftIcon } from '@sanity/icons'
+import { defineField, defineType } from 'sanity';
+import { PanelLeftIcon } from '@sanity/icons';
 
 export default defineType({
   name: 'mediaText',
@@ -12,7 +12,7 @@ export default defineType({
       type: 'string',
     }),
     defineField({
-      name: 'text',
+      name: 'content',
       type: 'blockContent',
     }),
     defineField({
@@ -42,7 +42,7 @@ export default defineType({
     prepare({ title }) {
       return {
         title: title || 'Untitled',
-      }
+      };
     },
   },
-})
+});
