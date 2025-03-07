@@ -1,6 +1,7 @@
 import { defineField, defineType } from 'sanity';
 import { DocumentIcon } from '@sanity/icons';
 import pageSections from '../fields/pageSections';
+import { defaultFieldGroups } from '../config/fieldGroups'
 
 /**
  * Page schema.  Define and edit the fields for the 'page' content type.
@@ -11,12 +12,14 @@ export default defineType({
   title: 'Pages',
   type: 'document',
   icon: DocumentIcon,
+  groups: defaultFieldGroups,
   fields: [
     defineField({
       name: 'name',
       title: 'Name',
       type: 'string',
       validation: (Rule) => Rule.required(),
+      group: 'content',
     }),
 
     defineField({
@@ -28,12 +31,14 @@ export default defineType({
         source: 'name',
         maxLength: 96,
       },
+      group: 'content',
     }),
     pageSections,
     {
       title: 'Seo',
       name: 'seo',
       type: 'seoMetaFields',
+      group: 'seo',
     },
   ],
 });

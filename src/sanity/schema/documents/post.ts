@@ -1,6 +1,7 @@
 import { DocumentTextIcon } from '@sanity/icons';
 import { format, parseISO } from 'date-fns';
 import { defineField, defineType } from 'sanity';
+import { defaultFieldGroups } from '../config/fieldGroups';
 
 /**
  * Post schema.  Define and edit the fields for the 'post' content type.
@@ -12,12 +13,14 @@ export default defineType({
   title: 'Posts',
   icon: DocumentTextIcon,
   type: 'document',
+  groups: defaultFieldGroups,
   fields: [
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
       validation: (rule) => rule.required(),
+      group: 'content',
     }),
     defineField({
       name: 'slug',
@@ -30,6 +33,7 @@ export default defineType({
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
+      group: 'content',
     }),
     defineField({
       name: 'image',
@@ -58,39 +62,46 @@ export default defineType({
           },
         },
       ],
+      group: 'content',
     }),
     defineField({
       name: 'content',
       title: 'Content',
       type: 'blockContent',
+      group: 'content',
     }),
     defineField({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
+      group: 'content',
     }),
     defineField({
       name: 'categories',
       title: 'Categories',
       type: 'array',
       of: [{ type: 'reference', to: { type: 'category' } }],
+      group: 'content',
     }),
     defineField({
       name: 'date',
       title: 'Date',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
+      group: 'content',
     }),
     defineField({
       name: 'author',
       title: 'Author',
       type: 'reference',
       to: [{ type: 'person' }],
+      group: 'content',
     }),
     {
       title: 'Seo',
       name: 'seo',
       type: 'seoMetaFields',
+      group: 'seo'
     },
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views
