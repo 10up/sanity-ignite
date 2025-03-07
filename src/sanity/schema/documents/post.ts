@@ -1,6 +1,7 @@
 import { DocumentTextIcon } from '@sanity/icons';
 import { format, parseISO } from 'date-fns';
 import { defineField, defineType } from 'sanity';
+import { GROUP, GROUPS } from '@/sanity/utils/constant';
 
 /**
  * Post schema.  Define and edit the fields for the 'post' content type.
@@ -10,14 +11,16 @@ import { defineField, defineType } from 'sanity';
 export default defineType({
   name: 'post',
   title: 'Posts',
-  icon: DocumentTextIcon,
   type: 'document',
+  groups: GROUPS,
+  icon: DocumentTextIcon,
   fields: [
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
       validation: (rule) => rule.required(),
+      group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: 'slug',
@@ -30,11 +33,13 @@ export default defineType({
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
+      group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
+      group: GROUP.MAIN_CONTENT,
       options: {
         hotspot: true,
         aiAssist: {
@@ -63,34 +68,40 @@ export default defineType({
       name: 'content',
       title: 'Content',
       type: 'blockContent',
+      group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
+      group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: 'categories',
       title: 'Categories',
       type: 'array',
       of: [{ type: 'reference', to: { type: 'category' } }],
+      group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: 'date',
       title: 'Date',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
+      group: GROUP.MAIN_CONTENT,
     }),
     defineField({
       name: 'author',
       title: 'Author',
       type: 'reference',
       to: [{ type: 'person' }],
+      group: GROUP.MAIN_CONTENT,
     }),
     defineField({
-      title: 'Seo',
+      title: 'SEO & Metadata',
       name: 'seo',
       type: 'seoMetaFields',
+      group: GROUP.SEO,
     }),
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views

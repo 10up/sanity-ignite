@@ -3,8 +3,11 @@ import SEOTitle from '@/sanity/components/SEOTitle';
 import SEODescription from '@/sanity/components/SEODescription';
 
 export default defineType({
-  title: 'Seo MetaFields',
+  title: 'SEO & Metadata',
   name: 'seoMetaFields',
+  options: {
+    collapsible: true,
+  },
   type: 'object',
   fields: [
     defineField({
