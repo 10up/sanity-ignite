@@ -2035,6 +2035,140 @@ export type PostPagesSlugsResult = Array<{
 export type PagesSlugsResult = Array<{
   slug: string | null;
 }>;
+// Variable: postsArchiveQuery
+// Query: {    "allResults": *[_type == "post"],  }  {    "total": count(allResults),    "results": allResults[$from..$to] {        _id,  ...,    content[]{    ...,      markDefs[]{    ...,      ...customLink{    openInNewTab,    "href": select(      type == "internal" => internal->slug.current,      type == "external" => external,      "#"    ),  }  }  },  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{title, description},  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  seo {      _type,  metaTitle,  nofollowAttributes,  seoKeywords,  metaDescription,  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...}  }  }  }    }  }
+export type PostsArchiveQueryResult = {
+  total: number;
+  results: Array<{
+    _id: string;
+    _type: 'post';
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title: string | 'Untitled';
+    slug: string | null;
+    image: {
+      asset?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+      };
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: 'image';
+    } | null;
+    content: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: 'span';
+            _key: string;
+          }>;
+          style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal';
+          listItem?: 'bullet' | 'number';
+          markDefs: Array<
+            | {
+                customLink?: CustomUrl;
+                _type: 'customLink';
+                _key: string;
+                openInNewTab: boolean | null;
+                href: string | '#' | null;
+              }
+            | {
+                customLink?: CustomUrl;
+                _type: 'customLink';
+                _key: string;
+              }
+          > | null;
+          level?: number;
+          _type: 'block';
+          _key: string;
+        }
+      | {
+          asset?: {
+            _ref: string;
+            _type: 'reference';
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+          };
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: 'image';
+          _key: string;
+          markDefs: null;
+        }
+    > | null;
+    excerpt: string | null;
+    categories: Array<{
+      title: string | null;
+      description: string | null;
+    }> | null;
+    date: string;
+    author: {
+      firstName: string | null;
+      lastName: string | null;
+      picture: null;
+    } | null;
+    seo: {
+      _type: 'seoMetaFields';
+      metaTitle: string | null;
+      nofollowAttributes: boolean | null;
+      seoKeywords: Array<string> | null;
+      metaDescription: string | null;
+      openGraph: {
+        _type: 'openGraph';
+        siteName: string | null;
+        url: string | null;
+        description: string | null;
+        title: string | null;
+        image: {
+          _type: 'image';
+          crop: {
+            _type: 'sanity.imageCrop';
+            right: number | null;
+            top: number | null;
+            left: number | null;
+            bottom: number | null;
+          } | null;
+          hotspot: {
+            _type: 'sanity.imageHotspot';
+            x: number | null;
+            y: number | null;
+            height: number | null;
+            width: number | null;
+          } | null;
+          asset: {
+            _id: string;
+            _type: 'sanity.imageAsset';
+            _createdAt: string;
+            _updatedAt: string;
+            _rev: string;
+            originalFilename?: string;
+            label?: string;
+            title?: string;
+            description?: string;
+            altText?: string;
+            sha1hash?: string;
+            extension?: string;
+            mimeType?: string;
+            size?: number;
+            assetId?: string;
+            uploadId?: string;
+            path?: string;
+            url?: string;
+            metadata?: SanityImageMetadata;
+            source?: SanityAssetSourceData;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+    status: 'draft' | 'published';
+  }>;
+};
 
 // Query TypeMap
 import '@sanity/client';
@@ -2048,5 +2182,6 @@ declare module '@sanity/client' {
     '\n  *[_type == "post" && slug.current == $slug] [0] {\n    \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  nofollowAttributes,\n  seoKeywords,\n  metaDescription,\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n  }\n\n  }\n': PostQueryResult;
     '\n  *[_type == "post" && defined(slug.current)]\n  {"slug": slug.current}\n': PostPagesSlugsResult;
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult;
+    '\n  {\n    "allResults": *[_type == "post"],\n  }\n  {\n    "total": count(allResults),\n    "results": allResults[$from..$to] {\n      \n  _id,\n  ...,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    openInNewTab,\n    "href": select(\n      type == "internal" => internal->slug.current,\n      type == "external" => external,\n      "#"\n    ),\n  }\n\n  }\n\n  }\n,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{title, description},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n  seo {\n    \n  _type,\n  metaTitle,\n  nofollowAttributes,\n  seoKeywords,\n  metaDescription,\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...}\n\n  }\n\n  }\n  }\n\n    }\n  }\n': PostsArchiveQueryResult;
   }
 }
