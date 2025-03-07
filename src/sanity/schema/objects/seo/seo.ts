@@ -59,7 +59,7 @@ export default defineType({
     }),
     defineField({
       name: 'twitter',
-      title: 'Twitter',
+      title: 'X.com',
       type: 'twitter',
     }),
   ],

@@ -2,7 +2,7 @@ import { defineField } from 'sanity';
 
 export default defineField({
   name: 'twitter',
-  title: 'Twitter',
+  title: 'X.com',
   type: 'object',
   fields: [
     defineField({
