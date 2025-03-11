@@ -4,12 +4,12 @@
   "version": "1.0.0",
   "scripts": {
     "next:dev": "next dev --turbopack",
-    "next:build": "next build",
+    "next:build": "npm run sanity:typegen && next build",
     "next:start": "next start",
     "next:debug": "NEXT_PRIVATE_DEBUG_CACHE=1 next:build && next:start",
     "lint": "next lint",
     "dev": "npm-run-all --parallel --race next:dev watch-typegen",
-    "sanity:typegen": "sanity schema extract --path=src/schema.json && sanity typegen generate",
+    "sanity:typegen": "mkdir -p ./.sanity && sanity schema extract --path=.sanity/schema.json && sanity typegen generate",
     "typecheck": "tsc --noEmit",
     "watch-typegen": "tsx watch-typegen.ts"
   },
