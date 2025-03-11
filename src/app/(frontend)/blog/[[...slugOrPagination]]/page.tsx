@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import { sanityFetch } from '@/sanity/lib/live';
-import { formatSeoMetadata } from '@/sanity/lib/seo';
 import { postPagesSlugs, postQuery, postsArchiveQuery } from '@/sanity/queries/queries';
 import { PaginatedResult, paginatedData, parseUrlParams } from '@/lib/pagination';
 import PostRoute from './PostRoute';
@@ -10,7 +9,8 @@ import { Metadata } from 'next';
 import { getDocumentLink } from '@/lib/links';
 import { client } from '@/sanity/lib/client';
 import { serverEnv } from '@/env/serverEnv';
-
+import { formatMetaData } from '@/sanity/lib/seo';
+import { SeoType } from '@/types/seo';
 const POSTS_PER_PAGE = 10;
 
 type Props = {
@@ -58,7 +58,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   if (routeData._type === 'post') {
     return {
-      ...formatSeoMetadata(routeData.seo),
+      ...formatMetaData(routeData.seo as unknown as SeoType),
       alternates: {
         canonical: getDocumentLink(routeData, true),
       },
