@@ -39,6 +39,7 @@ export default defineType({
       name: 'image',
       title: 'Image',
       type: 'image',
+      group: 'content',
       options: {
         hotspot: true,
         aiAssist: {
@@ -62,7 +63,6 @@ export default defineType({
           },
         },
       ],
-      group: 'content',
     }),
     defineField({
       name: 'content',
@@ -97,12 +97,12 @@ export default defineType({
       to: [{ type: 'person' }],
       group: 'content',
     }),
-    {
-      title: 'Seo',
+    defineField({
+      title: 'SEO & Metadata',
       name: 'seo',
       type: 'seoMetaFields',
-      group: 'seo'
-    },
+      group: 'seo',
+    }),
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views
   preview: {

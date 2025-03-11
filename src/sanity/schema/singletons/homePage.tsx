@@ -18,12 +18,15 @@ export default defineType({
       initialValue: 'Home Page',
       group: 'content',
     }),
-    pageSections,
-    {
-      title: 'Seo',
+    defineField({
+      ...pageSections,
+      group: 'content',
+    }),
+    defineField({
+      title: 'SEO & Metadata',
       name: 'seo',
       type: 'seoMetaFields',
       group: 'seo',
-    },
+    }),
   ],
 });

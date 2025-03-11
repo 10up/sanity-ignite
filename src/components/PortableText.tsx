@@ -140,7 +140,7 @@ export default function CustomPortableText({
         <code className="bg-gray-100 rounded px-1 py-0.5 font-mono text-sm">{children}</code>
       ),
       em: ({ children }) => <em className="italic">{children}</em>,
-      link: ({ children, value: url }) => {
+      customLink: ({ children, value: url }) => {
         return (
           <Link url={url} className="text-primary hover:no-underline underline">
             {children}

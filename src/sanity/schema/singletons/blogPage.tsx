@@ -1,10 +1,12 @@
 import { defineType, defineField } from 'sanity';
 import { DocumentIcon } from '@sanity/icons';
+import { defaultFieldGroups } from '../config/fieldGroups';
 
 export default defineType({
   name: 'blogPage',
   title: 'Blog Page',
   type: 'document',
+  groups: defaultFieldGroups,
   icon: DocumentIcon,
   fields: [
     defineField({
@@ -13,11 +15,13 @@ export default defineType({
       readOnly: true,
       type: 'string',
       initialValue: 'Blog Page',
+      group: 'content',
     }),
-    {
-      title: 'Seo',
+    defineField({
+      title: 'SEO & Metadata',
       name: 'seo',
       type: 'seoMetaFields',
-    },
+      group: 'seo',
+    }),
   ],
 });
