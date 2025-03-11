@@ -1,7 +1,7 @@
 import { DocumentTextIcon } from '@sanity/icons';
 import { format, parseISO } from 'date-fns';
 import { defineField, defineType } from 'sanity';
-import { GROUP, GROUPS } from '@/sanity/utils/constant';
+import { defaultFieldGroups } from '../config/fieldGroups';
 
 /**
  * Post schema.  Define and edit the fields for the 'post' content type.
@@ -11,16 +11,16 @@ import { GROUP, GROUPS } from '@/sanity/utils/constant';
 export default defineType({
   name: 'post',
   title: 'Posts',
-  type: 'document',
-  groups: GROUPS,
   icon: DocumentTextIcon,
+  type: 'document',
+  groups: defaultFieldGroups,
   fields: [
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
       validation: (rule) => rule.required(),
-      group: GROUP.MAIN_CONTENT,
+      group: 'content',
     }),
     defineField({
       name: 'slug',
@@ -33,13 +33,13 @@ export default defineType({
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
-      group: GROUP.MAIN_CONTENT,
+      group: 'content',
     }),
     defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
-      group: GROUP.MAIN_CONTENT,
+      group: 'content',
       options: {
         hotspot: true,
         aiAssist: {
@@ -68,40 +68,40 @@ export default defineType({
       name: 'content',
       title: 'Content',
       type: 'blockContent',
-      group: GROUP.MAIN_CONTENT,
+      group: 'content',
     }),
     defineField({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
-      group: GROUP.MAIN_CONTENT,
+      group: 'content',
     }),
     defineField({
       name: 'categories',
       title: 'Categories',
       type: 'array',
       of: [{ type: 'reference', to: { type: 'category' } }],
-      group: GROUP.MAIN_CONTENT,
+      group: 'content',
     }),
     defineField({
       name: 'date',
       title: 'Date',
       type: 'datetime',
       initialValue: () => new Date().toISOString(),
-      group: GROUP.MAIN_CONTENT,
+      group: 'content',
     }),
     defineField({
       name: 'author',
       title: 'Author',
       type: 'reference',
       to: [{ type: 'person' }],
-      group: GROUP.MAIN_CONTENT,
+      group: 'content',
     }),
     defineField({
       title: 'SEO & Metadata',
       name: 'seo',
       type: 'seoMetaFields',
-      group: GROUP.SEO,
+      group: 'seo',
     }),
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views

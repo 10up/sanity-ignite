@@ -1,14 +1,14 @@
 import { defineType, defineField } from 'sanity';
 import { HomeIcon } from '@sanity/icons';
 import pageSections from '../fields/pageSections';
-import { GROUP, GROUPS } from '@/sanity/utils/constant';
+import { defaultFieldGroups } from '../config/fieldGroups';
 
 export default defineType({
   name: 'homePage',
   title: 'Home Page',
   type: 'document',
-  groups: GROUPS,
   icon: HomeIcon,
+  groups: defaultFieldGroups,
   fields: [
     defineField({
       name: 'name',
@@ -16,17 +16,17 @@ export default defineType({
       readOnly: true,
       type: 'string',
       initialValue: 'Home Page',
-      group: GROUP.MAIN_CONTENT,
+      group: 'content',
     }),
     defineField({
       ...pageSections,
-      group: GROUP.MAIN_CONTENT,
+      group: 'content',
     }),
     defineField({
       title: 'SEO & Metadata',
       name: 'seo',
       type: 'seoMetaFields',
-      group: GROUP.SEO,
+      group: 'seo',
     }),
   ],
 });

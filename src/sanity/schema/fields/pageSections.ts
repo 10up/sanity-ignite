@@ -13,4 +13,5 @@ export default defineField({
     { type: 'divider' },
     { type: 'subscribe' },
   ],
+  group: 'content',
 });
