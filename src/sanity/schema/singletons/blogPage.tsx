@@ -11,8 +11,6 @@ export default defineType({
   fields: [
     defineField({
       name: 'name',
-      hidden: true,
-      readOnly: true,
       type: 'string',
       initialValue: 'Blog Page',
       group: 'content',
