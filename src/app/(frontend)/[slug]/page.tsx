@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { sanityFetch } from '@/sanity/lib/live';
-import { formatMetaData } from '@/sanity/lib/seo';
+import { formatSeoMetadata } from '@/sanity/lib/seo';
 import { SeoType } from '@/types/seo';
 import { Page as PageType } from '@/sanity.types';
 import PageRenderer from '@/components/Page';
@@ -23,7 +23,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     return {};
   }
 
-  return formatMetaData(page.seo as unknown as SeoType);
+  return formatSeoMetadata(page.seo as unknown as SeoType);
 }
 
 export default async function Page(props: Props) {

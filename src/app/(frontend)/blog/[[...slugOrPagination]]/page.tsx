@@ -1,9 +1,15 @@
 import { notFound } from 'next/navigation';
 import { sanityFetch } from '@/sanity/lib/live';
-import { postQuery, postsArchiveQuery } from '@/sanity/queries/queries';
-import { parseUrlParams } from '@/lib/parseUrlParams';
+import { formatSeoMetadata } from '@/sanity/lib/seo';
+import { postPagesSlugs, postQuery, postsArchiveQuery } from '@/sanity/queries/queries';
+import { PaginatedResult, paginatedData, parseUrlParams } from '@/lib/pagination';
 import PostRoute from './PostRoute';
 import PostListingRoute from './PostListingRoute';
+import { PostQueryResult, PostsArchiveQueryResult } from '@/sanity.types';
+import { Metadata } from 'next';
+import { getDocumentLink } from '@/lib/links';
+import { client } from '@/sanity/lib/client';
+import { serverEnv } from '@/env/serverEnv';
 
 const POSTS_PER_PAGE = 10;
 
@@ -11,9 +17,10 @@ type Props = {
   params: Promise<{ slugOrPagination: string[] | undefined }>;
 };
 
-const loadData = async (props: Props) => {
+const loadData = async (
+  props: Props,
+): Promise<PostQueryResult | PaginatedResult<PostsArchiveQueryResult>> => {
   const params = await props.params;
-
   const parsedUrlParams = parseUrlParams(params.slugOrPagination);
 
   if (!parsedUrlParams) {
@@ -26,58 +33,81 @@ const loadData = async (props: Props) => {
       params: { slug: parsedUrlParams.slug },
     });
 
-    return { post };
+    return post;
   }
 
   const { page } = parsedUrlParams;
 
   const from = (page - 1) * POSTS_PER_PAGE;
-  const to = page * POSTS_PER_PAGE;
+  const to = page * POSTS_PER_PAGE + 1;
 
   const { data } = await sanityFetch({
     query: postsArchiveQuery,
-    params: { from, to },
+    params: { from, to, filters: {} },
   });
 
-  return {
-    archive: data,
-    currentPage: page,
-  };
+  return paginatedData(data, page, POSTS_PER_PAGE);
 };
 
-// export async function generateMetadata(props: Props): Promise<Metadata> {
-//   const params = await props.params;
-//   const { data: post } = await sanityFetch({
-//     query: postQuery,
-//     params,
-//     stega: false,
-//   });
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const routeData = await loadData(props);
 
-//   if (!post?.seo) {
-//     return {};
-//   }
+  if (!routeData) {
+    return {};
+  }
 
-//   return formatMetaData(post.seo as unknown as SeoType);
-// }
+  if (routeData._type === 'post') {
+    return {
+      ...formatSeoMetadata(routeData.seo),
+      alternates: {
+        canonical: getDocumentLink(routeData, true),
+      },
+    };
+  }
+
+  return {
+    title: routeData.currentPage === 1 ? 'Blog' : `Blog - Page ${routeData.currentPage}`,
+    alternates: {
+      canonical: '/blog',
+    },
+    description: 'All the latest posts from our blog',
+  };
+}
 
 export default async function PostPage(props: Props) {
-  const data = await loadData(props);
+  const routeData = await loadData(props);
 
-  if (data.post) {
-    return <PostRoute post={data.post} />;
+  if (!routeData) {
+    notFound();
   }
 
-  if (data.archive) {
-    const totalPages = Math.ceil(data.archive.total / POSTS_PER_PAGE);
-
-    return (
-      <PostListingRoute
-        listingData={data.archive}
-        currentPage={data.currentPage}
-        totalPages={totalPages}
-      />
-    );
+  if (routeData._type === 'post') {
+    return <PostRoute post={routeData} />;
   }
 
-  notFound();
+  return (
+    <PostListingRoute
+      listingData={routeData.data}
+      currentPage={routeData.currentPage}
+      totalPages={routeData.totalPages}
+    />
+  );
+}
+
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams() {
+  const slugs = await client.fetch(postPagesSlugs, {
+    limit: serverEnv.MAX_STATIC_PARAMS,
+  });
+
+  const staticParams = slugs
+    ? slugs.filter((slug) => slug !== null).map((slug) => ({ slugOrPagination: [slug] }))
+    : [];
+
+  return [
+    {
+      slugOrPagination: undefined,
+    },
+    ...staticParams,
+  ];
 }

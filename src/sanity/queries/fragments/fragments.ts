@@ -209,3 +209,11 @@ export const pageFragment = /* groq */ `
     ${seoFragment}
   },
 `;
+
+export const categoryFragment = /* groq */ `
+  _id,
+  _type,
+  title,
+  slug,
+  description,
+`;

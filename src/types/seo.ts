@@ -1,12 +1,12 @@
 export type SeoType = {
-  _type?: 'seo';
-  nofollowAttributes?: boolean;
-  metaDescription?: string;
-  additionalMetaTags?: MetaTagType[];
-  metaTitle?: string;
-  seoKeywords?: string[];
-  openGraph?: OpenGraphType;
-  twitter?: Twitter;
+  _type?: 'seoMetaFields';
+  nofollowAttributes?: boolean | null;
+  metaDescription?: string | null;
+  additionalMetaTags?: MetaTagType[] | null;
+  metaTitle?: string | null;
+  seoKeywords?: string[] | null;
+  openGraph?: OpenGraphType | null;
+  twitter?: Twitter | null;
 };
 
 export type MetaTagType = {
@@ -24,49 +24,49 @@ export type MetaAttributeType = {
 
 export type OpenGraphType = {
   _type: 'openGraph';
-  title: string;
-  url?: string;
-  siteName?: string;
-  description: string;
-  image: CustomImageType;
+  title: string | null;
+  url?: string | null;
+  siteName?: string | null;
+  description: string | null;
+  image: CustomImageType | null;
 };
 
 export type Twitter = {
   _type: 'twitter';
-  handle?: string;
-  creator?: string;
-  site?: string;
-  cardType?: string;
+  handle?: string | null;
+  creator?: string | null;
+  site?: string | null;
+  cardType?: string | null;
 };
 
 export type CustomImageType = {
-  _type: 'customImage';
-  asset?: SanityImageAssetType;
+  _type: 'image';
+  asset?: SanityImageAssetType | null;
   crop?: {
-    _type: 'SanityImageCrop';
-    right: number;
-    top: number;
-    left: number;
-    bottom: number;
-  };
+    _type: 'sanity.imageCrop';
+    right: number | null;
+    top: number | null;
+    left: number | null;
+    bottom: number | null;
+  } | null;
   hotspot?: {
-    x: number;
-    y: number;
-    height: number;
-    _type: 'SanityImageHotspot';
-    width?: number;
-  };
+    x: number | null;
+    y: number | null;
+    height: number | null;
+    _type: 'sanity.imageHotspot';
+    width?: number | null;
+  } | null;
 };
 
 export type SanityImageAssetType = {
-  _type?: 'SanityImageAsset';
+  _type?: 'sanity.imageAsset';
   _id?: string;
   path?: string;
   url?: string;
   metadata?: {
-    _type?: 'SanityImageMetadata';
+    _type?: 'sanity.imageMetadata';
     dimensions?: {
-      _type?: 'SanityImageDimensions';
+      _type?: 'sanity.imageDimensions';
       height?: number;
       width?: number;
     };

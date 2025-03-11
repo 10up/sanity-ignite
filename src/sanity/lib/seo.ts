@@ -1,13 +1,19 @@
 import { SeoType } from '@/types/seo'
+import { Metadata } from 'next'
 
-export const formatMetaData = (seo: SeoType) => {
+export const formatSeoMetadata = (seo: SeoType | null): Metadata => {
+  if (!seo) {
+    return {}
+  }
+
   return {
     title: seo?.metaTitle,
     description: seo?.metaDescription,
     keywords: seo?.seoKeywords,
-    nofollow: seo?.nofollowAttributes,
-    openGraph: seo?.openGraph,
-    twitter: seo?.twitter,
-    additionalMetaTags: seo?.additionalMetaTags,
+    ...(seo.openGraph ? seo.openGraph : {}),
+    ...(seo.twitter ? seo.twitter : {}),
+    robots: {
+      follow: !seo?.nofollowAttributes,
+    }
   }
 }

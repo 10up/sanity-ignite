@@ -1,5 +1,5 @@
 import { defineQuery } from 'next-sanity';
-import { postFragment, pageFragment, menuFragment } from './fragments/fragments';
+import { postFragment, pageFragment, menuFragment, categoryFragment } from './fragments/fragments';
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
   title,
@@ -42,19 +42,41 @@ export const postQuery = defineQuery(`
   }
 `);
 
+export const categoryQuery = defineQuery(`
+  *[_type == "category" && slug.current == $slug] [0] {
+    ${categoryFragment}
+  }
+`);
+
 export const postPagesSlugs = defineQuery(`
-  *[_type == "post" && defined(slug.current)]
-  {"slug": slug.current}
+  *[_type == "post" && defined(slug.current)][0..$limit].slug.current
 `);
 
 export const pagesSlugs = defineQuery(`
-  *[_type == "page" && defined(slug.current)]
-  {"slug": slug.current}
+  *[_type == "page" && defined(slug.current)][0..$limit].slug.current
+`);
+
+export const categorySlugs = defineQuery(`
+  *[_type == "category" && defined(slug.current)][0..$limit].slug.current
 `);
 
 export const postsArchiveQuery = defineQuery(`
   {
-    "allResults": *[_type == "post"],
+    "allResults": *[
+      _type == "post"
+      &&
+      (
+        !defined( $filters.categorySlug ) || references(*[_type == "category" && slug.current == $filters.categorySlug]._id)
+      )
+      //
+      // Add more filter here if needed
+      //
+      // The filter value should be passed as a property of the $filter parameter
+      //
+      // (
+      //   !defined( $filters.anotherFilter ) || fieldname == $filters.anotherFilter)
+      // )
+    ] | order(_createdAt desc, _id desc)
   }
   {
     "total": count(allResults),

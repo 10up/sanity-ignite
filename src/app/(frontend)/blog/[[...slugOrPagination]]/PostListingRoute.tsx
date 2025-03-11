@@ -15,7 +15,10 @@ const PostListingRoute = ({ listingData, currentPage = 1, totalPages = 1 }: Prop
 
   return (
     <main className="container mx-auto">
-      <h1 className="text-5xl md:text-7xl font-bold mb-6">Blog</h1>
+      <h1 className="text-5xl md:text-7xl font-bold mb-6">
+        Blog
+        {currentPage > 1 && ` - Page ${currentPage}`}
+      </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {results.map((post) => {
           return (

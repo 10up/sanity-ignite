@@ -1,6 +1,6 @@
 import { homePageQuery } from '@/sanity/queries/queries';
 import { sanityFetch } from '@/sanity/lib/live';
-import { formatMetaData } from '@/sanity/lib/seo';
+import { formatSeoMetadata } from '@/sanity/lib/seo';
 import { Page as PageType } from '@/sanity.types';
 import PageRenderer from '@/components/Page';
 import { SeoType } from '@/types/seo';
@@ -15,7 +15,7 @@ export async function generateMetadata() {
     return {};
   }
 
-  return formatMetaData(homePage.seo as unknown as SeoType);
+  return formatSeoMetadata(homePage.seo as unknown as SeoType);
 }
 
 export default async function Page() {
