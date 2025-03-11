@@ -17,6 +17,8 @@ import card from './objects/sections/card';
 import divider from './objects/sections/divider';
 import subscribe from './objects/sections/subscribe';
 import menuItem from './objects/menuItem';
+import seoTypes from './objects/seo';
+
 export const schemaTypes = [
   // Singletons
   settings,
@@ -43,4 +45,5 @@ export const schemaTypes = [
   url,
   button,
   menuItem,
+  ...seoTypes,
 ];
