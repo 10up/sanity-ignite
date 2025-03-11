@@ -1,12 +1,13 @@
 export type SeoType = {
-  _type?: 'seoMetaFields';
-  nofollowAttributes?: boolean | null;
-  metaDescription?: string | null;
-  additionalMetaTags?: MetaTagType[] | null;
-  metaTitle?: string | null;
-  seoKeywords?: string[] | null;
-  openGraph?: OpenGraphType | null;
-  twitter?: Twitter | null;
+  _type: 'seoMetaFields';
+  noIndex?: boolean;
+  additionalMetaTags?: MetaTagType[];
+  metaTitle?: string;
+  metaDescription?: string;
+  metaImage?: CustomImageType;
+  seoKeywords?: string[];
+  openGraph?: OpenGraphType;
+  twitter?: Twitter;
 };
 
 export type MetaTagType = {
@@ -17,7 +18,7 @@ export type MetaTagType = {
 export type MetaAttributeType = {
   _type: 'metaAttribute';
   attributeKey?: string;
-  attributeType?: string;
+  attributeType?: 'string' | 'image';
   attributeValueString?: string;
   attributeValueImage?: CustomImageType;
 };
@@ -41,21 +42,21 @@ export type Twitter = {
 
 export type CustomImageType = {
   _type: 'image';
-  asset?: SanityImageAssetType | null;
+  asset?: SanityImageAssetType;
   crop?: {
-    _type: 'sanity.imageCrop';
-    right: number | null;
-    top: number | null;
-    left: number | null;
-    bottom: number | null;
-  } | null;
+    _type: 'sanity.imageAsset';
+    right: number;
+    top: number;
+    left: number;
+    bottom: number;
+  };
   hotspot?: {
-    x: number | null;
-    y: number | null;
-    height: number | null;
+    x: number;
+    y: number;
+    height: number;
     _type: 'sanity.imageHotspot';
-    width?: number | null;
-  } | null;
+    width?: number;
+  };
 };
 
 export type SanityImageAssetType = {
