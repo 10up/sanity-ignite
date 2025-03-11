@@ -1,5 +1,4 @@
 import { ArchivePagination } from '@/components/ArchivePagination';
-import Card from '@/components/Card';
 import { getDocumentLink } from '@/lib/links';
 import { PostsArchiveQueryResult } from '@/sanity.types';
 import React from 'react';

@@ -229,6 +229,6 @@ export const categoryFragment = /* groq */ `
   _id,
   _type,
   title,
-  slug,
+  "slug": slug.current,
   description,
 `;

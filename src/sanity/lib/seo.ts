@@ -6,13 +6,13 @@ type ImageDescriptor =
   | URL
   | undefined
   | {
-      url: string | URL;
-      alt?: string | undefined;
-      secureUrl?: string | URL | undefined;
-      type?: string | undefined;
-      width?: string | number | undefined;
-      height?: string | number | undefined;
-    };
+    url: string | URL;
+    alt?: string | undefined;
+    secureUrl?: string | URL | undefined;
+    type?: string | undefined;
+    width?: string | number | undefined;
+    height?: string | number | undefined;
+  };
 
 function parseImage(image: CustomImageType | undefined): ImageDescriptor {
   if (!image?.asset?.url) {
@@ -61,15 +61,15 @@ export const formatMetaData = (seo: SeoType): Metadata => {
     keywords: seo?.seoKeywords,
     robots: seo?.noIndex
       ? {
-          index: false,
-          follow: false,
-        }
+        index: false,
+        follow: false,
+      }
       : undefined,
     openGraph: seo?.openGraph
       ? {
-          ...seo.openGraph,
-          images: parseImage(seo.openGraph.image) ?? metaImage,
-        }
+        ...seo.openGraph,
+        images: parseImage(seo.openGraph.image) ?? metaImage,
+      }
       : undefined,
     twitter: seo?.twitter ? { ...seo.twitter, images: metaImage } : undefined,
     other: parseAdditionalMetaTags(seo?.additionalMetaTags),

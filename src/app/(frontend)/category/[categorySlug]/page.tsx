@@ -1,32 +1,24 @@
 import { notFound } from 'next/navigation';
 import { sanityFetch } from '@/sanity/lib/live';
 import { categoryQuery, categorySlugs, postsArchiveQuery } from '@/sanity/queries/queries';
-import { paginatedData, parsePaginationUrlParams } from '@/lib/pagination';
+import { paginatedData } from '@/lib/pagination';
 import CategoryRoute from './CategoryRoute';
 import { Metadata } from 'next';
 import { client } from '@/sanity/lib/client';
 import { serverEnv } from '@/env/serverEnv';
 import { getDocumentLink } from '@/lib/links';
 
-const POSTS_PER_PAGE = 10;
+const POSTS_PER_PAGE = 12;
 
 type Props = {
-  params: Promise<{ categorySlug: string; pagination: string[] | undefined }>;
+  params: Promise<{ categorySlug: string }>;
 };
 
 const loadData = async (props: Props) => {
-  const { pagination, categorySlug } = await props.params;
+  const { categorySlug } = await props.params;
 
-  const parsedUrlParams = parsePaginationUrlParams(pagination);
-
-  if (!parsedUrlParams) {
-    return null;
-  }
-
-  const { page } = parsedUrlParams;
-
-  const from = (page - 1) * POSTS_PER_PAGE;
-  const to = page * POSTS_PER_PAGE + 1;
+  const from = 0;
+  const to = POSTS_PER_PAGE;
 
   const [{ data: archiveData }, { data: categoryData }] = await Promise.all([
     sanityFetch({
@@ -41,7 +33,7 @@ const loadData = async (props: Props) => {
 
   return {
     category: categoryData,
-    listing: paginatedData(archiveData, page, POSTS_PER_PAGE),
+    listing: paginatedData(archiveData, 0, POSTS_PER_PAGE),
   };
 };
 
@@ -64,17 +56,12 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function PostPage(props: Props) {
   const { listing, category } = (await loadData(props)) || {};
-  const { categorySlug } = await props.params;
 
   if (!category) {
     notFound();
   }
 
-  return (
-    <>
-      <CategoryRoute category={category} listingData={listing} />
-    </>
-  );
+  return <CategoryRoute category={category} listingData={listing} />;
 }
 
 // Return a list of `params` to populate the [slug] dynamic segment
