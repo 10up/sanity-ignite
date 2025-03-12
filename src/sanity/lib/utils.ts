@@ -1,6 +1,6 @@
 import createImageUrlBuilder from '@sanity/image-url';
 import { clientEnv } from '@/env/clientEnv';
-import { createDataAttribute, CreateDataAttributeProps } from 'next-sanity';
+import { createDataAttribute, type CreateDataAttributeProps } from 'next-sanity';
 
 const imageBuilder = createImageUrlBuilder({
   projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -33,5 +33,7 @@ export function dataAttr(config: DataAttributeConfig) {
     projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
     dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
     baseUrl: clientEnv.NEXT_PUBLIC_SANITY_STUDIO_URL,
-  }).combine(config);
+  })
+    .combine(config)
+    .toString();
 }
