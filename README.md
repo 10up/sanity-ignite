@@ -56,46 +56,46 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 ```
 
 🔥 sanity-ignite
-├── 📂 src # Main source code directory
-│ ├── 📂 app # Next.js application
-│ │ ├── 📂 (frontend) # Frontend routes
-│ │ ├── 📂 studio # Sanity Studio route
-│ │ ├── 📂 api # API routes (Next.js route handlers)
-│ ├── 📂 components # UI components and icons
-│ │ ├── 📂 ui # Presentational UI components with no side effects
-│ │ ├── 📂 modules # Components that receive Sanity data and may call server actions
-│ │ ├── 📂 sections # Page builder sections
-│ │ ├── 📂 templates # Page templates
-│ │ ├── 📂 icons # Custom SVG/icon components
-│ ├── 📂 actions # Server-side actions and utility functions
-│ ├── 📂 env # Environment-specific Next.js pages
-│ ├── 📂 lib # Shared libraries and integrations
-│ │ ├── 📂 sanity # Sanity CMS integration
-│ │ │ ├── 📂 queries # Sanity GraphQL/GROQ queries
-│ │ │ ├── 📂 client # Sanity client configuration
-│ │ ├── 📂 (example) # Every integration (e.g., CRM, Newsletter SDKs) gets its own subfolder
-│ ├── 📂 utils # Utility functions and TypeScript types
-│ ├── 📂 studio # Sanity Studio configuration
-│ │ ├── 📂 schemas # Schema definitions for Sanity content models
-│ │ ├── 📂 components # Custom Sanity components
-│ │ ├── 📂 plugins # Custom Sanity plugins
-│ │ ├── 📂 structure # Custom Sanity structure definitions
-├── 📄 .env.local # Local environment variables
-├── 📄 .env.example # Template for `.env.local`
-├── 📄 .env.test # Environment variables used in unit tests
-├── 📄 .eslintrc.json # ESLint configuration
-├── 📄 .eslintignore # Files ignored by ESLint
-├── 📄 .gitignore # Files ignored by Git
-├── 📄 .prettierignore # Files ignored by Prettier
-├── 📄 .prettierrc # Prettier configuration
-├── 📄 next-env.d.ts # TypeScript declarations for Next.js
-├── 📄 postcss.config.mts # PostCSS configuration
-├── 📄 Readme.md # Project documentation
-├── 📄 sanity-typegen.json # Sanity TypeScript type generator config
-├── 📄 sanity.cli.ts # Sanity CLI configuration
-├── 📄 sanity.config.ts # Sanity project configuration
-├── 📄 tsconfig.json # TypeScript configuration
-├── 📄 watch-typegen.ts # Script for watching Sanity type generation
+├── 📂 src                  # Main source code directory
+│ ├── 📂 app                # Next.js application
+│ │ ├── 📂 (frontend)       # Frontend routes
+│ │ ├── 📂 studio           # Sanity Studio route
+│ │ ├── 📂 api              # API routes (Next.js route handlers)
+│ ├── 📂 components         # UI components and icons
+│ │ ├── 📂 ui               # Presentational UI components with no side effects
+│ │ ├── 📂 modules          # Components that receive Sanity data and may call server actions
+│ │ ├── 📂 sections         # Page builder sections
+│ │ ├── 📂 templates        # Page templates
+│ │ ├── 📂 icons            # Custom SVG/icon components
+│ ├── 📂 actions            # Server-side actions and utility functions
+│ ├── 📂 env                # Environment-specific Next.js pages
+│ ├── 📂 lib                # Shared libraries and integrations
+│ │ ├── 📂 sanity           # Sanity CMS integration
+│ │ │ ├── 📂 queries        # Sanity GraphQL/GROQ queries
+│ │ │ ├── 📂 client         # Sanity client configuration
+│ │ ├── 📂 (example)        # Every integration (e.g., CRM, Newsletter SDKs) gets its own subfolder
+│ ├── 📂 utils              # Utility functions and TypeScript types
+│ ├── 📂 studio             # Sanity Studio configuration
+│ │ ├── 📂 schemas          # Schema definitions for Sanity content models
+│ │ ├── 📂 components       # Custom Sanity components
+│ │ ├── 📂 plugins          # Custom Sanity plugins
+│ │ ├── 📂 structure        # Custom Sanity structure definitions
+├── 📄 .env.local           # Local environment variables
+├── 📄 .env.example         # Template for `.env.local`
+├── 📄 .env.test            # Environment variables used in unit tests
+├── 📄 .eslintrc.json       # ESLint configuration
+├── 📄 .eslintignore        # Files ignored by ESLint
+├── 📄 .gitignore           # Files ignored by Git
+├── 📄 .prettierignore      # Files ignored by Prettier
+├── 📄 .prettierrc          # Prettier configuration
+├── 📄 next-env.d.ts        # TypeScript declarations for Next.js
+├── 📄 postcss.config.mts   # PostCSS configuration
+├── 📄 Readme.md            # Project documentation
+├── 📄 sanity-typegen.json  # Sanity TypeScript type generator config
+├── 📄 sanity.cli.ts        # Sanity CLI configuration
+├── 📄 sanity.config.ts     # Sanity project configuration
+├── 📄 tsconfig.json        # TypeScript configuration
+├── 📄 watch-typegen.ts     # Script for watching Sanity type generation
 
 ```
 
