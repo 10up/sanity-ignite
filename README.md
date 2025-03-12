@@ -62,44 +62,25 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 │ │ ├── 📂 studio           # Sanity Studio route
 │ │ ├── 📂 api              # API routes (Next.js route handlers)
 │ ├── 📂 components         # UI components and icons
+│ │ ├── 📂 icons            # Custom SVG/icon components
 │ │ ├── 📂 ui               # Presentational UI components with no side effects
 │ │ ├── 📂 modules          # Components that receive Sanity data and may call server actions
 │ │ ├── 📂 sections         # Page builder sections
 │ │ ├── 📂 templates        # Page templates
-│ │ ├── 📂 icons            # Custom SVG/icon components
-│ ├── 📂 actions            # Server-side actions and utility functions
-│ ├── 📂 env                # Environment-specific Next.js pages
+│ ├── 📂 actions            # Server-side actions
+│ ├── 📂 env                # Environment specific functions and `.env` validation
 │ ├── 📂 lib                # Shared libraries and integrations
 │ │ ├── 📂 sanity           # Sanity CMS integration
 │ │ │ ├── 📂 queries        # Sanity GraphQL/GROQ queries
 │ │ │ ├── 📂 client         # Sanity client configuration
 │ │ ├── 📂 (example)        # Every integration (e.g., CRM, Newsletter SDKs) gets its own subfolder
-│ ├── 📂 utils              # Utility functions and TypeScript types
 │ ├── 📂 studio             # Sanity Studio configuration
 │ │ ├── 📂 schemas          # Schema definitions for Sanity content models
 │ │ ├── 📂 components       # Custom Sanity components
 │ │ ├── 📂 plugins          # Custom Sanity plugins
 │ │ ├── 📂 structure        # Custom Sanity structure definitions
-├── 📄 .env.local           # Local environment variables
-├── 📄 .env.example         # Template for `.env.local`
-├── 📄 .env.test            # Environment variables used in unit tests
-├── 📄 .eslintrc.json       # ESLint configuration
-├── 📄 .eslintignore        # Files ignored by ESLint
-├── 📄 .gitignore           # Files ignored by Git
-├── 📄 .prettierignore      # Files ignored by Prettier
-├── 📄 .prettierrc          # Prettier configuration
-├── 📄 next-env.d.ts        # TypeScript declarations for Next.js
-├── 📄 postcss.config.mts   # PostCSS configuration
-├── 📄 Readme.md            # Project documentation
-├── 📄 sanity-typegen.json  # Sanity TypeScript type generator config
-├── 📄 sanity.cli.ts        # Sanity CLI configuration
-├── 📄 sanity.config.ts     # Sanity project configuration
-├── 📄 tsconfig.json        # TypeScript configuration
-├── 📄 watch-typegen.ts     # Script for watching Sanity type generation
-
+│ ├── 📂 utils              # Utility functions and TypeScript types
 ```
-
-## 📝 Folder Descriptions
 
 ### 📂 `src/components` - UI Component Structure
 
@@ -122,10 +103,11 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 
 - **`templates/` - Page Templates**
 
-  - Higher-level layout structures for different types of pages.
+  - Higher-level layout structures that can be shared between multiple routes.
 
 - **`icons/` - Custom SVG/Icon Components**
   - Collection of SVG-based components used throughout the UI.
+  - Icons should be stored as SVG files and imported as React components. Icons should NOT be added as React components directly.
 
 ---
 
@@ -164,22 +146,68 @@ This folder contains everything needed to **configure and customize Sanity Studi
   - Defines how content is **organized** inside the Sanity Studio UI.
   - Custom menus, navigation rules, and UI layouts are configured here.
 
+## 🌍 Environment Variables (`.env` Files)
+
+The project uses **environment variables** to store **configuration values** that differ between environments (e.g., local development, testing, and production). These variables are stored in `.env` files, which Next.js loads automatically. Read more on the Nex.js Docs [here](https://nextjs.org/docs/app/building-your-application/configuring/environment-variables).
+
+### 📂 Available `.env` Files
+
+| File               | Purpose                                                                                           |
+| ------------------ | ------------------------------------------------------------------------------------------------- |
+| **`.env.local`**   | Stores **local** environment variables. This file is **git-ignored** and should not be committed. |
+| **`.env.example`** | A **template** for environment variables. It lists required variables without actual values.      |
+| **`.env.test`**    | Contains environment variables used specifically for running **unit tests**.                      |
+
 ---
 
-## ✅ Best Practices
+## 🛠️ How to Use `.env` Files
 
-1. **Keep It Up to Date** - Update this documentation when the folder structure changes.
-2. **Follow Conventions** - Maintain clear separation of concerns between folders.
-3. **Avoid Mixing Concerns** - UI components should stay isolated from data logic.
-4. **Use Subfolders When Needed** - Keep `lib/`, `components/`, and `studio/` organized wi
+### 1️⃣ **Setting Up Your Local Environment**
 
-### Sanity Studio
+Before running the project locally, copy `.env.example` and create a `.env.local` file:
 
-The Sanity Studio is available at [http://localhost:3000/studio](http://localhost:3000/studio). You'll need to:
+```sh
+cp .env.example .env.local
+```
 
-1. Create a Sanity.io account if you haven't already
-2. Configure your project settings in the Sanity dashboard
-3. Add content through the Studio interface
+Then, **fill in the required values** based on your local setup.
+
+### 2️⃣ **Validation of Environment Variables**
+
+This project uses **valibot** for schema validation of environment variables.
+To add a new environment variable:
+
+1. Update the `.env.example` file
+2. Add the new variable to the `envSchema` object in `src/env/serverEnv.ts` or `src/env/clientEnv.ts`
+
+### 3️⃣ **Accessing Environment Variables in Code**
+
+All environment variables should be accessed using the `serverEnv` or `clientEnv` objects.
+
+Example:
+
+```ts
+const projectId = serverEnv.NEXT_PUBLIC_SANITY_PROJECT_ID;
+```
+
+💡 **Public vs. Private Variables:**
+
+- Variables **prefixed with `NEXT_PUBLIC_`** are **exposed to the browser** and can be used in client-side code. Validation of these variables is done in `src/env/clientEnv.ts`.
+- Variables **without `NEXT_PUBLIC_`** remain **server-only**. Validation of these variables is done in `src/env/serverEnv.ts`.
+
+### 4️⃣ **Testing with `.env.test`**
+
+When running unit or integration tests, the `.env.test` file is loaded automatically.
+
+---
+
+### 🔒 Best Practices
+
+✔️ **Never commit `.env.local`!** It's ignored by `.gitignore`.  
+✔️ **Use `.env.example`** to document required variables without exposing secrets.  
+✔️ **Keep private keys and API secrets out of `NEXT_PUBLIC_` variables.**
+
+---
 
 ## Learn More
 
@@ -187,7 +215,3 @@ The Sanity Studio is available at [http://localhost:3000/studio](http://localhos
 - [Sanity.io Documentation](https://www.sanity.io/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Shadcn/ui Documentation](https://ui.shadcn.com)
-
-```
-
-```
