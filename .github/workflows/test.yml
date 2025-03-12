@@ -1,0 +1,46 @@
+name: Unit Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1  # Shallow clone for performance
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'  # Ensures dependency caching for performance
+
+      - name: Cache npm Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: npm ci  # Faster & ensures clean install
+
+      - name: Cache Vitest Cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.vitest
+          key: vitest-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            vitest-${{ runner.os }}-
+
+      - name: Run Vitest Tests
+        run: npm test -- --run

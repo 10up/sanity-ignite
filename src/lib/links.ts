@@ -18,6 +18,8 @@ export const getDocumentLink = ({ _type, slug }: { _type: SupportedDocumentTypes
 			return `${linkBase}/${slug}`;
 		case 'post':
 			return `${linkBase}/blog/${slug}`;
+		case 'category':
+			return `${linkBase}/category/${slug}`;
 		case 'homePage':
 			return `${linkBase}/`;
 		default:
