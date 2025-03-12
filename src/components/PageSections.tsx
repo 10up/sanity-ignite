@@ -38,7 +38,6 @@ type PageSectionsProps = {
   sections?: Section[];
 };
 
-// TODO: check if possible to prevent elements opening on the right panel.
 export default function PageSections({
   documentId,
   documentType,

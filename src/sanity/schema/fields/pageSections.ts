@@ -1,4 +1,4 @@
-import { defineArrayMember, defineType } from 'sanity';
+import { defineArrayMember, defineField } from 'sanity';
 import cta from '../objects/sections/cta';
 import hero from '../objects/sections/hero';
 import mediaText from '../objects/sections/mediaText';
@@ -9,7 +9,7 @@ import subscribe from '../objects/sections/subscribe';
 
 const pageSectionsObjects = [cardGrid, cta, divider, hero, mediaText, postList, subscribe];
 
-export default defineType({
+export default defineField({
   name: 'pageSections',
   title: 'Page Sections',
   type: 'array',
