@@ -40,6 +40,7 @@ export const schemaTypes = [
   cardGrid,
   divider,
   subscribe,
+
   // Objects
   blockContent,
   url,
