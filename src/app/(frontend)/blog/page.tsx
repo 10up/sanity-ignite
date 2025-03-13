@@ -9,7 +9,7 @@ const POSTS_PER_PAGE = 10;
 
 const loadData = async (): Promise<PaginatedResult<PostsArchiveQueryResult>> => {
   const from = 0;
-  const to = POSTS_PER_PAGE + 1;
+  const to = POSTS_PER_PAGE;
 
   const { data } = await sanityFetch({
     query: postsArchiveQuery,

@@ -18,7 +18,7 @@ const PostListingRoute = ({ listingData, currentPage = 1, totalPages = 1 }: Prop
         Blog
         {currentPage > 1 && ` - Page ${currentPage}`}
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         {results.map((post) => {
           return (
             <a href={getDocumentLink(post)} key={post._id}>
