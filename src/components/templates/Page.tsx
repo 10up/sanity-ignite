@@ -1,4 +1,4 @@
-export default function ContainedWithTitle({
+export default function Page({
   title,
   children,
 }: {

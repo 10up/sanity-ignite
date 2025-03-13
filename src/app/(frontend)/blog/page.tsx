@@ -8,7 +8,7 @@ import { Metadata } from 'next';
 import { POSTS_PER_PAGE } from '@/lib/constants';
 import { formatMetaData } from '@/sanity/lib/seo';
 import { SeoType } from '@/types/seo';
-import ContainedWithTitle from '@/components/templates/ContainedWithTitle';
+import Page from '@/components/templates/Page';
 
 const loadPostsPageData = async (): Promise<{
   blogPage: BlogPageQueryResult;
@@ -52,13 +52,13 @@ export default async function PostPage() {
 
   return (
     <>
-      <ContainedWithTitle title={routeData.blogPage?.name + ' '}>
+      <Page title={routeData.blogPage?.name + ' '}>
         <PostRiver
           listingData={routeData.posts.data}
           currentPage={routeData.posts.currentPage}
           totalPages={routeData.posts.totalPages}
         />
-      </ContainedWithTitle>
+      </Page>
     </>
   );
 }

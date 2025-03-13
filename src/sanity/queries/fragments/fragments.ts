@@ -139,6 +139,15 @@ export const categoryFragment = /* groq */ `
   "slug": slug.current,
   description,
 `;
+
+export const personFragment = /* groq */ `
+  _id,
+  ...,
+  firstName,
+  lastName,
+  image
+`;
+
 export const postFragment = /* groq */ `
   _id,
   ...,
@@ -150,7 +159,7 @@ export const postFragment = /* groq */ `
   image,
   "categories": categories[]->{${categoryFragment}},
   "date": coalesce(date, _updatedAt),
-  "author": author->{firstName, lastName, picture},
+  "author": author->{${personFragment}},
   seo {
     ${seoFragment}
   }

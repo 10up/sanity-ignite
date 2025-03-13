@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { sanityFetch } from '@/sanity/lib/live';
 import { formatMetaData } from '@/sanity/lib/seo';
 import { Page as PageType } from '@/sanity.types';
-import PageRenderer from '@/components/Page';
+import PageRenderer from '@/components/templates/Page';
 import { getPageQuery } from '@/sanity/queries/queries';
 import { notFound } from 'next/navigation';
 import { SeoType } from '@/types/seo';

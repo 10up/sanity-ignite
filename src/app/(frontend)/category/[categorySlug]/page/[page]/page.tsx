@@ -5,7 +5,7 @@ import { paginatedData } from '@/lib/pagination';
 import { Metadata } from 'next';
 import { getDocumentLink } from '@/lib/links';
 import { POSTS_PER_PAGE } from '@/lib/constants';
-import ContainedWithTitle from '@/components/templates/ContainedWithTitle';
+import Page from '@/components/templates/Page';
 import PostRiver from '@/components/PostRiver';
 
 type Props = {
@@ -74,13 +74,13 @@ export default async function PostPage(props: Props) {
   }
 
   return (
-    <ContainedWithTitle title={'Category: ' + category.title}>
+    <Page title={'Category: ' + category.title}>
       <PostRiver
         listingData={posts.data}
         currentPage={posts.currentPage}
         totalPages={posts.totalPages}
         paginationBase={`/category/${category.slug}`}
       />
-    </ContainedWithTitle>
+    </Page>
   );
 }

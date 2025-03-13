@@ -11,6 +11,7 @@ import Header from '@/components/layout/Header';
 import { SanityLive } from '@/sanity/lib/live';
 import { handleError } from './client-utils';
 import Main from '@/components/layout/Main';
+
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],

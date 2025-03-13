@@ -6,7 +6,7 @@ import PostRiver from '@/components/PostRiver';
 import { PostsArchiveQueryResult, BlogPageQueryResult } from '@/sanity.types';
 import { Metadata } from 'next';
 import { POSTS_PER_PAGE } from '@/lib/constants';
-import ContainedWithTitle from '@/components/templates/ContainedWithTitle';
+import Page from '@/components/templates/Page';
 import { formatMetaData } from '@/sanity/lib/seo';
 import { SeoType } from '@/types/seo';
 
@@ -77,15 +77,13 @@ export default async function PostPage(props: Props) {
 
   return (
     <>
-      <ContainedWithTitle
-        title={routeData.blogPage?.name + ' - Page ' + routeData.posts.currentPage}
-      >
+      <Page title={routeData.blogPage?.name + ' - Page ' + routeData.posts.currentPage}>
         <PostRiver
           listingData={routeData.posts.data}
           currentPage={routeData.posts.currentPage}
           totalPages={routeData.posts.totalPages}
         />
-      </ContainedWithTitle>
+      </Page>
     </>
   );
 }

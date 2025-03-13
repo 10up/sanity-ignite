@@ -176,7 +176,7 @@ export default function CustomPortableText({
   };
 
   return (
-    <div className={cn('prose max-w-none prose-lg prose-gray', className)}>
+    <div className={className}>
       <PortableText components={components} value={value} />
     </div>
   );

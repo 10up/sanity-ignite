@@ -7,7 +7,7 @@ import { Metadata } from 'next';
 import { client } from '@/sanity/lib/client';
 import { serverEnv } from '@/env/serverEnv';
 import { getDocumentLink } from '@/lib/links';
-import ContainedWithTitle from '@/components/templates/ContainedWithTitle';
+import Page from '@/components/templates/Page';
 import PostRiver from '@/components/PostRiver';
 
 type Props = {
@@ -52,25 +52,6 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   };
 }
 
-export default async function PostPage(props: Props) {
-  const { posts, category } = (await loadData(props)) || {};
-
-  if (!category) {
-    notFound();
-  }
-
-  return (
-    <ContainedWithTitle title={'Category: ' + category.title}>
-      <PostRiver
-        listingData={posts.data}
-        currentPage={posts.currentPage}
-        totalPages={posts.totalPages}
-        paginationBase={`/category/${category.slug}`}
-      />
-    </ContainedWithTitle>
-  );
-}
-
 // Return a list of `params` to populate the [slug] dynamic segment
 export async function generateStaticParams() {
   const slugs = await client.fetch(categorySlugs, {
@@ -82,4 +63,23 @@ export async function generateStaticParams() {
         .filter((slug) => slug !== null)
         .map((slug) => ({ categorySlug: slug, pagination: undefined }))
     : [];
+}
+
+export default async function PostPage(props: Props) {
+  const { posts, category } = (await loadData(props)) || {};
+
+  if (!category) {
+    notFound();
+  }
+
+  return (
+    <Page title={'Category: ' + category.title}>
+      <PostRiver
+        listingData={posts.data}
+        currentPage={posts.currentPage}
+        totalPages={posts.totalPages}
+        paginationBase={`/category/${category.slug}`}
+      />
+    </Page>
+  );
 }
