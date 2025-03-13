@@ -54,13 +54,13 @@ export default defineType({
     select: {
       firstName: 'firstName',
       lastName: 'lastName',
-      picture: 'picture',
+      image: 'image',
     },
     prepare(selection) {
       return {
         title: `${selection.firstName} ${selection.lastName}`,
         subtitle: 'Person',
-        media: selection.picture,
+        media: selection.image,
       };
     },
   },
