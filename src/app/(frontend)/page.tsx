@@ -15,7 +15,7 @@ export async function generateMetadata() {
     return {};
   }
 
-  return formatMetaData(homePage.seo as unknown as SeoType);
+  return formatMetaData(homePage.seo as unknown as SeoType, homePage?.name || '');
 }
 
 export default async function Page() {

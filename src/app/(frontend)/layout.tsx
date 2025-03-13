@@ -10,7 +10,7 @@ import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { SanityLive } from '@/sanity/lib/live';
 import { handleError } from './client-utils';
-
+import Main from '@/components/layout/Main';
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
         <SanityLive onError={handleError} />
         <Header />
-        {children}
+        <Main>{children}</Main>
         <Footer />
       </section>
     </body>

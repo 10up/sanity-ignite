@@ -6,13 +6,13 @@ type ImageDescriptor =
   | URL
   | undefined
   | {
-    url: string | URL;
-    alt?: string | undefined;
-    secureUrl?: string | URL | undefined;
-    type?: string | undefined;
-    width?: string | number | undefined;
-    height?: string | number | undefined;
-  };
+      url: string | URL;
+      alt?: string | undefined;
+      secureUrl?: string | URL | undefined;
+      type?: string | undefined;
+      width?: string | number | undefined;
+      height?: string | number | undefined;
+    };
 
 function parseImage(image: CustomImageType | undefined): ImageDescriptor {
   if (!image?.asset?.url) {
@@ -52,24 +52,24 @@ function parseAdditionalMetaTags(additionalMetaTags: MetaTagType[] | undefined) 
   return otherTags;
 }
 
-export const formatMetaData = (seo: SeoType): Metadata => {
+export const formatMetaData = (seo: SeoType, defaultTitle: string): Metadata => {
   const metaImage = parseImage(seo.metaImage);
 
   return {
-    title: seo?.metaTitle,
+    title: seo?.metaTitle ?? defaultTitle,
     description: seo?.metaDescription,
     keywords: seo?.seoKeywords,
     robots: seo?.noIndex
       ? {
-        index: false,
-        follow: false,
-      }
+          index: false,
+          follow: false,
+        }
       : undefined,
     openGraph: seo?.openGraph
       ? {
-        ...seo.openGraph,
-        images: parseImage(seo.openGraph.image) ?? metaImage,
-      }
+          ...seo.openGraph,
+          images: parseImage(seo.openGraph.image) ?? metaImage,
+        }
       : undefined,
     twitter: seo?.twitter ? { ...seo.twitter, images: metaImage } : undefined,
     other: parseAdditionalMetaTags(seo?.additionalMetaTags),

@@ -5,8 +5,7 @@ import { paginatedData } from '@/lib/pagination';
 import CategoryRoute from '../CategoryRoute';
 import { Metadata } from 'next';
 import { getDocumentLink } from '@/lib/links';
-
-const POSTS_PER_PAGE = 10;
+import { POSTS_PER_PAGE } from '@/lib/constants';
 
 type Props = {
   params: Promise<{ categorySlug: string; page: string }>;

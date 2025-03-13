@@ -1,52 +1,64 @@
 import { notFound } from 'next/navigation';
 import { sanityFetch } from '@/sanity/lib/live';
-import { postsArchiveQuery } from '@/sanity/queries/queries';
+import { postsArchiveQuery, blogPageQuery } from '@/sanity/queries/queries';
 import { PaginatedResult, paginatedData } from '@/lib/pagination';
-import PostListingRoute from './PostListingRoute';
-import { PostsArchiveQueryResult } from '@/sanity.types';
+import PostRiver from '@/components/PostRiver';
+import { PostsArchiveQueryResult, BlogPageQueryResult } from '@/sanity.types';
 import { Metadata } from 'next';
-const POSTS_PER_PAGE = 10;
+import { POSTS_PER_PAGE } from '@/lib/constants';
+import { formatMetaData } from '@/sanity/lib/seo';
+import { SeoType } from '@/types/seo';
+import ContainedWithTitle from '@/components/templates/ContainedWithTitle';
 
-const loadData = async (): Promise<PaginatedResult<PostsArchiveQueryResult>> => {
-  const from = 0;
-  const to = POSTS_PER_PAGE + 1;
+export const loadPostsPageData = async (): Promise<{
+  blogPage: BlogPageQueryResult;
+  posts: PaginatedResult<PostsArchiveQueryResult>;
+}> => {
+  const [{ data: blogPageData }, { data: posts }] = await Promise.all([
+    sanityFetch({
+      query: blogPageQuery,
+    }),
+    sanityFetch({
+      query: postsArchiveQuery,
+      params: { from: 0, to: POSTS_PER_PAGE - 1, filters: {} },
+    }),
+  ]);
 
-  const { data } = await sanityFetch({
-    query: postsArchiveQuery,
-    params: { from, to, filters: {} },
-  });
-
-  return paginatedData(data, 1, POSTS_PER_PAGE);
+  return {
+    blogPage: blogPageData,
+    posts: paginatedData(posts, 1, POSTS_PER_PAGE),
+  };
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const routeData = await loadData();
+  const routeData = await loadPostsPageData();
 
-  if (!routeData) {
-    return {};
+  if (!routeData.posts || !routeData.blogPage) {
+    return notFound();
   }
 
-  return {
-    title: routeData.currentPage === 1 ? 'Blog' : `Blog - Page ${routeData.currentPage}`,
-    alternates: {
-      canonical: '/blog',
-    },
-    description: 'All the latest posts from our blog',
-  };
+  return formatMetaData(
+    routeData.blogPage.seo as unknown as SeoType,
+    routeData.blogPage?.name || '',
+  );
 }
 
 export default async function PostPage() {
-  const routeData = await loadData();
+  const routeData = await loadPostsPageData();
 
-  if (!routeData) {
+  if (!routeData.posts || !routeData.blogPage) {
     notFound();
   }
 
   return (
-    <PostListingRoute
-      listingData={routeData.data}
-      currentPage={routeData.currentPage}
-      totalPages={routeData.totalPages}
-    />
+    <>
+      <ContainedWithTitle title={routeData.blogPage?.name + ' '}>
+        <PostRiver
+          listingData={routeData.posts.data}
+          currentPage={routeData.posts.currentPage}
+          totalPages={routeData.posts.totalPages}
+        />
+      </ContainedWithTitle>
+    </>
   );
 }

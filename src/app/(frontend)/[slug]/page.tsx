@@ -22,7 +22,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     return {};
   }
 
-  return formatMetaData(page.seo as unknown as SeoType);
+  return formatMetaData(page.seo as unknown as SeoType, page?.name || '');
 }
 
 export default async function Page(props: Props) {

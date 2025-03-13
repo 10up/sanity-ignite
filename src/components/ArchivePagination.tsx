@@ -66,7 +66,7 @@ export function ArchivePagination({
   const pages = generatePaginationItems(currentPage, totalPages, itemsToShow);
 
   return (
-    <Pagination>
+    <Pagination className="mt-10">
       <PaginationContent>
         {previousPage && (
           <PaginationItem>
