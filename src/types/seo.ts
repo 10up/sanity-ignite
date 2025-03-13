@@ -25,19 +25,19 @@ export type MetaAttributeType = {
 
 export type OpenGraphType = {
   _type: 'openGraph';
-  title: string;
-  url?: string;
-  siteName?: string;
-  description: string;
-  image: CustomImageType;
+  title: string | null;
+  url?: string | null;
+  siteName?: string | null;
+  description: string | null;
+  image: CustomImageType | null;
 };
 
 export type Twitter = {
   _type: 'twitter';
-  handle?: string;
-  creator?: string;
-  site?: string;
-  cardType?: string;
+  handle?: string | null;
+  creator?: string | null;
+  site?: string | null;
+  cardType?: string | null;
 };
 
 export type CustomImageType = {

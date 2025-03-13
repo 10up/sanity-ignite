@@ -96,23 +96,6 @@ const contentFragment = /* groq */ `
   }
 `;
 
-export const postFragment = /* groq */ `
-  _id,
-  ...,
-  ${contentFragment},
-  "status": select(_originalId in path("drafts.**") => "draft", "published"),
-  "title": coalesce(title, "Untitled"),
-  "slug": slug.current,
-  excerpt,
-  image,
-  "categories": categories[]->{title, description},
-  "date": coalesce(date, _updatedAt),
-  "author": author->{firstName, lastName, picture},
-  seo {
-    ${seoFragment}
-  }
-`;
-
 export const urlFragment = /* groq */ `
   _type,
   "openInNewTab": url.openInNewTab,
@@ -147,6 +130,30 @@ export const mediaTextSectionFragment = /* groq */ `
   media,
   mediaPosition,
   ${buttonsFragment}
+`;
+
+export const categoryFragment = /* groq */ `
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  description,
+`;
+export const postFragment = /* groq */ `
+  _id,
+  ...,
+  ${contentFragment},
+  "status": select(_originalId in path("drafts.**") => "draft", "published"),
+  "title": coalesce(title, "Untitled"),
+  "slug": slug.current,
+  excerpt,
+  image,
+  "categories": categories[]->{${categoryFragment}},
+  "date": coalesce(date, _updatedAt),
+  "author": author->{firstName, lastName, picture},
+  seo {
+    ${seoFragment}
+  }
 `;
 
 export const postListSectionFragment = /* groq */ `
