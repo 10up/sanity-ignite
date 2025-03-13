@@ -10,7 +10,7 @@ import { formatMetaData } from '@/sanity/lib/seo';
 import { SeoType } from '@/types/seo';
 import ContainedWithTitle from '@/components/templates/ContainedWithTitle';
 
-export const loadPostsPageData = async (): Promise<{
+const loadPostsPageData = async (): Promise<{
   blogPage: BlogPageQueryResult;
   posts: PaginatedResult<PostsArchiveQueryResult>;
 }> => {

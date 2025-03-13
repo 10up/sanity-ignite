@@ -14,7 +14,7 @@ type Props = {
   params: Promise<{ page: string }>;
 };
 
-export const loadPostsPageData = async (
+const loadPostsPageData = async (
   props: Props,
 ): Promise<{
   blogPage: BlogPageQueryResult;
