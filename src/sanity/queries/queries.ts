@@ -83,7 +83,7 @@ export const postsArchiveQuery = defineQuery(`
   }
   {
     "total": count(allResults),
-    "results": allResults[$from..$to] {
+    "results": allResults[$from...$to] {
       ${postFragment}
     }
   }
