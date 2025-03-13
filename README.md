@@ -67,6 +67,7 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 │ │ ├── 📂 modules          # Components that receive Sanity data and may call server actions
 │ │ ├── 📂 sections         # Page builder sections
 │ │ ├── 📂 templates        # Page templates
+│ ├── 📂 hooks              # Custom react hooks
 │ ├── 📂 actions            # Server-side actions
 │ ├── 📂 env                # Environment specific functions and `.env` validation
 │ ├── 📂 lib                # Shared libraries and integrations
