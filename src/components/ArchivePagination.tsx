@@ -60,10 +60,12 @@ export function ArchivePagination({
     return null;
   }
 
-  const previousPage = currentPage > 1 ? currentPage - 1 : null;
-  const nextPage = currentPage < totalPages ? currentPage + 1 : null;
+  const newCurrentPage = currentPage === 0 ? 1 : currentPage;
 
-  const pages = generatePaginationItems(currentPage, totalPages, itemsToShow);
+  const previousPage = newCurrentPage > 1 ? newCurrentPage - 1 : null;
+  const nextPage = newCurrentPage < totalPages ? newCurrentPage + 1 : null;
+
+  const pages = generatePaginationItems(newCurrentPage, totalPages, itemsToShow);
 
   return (
     <Pagination className="mt-10">

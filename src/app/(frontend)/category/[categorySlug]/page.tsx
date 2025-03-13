@@ -2,13 +2,13 @@ import { notFound } from 'next/navigation';
 import { sanityFetch } from '@/sanity/lib/live';
 import { categoryQuery, categorySlugs, postsArchiveQuery } from '@/sanity/queries/queries';
 import { paginatedData } from '@/lib/pagination';
-import CategoryRoute from './CategoryRoute';
+import { POSTS_PER_PAGE } from '@/lib/constants';
 import { Metadata } from 'next';
 import { client } from '@/sanity/lib/client';
 import { serverEnv } from '@/env/serverEnv';
 import { getDocumentLink } from '@/lib/links';
-
-const POSTS_PER_PAGE = 12;
+import ContainedWithTitle from '@/components/templates/ContainedWithTitle';
+import PostRiver from '@/components/PostRiver';
 
 type Props = {
   params: Promise<{ categorySlug: string }>;
@@ -18,7 +18,7 @@ const loadData = async (props: Props) => {
   const { categorySlug } = await props.params;
 
   const from = 0;
-  const to = POSTS_PER_PAGE;
+  const to = POSTS_PER_PAGE - 1;
 
   const [{ data: archiveData }, { data: categoryData }] = await Promise.all([
     sanityFetch({
@@ -33,21 +33,19 @@ const loadData = async (props: Props) => {
 
   return {
     category: categoryData,
-    listing: paginatedData(archiveData, 0, POSTS_PER_PAGE),
+    posts: paginatedData(archiveData, 0, POSTS_PER_PAGE),
   };
 };
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  const { listing, category } = (await loadData(props)) || {};
-
-  const { currentPage = 1 } = listing || {};
+  const { category } = (await loadData(props)) || {};
 
   if (!category) {
-    return {};
+    return notFound();
   }
 
   return {
-    title: currentPage === 1 ? `Category ${category.title} ` : `Category - Page ${currentPage}`,
+    title: `Category ${category.title}`,
     alternates: {
       canonical: getDocumentLink(category, true),
     },
@@ -55,13 +53,22 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export default async function PostPage(props: Props) {
-  const { listing, category } = (await loadData(props)) || {};
+  const { posts, category } = (await loadData(props)) || {};
 
   if (!category) {
     notFound();
   }
 
-  return <CategoryRoute category={category} listingData={listing} />;
+  return (
+    <ContainedWithTitle title={'Category: ' + category.title}>
+      <PostRiver
+        listingData={posts.data}
+        currentPage={posts.currentPage}
+        totalPages={posts.totalPages}
+        paginationBase={`/category/${category.slug}`}
+      />
+    </ContainedWithTitle>
+  );
 }
 
 // Return a list of `params` to populate the [slug] dynamic segment

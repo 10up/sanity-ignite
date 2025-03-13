@@ -9,7 +9,7 @@ import { Button } from '../ui/button';
 export default async function PostListSection({ section }: { section: PostList }) {
   const { data: posts } = await sanityFetch({
     query: postsArchiveQuery,
-    params: { from: 0, to: (section.numberOfPosts || 3) - 1 },
+    params: { from: 0, to: (section.numberOfPosts || 3) - 1, filters: {} },
   });
 
   if (!posts) {

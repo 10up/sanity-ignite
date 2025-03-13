@@ -8,19 +8,29 @@ type Props = {
   currentPage?: number;
   totalPages?: number;
   title?: string;
+  paginationBase?: string;
 };
 
-const PostRiver = ({ listingData, currentPage = 1, totalPages = 1 }: Props) => {
+const PostRiver = ({
+  listingData,
+  currentPage = 1,
+  paginationBase = '/blog',
+  totalPages = 1,
+}: Props) => {
   const { results } = listingData;
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 gap-10">
         {results.map((post) => {
           return <PostCard key={post._id} post={post} />;
         })}
       </div>
-      <ArchivePagination currentPage={currentPage} linkBase="/blog" totalPages={totalPages} />
+      <ArchivePagination
+        currentPage={currentPage}
+        linkBase={paginationBase}
+        totalPages={totalPages}
+      />
     </>
   );
 };
