@@ -33,7 +33,6 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   return {
-    ...formatMetaData(routeData.seo as unknown as SeoType),
     alternates: {
       canonical: getDocumentLink(routeData, true),
     },
