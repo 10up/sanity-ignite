@@ -30,13 +30,6 @@ export default defineType({
       hidden: ({ parent }) => parent?.type !== 'external',
     }),
     defineField({
-      name: 'href',
-      type: 'string',
-      initialValue: () => '#',
-      hidden: true,
-      readOnly: true,
-    }),
-    defineField({
       name: 'internal',
       type: 'reference',
       options: { disableNew: true },

@@ -26,7 +26,7 @@ export default function HeroSection({ section }: { section: HeroSection }) {
             {section.image && (
               <Image
                 src={urlForImage(section.image)?.width(1000).height(667).url() as string}
-                alt={section?.image?.alt || ''}
+                alt={section.image.alt || ''}
                 width={600}
                 height={400}
                 className="rounded-4xl shadow-xl"

@@ -3,58 +3,61 @@ import * as v from 'valibot';
 import { createEnv } from '../createEnv';
 
 describe('createEnv', () => {
-	let originalEnv: NodeJS.ProcessEnv;
+  let originalEnv: NodeJS.ProcessEnv;
 
-	beforeEach(() => {
-		originalEnv = { ...process.env };
-	});
+  beforeEach(() => {
+    originalEnv = { ...process.env };
+  });
 
-	afterEach(() => {
-		process.env = originalEnv;
-	});
+  afterEach(() => {
+    process.env = originalEnv;
+  });
 
-	it('should correctly extract and validate environment variables', () => {
-		process.env.TEST_VAR = 'value';
+  it('should correctly extract and validate environment variables', () => {
+    process.env.TEST_VAR = 'value';
 
-		const schema = {
-			TEST_VAR: v.string(),
-		};
+    const schema = {
+      TEST_VAR: v.string(),
+    };
 
-		const result = createEnv(schema);
-		expect(result).toEqual({ TEST_VAR: 'value' });
-	});
+    const result = createEnv(schema);
+    expect(result).toEqual({ TEST_VAR: 'value' });
+  });
 
-	it('should throw an error if process is not available', () => {
-		const originalProcess = global.process;
-		// @ts-ignore
-		delete global.process;
+  it('should throw an error if process is not available', () => {
+    const originalProcess = global.process;
 
-		const schema = {
-			TEST_VAR: v.string(),
-		};
+    // @ts-expect-error - delete process to simulate a non-Node.js environment
+    delete global.process;
 
-		expect(() => createEnv(schema)).toThrow('process is not available. This function should run in a Node.js environment.');
+    const schema = {
+      TEST_VAR: v.string(),
+    };
 
-		global.process = originalProcess;
-	});
+    expect(() => createEnv(schema)).toThrow(
+      'process is not available. This function should run in a Node.js environment.',
+    );
 
-	it('should throw an error if an environment variable is missing', () => {
-		delete process.env.MISSING_VAR;
+    global.process = originalProcess;
+  });
 
-		const schema = {
-			MISSING_VAR: v.string(),
-		};
+  it('should throw an error if an environment variable is missing', () => {
+    delete process.env.MISSING_VAR;
 
-		expect(() => createEnv(schema)).toThrow();
-	});
+    const schema = {
+      MISSING_VAR: v.string(),
+    };
 
-	it('should throw an error if an environment variable does not match the schema', () => {
-		process.env.NUMBER_VAR = 'not-a-number';
+    expect(() => createEnv(schema)).toThrow();
+  });
 
-		const schema = {
-			NUMBER_VAR: v.number(),
-		};
+  it('should throw an error if an environment variable does not match the schema', () => {
+    process.env.NUMBER_VAR = 'not-a-number';
 
-		expect(() => createEnv(schema)).toThrow();
-	});
+    const schema = {
+      NUMBER_VAR: v.number(),
+    };
+
+    expect(() => createEnv(schema)).toThrow();
+  });
 });

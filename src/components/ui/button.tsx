@@ -56,4 +56,7 @@ function Button({
   );
 }
 
+export type ButtonVariant = Parameters<typeof Button>[0]['variant'];
+export type ButtonSize = Parameters<typeof Button>[0]['size'];
+
 export { Button, buttonVariants };

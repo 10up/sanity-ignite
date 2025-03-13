@@ -79,7 +79,6 @@ export const linkFragment = /* groq */ `
   type,
   openInNewTab,
   external,
-  href,
   internal->{
     _type,
     _id,
@@ -133,10 +132,6 @@ export const heroSectionFragment = /* groq */ `
 export const mediaTextSectionFragment = /* groq */ `
   _type,
   heading,
-  text,
-  media,
-  mediaPosition,
-  ${buttonsFragment}
 `;
 
 export const categoryFragment = /* groq */ `

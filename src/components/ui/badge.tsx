@@ -36,4 +36,6 @@ function Badge({
   );
 }
 
+export type BadgeVariant = Parameters<typeof Badge>[0]['variant'];
+
 export { Badge, badgeVariants };
