@@ -67,11 +67,19 @@ export const formatMetaData = (seo: SeoType): Metadata => {
       : undefined,
     openGraph: seo?.openGraph
       ? {
-        ...seo.openGraph,
-        images: parseImage(seo.openGraph.image) ?? metaImage,
+        title: seo.openGraph.title ?? undefined,
+        description: seo.openGraph.description ?? undefined,
+        siteName: seo.openGraph.siteName ?? undefined,
+        url: seo.openGraph.url ?? undefined,
+        images: seo.openGraph.image ? parseImage(seo.openGraph.image) : metaImage,
       }
       : undefined,
-    twitter: seo?.twitter ? { ...seo.twitter, images: metaImage } : undefined,
+    twitter: seo?.twitter ? {
+      site: seo.twitter.site || undefined,
+      description: seo.openGraph?.description || seo.metaDescription || undefined,
+      title: seo.openGraph?.title || seo.metaTitle || undefined,
+      images: metaImage
+    } : undefined,
     other: parseAdditionalMetaTags(seo?.additionalMetaTags),
   };
 };
