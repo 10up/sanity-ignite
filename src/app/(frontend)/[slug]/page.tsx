@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import { sanityFetch } from '@/sanity/lib/live';
 import { formatMetaData } from '@/sanity/lib/seo';
 import { Page as PageType } from '@/sanity.types';
-import PageRenderer from '@/components/templates/Page';
+import PageSections from '@/components/PageSections';
 import { getPageQuery } from '@/sanity/queries/queries';
 import { notFound } from 'next/navigation';
 import { SeoType } from '@/types/seo';
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
@@ -37,5 +38,5 @@ export default async function Page(props: Props) {
     notFound();
   }
 
-  return <PageRenderer pageSections={page.pageSections as PageType['pageSections']} />;
+  return <PageSections sections={page.pageSections as PageType['pageSections']} />;
 }
