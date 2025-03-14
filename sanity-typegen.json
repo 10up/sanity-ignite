@@ -1,5 +1,5 @@
 {
-  "path": ["./src/sanity/queries/*.ts"],
+  "path": ["./src/lib/sanity/queries/*.ts"],
   "schema": "./.sanity/schema.json",
   "generates": "./.sanity/sanity.types.ts",
   "overloadClientMethods": true

@@ -10,9 +10,9 @@
 
 import { PortableText, type PortableTextComponents, type PortableTextBlock } from 'next-sanity';
 
-import Link from '@/components/Link';
+import Link from '@/components/modules/Link';
 import Image from 'next/image';
-import { urlForImage } from '@/sanity/lib/utils';
+import { urlForImage } from '@/lib/sanity/client/utils';
 import { PropsWithChildren } from 'react';
 import { cn } from '@/lib/utils';
 import { parseChildrenToSlug } from '@/utils/string';

@@ -1,7 +1,7 @@
 import { Image } from 'next-sanity/image';
 
-import { urlForImage } from '@/sanity/lib/utils';
-import DateComponent from '@/components/Date';
+import { urlForImage } from '@/lib/sanity/client/utils';
+import DateComponent from '@/components/ui/Date';
 import { PostsArchiveQueryResult } from '@/sanity.types';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';

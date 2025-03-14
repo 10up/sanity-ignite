@@ -1,6 +1,6 @@
 import Logo from '../icons/Logo';
-import { sanityFetch } from '@/sanity/lib/live';
-import { settingsQuery } from '@/sanity/queries/queries';
+import { sanityFetch } from '@/lib/sanity/client/live';
+import { settingsQuery } from '@/lib/sanity/queries/queries';
 import { Button } from '../ui/button';
 
 export default async function Footer() {

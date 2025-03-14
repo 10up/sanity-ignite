@@ -1,6 +1,6 @@
 import { CogIcon } from '@sanity/icons';
 import { defineField, defineType } from 'sanity';
-import * as demo from '@/sanity/lib/demo';
+import * as demo from '@/lib/sanity/client/demo';
 
 /**
  * Settings schema Singleton.  Singletons are single documents that are displayed not in a collection, handy for things like site settings and other global configurations.

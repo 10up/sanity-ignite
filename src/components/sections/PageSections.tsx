@@ -1,14 +1,15 @@
-import { Page } from '@/sanity.types';
-import Hero from './sections/Hero';
-import CTA from './sections/CTA';
-import MediaText from './sections/MediaText';
-import PostList from './sections/PostList';
-import CardGrid from './sections/CardGrid';
-import Divider from './sections/Divider';
-import Subscribe from './sections/Subscribe';
+import Hero from './Hero';
+import CTA from './CTA';
+import MediaText from './MediaText';
+import PostList from './PostList';
+import CardGrid from './CardGrid';
+import Divider from './Divider';
+import Subscribe from './Subscribe';
+import { Sections } from './types';
 
-export default function PageSections({ sections }: { sections: Page['pageSections'] }) {
-  return sections?.map((section) => {
+export default function PageSections({ pageSections }: { pageSections: Sections }) {
+  return pageSections?.map((section) => {
+    if (!section) return null;
     switch (section._type) {
       case 'hero':
         return <Hero key={section._key} section={section} />;

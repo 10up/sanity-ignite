@@ -1,6 +1,6 @@
-import Byline from '@/components/Byline';
-import CoverImage from '@/components/CoverImage';
-import CustomPortableText from '@/components/PortableText';
+import Byline from '@/components/modules/Byline';
+import CoverImage from '@/components/modules/CoverImage';
+import CustomPortableText from '@/components/modules/PortableText';
 import { PostQueryResult } from '@/sanity.types';
 import type { PortableTextBlock } from 'next-sanity';
 import React from 'react';

@@ -2,10 +2,10 @@ import { PostsArchiveQueryResult } from '@/sanity.types';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Image } from 'next-sanity/image';
-import { urlForImage } from '@/sanity/lib/utils';
 import { ArrowRight } from 'lucide-react';
 import ReadTime from '@/components/ReadTime';
 import { type PortableTextBlock } from 'next-sanity';
+import { urlForImage } from '@/lib/sanity/client/utils';
 
 export default function PostCard({ post }: { post: PostsArchiveQueryResult['results'][number] }) {
   const { title, excerpt, date, author, image, categories } = post;

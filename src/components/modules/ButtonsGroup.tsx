@@ -1,5 +1,5 @@
 import { Button as ButtonType } from '@/sanity.types';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 
 export default function ButtonsGroup({
