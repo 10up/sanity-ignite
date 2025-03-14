@@ -15,7 +15,7 @@ export default async function Header() {
 
   return (
     <header className="bg-white text-gray-800 py-4 relative">
-      <div className="container mx-auto px-4 flex justify-between items-center">
+      <div className="container max-w-7xl mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center space-x-4">
           {typeof settings.title !== undefined && (
             <Link className="flex items-center space-x-4" href="/">

@@ -3,7 +3,9 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Image } from 'next-sanity/image';
 import { urlForImage } from '@/sanity/lib/utils';
-import { Clock, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import ReadTime from '@/components/ReadTime';
+import { type PortableTextBlock } from 'next-sanity';
 
 export default function PostCard({ post }: { post: PostsArchiveQueryResult['results'][number] }) {
   const { title, excerpt, date, author, image, categories } = post;
@@ -29,16 +31,14 @@ export default function PostCard({ post }: { post: PostsArchiveQueryResult['resu
           />
         </div>
         <div className="p-6 md:p-8 flex flex-col justify-center">
-          <div className="flex items-center space-x-4 mb-4">
+          <div className="flex items-center space-x-4 mb-2">
             <Badge variant="default" asChild>
               <Link href={`/category/${categories?.[0]?.slug}`}>{categories?.[0]?.title}</Link>
             </Badge>
-            <div className="flex items-center text-sm text-gray-500">
-              <Clock className="w-4 h-4 mr-1" />5 minutes
-            </div>
+            <ReadTime content={(post.content as PortableTextBlock[]) || []} />
           </div>
           {date ? (
-            <time className="text-sm text-gray-500 mb-2">
+            <time className="text-sm text-gray-500 mb-4">
               {new Date(date).toLocaleDateString()}
             </time>
           ) : null}
