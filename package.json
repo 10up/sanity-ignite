@@ -9,7 +9,7 @@
     "next:debug": "NEXT_PRIVATE_DEBUG_CACHE=1 next:build && next:start",
     "lint": "next lint",
     "dev": "npm-run-all --parallel --race next:dev watch-typegen",
-    "sanity:typegen": "mkdir -p ./.sanity && sanity schema extract --path=.sanity/schema.json && sanity typegen generate",
+    "sanity:typegen": "mkdir -p ./.sanity && sanity schema extract && sanity typegen generate",
     "typecheck": "tsc --noEmit",
     "watch-typegen": "tsx watch-typegen.ts"
   },
