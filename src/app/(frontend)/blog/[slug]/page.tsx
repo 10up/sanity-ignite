@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
-import { sanityFetch } from '@/sanity/lib/live';
-import { postPagesSlugs, postQuery } from '@/sanity/queries/queries';
+import { sanityFetch } from '@/lib/sanity/client/live';
+import { postPagesSlugs, postQuery } from '@/lib/sanity/queries/queries';
 import Post from '@/components/templates/Post';
 import { PostQueryResult } from '@/sanity.types';
 import { Metadata } from 'next';
 import { getDocumentLink } from '@/lib/links';
-import { client } from '@/sanity/lib/client';
+import { client } from '@/lib/sanity/client/client';
 import { serverEnv } from '@/env/serverEnv';
 
 type Props = {

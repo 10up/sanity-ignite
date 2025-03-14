@@ -1,13 +1,13 @@
-import { Button as ButtonType } from '@/sanity.types';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
+import { CtaSection } from '../sections/types';
 
 export default function ButtonsGroup({
   buttons,
   size = 'xl',
   className,
 }: {
-  buttons: Array<{ _key: string } & ButtonType>;
+  buttons: NonNullable<CtaSection['buttons']>;
   size?: 'xl' | 'lg' | 'sm' | 'default' | 'icon';
   className?: string;
 }) {

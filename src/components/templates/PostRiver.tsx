@@ -1,7 +1,7 @@
-import { ArchivePagination } from '@/components/ArchivePagination';
+import { ArchivePagination } from '@/components/modules/ArchivePagination';
 import { PostsArchiveQueryResult } from '@/sanity.types';
 import React from 'react';
-import PostCard from './PostCard';
+import PostCard from '../modules/PostCard';
 
 type Props = {
   listingData: NonNullable<PostsArchiveQueryResult>;

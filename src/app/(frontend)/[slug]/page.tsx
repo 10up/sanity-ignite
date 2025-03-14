@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import { sanityFetch } from '@/sanity/lib/live';
-import { formatMetaData } from '@/sanity/lib/seo';
+import { sanityFetch } from '@/lib/sanity/client/live';
+import { formatMetaData } from '@/lib/sanity/client/seo';
 import { Page as PageType } from '@/sanity.types';
-import PageSections from '@/components/PageSections';
-import { getPageQuery } from '@/sanity/queries/queries';
+import PageSections from '@/components/sections/PageSections';
+import { getPageQuery } from '@/lib/sanity/queries/queries';
 import { notFound } from 'next/navigation';
 import { SeoType } from '@/types/seo';
 
@@ -38,5 +38,5 @@ export default async function Page(props: Props) {
     notFound();
   }
 
-  return <PageSections sections={page.pageSections as PageType['pageSections']} />;
+  return <PageSections pageSections={page.pageSections} />;
 }

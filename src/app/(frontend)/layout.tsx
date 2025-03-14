@@ -5,10 +5,10 @@ import { draftMode } from 'next/headers';
 import { VisualEditing } from 'next-sanity';
 import { Toaster } from 'sonner';
 
-import DraftModeToast from '@/components/DraftModeToast';
+import DraftModeToast from '@/components/modules/DraftModeToast';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
-import { SanityLive } from '@/sanity/lib/live';
+import { SanityLive } from '@/lib/sanity/client/live';
 import { handleError } from './client-utils';
 import Main from '@/components/layout/Main';
 

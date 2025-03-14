@@ -1,12 +1,12 @@
 import { notFound } from 'next/navigation';
-import { sanityFetch } from '@/sanity/lib/live';
-import { categoryQuery, postsArchiveQuery } from '@/sanity/queries/queries';
+import { sanityFetch } from '@/lib/sanity/client/live';
+import { categoryQuery, postsArchiveQuery } from '@/lib/sanity/queries/queries';
 import { paginatedData } from '@/lib/pagination';
 import { Metadata } from 'next';
 import { getDocumentLink } from '@/lib/links';
 import { POSTS_PER_PAGE } from '@/lib/constants';
 import Page from '@/components/templates/Page';
-import PostRiver from '@/components/PostRiver';
+import PostRiver from '@/components/templates/PostRiver';
 
 type Props = {
   params: Promise<{ categorySlug: string; page: string }>;

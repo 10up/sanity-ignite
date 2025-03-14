@@ -1,6 +1,6 @@
-import { Divider as DividerType } from '@/sanity.types';
+import { DividerSection } from './types';
 
-export default function Divider({ section: { height } }: { section: DividerType }) {
+export default function Divider({ section: { height } }: { section: DividerSection }) {
   return (
     <div className="py-10   md:py-14">
       <div className="container mx-auto px-4">

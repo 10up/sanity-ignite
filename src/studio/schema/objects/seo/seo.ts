@@ -1,6 +1,6 @@
 import { defineField, defineType } from 'sanity';
-import SEOTitle from '@/sanity/components/SEOTitle';
-import SEODescription from '@/sanity/components/SEODescription';
+import SEOTitle from '@/studio/components/SEOTitle';
+import SEODescription from '@/studio/components/SEODescription';
 
 export default defineType({
   title: 'SEO & Metadata',

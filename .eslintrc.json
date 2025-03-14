@@ -18,7 +18,7 @@
         "zones": [
           {
             "target": "./src/app/layout.tsx",
-            "from": "./src/sanity"
+            "from": "./src/studio"
           }
         ]
       }
