@@ -1,32 +1,34 @@
 import { watch } from 'chokidar';
 import { exec } from 'child_process';
-import path from "path";
+import path from 'path';
 
 import data from './sanity-typegen.json' assert { type: 'json' };
 
-const queryPaths = data.path.map((p) =>
-  p.replace(/\*\*\/\*.*$/, "") // Remove wildcard patterns to watch entire directories
-);
-const schemaPath = "src/sanity/schema"; // Hardcoded schema path
+const queryPaths = data.path.map((p) => {
+  // Handle both glob patterns: **/*.ts and *.ts
+  return p
+    .replace(/\*\*\/\*\..*$/, '') // Remove **/*.ts pattern
+    .replace(/\*\..*$/, ''); // Remove *.ts pattern
+});
+const schemaPath = 'src/sanity/schema'; // Hardcoded schema path
 
-console.log("Watching for changes in:");
-console.log("🔍 Query Paths:", queryPaths);
-console.log("📜 Schema Path:", schemaPath);
-
+console.log('Watching for changes in:');
+console.log('🔍 Query Paths:', queryPaths);
+console.log('📜 Schema Path:', schemaPath);
 
 // Enum for file types
 enum FileType {
-  QUERY = "query",
-  SCHEMA = "schema",
+  QUERY = 'query',
+  SCHEMA = 'schema',
 }
 
 // Function to determine if a file belongs to queryPaths or schemaPath
 const getFileType = (filePath: string): FileType => {
-  console.log('getFileType', filePath, schemaPath)
+  console.log('getFileType', filePath, schemaPath);
   if (filePath.includes(schemaPath)) {
     return FileType.SCHEMA;
   } else {
-    return FileType.QUERY
+    return FileType.QUERY;
   }
 };
 
@@ -58,7 +60,6 @@ const handleFileEvent = (event: string, filePath: string): void => {
   }
 };
 
-
 // Initialize watcher
 const watcher = watch([...queryPaths, schemaPath], {
   ignored: /node_modules|\.git/, // Ignore unnecessary files
@@ -69,15 +70,14 @@ const watcher = watch([...queryPaths, schemaPath], {
 
 // Attach event handlers with shared callback
 watcher
-  .on("add", (filePath: string) => handleFileEvent("File added", filePath))
-  .on("change", (filePath: string) => handleFileEvent("File changed", filePath))
-  .on("unlink", (filePath: string) => handleFileEvent("File deleted", filePath))
-  .on("addDir", (dirPath: string) => handleFileEvent("Directory added", dirPath))
-  .on("unlinkDir", (dirPath: string) => handleFileEvent("Directory removed", dirPath))
-  .on("error", (error: unknown) => console.error(`⚠️ Watcher error: ${error}`));
+  .on('add', (filePath: string) => handleFileEvent('File added', filePath))
+  .on('change', (filePath: string) => handleFileEvent('File changed', filePath))
+  .on('unlink', (filePath: string) => handleFileEvent('File deleted', filePath))
+  .on('addDir', (dirPath: string) => handleFileEvent('Directory added', dirPath))
+  .on('unlinkDir', (dirPath: string) => handleFileEvent('Directory removed', dirPath))
+  .on('error', (error: unknown) => console.error(`⚠️ Watcher error: ${error}`));
 
-process.on("SIGINT", () => {
-  console.log("\nStopping watcher...");
+process.on('SIGINT', () => {
+  console.log('\nStopping watcher...');
   watcher.close().then(() => process.exit(0));
-})
-
+});
