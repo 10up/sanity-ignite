@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { sanityFetch } from '@/lib/sanity/client/live';
 import { formatMetaData } from '@/lib/sanity/client/seo';
-import { Page as PageType } from '@/sanity.types';
 import { getPageQuery } from '@/lib/sanity/queries/queries';
 import { notFound } from 'next/navigation';
 import { SeoType } from '@/types/seo';
@@ -40,11 +39,5 @@ export default async function Page(props: Props) {
 
   const { _id, _type, pageSections } = page;
 
-  return (
-    <PageSections
-      documentId={_id}
-      documentType={_type}
-      sections={pageSections as PageType['pageSections']}
-    />
-  );
+  return <PageSections documentId={_id} documentType={_type} sections={pageSections} />;
 }
