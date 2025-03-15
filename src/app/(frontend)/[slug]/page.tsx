@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import { sanityFetch } from '@/lib/sanity/client/live';
 import { formatMetaData } from '@/lib/sanity/client/seo';
 import { Page as PageType } from '@/sanity.types';
-import PageSections from '@/components/sections/PageSections';
 import { getPageQuery } from '@/lib/sanity/queries/queries';
 import { notFound } from 'next/navigation';
 import { SeoType } from '@/types/seo';
+import PageSections from '@/components/sections/PageSections';
 
 type Props = {
   params: Promise<{ slug: string }>;
