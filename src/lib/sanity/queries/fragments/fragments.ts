@@ -60,6 +60,9 @@ export const seoFragment = /* groq */ `
   noIndex,
   seoKeywords,
   metaDescription,
+  metaImage{
+    ${imageFragment}
+  },
   additionalMetaTags[]{
     ${additionalMetaTagFragment}
   },
