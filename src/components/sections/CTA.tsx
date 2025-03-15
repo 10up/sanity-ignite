@@ -1,7 +1,7 @@
-import { Cta } from '@/sanity.types';
-import ButtonsGroup from '../ButtonsGroup';
+import ButtonsGroup from '../modules/ButtonsGroup';
+import type { CtaSection } from './types';
 
-export default function CtaSection({ section }: { section: Cta }) {
+export default function CtaSection({ section }: { section: CtaSection }) {
   return (
     <section className="py-10 md:py-14 bg-white container mx-auto">
       <div className="bg-gradient-to-r from-pink-500 to-blue-500 py-16 md:py-24 rounded-4xl container">

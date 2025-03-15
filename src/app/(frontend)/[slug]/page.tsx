@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import { sanityFetch } from '@/sanity/lib/live';
-import { formatMetaData } from '@/sanity/lib/seo';
-import { SeoType } from '@/types/seo';
+import { sanityFetch } from '@/lib/sanity/client/live';
+import { formatMetaData } from '@/lib/sanity/client/seo';
 import { Page as PageType } from '@/sanity.types';
-import { getPageQuery } from '@/sanity/queries/queries';
+import PageSections from '@/components/sections/PageSections';
+import { getPageQuery } from '@/lib/sanity/queries/queries';
 import { notFound } from 'next/navigation';
-import PageSections from '@/components/PageSections';
+import { SeoType } from '@/types/seo';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -23,7 +23,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     return {};
   }
 
-  return formatMetaData(page.seo as unknown as SeoType);
+  return formatMetaData(page.seo as unknown as SeoType, page?.name || '');
 }
 
 export default async function Page(props: Props) {
@@ -38,7 +38,6 @@ export default async function Page(props: Props) {
     notFound();
   }
 
-  // TODO: maybe pass page instead (see Toby's project)
   const { _id, _type, pageSections } = page;
 
   return (

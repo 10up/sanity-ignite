@@ -1,60 +1,61 @@
-import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { sanityFetch } from '@/sanity/lib/live';
-import { postQuery } from '@/sanity/queries/queries';
-import { formatMetaData } from '@/sanity/lib/seo';
-import { SeoType } from '@/types/seo';
-import CustomPortableText from '@/components/PortableText';
-import Avatar from '@/components/Avatar';
-import CoverImage from '@/components/CoverImage';
-import { type PortableTextBlock } from 'next-sanity';
+import { sanityFetch } from '@/lib/sanity/client/live';
+import { postPagesSlugs, postQuery } from '@/lib/sanity/queries/queries';
+import Post from '@/components/templates/Post';
+import { PostQueryResult } from '@/sanity.types';
+import { Metadata } from 'next';
+import { getDocumentLink } from '@/lib/links';
+import { client } from '@/lib/sanity/client/client';
+import { serverEnv } from '@/env/serverEnv';
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  const params = await props.params;
+const loadData = async (props: Props): Promise<PostQueryResult> => {
+  const { slug } = await props.params;
+
   const { data: post } = await sanityFetch({
     query: postQuery,
-    params,
-    stega: false,
+    params: { slug },
   });
 
-  if (!post?.seo) {
+  return post;
+};
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const routeData = await loadData(props);
+
+  if (!routeData) {
     return {};
   }
 
-  return formatMetaData(post.seo as unknown as SeoType);
+  return {
+    alternates: {
+      canonical: getDocumentLink(routeData, true),
+    },
+  };
+}
+
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams() {
+  const slugs = await client.fetch(postPagesSlugs, {
+    limit: serverEnv.MAX_STATIC_PARAMS,
+  });
+
+  const staticParams = slugs
+    ? slugs.filter((slug) => slug !== null).map((slug) => ({ slug: slug }))
+    : [];
+
+  return [...staticParams];
 }
 
 export default async function PostPage(props: Props) {
-  const params = await props.params;
-  const { data: post } = await sanityFetch({ query: postQuery, params });
+  const post = await loadData(props);
 
-  if (!post?._id) {
-    return notFound();
+  if (!post) {
+    notFound();
   }
 
-  return (
-    <main className="container mx-auto">
-      <section className="py-16 md:py-24">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6">{post.title}</h1>
-        {post.author ? (
-          <div className="mb-6">
-            <Avatar person={post.author} date={post.date} />
-          </div>
-        ) : null}
-        {post.image?.asset?._ref ? (
-          <div className="mb-6 md:mb-14">
-            <CoverImage image={post.image} priority />
-          </div>
-        ) : null}
-        <CustomPortableText
-          value={post.content as PortableTextBlock[]}
-          className="max-w-5xl mx-auto"
-        />
-      </section>
-    </main>
-  );
+  return <Post post={post} />;
 }

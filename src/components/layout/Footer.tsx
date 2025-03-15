@@ -1,6 +1,6 @@
 import Logo from '../icons/Logo';
-import { sanityFetch } from '@/sanity/lib/live';
-import { settingsQuery } from '@/sanity/queries/queries';
+import { sanityFetch } from '@/lib/sanity/client/live';
+import { settingsQuery } from '@/lib/sanity/queries/queries';
 import { Button } from '../ui/button';
 
 export default async function Footer() {
@@ -100,7 +100,14 @@ export default async function Footer() {
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200 text-sm text-center">
           <p>
-            &copy; {new Date().getFullYear()} {settings.title}. All rights reserved.
+            &copy; {new Date().getFullYear()} {settings.title} by{' '}
+            <a
+              href="https://fueled.com"
+              className="underline hover:text-gray-900 transition-colors"
+            >
+              Fueled
+            </a>
+            . All rights reserved.
           </p>
         </div>
       </div>

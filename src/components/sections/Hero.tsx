@@ -1,11 +1,11 @@
-import { Hero } from '@/sanity.types';
 import { Image } from 'next-sanity/image';
-import { urlForImage } from '@/sanity/lib/utils';
+import { urlForImage } from '@/lib/sanity/client/utils';
 import { type PortableTextBlock } from 'next-sanity';
-import PortableText from '@/components/PortableText';
-import ButtonsGroup from '../ButtonsGroup';
+import PortableText from '@/components/modules/PortableText';
+import ButtonsGroup from '../modules/ButtonsGroup';
+import type { HeroSection } from './types';
 
-export default function HeroSection({ section }: { section: Hero }) {
+export default function HeroSection({ section }: { section: HeroSection }) {
   return (
     <section className="py-10 md:py-14 bg-white">
       <div className="container mx-auto">

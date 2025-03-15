@@ -12,9 +12,9 @@ export function handleError(error: unknown) {
       duration: Infinity,
       action: addOriginUrl
         ? {
-            label: 'Manage',
-            onClick: () => window.open(addOriginUrl.toString(), '_blank'),
-          }
+          label: 'Manage',
+          onClick: () => window.open(addOriginUrl.toString(), '_blank'),
+        }
         : undefined,
     })
   } else if (error instanceof Error) {
