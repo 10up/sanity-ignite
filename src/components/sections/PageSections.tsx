@@ -1,7 +1,9 @@
 'use client';
 
 import { useOptimistic } from '@sanity/visual-editing/react';
-import { Page } from '@/sanity.types';
+import { type SanityDocument } from 'next-sanity';
+import { dataAttr } from '@/lib/sanity/client/utils';
+import { Sections } from './types';
 import Hero from './Hero';
 import CTA from './CTA';
 import MediaText from './MediaText';
@@ -9,33 +11,27 @@ import MediaText from './MediaText';
 import CardGrid from './CardGrid';
 import Divider from './Divider';
 import Subscribe from './Subscribe';
-import { type SanityDocument } from 'next-sanity';
-import { dataAttr } from '@/lib/sanity/client/utils';
 
 const BLOCK_COMPONENTS = {
   hero: Hero,
   mediaText: MediaText,
   cta: CTA,
   subscribe: Subscribe,
-  // postList: PostList, // TODO: handle PostLIst
+  postList: () => <></>, // TODO: handle PostList
   cardGrid: CardGrid,
   divider: Divider,
 } as const;
 
-type BlockType = keyof typeof BLOCK_COMPONENTS;
-
-type Section = NonNullable<NonNullable<Page['pageSections']>>[number];
+type PageSectionsProps = {
+  documentId: string;
+  documentType: string;
+  sections?: Sections;
+};
 
 type PageData = {
   _id: string;
   _type: string;
-  pageSections?: Section[];
-};
-
-type PageSectionsProps = {
-  documentId: string;
-  documentType: string;
-  sections?: Section[];
+  pageSections?: Sections;
 };
 
 export default function PageSections({
@@ -43,7 +39,7 @@ export default function PageSections({
   documentType,
   sections: initialSections = [],
 }: PageSectionsProps) {
-  const sections = useOptimistic<Section[], SanityDocument<PageData>>(
+  const sections = useOptimistic<Sections, SanityDocument<PageData>>(
     initialSections,
     (currentSections, action) => {
       if (action.id === documentId && action.document.pageSections) {
@@ -68,7 +64,7 @@ export default function PageSections({
       })}
     >
       {sections?.map((section) => {
-        const Component = BLOCK_COMPONENTS[section._type as BlockType];
+        const Component = BLOCK_COMPONENTS[section._type];
 
         if (!Component) return null;
 
@@ -81,7 +77,7 @@ export default function PageSections({
               path: `pageSections[_key=="${section._key}"]`,
             })}
           >
-            {/* TODO: fix types */}
+            {/* @ts-expect-error need to revisit this once we figure out the image types */}
             <Component section={section} />
           </div>
         );
