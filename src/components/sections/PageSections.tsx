@@ -1,6 +1,7 @@
 'use client';
 
-import { useOptimistic } from '@sanity/visual-editing/react';
+// import { useOptimistic } from '@sanity/visual-editing/react';
+import { useOptimistic } from 'next-sanity/hooks';
 import { type SanityDocument } from 'next-sanity';
 import { dataAttr } from '@/lib/sanity/client/utils';
 import { Sections } from './types';
@@ -17,7 +18,7 @@ const BLOCK_COMPONENTS = {
   mediaText: MediaText,
   cta: CTA,
   subscribe: Subscribe,
-  postList: () => <></>, // TODO: handle PostList
+  postList: () => <div>postlist</div>, // TODO: handle PostList
   cardGrid: CardGrid,
   divider: Divider,
 } as const;
@@ -40,13 +41,17 @@ export default function PageSections({
   sections: initialSections = [],
 }: PageSectionsProps) {
   const sections = useOptimistic<Sections, SanityDocument<PageData>>(
-    initialSections,
+    initialSections ?? [],
     (currentSections, action) => {
-      if (action.id === documentId && action.document.pageSections) {
-        return action.document.pageSections;
+      if (action.id !== documentId || !action?.document?.pageSections) {
+        return currentSections;
       }
 
-      return currentSections;
+      return action.document.pageSections.map(
+        (section) =>
+          currentSections?.find((currentSection) => currentSection._key === section?._key) ||
+          section,
+      );
     },
   );
 
@@ -66,18 +71,27 @@ export default function PageSections({
       {sections?.map((section) => {
         const Component = BLOCK_COMPONENTS[section._type];
 
-        if (!Component) return null;
+        if (!Component) {
+          return (
+            <div
+              key={`${section._type}-${section._key}`}
+              className="flex items-center justify-center p-8 my-8 text-center text-muted-foreground bg-muted rounded-lg"
+            >
+              Component not found for block type: <code>{section._type}</code>
+            </div>
+          );
+        }
 
         return (
           <div
-            key={section._key}
+            key={`${section._type}-${section._key}`}
             data-sanity={dataAttr({
               id: documentId,
               type: documentType,
               path: `pageSections[_key=="${section._key}"]`,
             })}
           >
-            {/* @ts-expect-error need to revisit this once we figure out the image types */}
+            {/* @ts-expect-error revisit this */}
             <Component section={section} />
           </div>
         );
