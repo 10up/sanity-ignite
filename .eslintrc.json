@@ -29,5 +29,36 @@
       "typescript": true,
       "node": true
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["src/studio/**/*.*", "sanity.config.ts"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "name": "next-sanity",
+            "message": "\n 🔥 Importing the next-sanity package into the Sanity studio is not allowed. Read more about this in the sanity-ignite Readme.md"
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/**/*.*"],
+      "excludedFiles": ["sanity.config.ts", "src/studio/**/*.*"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/studio/*", "@sanity/assist", "@sanity/icons", "@sanity/vision"],
+                "message": "\n 🔥 Importing files from sanity studio into the Next.js app is not allowed. Read more about this in the sanity-ignite Readme.md"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
 }
