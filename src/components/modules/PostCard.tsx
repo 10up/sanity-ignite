@@ -14,21 +14,23 @@ export default function PostCard({ post }: { post: PostsArchiveQueryResult['resu
     <article className="relative bg-white rounded-2xl shadow-sm overflow-hidden">
       <div className="grid md:grid-cols-2 gap-6">
         <div className="relative h-64 md:h-full">
-          <Image
-            src={urlForImage(image)?.width(1000).height(667).url() as string}
-            alt={image?.alt || 'Blog Post Image'}
-            style={{
-              objectFit: 'cover',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-            }}
-            width={1000}
-            height={667}
-            className="object-cover"
-          />
+          {image && (
+            <Image
+              src={urlForImage(image)?.width(1000).height(667).url() as string}
+              alt={image?.alt || 'Blog Post Image'}
+              style={{
+                objectFit: 'cover',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+              }}
+              width={1000}
+              height={667}
+              className="object-cover"
+            />
+          )}
         </div>
         <div className="p-6 md:p-8 flex flex-col justify-center">
           <div className="flex items-center space-x-4 mb-2">

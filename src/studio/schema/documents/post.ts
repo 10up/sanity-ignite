@@ -55,7 +55,10 @@ export default defineType({
           validation: (rule) => {
             // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
             return rule.custom((alt, context) => {
-              if ((context.document?.coverImage as any)?.asset?._ref && !alt) {
+              if (
+                (context.document?.coverImage as { asset?: { _ref?: string } })?.asset?._ref &&
+                !alt
+              ) {
                 return 'Required';
               }
               return true;

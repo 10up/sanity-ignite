@@ -1,13 +1,14 @@
 import createImageUrlBuilder from '@sanity/image-url';
 import { clientEnv } from '@/env/clientEnv';
-import { createDataAttribute, CreateDataAttributeProps } from 'next-sanity';
+import { createDataAttribute } from 'next-sanity';
+import type { CreateDataAttributeProps } from 'next-sanity';
 
 const imageBuilder = createImageUrlBuilder({
   projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
 });
 
-export const urlForImage = (source: any) => {
+export const urlForImage = (source: { asset?: { _ref?: string } }) => {
   // @TODO REMOVE ANY
   // Ensure that source image contains a valid reference
   if (!source?.asset?._ref) {
@@ -17,7 +18,11 @@ export const urlForImage = (source: any) => {
   return imageBuilder?.image(source).auto('format').fit('max');
 };
 
-export function resolveOpenGraphImage(image: any, width = 1200, height = 627) {
+export function resolveOpenGraphImage(
+  image: { asset?: { _ref?: string }; alt?: string },
+  width = 1200,
+  height = 627,
+) {
   // @TODO REMOVE ANY
   if (!image) return;
   const url = urlForImage(image)?.width(1200).height(627).fit('crop').url();

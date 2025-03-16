@@ -13,13 +13,15 @@ export default function MediaTextSection({ section }: { section: MediaTextSectio
       })}
     >
       <div className="lg:w-1/2">
-        <Image
-          alt={section.image?.alt || ''}
-          className="shadow-md rounded-4xl"
-          width="1000"
-          height="667"
-          src={urlForImage(section.image)?.width(1000).height(667).url() as string}
-        />
+        {section.image && (
+          <Image
+            alt={section.image?.alt || ''}
+            className="shadow-md rounded-4xl"
+            width="1000"
+            height="667"
+            src={urlForImage(section.image)?.width(1000).height(667).url() as string}
+          />
+        )}
       </div>
       <div className="lg:w-1/2 lg:p-12 mt-8 lg:mt-0 flex flex-col justify-center">
         <h2 className=" text-4xl font-bold leading-tight tracking-tighter lg:text-5xl mb-5">
