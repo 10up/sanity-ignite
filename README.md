@@ -210,6 +210,23 @@ When running unit or integration tests, the `.env.test` file is loaded automatic
 
 ---
 
+## Linter and Code Formatting
+
+This project uses ESLint and Prettier for code linting and formatting. Run the following commands to lint and format your code:
+
+```bash
+npm run lint # Lint the code
+```
+
+### Custom ESLint Configurations
+
+This project has custom ESLint rules configured for the following scenarios:
+
+- Sanity Studio
+  - `next-sanity` package cannot be imported into the studio. This is a frontend only package.
+- Next.js Frontend
+  - Assets from the sanity studio or from studio related packages cannot be imported into the frontend. They can only be used in the `sanity.config.ts` file or in the `src/studio` folder. This is to prevent the frontend from loading unoptimized studio assets.
+
 ## Learn More
 
 - [Next.js Documentation](https://nextjs.org/docs)

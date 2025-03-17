@@ -52,7 +52,10 @@ export default defineType({
           type: 'string',
           validation: (rule) => {
             return rule.custom((alt, context) => {
-              if ((context.document?.ogImage as any)?.asset?._ref && !alt) {
+              if (
+                (context.document?.ogImage as { asset?: { _ref?: string } })?.asset?._ref &&
+                !alt
+              ) {
                 return 'Required';
               }
               return true;
