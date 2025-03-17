@@ -1,6 +1,5 @@
 'use client';
 
-// import { useOptimistic } from '@sanity/visual-editing/react';
 import { useOptimistic } from 'next-sanity/hooks';
 import { type SanityDocument } from 'next-sanity';
 import { dataAttr } from '@/lib/sanity/client/utils';
@@ -84,7 +83,7 @@ export default function PageSections({
 
         return (
           <div
-            key={`${section._type}-${section._key}`}
+            key={section._key}
             data-sanity={dataAttr({
               id: documentId,
               type: documentType,
