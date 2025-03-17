@@ -23,13 +23,15 @@ export default function HeroSection({ section }: { section: HeroSection }) {
             ) : null}
           </div>
           <div className="relative">
-            <Image
-              src={urlForImage(section.image)?.width(1000).height(667).url() as string}
-              alt={section?.image?.alt || ''}
-              width={600}
-              height={400}
-              className="rounded-4xl shadow-xl"
-            />
+            {section.image && (
+              <Image
+                src={urlForImage(section)?.width(1000).height(667).url() as string}
+                alt={section?.image?.alt || ''}
+                width={600}
+                height={400}
+                className="rounded-4xl shadow-xl"
+              />
+            )}
             <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-pink-500 rounded-full opacity-50"></div>
             <div className="absolute -top-4 -right-4 w-16 h-16 bg-blue-500 rounded-full opacity-50"></div>
           </div>
