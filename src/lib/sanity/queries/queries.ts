@@ -1,5 +1,11 @@
 import { defineQuery } from 'next-sanity';
-import { postFragment, pageFragment, menuFragment, categoryFragment } from './fragments/fragments';
+import {
+  postFragment,
+  pageFragment,
+  menuFragment,
+  categoryFragment,
+  personFragment,
+} from './fragments/fragments';
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
   title,
@@ -55,12 +61,22 @@ export const categoryQuery = defineQuery(`
   }
 `);
 
+export const personQuery = defineQuery(`
+  *[_type == "person" && slug.current == $slug] [0] {
+    ${personFragment}
+  }
+`);
+
 export const postPagesSlugs = defineQuery(`
   *[_type == "post" && defined(slug.current)][0..$limit].slug.current
 `);
 
 export const categorySlugs = defineQuery(`
   *[_type == "category" && defined(slug.current)][0..$limit].slug.current
+`);
+
+export const personSlugs = defineQuery(`
+  *[_type == "person" && defined(slug.current)][0..$limit].slug.current
 `);
 
 export const postsArchiveQuery = defineQuery(`
@@ -70,6 +86,10 @@ export const postsArchiveQuery = defineQuery(`
       &&
       (
         !defined( $filters.categorySlug ) || references(*[_type == "category" && slug.current == $filters.categorySlug]._id)
+      )
+      &&
+      (
+        !defined( $filters.personSlug ) || references(*[_type == "person" && slug.current == $filters.personSlug]._id)
       )
       //
       // Add more filter here if needed

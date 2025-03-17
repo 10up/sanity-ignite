@@ -142,10 +142,13 @@ export const categoryFragment = /* groq */ `
 
 export const personFragment = /* groq */ `
   _id,
-  ...,
+  _type,
   firstName,
   lastName,
-  image
+  image,
+  role,
+  biography,
+  "slug": slug.current
 `;
 
 export const postFragment = /* groq */ `
