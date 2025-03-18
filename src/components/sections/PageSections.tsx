@@ -7,7 +7,7 @@ import { Sections } from './types';
 import Hero from './Hero';
 import CTA from './CTA';
 import MediaText from './MediaText';
-// import PostList from './PostList';
+import PostList from './PostList';
 import CardGrid from './CardGrid';
 import Divider from './Divider';
 import Subscribe from './Subscribe';
@@ -17,7 +17,7 @@ const BLOCK_COMPONENTS = {
   mediaText: MediaText,
   cta: CTA,
   subscribe: Subscribe,
-  postList: () => <div>postlist</div>, // TODO: handle PostList
+  postList: PostList,
   cardGrid: CardGrid,
   divider: Divider,
 } as const;
