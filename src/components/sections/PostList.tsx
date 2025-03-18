@@ -10,6 +10,8 @@ export default function PostListSection({ section }: { section: PostListSection 
     return null;
   }
 
+  const numberOfPosts = section.numberOfPosts ?? 3;
+
   return (
     <section className="py-10 md:py-14">
       <div className="container mx-auto">
@@ -18,7 +20,7 @@ export default function PostListSection({ section }: { section: PostListSection 
           <p className="text-gray-600">Latest updates and insights from our team</p>
         </div>
         <div className="max-w-4xl mx-auto space-y-12">
-          {posts.map((post) => (
+          {posts.slice(0, numberOfPosts).map((post) => (
             <PostCard key={post._id} post={post} />
           ))}
         </div>

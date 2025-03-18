@@ -171,13 +171,12 @@ export const postFragment = /* groq */ `
   }
 `;
 
-// TODO: use the "numberOfPosts" in the query
 // TODO: type stuff properly
 export const postListSectionFragment = /* groq */ `
     _type,
     heading,
     numberOfPosts,
-    "posts": *[_type == 'post'] | order(_createdAt desc, _id desc) [0...3] {
+    "posts": *[_type == 'post'] | order(_createdAt desc, _id desc) [0...20] {
       ${postFragment}
     }
 `;
@@ -215,6 +214,7 @@ export const cardGridsSectionFragment = /* groq */ `
 export const pageBuilderFragment = /* groq */ `
   pageSections[]{
     ...,
+    "numberOfPosts": 4,
     _key,
     _type,
     _type == 'cardGrid' => {${cardGridsSectionFragment}},
