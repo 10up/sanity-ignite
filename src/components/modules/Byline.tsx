@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import ReadTime from '@/components/ReadTime';
 import { type PortableTextBlock } from 'next-sanity';
+
 export default function Byline({ post }: { post: PostsArchiveQueryResult['results'][number] }) {
   return (
     <div className="flex justify-between items-center">
@@ -27,11 +28,14 @@ export default function Byline({ post }: { post: PostsArchiveQueryResult['result
           <div className="mr-1">By </div>
         )}
         <div className="flex flex-col">
-          {post.author?.firstName && post.author?.lastName && (
-            <div className="font-bold">
-              {post.author?.firstName} {post.author?.lastName}
-            </div>
-          )}
+          {post.author?.firstName && post.author?.lastName && post.author?.slug ? (
+            <Link
+              className="font-bold underline hover:text-gray-700 transition-colors"
+              href={`/author/${post.author.slug}`}
+            >
+              {post.author.firstName} {post.author.lastName}
+            </Link>
+          ) : null}
           <div className="text-gray-500 text-sm">
             <DateComponent dateString={post.date} />
           </div>

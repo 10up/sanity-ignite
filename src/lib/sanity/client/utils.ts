@@ -1,18 +1,15 @@
 import createImageUrlBuilder from '@sanity/image-url';
 import { clientEnv } from '@/env/clientEnv';
-import { createDataAttribute, type CreateDataAttributeProps } from 'next-sanity';
+import { createDataAttribute } from 'next-sanity';
+import type { CreateDataAttributeProps } from 'next-sanity';
 import { CustomImageType } from '@/types/seo';
-import { GetPageQueryResult } from '@/sanity.types';
+
 const imageBuilder = createImageUrlBuilder({
   projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
 });
 
-export type ImageSource = NonNullable<
-  NonNullable<GetPageQueryResult>['pageSections']
->[number]['image'];
-
-export const urlForImage = (source: ImageSource) => {
+export const urlForImage = (source: { asset?: { _ref?: string } }) => {
   if (!source?.asset?._ref) {
     return undefined;
   }

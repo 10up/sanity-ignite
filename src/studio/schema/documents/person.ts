@@ -25,6 +25,16 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      validation: (Rule) => Rule.required(),
+      options: {
+        source: (doc) => `${doc?.firstName}-${doc?.lastName}`.toLowerCase(),
+        maxLength: 96,
+      },
+    }),
+    defineField({
       name: 'image',
       title: 'Picture',
       type: 'image',
@@ -48,7 +58,13 @@ export default defineType({
       title: 'Role',
       type: 'string',
     }),
+    defineField({
+      name: 'biography',
+      title: 'Biography',
+      type: 'blockContent',
+    }),
   ],
+
   // List preview configuration. https://www.sanity.io/docs/previews-list-views
   preview: {
     select: {

@@ -1,9 +1,9 @@
 import { homePageQuery } from '@/lib/sanity/queries/queries';
 import { sanityFetch } from '@/lib/sanity/client/live';
 import { formatMetaData } from '@/lib/sanity/client/seo';
+import PageSections from '@/components/sections/PageSections';
 import { notFound } from 'next/navigation';
 import { SeoType } from '@/types/seo';
-import PageSections from '@/components/sections/PageSections';
 
 export async function generateMetadata() {
   const { data: homePage } = await sanityFetch({
