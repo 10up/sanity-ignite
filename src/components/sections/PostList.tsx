@@ -6,7 +6,7 @@ import type { PostListSection } from './types';
 
 export default function PostListSection({ section }: { section: PostListSection }) {
   const { posts } = section;
-  if (posts.length === 0) {
+  if (!posts.length) {
     return null;
   }
 

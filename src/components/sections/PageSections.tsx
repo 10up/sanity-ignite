@@ -1,9 +1,10 @@
 'use client';
 
+import { ElementType } from 'react';
 import { useOptimistic } from 'next-sanity/hooks';
 import { type SanityDocument } from 'next-sanity';
 import { dataAttr } from '@/lib/sanity/client/utils';
-import { Sections } from './types';
+import { Section, Sections } from './types';
 import Hero from './Hero';
 import CTA from './CTA';
 import MediaText from './MediaText';
@@ -12,7 +13,9 @@ import CardGrid from './CardGrid';
 import Divider from './Divider';
 import Subscribe from './Subscribe';
 
-const BLOCK_COMPONENTS = {
+type PageSectionstype = Section['_type'];
+
+const SECTION_COMPONENTS: Record<PageSectionstype, ElementType> = {
   hero: Hero,
   mediaText: MediaText,
   cta: CTA,
@@ -28,18 +31,16 @@ type PageSectionsProps = {
   sections?: Sections;
 };
 
-type PageData = {
-  _id: string;
-  _type: string;
+type PageData = SanityDocument<{
   pageSections?: Sections;
-};
+}>;
 
 export default function PageSections({
   documentId,
   documentType,
   sections: initialSections = [],
 }: PageSectionsProps) {
-  const sections = useOptimistic<Sections, SanityDocument<PageData>>(
+  const sections = useOptimistic<Sections, PageData>(
     initialSections ?? [],
     (currentSections, action) => {
       if (action.id !== documentId || !action?.document?.pageSections) {
@@ -68,30 +69,30 @@ export default function PageSections({
       })}
     >
       {sections?.map((section) => {
-        const Component = BLOCK_COMPONENTS[section._type];
+        const { _key, _type, ...sectionProps } = section;
+        const SectionComponent = SECTION_COMPONENTS[_type];
 
-        if (!Component) {
+        if (!SectionComponent) {
           return (
             <div
-              key={`${section._type}-${section._key}`}
+              key={_key}
               className="flex items-center justify-center p-8 my-8 text-center text-muted-foreground bg-muted rounded-lg"
             >
-              Component not found for block type: <code>{section._type}</code>
+              Component not found for block type: <code>{_type}</code>
             </div>
           );
         }
 
         return (
           <div
-            key={section._key}
+            key={_key}
             data-sanity={dataAttr({
               id: documentId,
               type: documentType,
-              path: `pageSections[_key=="${section._key}"]`,
+              path: `pageSections[_key=="${_key}"]`,
             })}
           >
-            {/* @ts-expect-error revisit this */}
-            <Component section={section} />
+            <SectionComponent section={sectionProps} />
           </div>
         );
       })}
