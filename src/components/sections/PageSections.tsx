@@ -60,8 +60,7 @@ export default function PageSections({
   }
 
   return (
-    <main
-      className="max-w-7xl mx-auto"
+    <div
       data-sanity={dataAttr({
         id: documentId,
         type: documentType,
@@ -96,6 +95,6 @@ export default function PageSections({
           </div>
         );
       })}
-    </main>
+    </div>
   );
 }
