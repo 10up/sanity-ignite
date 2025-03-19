@@ -26,5 +26,7 @@ export default async function Page() {
     notFound();
   }
 
-  return <PageSections pageSections={homePage.pageSections} />;
+  const { _id, _type, pageSections } = homePage;
+
+  return <PageSections documentId={_id} documentType={_type} sections={pageSections} />;
 }

@@ -15,7 +15,7 @@ import Image from 'next/image';
 import { urlForImage } from '@/lib/sanity/client/utils';
 import { PropsWithChildren } from 'react';
 import { cn } from '@/lib/utils';
-import { parseChildrenToSlug } from '@/utils/string';
+import { parseChildrenToSlug } from '@/utils/strings';
 
 type HeadingProps = PropsWithChildren<{
   as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';

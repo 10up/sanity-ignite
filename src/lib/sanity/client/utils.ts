@@ -2,6 +2,7 @@ import createImageUrlBuilder from '@sanity/image-url';
 import { clientEnv } from '@/env/clientEnv';
 import { createDataAttribute } from 'next-sanity';
 import type { CreateDataAttributeProps } from 'next-sanity';
+import { CustomImageType } from '@/types/seo';
 
 const imageBuilder = createImageUrlBuilder({
   projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -9,8 +10,6 @@ const imageBuilder = createImageUrlBuilder({
 });
 
 export const urlForImage = (source: { asset?: { _ref?: string } }) => {
-  // @TODO REMOVE ANY
-  // Ensure that source image contains a valid reference
   if (!source?.asset?._ref) {
     return undefined;
   }
@@ -19,15 +18,14 @@ export const urlForImage = (source: { asset?: { _ref?: string } }) => {
 };
 
 export function resolveOpenGraphImage(
-  image: { asset?: { _ref?: string }; alt?: string },
+  image: CustomImageType | undefined,
   width = 1200,
   height = 627,
 ) {
-  // @TODO REMOVE ANY
   if (!image) return;
-  const url = urlForImage(image)?.width(1200).height(627).fit('crop').url();
+  const url = imageBuilder.image(image)?.width(width).height(height).fit('crop').url();
   if (!url) return;
-  return { url, alt: image?.alt as string, width, height };
+  return { url, width, height };
 }
 
 type DataAttributeConfig = CreateDataAttributeProps &
@@ -38,5 +36,7 @@ export function dataAttr(config: DataAttributeConfig) {
     projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
     dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
     baseUrl: clientEnv.NEXT_PUBLIC_SANITY_STUDIO_URL,
-  }).combine(config);
+  })
+    .combine(config)
+    .toString();
 }
