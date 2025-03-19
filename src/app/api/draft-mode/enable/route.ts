@@ -1,6 +1,6 @@
 import { defineEnableDraftMode } from 'next-sanity/draft-mode';
 
-import { client } from '@/sanity/lib/client';
+import { client } from '@/lib/sanity/client/client';
 import { serverEnv } from '@/env/serverEnv';
 
 /**

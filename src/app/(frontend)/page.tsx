@@ -1,8 +1,7 @@
-import { homePageQuery } from '@/sanity/queries/queries';
-import { sanityFetch } from '@/sanity/lib/live';
-import { formatMetaData } from '@/sanity/lib/seo';
-import { Page as PageType } from '@/sanity.types';
-import PageRenderer from '@/components/Page';
+import { homePageQuery } from '@/lib/sanity/queries/queries';
+import { sanityFetch } from '@/lib/sanity/client/live';
+import { formatMetaData } from '@/lib/sanity/client/seo';
+import PageSections from '@/components/sections/PageSections';
 import { notFound } from 'next/navigation';
 import { SeoType } from '@/types/seo';
 
@@ -15,7 +14,7 @@ export async function generateMetadata() {
     return {};
   }
 
-  return formatMetaData(homePage.seo as unknown as SeoType);
+  return formatMetaData(homePage.seo as unknown as SeoType, homePage?.name || '');
 }
 
 export default async function Page() {
@@ -27,5 +26,7 @@ export default async function Page() {
     notFound();
   }
 
-  return <PageRenderer pageSections={homePage.pageSections as PageType['pageSections']} />;
+  const { _id, _type, pageSections } = homePage;
+
+  return <PageSections documentId={_id} documentType={_type} sections={pageSections} />;
 }

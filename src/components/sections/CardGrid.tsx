@@ -1,12 +1,12 @@
-import { CardGrid as CardGridType } from '@/sanity.types';
 import { type PortableTextBlock } from 'next-sanity';
-import PortableText from '../PortableText';
-import Card from '../Card';
+import PortableText from '../modules/PortableText';
+import Card from '../modules/Card';
+import { CardGridSection } from './types';
 
 export default function CardGrid({
   section: { heading, content, cards },
 }: {
-  section: CardGridType;
+  section: CardGridSection;
 }) {
   return (
     <section className="py-12 md:py-16 my-10 md:my-14 bg-gray-50 rounded-4xl ">

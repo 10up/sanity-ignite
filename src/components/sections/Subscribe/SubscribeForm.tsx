@@ -4,10 +4,13 @@ import subscribeAction from '@/actions/subscribeAction';
 import { ActionResponse } from '@/actions/types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import type { Subscribe } from '@/sanity.types';
+import type { SubscribeSection } from '../types';
+
+// TODO: Remove this eslint ignore after upgrading to react@19
+// eslint-disable-next-line import/named
 import { useActionState } from 'react';
 
-const SubscribeForm = ({ section }: { section: Subscribe }) => {
+const SubscribeForm = ({ section }: { section: SubscribeSection }) => {
   const [state, formAction, pending] = useActionState<Partial<ActionResponse>, FormData>(
     (state, formData) => {
       return subscribeAction(formData);

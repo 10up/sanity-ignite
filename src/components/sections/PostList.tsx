@@ -1,17 +1,16 @@
-import { PostList } from '@/sanity.types';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { sanityFetch } from '@/sanity/lib/live';
-import { allPostsQuery } from '@/sanity/queries/queries';
-import Post from '../Post';
+import PostCard from '../modules/PostCard';
 import { Button } from '../ui/button';
+import type { PostListSection } from './types';
 
-export default async function PostListSection({ section }: { section: PostList }) {
-  const { data: posts } = await sanityFetch({ query: allPostsQuery });
-
-  if (!posts) {
+export default function PostListSection({ section }: { section: PostListSection }) {
+  const { posts } = section;
+  if (!posts.length) {
     return null;
   }
+
+  const numberOfPosts = section.numberOfPosts ?? 3;
 
   return (
     <section className="py-10 md:py-14">
@@ -21,11 +20,9 @@ export default async function PostListSection({ section }: { section: PostList }
           <p className="text-gray-600">Latest updates and insights from our team</p>
         </div>
         <div className="max-w-4xl mx-auto space-y-12">
-          {posts.map((post) => {
-            if (post) {
-              return <Post key={post._id} post={post} />;
-            }
-          })}
+          {posts.slice(0, numberOfPosts).map((post) => (
+            <PostCard key={post._id} post={post} />
+          ))}
         </div>
 
         <div className="text-center mt-12">

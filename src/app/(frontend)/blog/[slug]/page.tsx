@@ -1,14 +1,12 @@
 import { notFound } from 'next/navigation';
-import { sanityFetch } from '@/sanity/lib/live';
-import { postPagesSlugs, postQuery } from '@/sanity/queries/queries';
-import PostRoute from '../PostRoute';
+import { sanityFetch } from '@/lib/sanity/client/live';
+import { postPagesSlugs, postQuery } from '@/lib/sanity/queries/queries';
+import Post from '@/components/templates/Post';
 import { PostQueryResult } from '@/sanity.types';
 import { Metadata } from 'next';
 import { getDocumentLink } from '@/lib/links';
-import { client } from '@/sanity/lib/client';
+import { client } from '@/lib/sanity/client/client';
 import { serverEnv } from '@/env/serverEnv';
-import { formatMetaData } from '@/sanity/lib/seo';
-import { SeoType } from '@/types/seo';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -33,21 +31,10 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   return {
-    ...formatMetaData(routeData.seo as unknown as SeoType),
     alternates: {
       canonical: getDocumentLink(routeData, true),
     },
   };
-}
-
-export default async function PostPage(props: Props) {
-  const routeData = await loadData(props);
-
-  if (!routeData) {
-    notFound();
-  }
-
-  return <PostRoute post={routeData} />;
 }
 
 // Return a list of `params` to populate the [slug] dynamic segment
@@ -61,4 +48,14 @@ export async function generateStaticParams() {
     : [];
 
   return [...staticParams];
+}
+
+export default async function PostPage(props: Props) {
+  const post = await loadData(props);
+
+  if (!post) {
+    notFound();
+  }
+
+  return <Post post={post} />;
 }

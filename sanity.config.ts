@@ -8,8 +8,8 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
-import { schemaTypes } from './src/sanity/schema';
-import { structure } from './src/sanity/structure';
+import { schemaTypes } from './src/studio/schema';
+import { structure } from './src/studio/structure';
 import {
   presentationTool,
   defineDocuments,
