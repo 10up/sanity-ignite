@@ -171,7 +171,6 @@ export const postFragment = /* groq */ `
   }
 `;
 
-// TODO: type stuff properly
 export const postListSectionFragment = /* groq */ `
     _type,
     heading,
@@ -214,7 +213,6 @@ export const cardGridsSectionFragment = /* groq */ `
 export const pageBuilderFragment = /* groq */ `
   pageSections[]{
     ...,
-    "numberOfPosts": 4,
     _key,
     _type,
     _type == 'cardGrid' => {${cardGridsSectionFragment}},
