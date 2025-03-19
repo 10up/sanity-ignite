@@ -14,6 +14,7 @@
     "sanity:typegen": "mkdir -p ./.sanity && sanity schema extract --path=.sanity/schema.json && sanity typegen generate",
     "typecheck": "tsc --noEmit",
     "watch-typegen": "tsx watch-typegen.ts",
+    "test": "vitest",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -42,16 +43,20 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.2.0",
     "@types/chokidar": "^2.1.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
+    "@vitejs/plugin-react": "^4.3.4",
     "chokidar": "^4.0.3",
     "eslint": "^8.57.1",
     "eslint-config-next": "15.0.1",
     "eslint-plugin-import": "^2.31.0",
+    "jsdom": "^26.0.0",
     "groq": "^3.79.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
@@ -60,7 +65,12 @@
     "prettier": "^3.3.3",
     "tailwindcss": "^4",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.8"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": "eslint --cache --fix",

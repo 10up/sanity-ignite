@@ -1,6 +1,5 @@
 import { watch } from 'chokidar';
 import { exec } from 'child_process';
-import path from 'path';
 
 import data from './sanity-typegen.json' assert { type: 'json' };
 
