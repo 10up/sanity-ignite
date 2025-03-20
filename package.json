@@ -27,6 +27,8 @@
     "@sanity/vision": "^3.64.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "groqd": "^1.3.0",
+    "groqd-playground": "^0.0.20",
     "lucide-react": "^0.476.0",
     "next": "^15.0.3",
     "next-sanity": "^9.8.12",

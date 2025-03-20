@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  transpilePackages: ["@uiw/react-split"],
   images: {
     remotePatterns: [
       {

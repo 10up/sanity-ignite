@@ -18,6 +18,7 @@ import {
 } from 'sanity/presentation';
 import { assist } from '@sanity/assist';
 import { clientEnv } from '@/env/clientEnv';
+import { groqdPlaygroundTool } from "groqd-playground";
 
 // Define the home location for the presentation tool
 const homeLocation = {
@@ -115,6 +116,7 @@ export default defineConfig({
     // Additional plugins for enhanced functionality
     assist(),
     visionTool(),
+    groqdPlaygroundTool(),
   ],
   schema: {
     types: schemaTypes,
