@@ -101,11 +101,8 @@ export default async function Footer() {
         <div className="mt-8 pt-8 border-t border-gray-200 text-sm text-center">
           <p>
             &copy; {new Date().getFullYear()} {settings.title} by{' '}
-            <a
-              href="https://fueled.com"
-              className="underline hover:text-gray-900 transition-colors"
-            >
-              Fueled
+            <a href="https://10up.com" className="underline hover:text-gray-900 transition-colors">
+              10up
             </a>
             . All rights reserved.
           </p>
