@@ -14,6 +14,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { SettingsQueryResult } from '@/sanity.types';
+import { getLinkByLinkObject } from '@/lib/links';
 
 export default function NavBar({
   menuItems,
@@ -41,9 +42,9 @@ export default function NavBar({
                         {item.childMenu.map((child) => (
                           <NavigationMenuLink key={child._key} asChild>
                             <Link
-                              href={child.href || '#'}
+                              href={child.link ? getLinkByLinkObject(child.link) || '#' : '#'}
                               className="block p-2 hover:bg-gray-100 rounded-md"
-                              {...(child.openInNewTab
+                              {...(child.link?.openInNewTab
                                 ? { target: '_blank', rel: 'noopener noreferrer' }
                                 : {})}
                             >
@@ -58,9 +59,9 @@ export default function NavBar({
                   // Simple link for items without children
                   <NavigationMenuLink asChild>
                     <Link
-                      href={item.href || '#'}
+                      href={item.link ? getLinkByLinkObject(item.link) || '#' : '#'}
                       className={cn(navigationMenuTriggerStyle(), 'cursor-pointer')}
-                      {...(item.openInNewTab
+                      {...(item.link?.openInNewTab
                         ? { target: '_blank', rel: 'noopener noreferrer' }
                         : {})}
                     >
@@ -122,10 +123,10 @@ export default function NavBar({
                     {item.childMenu.map((child) => (
                       <Link
                         key={child._key}
-                        href={child.href || '#'}
+                        href={child.link ? getLinkByLinkObject(child.link) || '#' : '#'}
                         className="block py-2 px-4 hover:bg-gray-100 rounded-md"
                         onClick={() => setIsMobileMenuOpen(false)}
-                        {...(child.openInNewTab
+                        {...(child.link?.openInNewTab
                           ? { target: '_blank', rel: 'noopener noreferrer' }
                           : {})}
                       >
@@ -137,10 +138,12 @@ export default function NavBar({
               ) : (
                 // Single menu item
                 <Link
-                  href={item.href || '#'}
+                  href={item.link ? getLinkByLinkObject(item.link) || '#' : '#'}
                   className="block py-2 px-4 hover:bg-gray-100 rounded-md"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  {...(item.openInNewTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  {...(item.link?.openInNewTab
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {})}
                 >
                   {item.text}
                 </Link>

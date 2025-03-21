@@ -5,6 +5,7 @@ import {
   menuFragment,
   categoryFragment,
   personFragment,
+  postCardFragment,
 } from './fragments/fragments';
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
@@ -104,7 +105,7 @@ export const postsArchiveQuery = defineQuery(`
   {
     "total": count(allResults),
     "results": allResults[$from..$to] {
-      ${postFragment}
+      ${postCardFragment}
     }
   }
 `);

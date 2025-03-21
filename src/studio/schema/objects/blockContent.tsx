@@ -56,7 +56,7 @@ export default defineType({
             fields: [
               defineField({
                 name: 'customLink',
-                type: 'customUrl',
+                type: 'link',
               }),
             ],
           },

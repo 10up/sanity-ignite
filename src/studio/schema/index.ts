@@ -10,7 +10,7 @@ import postList from './objects/sections/postList';
 import cardGrid from './objects/sections/cardGrid';
 import settings from './singletons/settings';
 import blockContent from './objects/blockContent';
-import url from './objects/url';
+import link from './objects/link';
 import button from './objects/button';
 import blogPage from './singletons/blogPage';
 import card from './objects/sections/card';
@@ -43,7 +43,7 @@ export const schemaTypes = [
 
   // Objects
   blockContent,
-  url,
+  link,
   button,
   menuItem,
   ...seoTypes,

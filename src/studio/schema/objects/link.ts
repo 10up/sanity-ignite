@@ -5,7 +5,7 @@ import { Link } from 'lucide-react';
 const allLinkableTypes = [{ type: 'post' }, { type: 'page' }];
 
 export default defineType({
-  name: 'customUrl',
+  name: 'link',
   type: 'object',
   icon: Link,
   fields: [

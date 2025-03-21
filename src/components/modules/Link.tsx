@@ -1,22 +1,23 @@
 import NextLink from 'next/link';
 
-import { CustomUrl } from '@/sanity.types';
+import { LinkFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import { getLinkByLinkObject } from '@/lib/links';
 
 interface LinkProps {
-  url: CustomUrl;
+  link: LinkFragmentType;
   children: React.ReactNode;
   className?: string;
 }
 
-export default function Link({ url, children, className }: LinkProps) {
-  // resolveLink() is used to determine the type of link and return the appropriate URL.
+export default function Link({ link, children, className }: LinkProps) {
+  const url = getLinkByLinkObject(link);
 
-  if (typeof url.href === 'string') {
+  if (url) {
     return (
       <NextLink
-        href={url.href}
-        target={url.openInNewTab ? '_blank' : undefined}
-        rel={url.openInNewTab ? 'noopener noreferrer' : undefined}
+        href={url}
+        target={link.openInNewTab ? '_blank' : undefined}
+        rel={link.openInNewTab ? 'noopener noreferrer' : undefined}
         className={className}
       >
         {children}

@@ -13,9 +13,10 @@ import { PortableText, type PortableTextComponents, type PortableTextBlock } fro
 import Link from '@/components/modules/Link';
 import Image from 'next/image';
 import { urlForImage } from '@/lib/sanity/client/utils';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { parseChildrenToSlug } from '@/utils/strings';
+import { LinkFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
 type HeadingProps = PropsWithChildren<{
   as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -140,9 +141,21 @@ export default function CustomPortableText({
         <code className="bg-gray-100 rounded px-1 py-0.5 font-mono text-sm">{children}</code>
       ),
       em: ({ children }) => <em className="italic">{children}</em>,
-      customLink: ({ children, value: url }) => {
+      link: ({
+        children,
+        value,
+      }: {
+        children: ReactNode;
+        value?: { customLink: LinkFragmentType };
+      }) => {
+        const customLink = value?.customLink;
+
+        if (!customLink) {
+          return <>{children}</>;
+        }
+
         return (
-          <Link url={url} className="text-primary hover:no-underline underline">
+          <Link link={customLink} className="text-primary hover:no-underline underline">
             {children}
           </Link>
         );
