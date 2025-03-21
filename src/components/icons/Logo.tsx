@@ -1,17 +1,11 @@
 export default function Logo() {
   return (
-    <div className=" bg-black rounded-full [&_path]:fill-white flex items-center justify-center w-10 h-10">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="25"
-        className="w-5 h-5"
-        height="30"
-        viewBox="0 0 25 30"
-      >
-        <path
-          fillRule="evenodd"
-          d="M21 7v1h2v2l-1 1v3l1 1v9h-2V14l-1-1h-2V3l-3-3H5L2 3v25H0v2h20v-2h-2V14h2v10l1 1h2l1-1v-9l1-1V9l-2-2h-2zm-5 6H4V3l1-1h10l1 1v10z"
-        ></path>
+    <div className=" [&_path]:fill-black flex items-center justify-center w-7 h-7">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136.33 170.44">
+        <g>
+          <path d="M68.16,136.33s0,0,0,0C30.52,136.33,0,105.81,0,68.16S30.52,0,68.16,0c0,0,0,0,0,0v34.08s0,0,0,0c-18.82,0-34.08,15.26-34.08,34.08s15.26,34.08,34.08,34.08c0,0,0,0,0,0v34.08Z" />
+          <path d="M68.16,34.11s0,0,0,0c37.65,0,68.16,30.52,68.16,68.16s-30.52,68.16-68.16,68.16c0,0,0,0,0,0v-34.08s0,0,0,0c18.82,0,34.08-15.26,34.08-34.08s-15.26-34.08-34.08-34.08c0,0,0,0,0,0v-34.08Z" />
+        </g>
       </svg>
     </div>
   );
