@@ -58,11 +58,11 @@ export default defineType({
       title: 'Role',
       type: 'string',
     }),
-    defineField({
-      name: 'biography',
-      title: 'Biography',
-      type: 'blockContent',
-    }),
+    // defineField({
+    //   name: 'biography',
+    //   title: 'Biography',
+    //   type: 'blockContent',
+    // }),
   ],
 
   // List preview configuration. https://www.sanity.io/docs/previews-list-views

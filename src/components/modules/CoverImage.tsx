@@ -10,6 +10,7 @@ interface CoverImageProps {
 
 export default function CoverImage(props: CoverImageProps) {
   const { image: source, priority } = props;
+
   const image = source?.asset?._ref ? (
     <Image
       className="rounded-2xl shadow-md transition-shadow object-cover"
