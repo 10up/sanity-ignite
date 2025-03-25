@@ -19,12 +19,11 @@ import subscribe from './objects/sections/subscribe';
 import menuItem from './objects/menuItem';
 import seoTypes from './objects/seo';
 
-export const singletonTypes = [settings, homePage, blogPage];
-
-export const singletonTypesNames: string[] = singletonTypes.map((type) => type.name);
-
 export const schemaTypes = [
-  ...singletonTypes,
+  // Singletons
+  settings,
+  homePage,
+  blogPage,
 
   // Documents
   page,

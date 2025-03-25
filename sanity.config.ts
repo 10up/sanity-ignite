@@ -18,8 +18,6 @@ import {
 } from 'sanity/presentation';
 import { assist } from '@sanity/assist';
 import { clientEnv } from '@/env/clientEnv';
-import { documentActions } from '@/studio/actions/documentActions';
-import { newDocumentOptions } from '@/studio/actions/newDocumentOptions';
 
 // Define the home location for the presentation tool
 const homeLocation = {
@@ -120,9 +118,5 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
-  },
-  document: {
-    actions: documentActions,
-    newDocumentOptions: newDocumentOptions,
   },
 });
