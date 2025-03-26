@@ -1,4 +1,5 @@
 # Sanity Ignite by 10up
+
 A Sanity starter kit providing modern, clean designs for your content-driven websites. Built with Next.js and Tailwind CSS.
 
 Out of the box it includes schema for pages, posts, categories, authors, and global settings. Pages are structured with a page builder that lets you compose a number of components: hero, CTA, post list, subscribe, content, etc.
@@ -225,6 +226,14 @@ This project has custom ESLint rules configured for the following scenarios:
   - `next-sanity` package cannot be imported into the studio. This is a frontend only package.
 - Next.js Frontend
   - Assets from the sanity studio or from studio related packages cannot be imported into the frontend. They can only be used in the `sanity.config.ts` file or in the `src/studio` folder. This is to prevent the frontend from loading unoptimized studio assets.
+
+### Analyze Bundle Sizes
+
+Sanity Ignite uses the `@next/bundle-analyzer` plugin to analyze the bundle sizes of the project. To run the bundle analyzer, run the following command:
+
+```bash
+ANALYZE=true npm run next:build
+```
 
 ## Learn More
 
