@@ -1,14 +1,16 @@
-import { PostsArchiveQueryResult } from '@/sanity.types';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Image } from 'next-sanity/image';
 import { ArrowRight } from 'lucide-react';
 import ReadTime from '@/components/ReadTime';
-import { type PortableTextBlock } from 'next-sanity';
 import { urlForImage } from '@/lib/sanity/client/utils';
+import { PostCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import { getDocumentLink } from '@/lib/links';
 
-export default function PostCard({ post }: { post: PostsArchiveQueryResult['results'][number] }) {
+export default function PostCard({ post }: { post: PostCardFragmentType }) {
   const { title, excerpt, date, author, image, categories } = post;
+
+  const featuredCategory = categories?.[0];
 
   return (
     <article className="relative bg-white rounded-2xl shadow-sm overflow-hidden">
@@ -34,10 +36,12 @@ export default function PostCard({ post }: { post: PostsArchiveQueryResult['resu
         </div>
         <div className="p-6 md:p-8 flex flex-col justify-center">
           <div className="flex items-center space-x-4 mb-2">
-            <Badge variant="default" asChild>
-              <Link href={`/category/${categories?.[0]?.slug}`}>{categories?.[0]?.title}</Link>
-            </Badge>
-            <ReadTime content={(post.content as PortableTextBlock[]) || []} />
+            {featuredCategory && (
+              <Badge variant="default" asChild>
+                <Link href={getDocumentLink(featuredCategory)}>{featuredCategory.title}</Link>
+              </Badge>
+            )}
+            <ReadTime wordCount={post.wordCount} />
           </div>
           {date ? (
             <time className="text-sm text-gray-500 mb-4">
