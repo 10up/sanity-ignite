@@ -2,13 +2,12 @@ import { Image } from 'next-sanity/image';
 
 import { urlForImage } from '@/lib/sanity/client/utils';
 import DateComponent from '@/components/ui/Date';
-import { PostsArchiveQueryResult } from '@/sanity.types';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import ReadTime from '@/components/ReadTime';
-import { type PortableTextBlock } from 'next-sanity';
+import { PostCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
-export default function Byline({ post }: { post: PostsArchiveQueryResult['results'][number] }) {
+export default function Byline({ post }: { post: PostCardFragmentType }) {
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center">
@@ -51,7 +50,7 @@ export default function Byline({ post }: { post: PostsArchiveQueryResult['result
             ))}
           </div>
         )}
-        <ReadTime content={(post.content as PortableTextBlock[]) || []} />
+        <ReadTime wordCount={post.wordCount} />
       </div>
     </div>
   );

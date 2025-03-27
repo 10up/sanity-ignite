@@ -3,7 +3,7 @@ export const twitterFragment = /* groq */ `
   site,
   creator,
   cardType,
-  handle
+  handle,
 `;
 
 export const imageFragment = /* groq */ `
@@ -22,7 +22,7 @@ export const imageFragment = /* groq */ `
     height,
     width,
   },
-  asset->{...}
+  asset->{...},
 `;
 
 export const openGraphFragment = /* groq */ `
@@ -33,7 +33,7 @@ export const openGraphFragment = /* groq */ `
   title,
   image {
     ${imageFragment}
-  }
+  },
 `;
 
 export const metaAttributesFragment = /* groq */ `
@@ -43,7 +43,7 @@ export const metaAttributesFragment = /* groq */ `
   attributeKey,
   attributeValueImage {
     ${imageFragment}
-  }
+  },
 `;
 
 export const additionalMetaTagFragment = /* groq */ `
@@ -51,7 +51,7 @@ export const additionalMetaTagFragment = /* groq */ `
   _type,
   metaAttributes[] {
     ${metaAttributesFragment}
-  }
+  },
 `;
 
 export const seoFragment = /* groq */ `
@@ -74,49 +74,53 @@ export const seoFragment = /* groq */ `
   }
 `;
 
+export const linkFragment = /* groq */ `
+  _type,
+  type,
+  openInNewTab,
+  external,
+  href,
+  internal->{
+    _type,
+    _id,
+    "slug": slug.current
+  },
+`;
+
 const customLinkFragment = /* groq */ `
   ...customLink{
-    openInNewTab,
-    "href": select(
-      type == "internal" => internal->slug.current,
-      type == "external" => external,
-      "#"
-    ),
-  }
+    ${linkFragment}
+  },
 `;
 
 const markDefsFragment = /* groq */ `
   markDefs[]{
     ...,
     ${customLinkFragment}
-  }
+  },
 `;
 
 const contentFragment = /* groq */ `
   content[]{
     ...,
     ${markDefsFragment}
-  }
+  },
 `;
 
-export const urlFragment = /* groq */ `
+export const buttonFragment = /* groq */ `
+  _key,
   _type,
-  "openInNewTab": url.openInNewTab,
-  "href": select(
-    url.type == "internal" => url.internal->slug.current,
-    url.type == "external" => url.external,
-    url.href
-  )
+  variant,
+  text,
+  link {
+    ${linkFragment}
+  },
 `;
 
 export const buttonsFragment = /* groq */ `
   buttons[]{
-    text,
-    variant,
-    _key,
-    _type,
-    ${urlFragment}
-  }
+    ${buttonFragment}
+  },
 `;
 
 export const heroSectionFragment = /* groq */ `
@@ -151,13 +155,12 @@ export const personFragment = /* groq */ `
   image,
   role,
   biography,
-  "slug": slug.current
+  "slug": slug.current,
 `;
 
-export const postFragment = /* groq */ `
+export const postCardFragment = /* groq */ `
+  _type,
   _id,
-  ...,
-  ${contentFragment},
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
   "title": coalesce(title, "Untitled"),
   "slug": slug.current,
@@ -166,9 +169,15 @@ export const postFragment = /* groq */ `
   "categories": categories[]->{${categoryFragment}},
   "date": coalesce(date, _updatedAt),
   "author": author->{${personFragment}},
+  "wordCount": count(string::split(coalesce(pt::text(content), ''), " ")),
+`;
+
+export const postFragment = /* groq */ `
+  ${postCardFragment}
+  ${contentFragment}
   seo {
     ${seoFragment}
-  }
+  },
 `;
 
 export const postListSectionFragment = /* groq */ `
@@ -201,13 +210,15 @@ export const subscribeSectionFragment = /* groq */ `
 export const cardGridFragment = /* groq */ `
   _type,
   heading,
-  ${contentFragment},
-  icon
+  ${contentFragment}
+  icon,
 `;
 
 export const cardGridsSectionFragment = /* groq */ `
-  ${cardGridFragment},
-  cards[]{${cardGridFragment}}
+  ${cardGridFragment}
+  cards[]{
+    ${cardGridFragment}
+  },
 `;
 
 export const pageBuilderFragment = /* groq */ `
@@ -222,7 +233,7 @@ export const pageBuilderFragment = /* groq */ `
     _type == 'mediaText' => {${mediaTextSectionFragment}},
     _type == 'postList' => {${postListSectionFragment}},
     _type == 'subscribe' => {${subscribeSectionFragment}}
-  }
+  },
 `;
 
 export const menuItemFragment = /* groq */ `
@@ -230,20 +241,22 @@ export const menuItemFragment = /* groq */ `
   _key,
   text,
   type,
-  ${urlFragment}
+  link {
+    ${linkFragment}
+  },
 `;
 
 export const menuFragment = /* groq */ `
   menu[]{
-  ${menuItemFragment},
-  childMenu[]{
     ${menuItemFragment}
-  }
+    childMenu[]{
+      ${menuItemFragment}
+    }
   }
 `;
 
 export const pageFragment = /* groq */ `
-  ${pageBuilderFragment},
+  ${pageBuilderFragment}
   seo {
     ${seoFragment}
   },
