@@ -10,13 +10,14 @@ import Header from '@/components/layout/Header';
 import { SanityLive } from '@/lib/sanity/client/live';
 import { handleError } from './client-utils';
 import Main from '@/components/layout/Main';
-
+import Alert from '@/components/layout/Alert';
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
     <body className={`font-inter bg-white text-black`}>
       <section className="min-h-screen">
+        <Alert />
         {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
         <Toaster />
         {isDraftMode && (
