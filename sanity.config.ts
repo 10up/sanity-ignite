@@ -25,6 +25,12 @@ const homeLocation = {
   href: '/',
 } satisfies DocumentLocation;
 
+// Define the blog page location for the presentation tool
+const blogPageLocation = {
+  title: 'Blog Page',
+  href: '/blog',
+} satisfies DocumentLocation;
+
 // resolveHref() is a convenience function that resolves the URL
 // path for different document types and used in the presentation tool.
 function resolveHref(documentType?: string, slug?: string): string | undefined {
@@ -69,10 +75,8 @@ export default defineConfig({
         ]),
         // Locations Resolver API allows you to define where data is being used in your application. https://www.sanity.io/docs/presentation-resolver-api#8d8bca7bfcd7
         locations: {
-          settings: defineLocations({
-            locations: [homeLocation],
-            message: 'This document is used on all pages',
-            tone: 'positive',
+          blogPage: defineLocations({
+            locations: [blogPageLocation],
           }),
           page: defineLocations({
             select: {
@@ -105,6 +109,11 @@ export default defineConfig({
                 } satisfies DocumentLocation,
               ].filter(Boolean) as DocumentLocation[],
             }),
+          }),
+          settings: defineLocations({
+            locations: [homeLocation],
+            message: 'This document is used on all pages',
+            tone: 'positive',
           }),
         },
       },
