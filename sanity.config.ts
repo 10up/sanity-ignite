@@ -88,6 +88,7 @@ export default defineConfig({
               ],
             }),
           }),
+          // TODO: add locations to people and categories
           post: defineLocations({
             select: {
               title: 'title',
