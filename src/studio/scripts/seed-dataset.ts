@@ -4,6 +4,7 @@ import {
   generateAndUploadMockImages,
   generateMockBlogPage,
   generateMockCategories,
+  generateMockHomePage,
   generateMockPeople,
   generateMockSiteSettings,
 } from './mock-data';
@@ -14,16 +15,22 @@ async function createData() {
   console.log('🔄 Starting transaction... \n\n\n');
   const transaction = client.transaction();
 
-  // Blog Page
-  console.log('📸 Generating blog page... \n\n');
-  const blogPage = generateMockBlogPage();
-  transaction.createOrReplace(blogPage);
-  console.log(`✅ Created/updated blog page data \n\n`);
-
   // Images
   console.log('📸 Generating mock images... \n\n');
   const imagesStore = await generateAndUploadMockImages(client);
   console.log(`✅ Created ${imagesStore.length} images \n\n`);
+
+  //Home page
+  console.log('🏠 Generating home page... \n\n');
+  const homePage = generateMockHomePage(imagesStore);
+  transaction.createOrReplace(homePage);
+  console.log(`✅ Created/updated home page data \n\n`);
+
+  // Blog Page
+  console.log(' Generating blog page... \n\n');
+  const blogPage = generateMockBlogPage();
+  transaction.createOrReplace(blogPage);
+  console.log(`✅ Created/updated blog page data \n\n`);
 
   // People
   console.log('👥 Generating mock people... \n\n');

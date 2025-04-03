@@ -37,7 +37,7 @@ export async function retryPromise<T>(
   throw new Error('Promise retry failed');
 }
 
-type ImageType = 'person';
+export type ImageType = 'heroSection' | 'mediaTextSection' | 'person';
 
 export interface ImageOptions {
   width?: number;
@@ -46,10 +46,9 @@ export interface ImageOptions {
   type: ImageType;
 }
 
-// Image generation
 const DEFAULT_IMAGE_CONFIG = {
-  width: 800,
-  height: 600,
+  width: 1000,
+  height: 667,
   blur: 0,
   grayscale: false,
 } as const;
