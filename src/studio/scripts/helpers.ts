@@ -4,6 +4,7 @@ import { Schema } from '@sanity/schema';
 import type { FieldDefinition, SanityClient } from 'sanity';
 import { JSDOM } from 'jsdom';
 import { schemaTypes } from '../schema';
+import { capitalize } from '@/utils/strings';
 
 const defaultSchema = Schema.compile({ types: schemaTypes });
 const blockContentSchema = defaultSchema
@@ -46,7 +47,7 @@ export async function retryPromise<T>(
   throw new Error('Promise retry failed');
 }
 
-export type ImageType = 'heroSection' | 'mediaTextSection' | 'person';
+export type ImageType = 'heroSection' | 'mediaTextSection' | 'person' | 'post';
 
 export interface ImageOptions {
   width?: number;
@@ -97,6 +98,17 @@ export async function generateImage(
   };
 }
 
+export function generatePageTitle() {
+  const length = faker.number.int({ min: 40, max: 80 });
+  const names = Array.from({ length }, () => {
+    const adjective = capitalize(faker.company.catchPhraseAdjective());
+    const descriptor = capitalize(faker.company.catchPhraseDescriptor());
+    const noun = capitalize(faker.company.catchPhraseNoun());
+    return `${adjective} ${descriptor} ${noun}`;
+  });
+  return faker.helpers.arrayElement(names);
+}
+
 interface HTMLGeneratorOptions {
   enableLists?: boolean;
   headingLevels?: Array<'h2' | 'h3'>;
@@ -141,7 +153,7 @@ function generateHTML(count: number, options: HTMLGeneratorOptions = {}) {
   return faker.helpers.multiple(generateParagraph, { count }).join('');
 }
 
-// Create 2-5 paragraphs of fake block content
+// Create paragraphs of fake block content
 export function createFakeBlockContent(
   options: {
     minParagraphs?: number;
@@ -163,8 +175,8 @@ export function createFakeBlockContent(
   });
 }
 
-export function parseHTML(html: string) {
-  return htmlToBlocks(html, blockContentSchema, {
-    parseHtml: (html) => new JSDOM(html).window.document,
-  });
-}
+// export function parseHTML(html: string) {
+//   return htmlToBlocks(html, blockContentSchema, {
+//     parseHtml: (html) => new JSDOM(html).window.document,
+//   });
+// }

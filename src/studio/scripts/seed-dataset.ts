@@ -6,6 +6,7 @@ import {
   generateMockCategories,
   generateMockHomePage,
   generateMockPeople,
+  generateMockPosts,
   generateMockSiteSettings,
 } from './mock-data';
 
@@ -16,24 +17,24 @@ async function createData() {
   const transaction = client.transaction();
 
   // Images
-  console.log('📸 Generating mock images... \n\n');
+  console.log('📸 Generating mock images... \n');
   const imagesStore = await generateAndUploadMockImages(client);
   console.log(`✅ Created ${imagesStore.length} images \n\n`);
 
   //Home page
-  console.log('🏠 Generating home page... \n\n');
+  console.log('🏠 Generating home page... \n');
   const homePage = generateMockHomePage(imagesStore);
   transaction.createOrReplace(homePage);
   console.log(`✅ Created/updated home page data \n\n`);
 
   // Blog Page
-  console.log(' Generating blog page... \n\n');
+  console.log(' Generating blog page... \n');
   const blogPage = generateMockBlogPage();
   transaction.createOrReplace(blogPage);
   console.log(`✅ Created/updated blog page data \n\n`);
 
   // People
-  console.log('👥 Generating mock people... \n\n');
+  console.log('👥 Generating mock people... \n');
   const personsPayload = generateMockPeople(imagesStore);
   for (const person of personsPayload) {
     transaction.create(person);
@@ -41,20 +42,33 @@ async function createData() {
   console.log(`✅ Created ${personsPayload.length} persons \n\n`);
 
   // Categories
-  console.log('📑 Generating mock categories... \n\n');
+  console.log('📑 Generating mock categories... \n');
   const categoriesPayload = generateMockCategories();
   for (const category of categoriesPayload) {
     transaction.create(category);
   }
   console.log(`✅ Created ${categoriesPayload.length} categories \n\n`);
 
+  // Posts
+  console.log('📝 Generating posts... \n');
+  const posts = generateMockPosts({
+    imagesStore,
+    authors: personsPayload,
+    categories: categoriesPayload,
+  });
+
+  for (const post of posts) {
+    transaction.create(post);
+  }
+  console.log(`✅ Created ${posts.length} posts \n\n`);
+
   // Site Settings
-  console.log('📸 Generating mock site settings... \n\n');
+  console.log('📸 Generating mock site settings... \n');
   const siteSettings = generateMockSiteSettings();
   transaction.createOrReplace(siteSettings);
   console.log(`✅ Created/updated site settings data \n\n\n`);
 
-  console.log('💾 Committing transaction... \n\n');
+  console.log('💾 Committing transaction... \n');
   await transaction.commit();
 
   console.log('✨ Successfully committed all content! \n');

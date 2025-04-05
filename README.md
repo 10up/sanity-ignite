@@ -234,6 +234,8 @@ This project has custom ESLint rules configured for the following scenarios:
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Shadcn/ui Documentation](https://ui.shadcn.com)
 
+<!-- TODO: update/move it -->
+
 ## Seed the database
 
 - Make sure you are logged in with `sanity login` since the script will use the current user's token to create the data in the dataset.

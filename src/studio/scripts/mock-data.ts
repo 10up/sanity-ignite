@@ -4,6 +4,7 @@ import { PromisePool } from '@supercharge/promise-pool';
 import {
   createFakeBlockContent,
   generateImage,
+  generatePageTitle,
   ImageAsset,
   ImageOptions,
   retryPromise,
@@ -22,6 +23,9 @@ const IMAGE_ASSETS_CONFIG: ImageOptions[] = [
   },
   { type: 'person' },
   { type: 'person' },
+  { type: 'post', height: 720, width: 1280 },
+  { type: 'post', height: 720, width: 1280 },
+  { type: 'post', height: 720, width: 1280 },
 ];
 
 // Generates the images store that will be used by the rest of the script
@@ -285,6 +289,67 @@ export function generateMockCategories() {
         current: slugify(title),
       },
       description: faker.lorem.paragraph(2),
+    };
+  });
+}
+
+type MockPeopleType = ReturnType<typeof generateMockPeople>[number];
+
+type MockCategoryType = ReturnType<typeof generateMockCategories>[number];
+interface PostGenerationOptions {
+  imagesStore: ImagesStore;
+  authors: MockPeopleType[];
+  categories: MockCategoryType[];
+}
+
+export function generateMockPosts({ imagesStore, authors, categories }: PostGenerationOptions) {
+  const length = faker.number.int({ min: 4, max: 6 });
+  const postImages = imagesStore.filter((image) => image.type === 'post');
+
+  return Array.from({ length }).map(() => {
+    const title = generatePageTitle();
+    const image = faker.helpers.arrayElement(postImages);
+    const author = faker.helpers.arrayElement(authors);
+    const category = faker.helpers.arrayElement(categories);
+
+    return {
+      _id: faker.string.uuid(),
+      _type: 'post',
+      title,
+      slug: {
+        type: 'slug',
+        current: slugify(title),
+      },
+      image: {
+        _type: 'image',
+        asset: {
+          _ref: image.id,
+          _type: 'reference',
+        },
+        alt: faker.lorem.words(6),
+      },
+      content: createFakeBlockContent({
+        minParagraphs: 9,
+        maxParagraphs: 15,
+        rich: true,
+      }),
+      excerpt: faker.lorem.paragraph(),
+      categories: [
+        {
+          _key: faker.string.uuid(),
+          _ref: category._id,
+          _type: 'reference',
+        },
+      ],
+      date: new Date(faker.date.past()).toISOString(),
+      author: {
+        _type: 'reference',
+        _ref: author._id,
+      },
+      seo: {
+        noIndex: false,
+        _type: 'seoMetaFields',
+      },
     };
   });
 }
