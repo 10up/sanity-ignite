@@ -1,3 +1,4 @@
+import React from 'react';
 import { CogIcon } from '@sanity/icons';
 import { defineField, defineType } from 'sanity';
 import * as demo from '@/lib/sanity/client/demo';

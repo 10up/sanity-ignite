@@ -1,7 +1,13 @@
 import { slugify } from '@/utils/strings';
 import { faker } from '@faker-js/faker';
 import { PromisePool } from '@supercharge/promise-pool';
-import { generateImage, ImageAsset, ImageOptions, retryPromise } from './helpers';
+import {
+  createFakeBlockContent,
+  generateImage,
+  ImageAsset,
+  ImageOptions,
+  retryPromise,
+} from './helpers';
 import { SanityClient } from 'sanity';
 
 // Image asset configurations
@@ -16,10 +22,6 @@ const IMAGE_ASSETS_CONFIG: ImageOptions[] = [
   },
   { type: 'person' },
   { type: 'person' },
-  //   {
-  //     type: 'og' as const,
-  //     url: 'https://raw.githubusercontent.com/robotostudio/turbo-start-sanity/refs/heads/main/turbo-start-sanity-og.png',
-  //   },
 ];
 
 // Generates the images store that will be used by the rest of the script
@@ -73,24 +75,12 @@ function generateHeroSection(imagesStore: ImagesStore) {
         _ref: image.id,
         _type: 'reference',
       },
-      alt: `The hands of a person typing on a computer`,
+      alt: 'The hands of a person typing on a computer',
     },
-    text: [
-      {
-        _key: faker.string.uuid(),
-        _type: 'block',
-        children: [
-          {
-            _key: faker.string.uuid(),
-            _type: 'span',
-            marks: [],
-            text: 'A headstart on building a powerful website with Sanity.io complete with TypeScript, Next.js, and Tailwind.',
-          },
-        ],
-        markDefs: [],
-        style: 'normal',
-      },
-    ],
+    text: createFakeBlockContent({
+      maxParagraphs: 1,
+      minParagraphs: 1,
+    }),
   };
 }
 
@@ -107,22 +97,10 @@ function generateMediaAndTextSection(imagesStore: ImagesStore) {
   return {
     _key: faker.string.uuid(),
     _type: 'mediaText',
-    content: [
-      {
-        _key: faker.string.uuid(),
-        _type: 'block',
-        children: [
-          {
-            _key: faker.string.uuid(),
-            _type: 'span',
-            marks: [],
-            text: 'Quickly draft and publish content with instant previews of what your working on. Empower your editors to move quickly.',
-          },
-        ],
-        markDefs: [],
-        style: 'normal',
-      },
-    ],
+    content: createFakeBlockContent({
+      maxParagraphs: 1,
+      minParagraphs: 1,
+    }),
     heading: 'Content Velocity',
     image: {
       _type: 'image',
@@ -169,83 +147,39 @@ function generateCardGridSection() {
       {
         _key: faker.string.uuid(),
         _type: 'card',
-        content: [
-          {
-            _key: faker.string.uuid(),
-            _type: 'block',
-            children: [
-              {
-                _key: faker.string.uuid(),
-                _type: 'span',
-                marks: [],
-                text: 'Performance oriented schema. Optimized for caching in Next.js to improve user experience and SEO.',
-              },
-            ],
-            markDefs: [],
-            style: 'normal',
-          },
-        ],
+        content: createFakeBlockContent({
+          maxParagraphs: 1,
+          minParagraphs: 1,
+        }),
+
         heading: 'Lightning Fast',
       },
       {
         _key: faker.string.uuid(),
         _type: 'card',
-        content: [
-          {
-            _key: faker.string.uuid(),
-            _type: 'block',
-            children: [
-              {
-                _key: faker.string.uuid(),
-                _type: 'span',
-                marks: [],
-                text: 'Beautiful, responsive components built with Tailwind CSS that you can easily customize.',
-              },
-            ],
-            markDefs: [],
-            style: 'normal',
-          },
-        ],
+        content: createFakeBlockContent({
+          maxParagraphs: 1,
+          minParagraphs: 1,
+        }),
+
         heading: 'Modern UI Components',
       },
       {
         _key: faker.string.uuid(),
         _type: 'card',
-        content: [
-          {
-            _key: faker.string.uuid(),
-            _type: 'block',
-            children: [
-              {
-                _key: faker.string.uuid(),
-                _type: 'span',
-                marks: [],
-                text: 'Define your content structure with a flexible and intuitive schema that adapts to your specific needs.',
-              },
-            ],
-            markDefs: [],
-            style: 'normal',
-          },
-        ],
+        content: createFakeBlockContent({
+          maxParagraphs: 1,
+          minParagraphs: 1,
+        }),
+
         heading: 'Customizable Schema',
       },
     ],
-    content: [
-      {
-        _key: faker.string.uuid(),
-        _type: 'block',
-        children: [
-          {
-            _key: '0a608e69f3d0',
-            _type: 'span',
-            marks: [],
-            text: 'Build and iterate on features quicker without having to deal with project architecture and configuration.',
-          },
-        ],
-        markDefs: [],
-        style: 'normal',
-      },
-    ],
+    content: createFakeBlockContent({
+      maxParagraphs: 1,
+      minParagraphs: 1,
+    }),
+
     heading: 'More Features, Faster',
   };
 }
@@ -269,6 +203,10 @@ export function generateMockHomePage(imagesStore: ImagesStore) {
     generatePostsListSection(),
   ];
 
+  const seoTitle = 'Sanity Ignite by 10up';
+  const seoDescription =
+    'Sanity Ignite is a powerful framework for building a Sanity website in Next.js, React, and Tailwind.';
+
   return {
     _id: 'homePage',
     _type: 'homePage',
@@ -276,15 +214,13 @@ export function generateMockHomePage(imagesStore: ImagesStore) {
     pageSections,
     seo: {
       _type: 'seoMetaFields',
-      metaDescription:
-        'Sanity Ignite is a powerful framework for building a Sanity website in Next.js, React, and Tailwind.',
-      metaTitle: 'Sanity Ignite by 10up',
+      metaDescription: seoDescription,
+      metaTitle: seoTitle,
       noIndex: true,
       openGraph: {
         _type: 'openGraph',
-        description:
-          'Sanity Ignite is a powerful framework for building a Sanity website in Next.js, React, and Tailwind.',
-        title: 'Sanity Ignite by 10up',
+        description: seoDescription,
+        title: seoTitle,
       },
     },
   };
