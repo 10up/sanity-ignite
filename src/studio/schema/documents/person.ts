@@ -58,13 +58,12 @@ export default defineType({
       title: 'Role',
       type: 'string',
     }),
-    // defineField({
-    //   name: 'biography',
-    //   title: 'Biography',
-    //   type: 'blockContent',
-    // }),
+    defineField({
+      name: 'biography',
+      title: 'Biography',
+      type: 'blockContent',
+    }),
   ],
-
   // List preview configuration. https://www.sanity.io/docs/previews-list-views
   preview: {
     select: {
@@ -73,8 +72,11 @@ export default defineType({
       image: 'image',
     },
     prepare(selection) {
+      const firstName = selection.firstName ?? '';
+      const lastName = selection.lastName ?? '';
+
       return {
-        title: `${selection.firstName} ${selection.lastName}`,
+        title: firstName || lastName ? `${firstName} ${lastName}` : 'Untitled',
         subtitle: 'Person',
         media: selection.image,
       };
