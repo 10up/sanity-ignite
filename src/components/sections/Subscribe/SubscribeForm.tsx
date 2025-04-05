@@ -6,8 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import type { SubscribeSection } from '../types';
 
-// TODO: Remove this eslint ignore after upgrading to react@19
-// eslint-disable-next-line import/named
 import { useActionState } from 'react';
 
 const SubscribeForm = ({ section }: { section: SubscribeSection }) => {

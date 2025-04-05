@@ -174,9 +174,3 @@ export function createFakeBlockContent(
     parseHtml: (html) => new JSDOM(html).window.document,
   });
 }
-
-// export function parseHTML(html: string) {
-//   return htmlToBlocks(html, blockContentSchema, {
-//     parseHtml: (html) => new JSDOM(html).window.document,
-//   });
-// }

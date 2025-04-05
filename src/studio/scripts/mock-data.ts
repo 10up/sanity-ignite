@@ -23,6 +23,9 @@ const IMAGE_ASSETS_CONFIG: ImageOptions[] = [
   },
   { type: 'person' },
   { type: 'person' },
+  { type: 'person' },
+  { type: 'post', height: 720, width: 1280 },
+  { type: 'post', height: 720, width: 1280 },
   { type: 'post', height: 720, width: 1280 },
   { type: 'post', height: 720, width: 1280 },
   { type: 'post', height: 720, width: 1280 },
@@ -151,40 +154,36 @@ function generateCardGridSection() {
       {
         _key: faker.string.uuid(),
         _type: 'card',
-        content: createFakeBlockContent({
-          maxParagraphs: 1,
-          minParagraphs: 1,
-        }),
-
         heading: 'Lightning Fast',
-      },
-      {
-        _key: faker.string.uuid(),
-        _type: 'card',
         content: createFakeBlockContent({
           maxParagraphs: 1,
           minParagraphs: 1,
         }),
-
+      },
+      {
+        _key: faker.string.uuid(),
+        _type: 'card',
         heading: 'Modern UI Components',
-      },
-      {
-        _key: faker.string.uuid(),
-        _type: 'card',
         content: createFakeBlockContent({
           maxParagraphs: 1,
           minParagraphs: 1,
         }),
-
+      },
+      {
+        _key: faker.string.uuid(),
+        _type: 'card',
         heading: 'Customizable Schema',
+        content: createFakeBlockContent({
+          maxParagraphs: 1,
+          minParagraphs: 1,
+        }),
       },
     ],
+    heading: 'More Features, Faster',
     content: createFakeBlockContent({
       maxParagraphs: 1,
       minParagraphs: 1,
     }),
-
-    heading: 'More Features, Faster',
   };
 }
 
@@ -243,12 +242,11 @@ export function generateMockBlogPage() {
 }
 
 export function generateMockPeople(imagesStore: ImagesStore) {
-  // TODO: share the size between document sizes and images in a better way (e.g. 2 people = 2 people images)
-  const peopleSize = 2;
+  const length = faker.number.int({ min: 5, max: 5 });
   const peopleImages = imagesStore.filter((image) => image.type === 'person');
 
-  return Array.from({ length: peopleSize }).map((_, index) => {
-    const image = peopleImages[index];
+  return Array.from({ length }).map(() => {
+    const image = faker.helpers.arrayElement(peopleImages);
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
 
@@ -275,9 +273,9 @@ export function generateMockPeople(imagesStore: ImagesStore) {
 }
 
 export function generateMockCategories() {
-  const categoriesSize = 3;
+  const length = faker.number.int({ min: 3, max: 5 });
 
-  return Array.from({ length: categoriesSize }).map(() => {
+  return Array.from({ length }).map(() => {
     const title = faker.commerce.department();
 
     return {
@@ -303,7 +301,7 @@ interface PostGenerationOptions {
 }
 
 export function generateMockPosts({ imagesStore, authors, categories }: PostGenerationOptions) {
-  const length = faker.number.int({ min: 4, max: 6 });
+  const length = faker.number.int({ min: 6, max: 8 });
   const postImages = imagesStore.filter((image) => image.type === 'post');
 
   return Array.from({ length }).map(() => {
