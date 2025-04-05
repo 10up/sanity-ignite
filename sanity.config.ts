@@ -19,16 +19,14 @@ import {
 import { assist } from '@sanity/assist';
 import { clientEnv } from '@/env/clientEnv';
 
-// Define the home location for the presentation tool
-const homeLocation = {
-  title: 'Home',
-  href: '/',
-} satisfies DocumentLocation;
-
 // resolveHref() is a convenience function that resolves the URL
 // path for different document types and used in the presentation tool.
 function resolveHref(documentType?: string, slug?: string): string | undefined {
   switch (documentType) {
+    case 'category':
+      return slug ? `/category/${slug}` : undefined;
+    case 'person':
+      return slug ? `/author/${slug}` : undefined;
     case 'post':
       return slug ? `/blog/${slug}` : undefined;
     case 'page':
@@ -69,10 +67,33 @@ export default defineConfig({
         ]),
         // Locations Resolver API allows you to define where data is being used in your application. https://www.sanity.io/docs/presentation-resolver-api#8d8bca7bfcd7
         locations: {
-          settings: defineLocations({
-            locations: [homeLocation],
-            message: 'This document is used on all pages',
-            tone: 'positive',
+          blogPage: defineLocations({
+            select: {
+              name: 'name',
+              slug: 'slug.current',
+            },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.name || 'Blog Page',
+                  href: '/blog',
+                },
+              ],
+            }),
+          }),
+          category: defineLocations({
+            select: {
+              name: 'firstName' + 'lastName',
+              slug: 'slug.current',
+            },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.name || 'Untitled',
+                  href: resolveHref('category', doc?.slug)!,
+                },
+              ],
+            }),
           }),
           page: defineLocations({
             select: {
@@ -88,7 +109,25 @@ export default defineConfig({
               ],
             }),
           }),
-          // TODO: add locations to people and categories
+          person: defineLocations({
+            select: {
+              firstName: 'firstName',
+              lastName: 'lastName',
+              slug: 'slug.current',
+            },
+            resolve: (doc) => {
+              const firstName = doc?.firstName ?? '';
+              const lastName = doc?.lastName ?? '';
+              return {
+                locations: [
+                  {
+                    title: firstName || lastName ? `${firstName} ${lastName}` : 'Untitled',
+                    href: resolveHref('person', doc?.slug)!,
+                  },
+                ],
+              };
+            },
+          }),
           post: defineLocations({
             select: {
               title: 'title',
@@ -101,11 +140,21 @@ export default defineConfig({
                   href: resolveHref('post', doc?.slug)!,
                 },
                 {
-                  title: 'Home',
-                  href: '/',
-                } satisfies DocumentLocation,
+                  title: 'Blog page',
+                  href: '/blog',
+                },
               ].filter(Boolean) as DocumentLocation[],
             }),
+          }),
+          settings: defineLocations({
+            locations: [
+              {
+                title: 'Home',
+                href: '/',
+              },
+            ],
+            message: 'This document is used on all pages',
+            tone: 'positive',
           }),
         },
       },
