@@ -61,6 +61,19 @@ function generateHeroSection(imagesStore: ImagesStore) {
   return {
     _key: faker.string.uuid(),
     _type: 'hero',
+    heading: 'Welcome to Sanity Ignite',
+    image: {
+      _type: 'image',
+      asset: {
+        _ref: image.id,
+        _type: 'reference',
+      },
+      alt: 'The hands of a person typing on a computer',
+    },
+    text: createFakeBlockContent({
+      maxParagraphs: 1,
+      minParagraphs: 1,
+    }),
     buttons: [
       {
         _key: faker.string.uuid(),
@@ -75,19 +88,6 @@ function generateHeroSection(imagesStore: ImagesStore) {
         variant: 'outline',
       },
     ],
-    heading: 'Welcome to Sanity Ignite',
-    image: {
-      _type: 'image',
-      asset: {
-        _ref: image.id,
-        _type: 'reference',
-      },
-      alt: 'The hands of a person typing on a computer',
-    },
-    text: createFakeBlockContent({
-      maxParagraphs: 1,
-      minParagraphs: 1,
-    }),
   };
 }
 
@@ -104,11 +104,6 @@ function generateMediaAndTextSection(imagesStore: ImagesStore) {
   return {
     _key: faker.string.uuid(),
     _type: 'mediaText',
-    content: createFakeBlockContent({
-      maxParagraphs: 1,
-      minParagraphs: 1,
-    }),
-    heading: 'Content Velocity',
     image: {
       _type: 'image',
       asset: {
@@ -118,6 +113,11 @@ function generateMediaAndTextSection(imagesStore: ImagesStore) {
       alt: 'Woman writing content',
     },
     imagePosition: 'left',
+    content: createFakeBlockContent({
+      maxParagraphs: 1,
+      minParagraphs: 1,
+    }),
+    heading: 'Content Velocity',
   };
 }
 
@@ -125,60 +125,30 @@ function generateSubscribeSection() {
   return {
     _key: faker.string.uuid(),
     _type: 'subscribe',
-    buttonText: 'Sign Up',
-    content: [
-      {
-        _key: faker.string.uuid(),
-        _type: 'block',
-        children: [
-          {
-            _key: faker.string.uuid(),
-            _type: 'span',
-            marks: [],
-            text: 'Sign up to get the latest updates on Sanity Ignite.',
-          },
-        ],
-        markDefs: [],
-        style: 'normal',
-      },
-    ],
     heading: 'Subscribe to Get Updates',
+    content: createFakeBlockContent({
+      maxParagraphs: 1,
+      minParagraphs: 1,
+    }),
+    buttonText: 'Sign Up',
   };
 }
 
 function generateCardGridSection() {
+  const titles = ['Lightning Fast', 'Modern UI Components', 'Customizable Schema'];
+
   return {
     _key: faker.string.uuid(),
     _type: 'cardGrid',
-    cards: [
-      {
-        _key: faker.string.uuid(),
-        _type: 'card',
-        heading: 'Lightning Fast',
-        content: createFakeBlockContent({
-          maxParagraphs: 1,
-          minParagraphs: 1,
-        }),
-      },
-      {
-        _key: faker.string.uuid(),
-        _type: 'card',
-        heading: 'Modern UI Components',
-        content: createFakeBlockContent({
-          maxParagraphs: 1,
-          minParagraphs: 1,
-        }),
-      },
-      {
-        _key: faker.string.uuid(),
-        _type: 'card',
-        heading: 'Customizable Schema',
-        content: createFakeBlockContent({
-          maxParagraphs: 1,
-          minParagraphs: 1,
-        }),
-      },
-    ],
+    cards: titles.map((title) => ({
+      _key: faker.string.uuid(),
+      _type: 'card',
+      heading: title,
+      content: createFakeBlockContent({
+        maxParagraphs: 1,
+        minParagraphs: 1,
+      }),
+    })),
     heading: 'More Features, Faster',
     content: createFakeBlockContent({
       maxParagraphs: 1,
@@ -268,6 +238,10 @@ export function generateMockPeople(imagesStore: ImagesStore) {
         alt: `${firstName} picture`,
       },
       role: faker.person.jobTitle(),
+      biography: createFakeBlockContent({
+        minParagraphs: 2,
+        maxParagraphs: 3,
+      }),
     };
   });
 }
