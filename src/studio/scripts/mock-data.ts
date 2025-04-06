@@ -23,9 +23,6 @@ const IMAGE_ASSETS_CONFIG: ImageOptions[] = [
   },
   { type: 'person' },
   { type: 'person' },
-  { type: 'person' },
-  { type: 'post', height: 720, width: 1280 },
-  { type: 'post', height: 720, width: 1280 },
   { type: 'post', height: 720, width: 1280 },
   { type: 'post', height: 720, width: 1280 },
   { type: 'post', height: 720, width: 1280 },
@@ -99,7 +96,13 @@ function generateDividerSection() {
   };
 }
 
-function generateMediaAndTextSection(imagesStore: ImagesStore) {
+function generateMediaAndTextSection({
+  imagesStore,
+  heading,
+}: {
+  imagesStore: ImagesStore;
+  heading: string;
+}) {
   const image = imagesStore.find((img) => img.type === 'mediaTextSection')!;
   return {
     _key: faker.string.uuid(),
@@ -113,47 +116,57 @@ function generateMediaAndTextSection(imagesStore: ImagesStore) {
       alt: 'Woman writing content',
     },
     imagePosition: 'left',
+    heading,
     content: createFakeBlockContent({
       maxParagraphs: 1,
       minParagraphs: 1,
     }),
-    heading: 'Content Velocity',
   };
 }
 
-function generateSubscribeSection() {
+function generateSubscribeSection({
+  heading,
+  buttonText,
+}: {
+  heading: string;
+  buttonText: string;
+}) {
   return {
     _key: faker.string.uuid(),
     _type: 'subscribe',
-    heading: 'Subscribe to Get Updates',
+    heading,
     content: createFakeBlockContent({
       maxParagraphs: 1,
       minParagraphs: 1,
     }),
-    buttonText: 'Sign Up',
+    buttonText,
   };
 }
 
-function generateCardGridSection() {
-  const titles = ['Lightning Fast', 'Modern UI Components', 'Customizable Schema'];
-
+function generateCardGridSection({
+  gridHeading,
+  cardHeadings,
+}: {
+  gridHeading: string;
+  cardHeadings: string[];
+}) {
   return {
     _key: faker.string.uuid(),
     _type: 'cardGrid',
-    cards: titles.map((title) => ({
+    heading: gridHeading,
+    content: createFakeBlockContent({
+      maxParagraphs: 1,
+      minParagraphs: 1,
+    }),
+    cards: cardHeadings.map((heading) => ({
       _key: faker.string.uuid(),
       _type: 'card',
-      heading: title,
+      heading,
       content: createFakeBlockContent({
         maxParagraphs: 1,
         minParagraphs: 1,
       }),
     })),
-    heading: 'More Features, Faster',
-    content: createFakeBlockContent({
-      maxParagraphs: 1,
-      minParagraphs: 1,
-    }),
   };
 }
 
@@ -162,7 +175,7 @@ function generatePostsListSection() {
     _key: faker.string.uuid(),
     _type: 'postList',
     heading: 'Recent Posts',
-    numberOfPosts: 3,
+    numberOfPosts: faker.number.int({ min: 3, max: 6 }),
   };
 }
 
@@ -170,9 +183,12 @@ export function generateMockHomePage(imagesStore: ImagesStore) {
   const pageSections = [
     generateHeroSection(imagesStore),
     generateDividerSection(),
-    generateMediaAndTextSection(imagesStore),
-    generateSubscribeSection(),
-    generateCardGridSection(),
+    generateMediaAndTextSection({ imagesStore, heading: 'Content Velocity' }),
+    generateSubscribeSection({ heading: 'Subscribe to Get Updates', buttonText: 'Sign Up' }),
+    generateCardGridSection({
+      gridHeading: 'More Features, Faster',
+      cardHeadings: ['Lightning Fast', 'Modern UI Components', 'Customizable Schema'],
+    }),
     generatePostsListSection(),
   ];
 
@@ -326,7 +342,52 @@ export function generateMockPosts({ imagesStore, authors, categories }: PostGene
   });
 }
 
+export function generateMockPage(imagesStore: ImagesStore) {
+  const pageSections = [
+    generateMediaAndTextSection({ imagesStore, heading: 'Our Team' }),
+    generateCardGridSection({
+      gridHeading: 'Our Resources',
+      cardHeadings: ['Expert Engineering', 'Creative Web Design', 'Custom Sanity Studio Solutions'],
+    }),
+    generateSubscribeSection({
+      heading: 'Want to Chat? Leave Your Email',
+      buttonText: 'Contact Us',
+    }),
+  ];
+
+  return {
+    _id: 'about',
+    name: 'About',
+    _type: 'page',
+    slug: {
+      _type: 'slug',
+      current: 'about',
+    },
+    pageSections,
+    seo: {
+      _type: 'seoMetaFields',
+      noIndex: false,
+    },
+  };
+}
+
 export function generateMockSiteSettings() {
+  const aboutChildrenTitles = [{ text: 'Contact' }, { text: 'Our Team' }, { text: 'Resources' }];
+  const aboutChildrenLinks = aboutChildrenTitles.map((item) => ({
+    _key: faker.string.uuid(),
+    _type: 'menuItem',
+    type: 'link',
+    text: item.text,
+    link: {
+      _type: 'link',
+      internal: {
+        _ref: 'about',
+        _type: 'reference',
+      },
+      type: 'internal',
+    },
+  }));
+
   return {
     _id: 'siteSettings',
     _type: 'settings',
@@ -360,26 +421,7 @@ export function generateMockSiteSettings() {
       {
         _key: faker.string.uuid(),
         _type: 'menuItem',
-        childMenu: [
-          {
-            _key: faker.string.uuid(),
-            _type: 'menuItem',
-            text: 'Contact',
-            type: 'link',
-          },
-          {
-            _key: faker.string.uuid(),
-            _type: 'menuItem',
-            text: 'Our Team',
-            type: 'link',
-          },
-          {
-            _key: faker.string.uuid(),
-            _type: 'menuItem',
-            text: 'Resources',
-            type: 'link',
-          },
-        ],
+        childMenu: aboutChildrenLinks,
         text: 'About',
         type: 'child-menu',
       },

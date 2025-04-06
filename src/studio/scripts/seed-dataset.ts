@@ -5,6 +5,7 @@ import {
   generateMockBlogPage,
   generateMockCategories,
   generateMockHomePage,
+  generateMockPage,
   generateMockPeople,
   generateMockPosts,
   generateMockSiteSettings,
@@ -61,6 +62,13 @@ async function createData() {
     transaction.create(post);
   }
   console.log(`✅ Created ${posts.length} posts \n\n`);
+
+  // Pages
+  console.log('📝 Generating pages... \n');
+  const page = generateMockPage(imagesStore);
+  transaction.createOrReplace(page);
+
+  console.log(`✅ Created/updated page \n\n`);
 
   // Site Settings
   console.log('📸 Generating mock site settings... \n');
