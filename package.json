@@ -16,7 +16,7 @@
     "watch-typegen": "tsx watch-typegen.ts",
     "test": "vitest",
     "prepare": "husky install",
-    "seed-dataset": "sanity exec src/studio/scripts/seed-dataset.ts --with-user-token"
+    "seed-dataset": "sanity exec src/studio/scripts/seed-dataset/index.ts --with-user-token"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.6",

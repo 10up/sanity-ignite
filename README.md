@@ -41,13 +41,27 @@ cp .env.example .env.local
 
 Replace the placeholders with your own Sanity API key, project ID and dataset name.
 
-### 4. Start the Development Server
+### 4. Seed the Database (Optional)
+
+To populate the database with example content, start by logging in to the Sanity CLI:
+
+```bash
+sanity login
+```
+
+Then run the seed script:
+
+```bash
+npm run seed-dataset
+```
+
+### 5. Start the Development Server
 
 ```bash
 npm run dev
 ```
 
-### 5. Open the Project and sign in to Sanity
+### 6. Open the Project and sign in to Sanity
 
 Open the next app locally at [http://localhost:3000](http://localhost:3000) and the Sanity Studio at [http://localhost:3000/studio](http://localhost:3000/studio).
 
@@ -79,6 +93,7 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 │ │ ├── 📂 schemas          # Schema definitions for Sanity content models
 │ │ ├── 📂 components       # Custom Sanity components
 │ │ ├── 📂 plugins          # Custom Sanity plugins
+│ │ ├── 📂 scripts          # Custom scripts to update the dataset data
 │ │ ├── 📂 structure        # Custom Sanity structure definitions
 │ ├── 📂 utils              # Utility functions and TypeScript types
 ```
@@ -143,7 +158,13 @@ This folder contains everything needed to **configure and customize Sanity Studi
   - Third-party or custom plugins that **extend Sanity’s functionality**.
   - Examples: AI-powered content suggestions, media management, or real-time collaboration tools.
 
+- **`script/` - Custom Studio Scripts**
+
+  - Utility scripts used to **migrate, transform, or update** content in the Sanity dataset.
+  - Helpful for bulk edits, data normalization, or one-time migrations.
+
 - **`structure/` - Custom Studio Structure**
+
   - Defines how content is **organized** inside the Sanity Studio UI.
   - Custom menus, navigation rules, and UI layouts are configured here.
 
@@ -233,9 +254,3 @@ This project has custom ESLint rules configured for the following scenarios:
 - [Sanity Documentation](https://www.sanity.io/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Shadcn/ui Documentation](https://ui.shadcn.com)
-
-<!-- TODO: update/move it -->
-
-## Seed the database
-
-- Make sure you are logged in with `sanity login` since the script will use the current user's token to create the data in the dataset.

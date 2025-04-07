@@ -8,7 +8,7 @@ import {
   ImageAsset,
   ImageOptions,
   retryPromise,
-} from './helpers';
+} from '../helpers';
 import { SanityClient } from 'sanity';
 
 // Image asset configurations
@@ -373,20 +373,6 @@ export function generateMockPage(imagesStore: ImagesStore) {
 
 export function generateMockSiteSettings() {
   const aboutChildrenTitles = [{ text: 'Contact' }, { text: 'Our Team' }, { text: 'Resources' }];
-  const aboutChildrenLinks = aboutChildrenTitles.map((item) => ({
-    _key: faker.string.uuid(),
-    _type: 'menuItem',
-    type: 'link',
-    text: item.text,
-    link: {
-      _type: 'link',
-      internal: {
-        _ref: 'about',
-        _type: 'reference',
-      },
-      type: 'internal',
-    },
-  }));
 
   return {
     _id: 'siteSettings',
@@ -421,7 +407,20 @@ export function generateMockSiteSettings() {
       {
         _key: faker.string.uuid(),
         _type: 'menuItem',
-        childMenu: aboutChildrenLinks,
+        childMenu: aboutChildrenTitles.map((item) => ({
+          _key: faker.string.uuid(),
+          _type: 'menuItem',
+          type: 'link',
+          text: item.text,
+          link: {
+            _type: 'link',
+            internal: {
+              _ref: 'about',
+              _type: 'reference',
+            },
+            type: 'internal',
+          },
+        })),
         text: 'About',
         type: 'child-menu',
       },

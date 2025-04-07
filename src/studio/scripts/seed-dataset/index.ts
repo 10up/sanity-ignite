@@ -1,5 +1,5 @@
-import { retryPromise } from './helpers';
 import { getCliClient } from 'sanity/cli';
+import { retryPromise } from '../helpers';
 import {
   generateAndUploadMockImages,
   generateMockBlogPage,
