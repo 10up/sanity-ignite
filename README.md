@@ -1,4 +1,5 @@
 # Sanity Ignite by 10up
+
 A Sanity starter kit providing modern, clean designs for your content-driven websites. Built with Next.js and Tailwind CSS.
 
 Out of the box it includes schema for pages, posts, categories, authors, and global settings. Pages are structured with a page builder that lets you compose a number of components: hero, CTA, post list, subscribe, content, etc.
@@ -15,38 +16,21 @@ Out of the box it includes schema for pages, posts, categories, authors, and glo
 
 ## Getting Started
 
-### 1. Clone the Repository
+### 1. Initialize template with Sanity CLI
 
 ```bash
-git clone git@github.com:10up/sanity-ignite.git
+npm create sanity@latest -- --template 10up/sanity-ignite
 ```
 
-### 2. Install Dependencies
+This will install your NPM dependencies and populate the `.env.local` file.
 
-Navigate to the project directory using `cd <project-name>`, switch to the correct Node.js version using `nvm use`, and install the dependencies using `npm i`.
-
-```bash
-nvm use # Use the correct Node.js version
-npm i # Install dependencies
-```
-
-### 3. Set Up Environment Variables
-
-Duplicate the `.env.example` file and rename it to `.env.local`. Fill in the required environment variables.
-
-```bash
-cp .env.example .env.local
-```
-
-Replace the placeholders with your own Sanity API key, project ID and dataset name.
-
-### 4. Start the Development Server
+### 2. Start the Development Server
 
 ```bash
 npm run dev
 ```
 
-### 5. Open the Project and sign in to Sanity
+### 3. Open the Project and sign in to Sanity
 
 Open the next app locally at [http://localhost:3000](http://localhost:3000) and the Sanity Studio at [http://localhost:3000/studio](http://localhost:3000/studio).
 
