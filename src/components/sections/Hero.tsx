@@ -23,7 +23,7 @@ export default function HeroSection({ section }: { section: HeroSection }) {
             ) : null}
           </div>
           <div className="relative">
-            {section.image && (
+            {section.image?.asset && (
               <Image
                 src={urlForImage(section.image)?.width(1000).height(667).url() as string}
                 alt={section?.image?.alt || ''}

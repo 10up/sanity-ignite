@@ -31,6 +31,7 @@ export default defineType({
       name: 'buttons',
       type: 'array',
       of: [{ type: 'button' }],
+      validation: (Rule) => Rule.min(2).max(4),
     }),
   ],
   preview: {

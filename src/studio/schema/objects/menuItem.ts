@@ -12,6 +12,7 @@ export default defineType({
       name: 'text',
       title: 'Menu Item Text',
       type: 'string',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'type',

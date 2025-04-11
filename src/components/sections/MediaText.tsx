@@ -13,7 +13,7 @@ export default function MediaTextSection({ section }: { section: MediaTextSectio
       })}
     >
       <div className="lg:w-1/2">
-        {section.image && (
+        {section.image?.asset && (
           <Image
             alt={section.image?.alt || ''}
             className="shadow-md rounded-4xl"

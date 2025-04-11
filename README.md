@@ -16,30 +16,23 @@ Out of the box it includes schema for pages, posts, categories, authors, and glo
 
 ## Getting Started
 
-### 1. Clone the Repository
+### 1. Initialize template with Sanity CLI
 
 ```bash
-git clone git@github.com:10up/sanity-ignite.git
+npm create sanity@latest -- --template 10up/sanity-ignite
 ```
 
-### 2. Install Dependencies
+This will install your NPM dependencies and populate the `.env.local` file.
 
-Navigate to the project directory using `cd <project-name>`, switch to the correct Node.js version using `nvm use`, and install the dependencies using `npm i`.
+### 2. Start the Development Server
 
 ```bash
-nvm use # Use the correct Node.js version
-npm i # Install dependencies
+npm run dev
 ```
 
-### 3. Set Up Environment Variables
+### 3. Open the Project and sign in to Sanity
 
-Duplicate the `.env.example` file and rename it to `.env.local`. Fill in the required environment variables.
-
-```bash
-cp .env.example .env.local
-```
-
-Replace the placeholders with your own Sanity API key, project ID and dataset name.
+Open the next app locally at [http://localhost:3000](http://localhost:3000) and the Sanity Studio at [http://localhost:3000/studio](http://localhost:3000/studio).
 
 ### 4. Seed the Database (Optional)
 
@@ -54,16 +47,6 @@ Then run the seed script:
 ```bash
 npm run seed-dataset
 ```
-
-### 5. Start the Development Server
-
-```bash
-npm run dev
-```
-
-### 6. Open the Project and sign in to Sanity
-
-Open the next app locally at [http://localhost:3000](http://localhost:3000) and the Sanity Studio at [http://localhost:3000/studio](http://localhost:3000/studio).
 
 ## Folder Structure
 
@@ -93,7 +76,7 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 │ │ ├── 📂 schemas          # Schema definitions for Sanity content models
 │ │ ├── 📂 components       # Custom Sanity components
 │ │ ├── 📂 plugins          # Custom Sanity plugins
-│ │ ├── 📂 scripts          # Custom scripts to update the dataset data
+│ │ ├── 📂 scripts          # Custom scripts to update the dataset
 │ │ ├── 📂 structure        # Custom Sanity structure definitions
 │ ├── 📂 utils              # Utility functions and TypeScript types
 ```
