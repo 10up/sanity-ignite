@@ -1,4 +1,4 @@
-# Sanity Ignite by 10up
+# Ignite for Sanity
 
 A Sanity starter kit providing modern, clean designs for your content-driven websites. Built with Next.js and Tailwind CSS.
 
