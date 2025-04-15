@@ -54,7 +54,7 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 │ ├── 📂 actions            # Server-side actions
 │ ├── 📂 env                # Environment specific functions and `.env` validation
 │ ├── 📂 lib                # Shared libraries and integrations
-│ │ ├── 📂 sanity           # Sanity CMS integration
+│ │ ├── 📂 sanity           # Sanity integration
 │ │ │ ├── 📂 queries        # Sanity GraphQL/GROQ queries
 │ │ │ ├── 📂 client         # Sanity client configuration
 │ │ ├── 📂 (example)        # Every integration (e.g., CRM, Newsletter SDKs) gets its own subfolder
@@ -97,7 +97,7 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 
 ### 📂 `src/lib` - Shared Libraries & Integrations
 
-- **`sanity/` - Sanity CMS Integration**
+- **`sanity/` - Sanity Integration**
 
   - **`queries/`** → Contains all Sanity **GROQ queries** used in the frontend.
   - **`client/`** → Configures the Sanity client and SanityLive client used for API calls
@@ -110,7 +110,7 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 
 ### 📂 `src/studio` - Sanity Studio Configuration
 
-This folder contains everything needed to **configure and customize Sanity Studio**, the headless CMS used in this project.
+This folder contains everything needed to **configure and customize Sanity Studio**, the headless content operating system used in this project.
 
 - **`schemas/` - Content Models**
 
