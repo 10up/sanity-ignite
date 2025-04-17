@@ -1,6 +1,6 @@
 'use server';
 
-import { ActionResponse } from "./types";
+import { ActionResponse } from './types';
 import * as v from 'valibot';
 
 const EmailSchema = v.pipe(
@@ -9,11 +9,10 @@ const EmailSchema = v.pipe(
   v.email('The email is badly formatted.'),
 );
 
-const subscribeAction = async (formData: FormData): Promise<ActionResponse> => {
+export const subscribeAction = async (formData: FormData): Promise<ActionResponse> => {
   'use server';
 
   try {
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const email = v.parse(EmailSchema, formData.get('email'));
 
@@ -22,20 +21,18 @@ const subscribeAction = async (formData: FormData): Promise<ActionResponse> => {
     return {
       status: 'success',
       error: null,
-    }
+    };
   } catch (error: unknown) {
     if (v.isValiError(error)) {
       return {
         status: 'error',
-        error: error.message
-      }
+        error: error.message,
+      };
     }
 
     return {
       status: 'error',
-      error: 'An unknown error occurred.'
-    }
+      error: 'An unknown error occurred.',
+    };
   }
-}
-
-export default subscribeAction;
+};
