@@ -1,15 +1,11 @@
-import { PostsArchiveQueryResult } from '@/sanity.types';
+import type { PersonFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 import { Image } from 'next-sanity/image';
 import { urlForImage } from '@/lib/sanity/client/utils';
 import CustomPortableText from '@/components/modules/PortableText';
 import type { PortableTextBlock } from 'next-sanity';
 import { Badge } from '@/components/ui/Badge';
 
-export default function PersonArchiveByline({
-  person,
-}: {
-  person: NonNullable<PostsArchiveQueryResult['results'][number]['author']>;
-}) {
+export default function PersonArchiveByline({ person }: { person: PersonFragmentType }) {
   return (
     <div className="mb-12">
       <div className="flex flex-col items-center md:items-start md:flex-row gap-8 md:gap-12">

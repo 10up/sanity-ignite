@@ -1,12 +1,8 @@
 import PortableText from './PortableText';
 import { type PortableTextBlock } from 'next-sanity';
-import type { CardGridSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import type { CardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
-export default function Card({
-  card: { heading, content },
-}: {
-  card: NonNullable<CardGridSectionFragmentType['cards']>[number];
-}) {
+export default function Card({ card: { heading, content } }: { card: CardFragmentType }) {
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
       <h3 className="text-xl font-semibold mb-6">{heading}</h3>

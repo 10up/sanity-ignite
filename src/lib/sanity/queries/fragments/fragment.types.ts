@@ -7,6 +7,7 @@ export type CategoryFragmentType = NonNullable<PostFragmentType['categories']>[n
 
 export type PageFragmentType = NonNullable<GetPageQueryResult>;
 export type SeoFragmentType = NonNullable<PageFragmentType['seo']>;
+
 export type SectionsType = PageFragmentType['pageSections'];
 export type SectionType = NonNullable<SectionsType>[number];
 
@@ -19,4 +20,5 @@ export type PostListSectionFragmentType = Extract<SectionType, { _type: 'postLis
 export type SubscribeSectionFragmentType = Extract<SectionType, { _type: 'subscribe' }>;
 
 export type ButtonFragmentType = NonNullable<HeroSectionFragmentType['buttons']>[number];
+export type CardFragmentType = NonNullable<CardGridSectionFragmentType['cards']>[number];
 export type LinkFragmentType = NonNullable<ButtonFragmentType['link']>;
