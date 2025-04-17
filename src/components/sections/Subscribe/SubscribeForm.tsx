@@ -2,8 +2,8 @@
 
 import subscribeAction from '@/actions/subscribeAction';
 import { ActionResponse } from '@/actions/types';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import type { SubscribeSection } from '../types';
 
 import { useActionState } from 'react';

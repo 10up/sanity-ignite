@@ -1,7 +1,7 @@
 import Logo from '../icons/Logo';
 import { sanityFetch } from '@/lib/sanity/client/live';
 import { settingsQuery } from '@/lib/sanity/queries/queries';
-import { Button } from '../ui/button';
+import { Button } from '../ui/Button';
 
 export default async function Footer() {
   const { data: settings } = await sanityFetch({

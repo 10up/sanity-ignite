@@ -3,7 +3,7 @@ import { Image } from 'next-sanity/image';
 import { urlForImage } from '@/lib/sanity/client/utils';
 import CustomPortableText from '@/components/modules/PortableText';
 import type { PortableTextBlock } from 'next-sanity';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/ui/Badge';
 
 export default function PersonArchiveByline({
   person,
