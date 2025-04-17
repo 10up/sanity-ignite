@@ -2,9 +2,9 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import PostCard from '../modules/PostCard';
 import { Button } from '../ui/Button';
-import type { PostListSection } from './types';
+import type { PostListSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
-export default function PostListSection({ section }: { section: PostListSection }) {
+export default function PostListSection({ section }: { section: PostListSectionFragmentType }) {
   const { posts } = section;
   if (!posts.length) {
     return null;

@@ -7,24 +7,16 @@ export type CategoryFragmentType = NonNullable<PostFragmentType['categories']>[n
 
 export type PageFragmentType = NonNullable<GetPageQueryResult>;
 export type SeoFragmentType = NonNullable<PageFragmentType['seo']>;
-export type SectionsType = NonNullable<PageFragmentType['pageSections']>[number];
+export type SectionsType = PageFragmentType['pageSections'];
+export type SectionType = NonNullable<SectionsType>[number];
 
-export type CardGridsSectionFragmentType = Extract<
-  NonNullable<SectionsType>,
-  { _type: 'cardGrid' }
->;
-export type CtaSectionFragmentType = Extract<NonNullable<SectionsType>, { _type: 'cta' }>;
-export type DividerSectionFragmentType = Extract<NonNullable<SectionsType>, { _type: 'divider' }>;
-export type HeroSectionFragmentType = Extract<NonNullable<SectionsType>, { _type: 'hero' }>;
-export type MediaTextSectionFragmentType = Extract<
-  NonNullable<SectionsType>,
-  { _type: 'mediaText' }
->;
-export type PostListSectionFragmentType = Extract<NonNullable<SectionsType>, { _type: 'postList' }>;
-export type SubscribeSectionFragmentType = Extract<
-  NonNullable<SectionsType>,
-  { _type: 'subscribe' }
->;
+export type CardGridSectionFragmentType = Extract<SectionType, { _type: 'cardGrid' }>;
+export type CtaSectionFragmentType = Extract<SectionType, { _type: 'cta' }>;
+export type DividerSectionFragmentType = Extract<SectionType, { _type: 'divider' }>;
+export type HeroSectionFragmentType = Extract<SectionType, { _type: 'hero' }>;
+export type MediaTextSectionFragmentType = Extract<SectionType, { _type: 'mediaText' }>;
+export type PostListSectionFragmentType = Extract<SectionType, { _type: 'postList' }>;
+export type SubscribeSectionFragmentType = Extract<SectionType, { _type: 'subscribe' }>;
 
 export type ButtonFragmentType = NonNullable<HeroSectionFragmentType['buttons']>[number];
 export type LinkFragmentType = NonNullable<ButtonFragmentType['link']>;
