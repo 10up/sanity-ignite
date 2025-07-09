@@ -1,16 +1,13 @@
 'use client';
 
-import subscribeAction from '@/actions/subscribeAction';
+import { subscribeAction } from '@/actions/subscribeAction';
 import { ActionResponse } from '@/actions/types';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import type { SubscribeSection } from '../types';
-
-// TODO: Remove this eslint ignore after upgrading to react@19
-// eslint-disable-next-line import/named
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
+import type { SubscribeSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 import { useActionState } from 'react';
 
-const SubscribeForm = ({ section }: { section: SubscribeSection }) => {
+const SubscribeForm = ({ section }: { section: SubscribeSectionFragmentType }) => {
   const [state, formAction, pending] = useActionState<Partial<ActionResponse>, FormData>(
     (state, formData) => {
       return subscribeAction(formData);

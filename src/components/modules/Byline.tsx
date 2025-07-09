@@ -1,10 +1,10 @@
 import { Image } from 'next-sanity/image';
 
 import { urlForImage } from '@/lib/sanity/client/utils';
-import DateComponent from '@/components/ui/Date';
-import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import ReadTime from '@/components/ReadTime';
+import { DateComponent } from '@/components/ui/Date';
+import { Badge } from '@/components/ui/Badge';
+import { ReadTime } from '@/components/ui/ReadTime';
 import { PostCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
 export default function Byline({ post }: { post: PostCardFragmentType }) {
