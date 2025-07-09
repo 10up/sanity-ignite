@@ -4,7 +4,6 @@ import { formatMetaData } from '@/lib/sanity/client/seo';
 import PageSections from '@/components/sections/PageSections';
 import { getPageQuery } from '@/lib/sanity/queries/queries';
 import { notFound } from 'next/navigation';
-import { SeoType } from '@/types/seo';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -22,7 +21,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     return {};
   }
 
-  return formatMetaData(page.seo as unknown as SeoType, page?.name || '');
+  return formatMetaData(page.seo, page?.name || '');
 }
 
 export default async function Page(props: Props) {

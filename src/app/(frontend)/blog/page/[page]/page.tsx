@@ -8,7 +8,6 @@ import { Metadata } from 'next';
 import { POSTS_PER_PAGE } from '@/lib/constants';
 import Page from '@/components/templates/Page';
 import { formatMetaData } from '@/lib/sanity/client/seo';
-import { SeoType } from '@/types/seo';
 
 type Props = {
   params: Promise<{ page: string }>;
@@ -55,10 +54,11 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     return notFound();
   }
 
-  const seo = formatMetaData(
-    routeData.blogPage.seo as unknown as SeoType,
-    routeData.blogPage?.name || '',
-  );
+  if (!routeData.blogPage.seo) {
+    return {};
+  }
+
+  const seo = formatMetaData(routeData.blogPage.seo, routeData.blogPage?.name || '');
   seo.title += ' - Page ' + routeData.posts.currentPage;
 
   return seo;

@@ -7,7 +7,6 @@ import { PostsArchiveQueryResult, BlogPageQueryResult } from '@/sanity.types';
 import { Metadata } from 'next';
 import { POSTS_PER_PAGE } from '@/lib/constants';
 import { formatMetaData } from '@/lib/sanity/client/seo';
-import { SeoType } from '@/types/seo';
 import Page from '@/components/templates/Page';
 
 const loadPostsPageData = async (): Promise<{
@@ -37,10 +36,11 @@ export async function generateMetadata(): Promise<Metadata> {
     return notFound();
   }
 
-  return formatMetaData(
-    routeData.blogPage.seo as unknown as SeoType,
-    routeData.blogPage?.name || '',
-  );
+  if (!routeData.blogPage.seo) {
+    return {};
+  }
+
+  return formatMetaData(routeData.blogPage.seo, routeData.blogPage?.name || '');
 }
 
 export default async function PostPage() {
