@@ -210,6 +210,14 @@ This project has custom ESLint rules configured for the following scenarios:
 - Next.js Frontend
   - Assets from the sanity studio or from studio related packages cannot be imported into the frontend. They can only be used in the `sanity.config.ts` file or in the `src/studio` folder. This is to prevent the frontend from loading unoptimized studio assets.
 
+### Analyze Bundle Sizes
+
+Sanity Ignite uses the `@next/bundle-analyzer` plugin to analyze the bundle sizes of the project. To run the bundle analyzer, run the following command:
+
+```bash
+ANALYZE=true npm run next:build
+```
+
 ## Learn More
 
 - [Next.js Documentation](https://nextjs.org/docs)
