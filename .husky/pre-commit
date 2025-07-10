@@ -1,7 +1,4 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 npx lint-staged
 
-echo "Running `tsc --noEmit --pretty` to check for type errors"
+echo "Running 'tsc --noEmit --pretty' to check for type errors"
 npx tsc --noEmit --pretty
