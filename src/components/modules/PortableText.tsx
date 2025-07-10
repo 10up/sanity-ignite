@@ -8,15 +8,14 @@
  *
  */
 
-import { PortableText, type PortableTextComponents, type PortableTextBlock } from 'next-sanity';
-
-import Link from '@/components/modules/Link';
 import Image from 'next/image';
+import { PortableText, type PortableTextBlock, type PortableTextComponents } from 'next-sanity';
+import type { PropsWithChildren, ReactNode } from 'react';
+import Link from '@/components/modules/Link';
 import { urlForImage } from '@/lib/sanity/client/utils';
-import { PropsWithChildren, ReactNode } from 'react';
+import type { LinkFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 import { cn } from '@/lib/utils';
 import { parseChildrenToSlug } from '@/utils/strings';
-import { LinkFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
 type HeadingProps = PropsWithChildren<{
   as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -40,6 +39,7 @@ function Heading({ as, id, children, className = '' }: HeadingProps) {
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
+          <title>Anchor</title>
           <path
             strokeLinecap="round"
             strokeLinejoin="round"

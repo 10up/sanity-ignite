@@ -1,15 +1,15 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Page from '@/components/templates/Page';
+import PersonArchiveByline from '@/components/templates/PersonArchiveByline';
+import PostRiver from '@/components/templates/PostRiver';
+import { serverEnv } from '@/env/serverEnv';
+import { POSTS_PER_PAGE } from '@/lib/constants';
+import { getDocumentLink } from '@/lib/links';
+import { paginatedData } from '@/lib/pagination';
+import { client } from '@/lib/sanity/client/client';
 import { sanityFetch } from '@/lib/sanity/client/live';
 import { personQuery, personSlugs, postsArchiveQuery } from '@/lib/sanity/queries/queries';
-import { paginatedData } from '@/lib/pagination';
-import { POSTS_PER_PAGE } from '@/lib/constants';
-import { Metadata } from 'next';
-import { client } from '@/lib/sanity/client/client';
-import { serverEnv } from '@/env/serverEnv';
-import { getDocumentLink } from '@/lib/links';
-import Page from '@/components/templates/Page';
-import PostRiver from '@/components/templates/PostRiver';
-import PersonArchiveByline from '@/components/templates/PersonArchiveByline';
 
 type Props = {
   params: Promise<{ personSlug: string }>;

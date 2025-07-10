@@ -1,5 +1,5 @@
-import { defineField } from 'sanity';
 import { InlineIcon } from '@sanity/icons';
+import { defineField } from 'sanity';
 
 export default defineField({
   name: 'card',

@@ -5,19 +5,19 @@
  * Learn more: https://www.sanity.io/docs/configuration
  */
 
-import { defineConfig } from 'sanity';
-import { structureTool } from 'sanity/structure';
+import { assist } from '@sanity/assist';
 import { visionTool } from '@sanity/vision';
-import { schemaTypes } from './src/studio/schema';
-import { structure } from './src/studio/structure';
+import { defineConfig } from 'sanity';
 import {
-  presentationTool,
+  type DocumentLocation,
   defineDocuments,
   defineLocations,
-  type DocumentLocation,
+  presentationTool,
 } from 'sanity/presentation';
-import { assist } from '@sanity/assist';
+import { structureTool } from 'sanity/structure';
 import { clientEnv } from '@/env/clientEnv';
+import { schemaTypes } from './src/studio/schema';
+import { structure } from './src/studio/structure';
 
 // Define the home location for the presentation tool
 const homeLocation = {

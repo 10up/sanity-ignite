@@ -1,11 +1,11 @@
 import { defineQuery } from 'next-sanity';
 import {
-  postFragment,
-  pageFragment,
-  menuFragment,
   categoryFragment,
+  menuFragment,
+  pageFragment,
   personFragment,
   postCardFragment,
+  postFragment,
 } from './fragments/fragments';
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]{

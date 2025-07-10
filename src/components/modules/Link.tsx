@@ -1,7 +1,6 @@
 import NextLink from 'next/link';
-
-import { LinkFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 import { getLinkByLinkObject } from '@/lib/links';
+import type { LinkFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
 interface LinkProps {
   link: LinkFragmentType;

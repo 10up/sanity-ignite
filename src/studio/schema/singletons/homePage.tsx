@@ -1,7 +1,7 @@
-import { defineType, defineField } from 'sanity';
 import { HomeIcon } from '@sanity/icons';
-import pageSections from '../fields/pageSections';
+import { defineField, defineType } from 'sanity';
 import { defaultFieldGroups } from '../config/fieldGroups';
+import pageSections from '../fields/pageSections';
 
 export default defineType({
   name: 'homePage',

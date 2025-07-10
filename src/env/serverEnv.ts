@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { createEnv } from '@/utils/createEnv';
 import * as v from 'valibot';
+import { createEnv } from '@/utils/createEnv';
 
 const envSchema = {
   SANITY_API_READ_TOKEN: v.pipe(v.string(), v.minLength(1)),

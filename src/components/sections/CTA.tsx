@@ -1,5 +1,5 @@
-import ButtonsGroup from '../modules/ButtonsGroup';
 import type { CtaSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import ButtonsGroup from '../modules/ButtonsGroup';
 
 export default function CtaSection({ section }: { section: CtaSectionFragmentType }) {
   return (

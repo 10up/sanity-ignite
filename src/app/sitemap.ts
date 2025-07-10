@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next';
 import { client } from '@/lib/sanity/client/client';
 import { getSitemapQuery } from '@/lib/sanity/queries/queries';
 import { getBaseUrl } from '@/utils/getBaseUrl';

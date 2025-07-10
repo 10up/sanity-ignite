@@ -1,8 +1,8 @@
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import type { PostListSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 import PostCard from '../modules/PostCard';
 import { Button } from '../ui/Button';
-import type { PostListSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
 export default function PostListSection({ section }: { section: PostListSectionFragmentType }) {
   const { posts } = section;

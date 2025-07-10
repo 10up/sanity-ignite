@@ -1,7 +1,7 @@
-import PortableText from '../../modules/PortableText';
-import { type PortableTextBlock } from 'next-sanity';
-import SubscribeForm from './SubscribeForm';
+import type { PortableTextBlock } from 'next-sanity';
 import type { SubscribeSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import PortableText from '../../modules/PortableText';
+import SubscribeForm from './SubscribeForm';
 
 export default function SubscribeSection({ section }: { section: SubscribeSectionFragmentType }) {
   return (

@@ -1,4 +1,4 @@
-import { CogIcon, HomeIcon, DocumentIcon } from '@sanity/icons';
+import { CogIcon, DocumentIcon, HomeIcon } from '@sanity/icons';
 import type { StructureResolver } from 'sanity/structure';
 
 /**

@@ -1,16 +1,16 @@
 'use client';
 
-import { ElementType } from 'react';
+import type { SanityDocument } from 'next-sanity';
 import { useOptimistic } from 'next-sanity/hooks';
-import { type SanityDocument } from 'next-sanity';
+import type { ElementType } from 'react';
 import { dataAttr } from '@/lib/sanity/client/utils';
 import type { SectionsType, SectionType } from '@/lib/sanity/queries/fragments/fragment.types';
-import Hero from './Hero';
+import CardGrid from './CardGrid';
 import CTA from './CTA';
+import Divider from './Divider';
+import Hero from './Hero';
 import MediaText from './MediaText';
 import PostList from './PostList';
-import CardGrid from './CardGrid';
-import Divider from './Divider';
 import Subscribe from './Subscribe';
 
 type PageSectionstype = SectionType['_type'];

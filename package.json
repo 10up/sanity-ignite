@@ -7,7 +7,12 @@
     "next:build": "npm run sanity:typegen && next build",
     "next:start": "next start",
     "next:debug": "NEXT_PRIVATE_DEBUG_CACHE=1 next:build && next:start",
-    "lint": "next lint",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format .",
+    "format:fix": "biome format --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
     "dev": "npm-run-all --parallel --race next:dev watch-typegen",
     "built": "npm run next:build",
     "start": "npm run next:start",
@@ -42,6 +47,7 @@
     "valibot": "^1.0.0-beta.14"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.1.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
@@ -49,20 +55,14 @@
     "@types/node": "^20",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "@typescript-eslint/eslint-plugin": "^8.22.0",
-    "@typescript-eslint/parser": "^8.22.0",
     "@vitejs/plugin-react": "^4.3.4",
     "chokidar": "^4.0.3",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "15.0.1",
-    "eslint-plugin-import": "^2.31.0",
-    "jsdom": "^26.0.0",
     "groq": "^3.79.0",
     "husky": "^9.1.7",
+    "jsdom": "^26.0.0",
     "lint-staged": "^15.5.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8",
-    "prettier": "^3.3.3",
     "tailwindcss": "^4",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
@@ -73,7 +73,7 @@
     "node": ">=22.0.0"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": "eslint --cache --fix",
+    "*.{ts,tsx,js,jsx}": "biome check --write",
     "*.{ts,tsx,js,css,md}": "prettier --write"
   }
 }

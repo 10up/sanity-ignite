@@ -1,8 +1,8 @@
-import { Button } from '../ui/Button';
-import { cn } from '@/lib/utils';
-import { ButtonFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
-import { getLinkByLinkObject } from '@/lib/links';
 import Link from 'next/link';
+import { getLinkByLinkObject } from '@/lib/links';
+import type { ButtonFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import { cn } from '@/lib/utils';
+import { Button } from '../ui/Button';
 
 export default function ButtonsGroup({
   buttons,

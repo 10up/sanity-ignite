@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/named
-import { StringInputProps, useFormValue } from 'sanity';
+
 import { Stack, Text } from '@sanity/ui';
+import { type StringInputProps, useFormValue } from 'sanity';
 
 const META_DESCRIPTION_MIN_LENGTH = 100;
 const META_DESCRIPTION_MAX_LENGTH = 160;

@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/named
-import { StringInputProps, useFormValue } from 'sanity';
+
 import { Stack, Text } from '@sanity/ui';
+import { type StringInputProps, useFormValue } from 'sanity';
 
 const TITLE_MIN_LENGTH = 50;
 const TITLE_MAX_LENGTH = 60;

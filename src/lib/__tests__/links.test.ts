@@ -1,4 +1,4 @@
-import { expect, it, describe } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { getDocumentLink, getLinkByLinkObject } from '../links';
 
 describe('getDocumentLink', () => {
@@ -21,7 +21,11 @@ describe('getDocumentLink', () => {
 describe('getLinkByLinkObject', () => {
   it('should return external link', () => {
     expect(
-      getLinkByLinkObject({ type: 'external', external: 'https://google.com', internal: null }),
+      getLinkByLinkObject({
+        type: 'external',
+        external: 'https://google.com',
+        internal: null,
+      }),
     ).toBe('https://google.com');
   });
 

@@ -1,5 +1,5 @@
-import { defineField, defineType } from 'sanity';
 import { InlineIcon } from '@sanity/icons';
+import { defineField, defineType } from 'sanity';
 import card from './card';
 
 export default defineType({

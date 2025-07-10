@@ -1,4 +1,4 @@
-import { type StringOptions } from 'sanity';
+import type { StringOptions } from 'sanity';
 import { upperCaseWords } from './strings';
 
 export const createRadioListLayout = (

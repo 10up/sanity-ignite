@@ -1,7 +1,7 @@
-import { defineField, defineType } from 'sanity';
 import { DocumentIcon } from '@sanity/icons';
-import pageSections from '../fields/pageSections';
+import { defineField, defineType } from 'sanity';
 import { defaultFieldGroups } from '../config/fieldGroups';
+import pageSections from '../fields/pageSections';
 
 /**
  * Page schema.  Define and edit the fields for the 'page' content type.

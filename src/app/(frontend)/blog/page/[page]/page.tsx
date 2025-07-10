@@ -1,13 +1,13 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { sanityFetch } from '@/lib/sanity/client/live';
-import { postsArchiveQuery, blogPageQuery } from '@/lib/sanity/queries/queries';
-import { PaginatedResult, paginatedData } from '@/lib/pagination';
-import PostRiver from '@/components/templates/PostRiver';
-import { PostsArchiveQueryResult, BlogPageQueryResult } from '@/sanity.types';
-import { Metadata } from 'next';
-import { POSTS_PER_PAGE } from '@/lib/constants';
 import Page from '@/components/templates/Page';
+import PostRiver from '@/components/templates/PostRiver';
+import { POSTS_PER_PAGE } from '@/lib/constants';
+import { type PaginatedResult, paginatedData } from '@/lib/pagination';
+import { sanityFetch } from '@/lib/sanity/client/live';
 import { formatMetaData } from '@/lib/sanity/client/seo';
+import { blogPageQuery, postsArchiveQuery } from '@/lib/sanity/queries/queries';
+import type { BlogPageQueryResult, PostsArchiveQueryResult } from '@/sanity.types';
 
 type Props = {
   params: Promise<{ page: string }>;

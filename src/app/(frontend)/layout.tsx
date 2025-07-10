@@ -3,14 +3,13 @@ import '../globals.css';
 import { draftMode } from 'next/headers';
 import { VisualEditing } from 'next-sanity';
 import { Toaster } from 'sonner';
-
-import DraftModeToast from '@/components/modules/DraftModeToast';
+import Alert from '@/components/layout/Alert';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
+import Main from '@/components/layout/Main';
+import DraftModeToast from '@/components/modules/DraftModeToast';
 import { SanityLive } from '@/lib/sanity/client/live';
 import { handleError } from './client-utils';
-import Main from '@/components/layout/Main';
-import Alert from '@/components/layout/Alert';
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled: isDraftMode } = await draftMode();
 

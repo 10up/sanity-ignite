@@ -1,9 +1,9 @@
-import type { PersonFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
-import { Image } from 'next-sanity/image';
-import { urlForImage } from '@/lib/sanity/client/utils';
-import CustomPortableText from '@/components/modules/PortableText';
 import type { PortableTextBlock } from 'next-sanity';
+import { Image } from 'next-sanity/image';
+import CustomPortableText from '@/components/modules/PortableText';
 import { Badge } from '@/components/ui/Badge';
+import { urlForImage } from '@/lib/sanity/client/utils';
+import type { PersonFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
 export default function PersonArchiveByline({ person }: { person: PersonFragmentType }) {
   return (

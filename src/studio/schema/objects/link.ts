@@ -1,6 +1,6 @@
-import { createRadioListLayout } from '@/utils/schema';
-import { defineField, defineType } from 'sanity';
 import { Link } from 'lucide-react';
+import { defineField, defineType } from 'sanity';
+import { createRadioListLayout } from '@/utils/schema';
 
 const allLinkableTypes = [{ type: 'post' }, { type: 'page' }];
 
