@@ -4,7 +4,7 @@ import { useDraftModeEnvironment, useIsPresentationTool } from 'next-sanity/hook
 import { useRouter } from 'next/navigation';
 import { useEffect, useTransition } from 'react';
 import { toast } from 'sonner';
-import { disableDraftMode } from '@/app/actions';
+import { disableDraftMode } from '@/actions/disableDraftMode';
 
 export default function DraftModeToast() {
   const isPresentationTool = useIsPresentationTool();

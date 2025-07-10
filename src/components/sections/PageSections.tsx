@@ -4,7 +4,7 @@ import { ElementType } from 'react';
 import { useOptimistic } from 'next-sanity/hooks';
 import { type SanityDocument } from 'next-sanity';
 import { dataAttr } from '@/lib/sanity/client/utils';
-import { Section, Sections } from './types';
+import type { SectionsType, SectionType } from '@/lib/sanity/queries/fragments/fragment.types';
 import Hero from './Hero';
 import CTA from './CTA';
 import MediaText from './MediaText';
@@ -13,7 +13,7 @@ import CardGrid from './CardGrid';
 import Divider from './Divider';
 import Subscribe from './Subscribe';
 
-type PageSectionstype = Section['_type'];
+type PageSectionstype = SectionType['_type'];
 
 const SECTION_COMPONENTS: Record<PageSectionstype, ElementType> = {
   hero: Hero,
@@ -28,11 +28,11 @@ const SECTION_COMPONENTS: Record<PageSectionstype, ElementType> = {
 type PageSectionsProps = {
   documentId: string;
   documentType: string;
-  sections?: Sections;
+  sections?: SectionsType;
 };
 
 type PageData = SanityDocument<{
-  pageSections?: Sections;
+  pageSections?: SectionsType;
 }>;
 
 export default function PageSections({
@@ -40,7 +40,7 @@ export default function PageSections({
   documentType,
   sections: initialSections = [],
 }: PageSectionsProps) {
-  const sections = useOptimistic<Sections, PageData>(
+  const sections = useOptimistic<SectionsType, PageData>(
     initialSections ?? [],
     (currentSections, action) => {
       if (action.id !== documentId || !action?.document?.pageSections) {

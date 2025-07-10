@@ -1,6 +1,6 @@
-import { DividerSection } from './types';
+import type { DividerSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
-export default function Divider({ section: { height } }: { section: DividerSection }) {
+export default function Divider({ section: { height } }: { section: DividerSectionFragmentType }) {
   return (
     <div className="py-10   md:py-14">
       <div className="container mx-auto px-4">

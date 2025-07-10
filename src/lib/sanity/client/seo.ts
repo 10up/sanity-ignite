@@ -1,8 +1,8 @@
-import { MetaTagType, SeoType } from '@/types/seo';
 import { Metadata } from 'next';
 import { resolveOpenGraphImage } from './utils';
+import { SeoFragmentType } from '../queries/fragments/fragment.types';
 
-function parseAdditionalMetaTags(additionalMetaTags: MetaTagType[] | undefined) {
+function parseAdditionalMetaTags(additionalMetaTags?: SeoFragmentType['additionalMetaTags']) {
   if (!additionalMetaTags) {
     return undefined;
   }
@@ -28,7 +28,7 @@ function parseAdditionalMetaTags(additionalMetaTags: MetaTagType[] | undefined) 
   return otherTags;
 }
 
-export const formatMetaData = (seo: SeoType, defaultTitle: string): Metadata => {
+export const formatMetaData = (seo: SeoFragmentType, defaultTitle: string): Metadata => {
   const metaImage = resolveOpenGraphImage(seo.metaImage);
 
   return {

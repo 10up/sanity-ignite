@@ -1,4 +1,4 @@
-# Sanity Ignite by 10up
+# Ignite for Sanity
 
 A Sanity starter kit providing modern, clean designs for your content-driven websites. Built with Next.js and Tailwind CSS.
 
@@ -68,7 +68,7 @@ npm run seed-dataset
 │ ├── 📂 actions            # Server-side actions
 │ ├── 📂 env                # Environment specific functions and `.env` validation
 │ ├── 📂 lib                # Shared libraries and integrations
-│ │ ├── 📂 sanity           # Sanity CMS integration
+│ │ ├── 📂 sanity           # Sanity integration
 │ │ │ ├── 📂 queries        # Sanity GraphQL/GROQ queries
 │ │ │ ├── 📂 client         # Sanity client configuration
 │ │ ├── 📂 (example)        # Every integration (e.g., CRM, Newsletter SDKs) gets its own subfolder
@@ -112,7 +112,7 @@ npm run seed-dataset
 
 ### 📂 `src/lib` - Shared Libraries & Integrations
 
-- **`sanity/` - Sanity CMS Integration**
+- **`sanity/` - Sanity Integration**
 
   - **`queries/`** → Contains all Sanity **GROQ queries** used in the frontend.
   - **`client/`** → Configures the Sanity client and SanityLive client used for API calls
@@ -125,7 +125,7 @@ npm run seed-dataset
 
 ### 📂 `src/studio` - Sanity Studio Configuration
 
-This folder contains everything needed to **configure and customize Sanity Studio**, the headless CMS used in this project.
+This folder contains everything needed to **configure and customize Sanity Studio**, the headless content operating system used in this project.
 
 - **`schemas/` - Content Models**
 

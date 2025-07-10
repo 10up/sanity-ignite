@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/ui/Badge';
 import { Image } from 'next-sanity/image';
 import { ArrowRight } from 'lucide-react';
-import ReadTime from '@/components/ReadTime';
+import { ReadTime } from '@/components/ui/ReadTime';
 import { urlForImage } from '@/lib/sanity/client/utils';
 import { PostCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 import { getDocumentLink } from '@/lib/links';

@@ -1,10 +1,10 @@
 import { Image } from 'next-sanity/image';
 
 import { urlForImage } from '@/lib/sanity/client/utils';
-import DateComponent from '@/components/ui/Date';
-import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import ReadTime from '@/components/ReadTime';
+import { DateComponent } from '@/components/ui/Date';
+import { Badge } from '@/components/ui/Badge';
+import { ReadTime } from '@/components/ui/ReadTime';
 import { PostCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
 export default function Byline({ post }: { post: PostCardFragmentType }) {
@@ -43,7 +43,7 @@ export default function Byline({ post }: { post: PostCardFragmentType }) {
       <div className="flex flex-col items-end gap-2">
         {post.categories && post.categories?.length > 0 && (
           <div className="flex items-center gap-2">
-            {post.categories.map((category) => (
+            {post.categories.filter(Boolean).map((category) => (
               <Badge variant="default" asChild key={category._id}>
                 <Link href={`/category/${category.slug}`}>{category.title}</Link>
               </Badge>

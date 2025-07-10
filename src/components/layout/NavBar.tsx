@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '../ui/button';
+import { Button } from '../ui/Button';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,7 +10,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
+} from '@/components/ui/NavigationMenu';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { SettingsQueryResult } from '@/sanity.types';
