@@ -12,6 +12,7 @@ export default defineType({
       name: 'text',
       title: 'Menu Item Text',
       type: 'string',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'type',
@@ -22,9 +23,9 @@ export default defineType({
     }),
 
     defineField({
-      name: 'url',
-      title: 'Url',
-      type: 'customUrl',
+      name: 'link',
+      title: 'Link',
+      type: 'link',
       hidden: ({ parent }) => parent?.type !== 'link',
     }),
     defineField({

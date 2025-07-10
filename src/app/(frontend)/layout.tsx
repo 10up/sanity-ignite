@@ -13,12 +13,14 @@ const DraftModeToast = dynamic(() => import('@/components/modules/DraftModeToast
 const Toaster = dynamic(() => import('sonner').then((mod) => mod.Toaster));
 const VisualEditing = dynamic(() => import('next-sanity').then((mod) => mod.VisualEditing));
 
+import Alert from '@/components/layout/Alert';
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
     <body className={`font-inter bg-white text-black`}>
       <section className="min-h-screen">
+        <Alert />
         {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
         <Toaster />
         {isDraftMode && (

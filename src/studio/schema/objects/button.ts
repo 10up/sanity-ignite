@@ -23,11 +23,12 @@ export default defineType({
       name: 'text',
       title: 'Button Text',
       type: 'string',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'url',
-      title: 'Url',
-      type: 'customUrl',
+      name: 'link',
+      title: 'Link',
+      type: 'link',
     }),
   ],
   preview: {

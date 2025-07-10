@@ -29,8 +29,8 @@ export const wordCount = (str: string) => {
   return str.split(/\s+/).filter(Boolean).length;
 };
 
-export const readTime = (str: string) => {
+export const readTime = (wordCount: number) => {
   const wordsPerMinute = 180;
-  const words = wordCount(str);
-  return Math.ceil(words / wordsPerMinute);
+
+  return Math.ceil(wordCount / wordsPerMinute);
 };

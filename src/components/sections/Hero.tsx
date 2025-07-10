@@ -3,9 +3,9 @@ import { urlForImage } from '@/lib/sanity/client/utils';
 import { type PortableTextBlock } from 'next-sanity';
 import PortableText from '@/components/modules/PortableText';
 import ButtonsGroup from '../modules/ButtonsGroup';
-import type { HeroSection } from './types';
+import type { HeroSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
-export default function HeroSection({ section }: { section: HeroSection }) {
+export default function HeroSection({ section }: { section: HeroSectionFragmentType }) {
   return (
     <section className="py-10 md:py-14 bg-white">
       <div className="container mx-auto">
@@ -23,7 +23,7 @@ export default function HeroSection({ section }: { section: HeroSection }) {
             ) : null}
           </div>
           <div className="relative">
-            {section.image && (
+            {section.image?.asset && (
               <Image
                 src={urlForImage(section.image)?.width(1000).height(667).url() as string}
                 alt={section?.image?.alt || ''}

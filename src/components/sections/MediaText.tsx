@@ -3,9 +3,9 @@ import { urlForImage } from '@/lib/sanity/client/utils';
 import { type PortableTextBlock } from 'next-sanity';
 import PortableText from '@/components/modules/PortableText';
 import { cn } from '@/utils/styles';
-import type { MediaTextSection } from './types';
+import type { MediaTextSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
-export default function MediaTextSection({ section }: { section: MediaTextSection }) {
+export default function MediaTextSection({ section }: { section: MediaTextSectionFragmentType }) {
   return (
     <div
       className={cn('container py-10 md:py-14 mx-auto flex flex-col lg:flex-row', {
@@ -13,7 +13,7 @@ export default function MediaTextSection({ section }: { section: MediaTextSectio
       })}
     >
       <div className="lg:w-1/2">
-        {section.image && (
+        {section.image?.asset && (
           <Image
             alt={section.image?.alt || ''}
             className="shadow-md rounded-4xl"

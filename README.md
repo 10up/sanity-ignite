@@ -1,4 +1,4 @@
-# Sanity Ignite by 10up
+# Ignite for Sanity
 
 A Sanity starter kit providing modern, clean designs for your content-driven websites. Built with Next.js and Tailwind CSS.
 
@@ -16,38 +16,21 @@ Out of the box it includes schema for pages, posts, categories, authors, and glo
 
 ## Getting Started
 
-### 1. Clone the Repository
+### 1. Initialize template with Sanity CLI
 
 ```bash
-git clone git@github.com:10up/sanity-ignite.git
+npm create sanity@latest -- --template 10up/sanity-ignite
 ```
 
-### 2. Install Dependencies
+This will install your NPM dependencies and populate the `.env.local` file.
 
-Navigate to the project directory using `cd <project-name>`, switch to the correct Node.js version using `nvm use`, and install the dependencies using `npm i`.
-
-```bash
-nvm use # Use the correct Node.js version
-npm i # Install dependencies
-```
-
-### 3. Set Up Environment Variables
-
-Duplicate the `.env.example` file and rename it to `.env.local`. Fill in the required environment variables.
-
-```bash
-cp .env.example .env.local
-```
-
-Replace the placeholders with your own Sanity API key, project ID and dataset name.
-
-### 4. Start the Development Server
+### 2. Start the Development Server
 
 ```bash
 npm run dev
 ```
 
-### 5. Open the Project and sign in to Sanity
+### 3. Open the Project and sign in to Sanity
 
 Open the next app locally at [http://localhost:3000](http://localhost:3000) and the Sanity Studio at [http://localhost:3000/studio](http://localhost:3000/studio).
 
@@ -71,7 +54,7 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 │ ├── 📂 actions            # Server-side actions
 │ ├── 📂 env                # Environment specific functions and `.env` validation
 │ ├── 📂 lib                # Shared libraries and integrations
-│ │ ├── 📂 sanity           # Sanity CMS integration
+│ │ ├── 📂 sanity           # Sanity integration
 │ │ │ ├── 📂 queries        # Sanity GraphQL/GROQ queries
 │ │ │ ├── 📂 client         # Sanity client configuration
 │ │ ├── 📂 (example)        # Every integration (e.g., CRM, Newsletter SDKs) gets its own subfolder
@@ -114,7 +97,7 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 
 ### 📂 `src/lib` - Shared Libraries & Integrations
 
-- **`sanity/` - Sanity CMS Integration**
+- **`sanity/` - Sanity Integration**
 
   - **`queries/`** → Contains all Sanity **GROQ queries** used in the frontend.
   - **`client/`** → Configures the Sanity client and SanityLive client used for API calls
@@ -127,7 +110,7 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 
 ### 📂 `src/studio` - Sanity Studio Configuration
 
-This folder contains everything needed to **configure and customize Sanity Studio**, the headless CMS used in this project.
+This folder contains everything needed to **configure and customize Sanity Studio**, the headless content operating system used in this project.
 
 - **`schemas/` - Content Models**
 
