@@ -59,7 +59,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 
   const seo = formatMetaData(routeData.blogPage.seo, routeData.blogPage?.name || '');
-  seo.title += ' - Page ' + routeData.posts.currentPage;
+  seo.title += ` - Page ${routeData.posts.currentPage}`;
 
   return seo;
 }
@@ -76,14 +76,12 @@ export default async function PostPage(props: Props) {
   }
 
   return (
-    <>
-      <Page title={routeData.blogPage?.name + ' - Page ' + routeData.posts.currentPage}>
-        <PostRiver
-          listingData={routeData.posts.data}
-          currentPage={routeData.posts.currentPage}
-          totalPages={routeData.posts.totalPages}
-        />
-      </Page>
-    </>
+    <Page title={`${routeData.blogPage?.name} - Page ${routeData.posts.currentPage}`}>
+      <PostRiver
+        listingData={routeData.posts.data}
+        currentPage={routeData.posts.currentPage}
+        totalPages={routeData.posts.totalPages}
+      />
+    </Page>
   );
 }
