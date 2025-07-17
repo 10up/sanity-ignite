@@ -1,9 +1,9 @@
+import type { PortableTextBlock } from 'next-sanity';
 import { Image } from 'next-sanity/image';
-import { urlForImage } from '@/lib/sanity/client/utils';
-import { type PortableTextBlock } from 'next-sanity';
 import PortableText from '@/components/modules/PortableText';
-import ButtonsGroup from '../modules/ButtonsGroup';
+import { urlForImage } from '@/lib/sanity/client/utils';
 import type { HeroSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import ButtonsGroup from '../modules/ButtonsGroup';
 
 export default function HeroSection({ section }: { section: HeroSectionFragmentType }) {
   return (

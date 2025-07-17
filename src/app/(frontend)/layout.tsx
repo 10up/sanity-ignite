@@ -1,18 +1,17 @@
 import '../globals.css';
 
 import { draftMode } from 'next/headers';
-
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
+import Main from '@/components/layout/Main';
 import { SanityLive } from '@/lib/sanity/client/live';
 import { handleError } from './client-utils';
-import Main from '@/components/layout/Main';
-import dynamic from 'next/dynamic';
 
 const DraftModeToast = dynamic(() => import('@/components/modules/DraftModeToast'));
 const Toaster = dynamic(() => import('sonner').then((mod) => mod.Toaster));
 const VisualEditing = dynamic(() => import('next-sanity').then((mod) => mod.VisualEditing));
 
+import dynamic from 'next/dynamic';
 import Alert from '@/components/layout/Alert';
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled: isDraftMode } = await draftMode();

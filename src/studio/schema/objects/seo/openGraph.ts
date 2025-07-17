@@ -1,6 +1,6 @@
-import SEOTitle from '@/studio/components/SEOTitle';
-import SEODescription from '@/studio/components/SEODescription';
 import { defineField } from 'sanity';
+import SEODescription from '@/studio/components/SEODescription';
+import SEOTitle from '@/studio/components/SEOTitle';
 
 export default defineField({
   name: 'openGraph',

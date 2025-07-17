@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '../ui/Button';
+import { useState } from 'react';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,10 +11,10 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/NavigationMenu';
-import { cn } from '@/lib/utils';
-import { useState } from 'react';
-import { SettingsQueryResult } from '@/sanity.types';
 import { getLinkByLinkObject } from '@/lib/links';
+import { cn } from '@/lib/utils';
+import type { SettingsQueryResult } from '@/sanity.types';
+import { Button } from '../ui/Button';
 
 export default function NavBar({
   menuItems,
@@ -45,7 +45,10 @@ export default function NavBar({
                               href={child.link ? getLinkByLinkObject(child.link) || '#' : '#'}
                               className="block p-2 hover:bg-gray-100 rounded-md"
                               {...(child.link?.openInNewTab
-                                ? { target: '_blank', rel: 'noopener noreferrer' }
+                                ? {
+                                    target: '_blank',
+                                    rel: 'noopener noreferrer',
+                                  }
                                 : {})}
                             >
                               {child.text}
@@ -86,6 +89,7 @@ export default function NavBar({
 
       {/* Mobile Menu Button */}
       <button
+        type="button"
         className="md:hidden text-gray-800"
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       >
@@ -96,6 +100,7 @@ export default function NavBar({
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
+          <title>Menu</title>
           <path
             strokeLinecap="round"
             strokeLinejoin="round"

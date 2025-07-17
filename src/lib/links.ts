@@ -1,5 +1,5 @@
 import { clientEnv } from '@/env/clientEnv';
-import { LinkFragmentType } from './sanity/queries/fragments/fragment.types';
+import type { LinkFragmentType } from './sanity/queries/fragments/fragment.types';
 
 export const getBaseURL = () => {
   return clientEnv.NEXT_PUBLIC_SITE_URL || '';

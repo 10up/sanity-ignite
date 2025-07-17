@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import PageSections from '@/components/sections/PageSections';
 import { sanityFetch } from '@/lib/sanity/client/live';
 import { formatMetaData } from '@/lib/sanity/client/seo';
-import PageSections from '@/components/sections/PageSections';
 import { getPageQuery } from '@/lib/sanity/queries/queries';
-import { notFound } from 'next/navigation';
 
 type Props = {
   params: Promise<{ slug: string }>;

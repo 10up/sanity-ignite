@@ -1,12 +1,12 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { sanityFetch } from '@/lib/sanity/client/live';
-import { postPagesSlugs, postQuery } from '@/lib/sanity/queries/queries';
 import Post from '@/components/templates/Post';
-import { PostQueryResult } from '@/sanity.types';
-import { Metadata } from 'next';
+import { serverEnv } from '@/env/serverEnv';
 import { getDocumentLink } from '@/lib/links';
 import { client } from '@/lib/sanity/client/client';
-import { serverEnv } from '@/env/serverEnv';
+import { sanityFetch } from '@/lib/sanity/client/live';
+import { postPagesSlugs, postQuery } from '@/lib/sanity/queries/queries';
+import type { PostQueryResult } from '@/sanity.types';
 
 type Props = {
   params: Promise<{ slug: string }>;

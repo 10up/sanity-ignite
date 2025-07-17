@@ -1,6 +1,6 @@
-import PortableText from './PortableText';
-import { type PortableTextBlock } from 'next-sanity';
+import type { PortableTextBlock } from 'next-sanity';
 import type { CardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import PortableText from './PortableText';
 
 export default function Card({ card: { heading, content } }: { card: CardFragmentType }) {
   return (

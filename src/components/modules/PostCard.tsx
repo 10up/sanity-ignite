@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import { Badge } from '@/components/ui/Badge';
-import { Image } from 'next-sanity/image';
 import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { Image } from 'next-sanity/image';
+import { Badge } from '@/components/ui/Badge';
 import { ReadTime } from '@/components/ui/ReadTime';
-import { urlForImage } from '@/lib/sanity/client/utils';
-import { PostCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 import { getDocumentLink } from '@/lib/links';
+import { urlForImage } from '@/lib/sanity/client/utils';
+import type { PostCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
 export default function PostCard({ post }: { post: PostCardFragmentType }) {
   const { title, excerpt, date, author, image, categories } = post;

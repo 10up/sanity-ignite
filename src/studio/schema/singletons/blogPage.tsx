@@ -1,5 +1,5 @@
-import { defineType, defineField } from 'sanity';
 import { DocumentIcon } from '@sanity/icons';
+import { defineField, defineType } from 'sanity';
 import { defaultFieldGroups } from '../config/fieldGroups';
 
 export default defineType({

@@ -1,7 +1,7 @@
 'use server';
 
-import { ActionResponse } from './types';
 import * as v from 'valibot';
+import type { ActionResponse } from './types';
 
 const EmailSchema = v.pipe(
   v.string(),
@@ -13,7 +13,7 @@ export const subscribeAction = async (formData: FormData): Promise<ActionRespons
   'use server';
 
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // biome-ignorelint/correctness/noUnusedVariables: starter code
     const email = v.parse(EmailSchema, formData.get('email'));
 
     // Add your newsletter signup logic here

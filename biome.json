@@ -1,0 +1,102 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.1.1/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!sanity.types.ts",
+      "!**/.next/**",
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/build/**"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedVariables": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "error"
+      },
+      "style": {
+        "useImportType": "error",
+        "useConsistentArrayType": {
+          "level": "error",
+          "options": {
+            "syntax": "shorthand"
+          }
+        }
+      },
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "error"
+      }
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingCommas": "es5",
+      "semicolons": "always"
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/src/app/studio/**/*.*", "**/sanity.config.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "next-sanity": "\n 🔥 Importing the next-sanity package into the Sanity studio is not allowed. Read more about this in the sanity-ignite Readme.md"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/src/app/(frontend)/**/*.*"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/studio/*": "\n 🔥 Importing files from sanity studio into the Next.js app is not allowed. Read more about this in the sanity-ignite Readme.md",
+                  "@sanity/assist": "\n 🔥 Importing files from sanity studio into the Next.js app is not allowed. Read more about this in the sanity-ignite Readme.md",
+                  "@sanity/icons": "\n 🔥 Importing files from sanity studio into the Next.js app is not allowed. Read more about this in the sanity-ignite Readme.md",
+                  "@sanity/vision": "\n 🔥 Importing files from sanity studio into the Next.js app is not allowed. Read more about this in the sanity-ignite Readme.md"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
-import { createRadioListLayout } from '@/utils/schema';
 import { LinkIcon } from '@sanity/icons';
 import { defineField, defineType } from 'sanity';
+import { createRadioListLayout } from '@/utils/schema';
 
 export default defineType({
   name: 'menuItem',

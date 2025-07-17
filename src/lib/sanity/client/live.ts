@@ -1,6 +1,6 @@
 import { defineLive } from 'next-sanity';
-import { client } from './client';
 import { serverEnv } from '@/env/serverEnv';
+import { client } from './client';
 
 /**
  * Use defineLive to enable automatic revalidation and refreshing of your fetched content

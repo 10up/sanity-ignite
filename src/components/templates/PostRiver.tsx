@@ -1,6 +1,6 @@
-import { ArchivePagination } from '@/components/modules/ArchivePagination';
-import { PostsArchiveQueryResult } from '@/sanity.types';
 import React from 'react';
+import { ArchivePagination } from '@/components/modules/ArchivePagination';
+import type { PostsArchiveQueryResult } from '@/sanity.types';
 import PostCard from '../modules/PostCard';
 
 type Props = {

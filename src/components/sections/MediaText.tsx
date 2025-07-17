@@ -1,9 +1,9 @@
+import type { PortableTextBlock } from 'next-sanity';
 import { Image } from 'next-sanity/image';
-import { urlForImage } from '@/lib/sanity/client/utils';
-import { type PortableTextBlock } from 'next-sanity';
 import PortableText from '@/components/modules/PortableText';
-import { cn } from '@/utils/styles';
+import { urlForImage } from '@/lib/sanity/client/utils';
 import type { MediaTextSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import { cn } from '@/utils/styles';
 
 export default function MediaTextSection({ section }: { section: MediaTextSectionFragmentType }) {
   return (

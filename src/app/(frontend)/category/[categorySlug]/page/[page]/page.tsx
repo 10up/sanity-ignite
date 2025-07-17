@@ -1,12 +1,12 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { sanityFetch } from '@/lib/sanity/client/live';
-import { categoryQuery, postsArchiveQuery } from '@/lib/sanity/queries/queries';
-import { paginatedData } from '@/lib/pagination';
-import { Metadata } from 'next';
-import { getDocumentLink } from '@/lib/links';
-import { POSTS_PER_PAGE } from '@/lib/constants';
 import Page from '@/components/templates/Page';
 import PostRiver from '@/components/templates/PostRiver';
+import { POSTS_PER_PAGE } from '@/lib/constants';
+import { getDocumentLink } from '@/lib/links';
+import { paginatedData } from '@/lib/pagination';
+import { sanityFetch } from '@/lib/sanity/client/live';
+import { categoryQuery, postsArchiveQuery } from '@/lib/sanity/queries/queries';
 
 type Props = {
   params: Promise<{ categorySlug: string; page: string }>;
@@ -74,7 +74,7 @@ export default async function PostPage(props: Props) {
   }
 
   return (
-    <Page title={'Category: ' + category.title}>
+    <Page title={`Category: ${category.title}`}>
       <PostRiver
         listingData={posts.data}
         currentPage={posts.currentPage}

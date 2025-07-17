@@ -1,4 +1,4 @@
-import { GetPageQueryResult, PostQueryResult, PostsArchiveQueryResult } from '@/sanity.types';
+import type { GetPageQueryResult, PostQueryResult, PostsArchiveQueryResult } from '@/sanity.types';
 
 export type PostCardFragmentType = NonNullable<PostsArchiveQueryResult['results'][number]>;
 export type PostFragmentType = NonNullable<PostQueryResult>;

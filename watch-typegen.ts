@@ -1,7 +1,7 @@
+import { exec } from 'node:child_process';
 import { watch } from 'chokidar';
-import { exec } from 'child_process';
 
-import data from './sanity-typegen.json' assert { type: 'json' };
+import data from './sanity-typegen.json' with { type: 'json' };
 
 const queryPaths = data.path.map((p) => {
   // Handle both glob patterns: **/*.ts and *.ts

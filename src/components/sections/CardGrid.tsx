@@ -1,7 +1,7 @@
-import { type PortableTextBlock } from 'next-sanity';
-import PortableText from '../modules/PortableText';
+import type { PortableTextBlock } from 'next-sanity';
+import type { CardGridSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 import Card from '../modules/Card';
-import { CardGridSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import PortableText from '../modules/PortableText';
 
 export default function CardGrid({
   section: { heading, content, cards },
@@ -18,7 +18,7 @@ export default function CardGrid({
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {cards?.map((card, index) => <Card key={index} card={card} />)}
+          {cards?.map((card) => <Card key={card.heading} card={card} />)}
         </div>
       </div>
     </section>
