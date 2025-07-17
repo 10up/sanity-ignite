@@ -39,7 +39,7 @@
     "next-sanity": "^9.9.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "sanity": "^3.81.0",
+    "sanity": "^4.0.1",
     "server-only": "^0.0.1",
     "sonner": "^1.7.1",
     "styled-components": "^6.1.13",
