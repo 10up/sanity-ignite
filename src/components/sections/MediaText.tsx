@@ -3,7 +3,7 @@ import { Image } from 'next-sanity/image';
 import PortableText from '@/components/modules/PortableText';
 import { urlForImage } from '@/lib/sanity/client/utils';
 import type { MediaTextSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
-import { cn } from '@/utils/styles';
+import { cn } from '@/lib/utils';
 
 export default function MediaTextSection({ section }: { section: MediaTextSectionFragmentType }) {
   return (
