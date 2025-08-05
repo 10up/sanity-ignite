@@ -21,6 +21,7 @@ schema.json
 
 # misc
 .DS_Store
+.idea
 *.pem
 .eslintcache
 
