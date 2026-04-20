@@ -1,4 +1,4 @@
-import { defineLive } from 'next-sanity';
+import { defineLive } from 'next-sanity/live';
 import { serverEnv } from '@/env/serverEnv';
 import { client } from './client';
 

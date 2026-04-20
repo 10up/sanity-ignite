@@ -1,4 +1,4 @@
-import { stegaClean } from '@sanity/client/stega';
+import { stegaClean } from 'next-sanity';
 import { Image } from 'next-sanity/image';
 
 import { urlForImage } from '@/lib/sanity/client/utils';

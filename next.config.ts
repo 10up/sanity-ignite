@@ -2,9 +2,7 @@ import bundleAnalyzer from '@next/bundle-analyzer';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  cacheComponents: true,
   images: {
     remotePatterns: [
       {

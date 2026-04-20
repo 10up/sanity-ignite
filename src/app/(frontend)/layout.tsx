@@ -9,7 +9,7 @@ import { handleError } from './client-utils';
 
 const DraftModeToast = dynamic(() => import('@/components/modules/DraftModeToast'));
 const Toaster = dynamic(() => import('sonner').then((mod) => mod.Toaster));
-const VisualEditing = dynamic(() => import('next-sanity').then((mod) => mod.VisualEditing));
+const VisualEditing = dynamic(() => import('next-sanity/visual-editing').then((mod) => mod.VisualEditing));
 
 import dynamic from 'next/dynamic';
 import Alert from '@/components/layout/Alert';
