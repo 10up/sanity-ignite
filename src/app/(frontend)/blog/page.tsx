@@ -1,40 +1,32 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import type { SearchParams } from 'nuqs/server';
+import { Suspense } from 'react';
 import Page from '@/components/templates/Page';
-import PostRiver from '@/components/templates/PostRiver';
-import { POSTS_PER_PAGE } from '@/lib/constants';
-import { paginatedData } from '@/lib/pagination';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { formatMetaData } from '@/lib/sanity/client/seo';
-import { blogPageQuery, postsArchiveQuery } from '@/lib/sanity/queries/queries';
 import {
+  allCategoriesQuery,
+  blogPageQuery,
+} from '@/lib/sanity/queries/queries';
+import {
+  allCategoriesSchema,
   blogPageSchema,
-  postsArchiveSchema,
 } from '@/lib/sanity/queries/schemas';
+import { BlogFilters } from './BlogFilters';
+import { BlogResults } from './BlogResults';
+import { BlogResultsSkeleton } from './BlogResultsSkeleton';
+import { loadBlogSearchParams } from './searchParams';
 
-const loadPostsPageData = async () => {
-  const [blogPage, posts] = await Promise.all([
-    sanityFetch({
-      query: blogPageQuery,
-      schema: blogPageSchema,
-      cache: { profile: 'hours', tags: ['sanity:type:blogPage'] },
-    }),
-    sanityFetch({
-      query: postsArchiveQuery,
-      params: { from: 0, to: POSTS_PER_PAGE - 1, filters: {} },
-      schema: postsArchiveSchema,
-      cache: { profile: 'hours', tags: ['sanity:type:post'] },
-    }),
-  ]);
-
-  return {
-    blogPage,
-    posts: posts ? paginatedData(posts, 1, POSTS_PER_PAGE) : null,
-  };
+type Props = {
+  searchParams: Promise<SearchParams>;
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { blogPage } = await loadPostsPageData();
+  const blogPage = await sanityFetch({
+    query: blogPageQuery,
+    schema: blogPageSchema,
+    cache: { profile: 'hours', tags: ['sanity:type:blogPage'] },
+  });
 
   if (!blogPage?.seo) {
     return {};
@@ -46,20 +38,35 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-export default async function PostPage() {
-  const { blogPage, posts } = await loadPostsPageData();
-
-  if (!posts || !blogPage) {
-    notFound();
-  }
+export default async function BlogPage({ searchParams }: Props) {
+  const [blogPage, categories, filters] = await Promise.all([
+    sanityFetch({
+      query: blogPageQuery,
+      schema: blogPageSchema,
+      cache: { profile: 'hours', tags: ['sanity:type:blogPage'] },
+    }),
+    sanityFetch({
+      query: allCategoriesQuery,
+      schema: allCategoriesSchema,
+      cache: { profile: 'hours', tags: ['sanity:type:category'] },
+    }),
+    loadBlogSearchParams(searchParams),
+  ]);
 
   return (
-    <Page title={`${blogPage?.name} - Page ${posts.currentPage}`}>
-      <PostRiver
-        listingData={posts.data}
-        currentPage={posts.currentPage}
-        totalPages={posts.totalPages}
-      />
+    <Page title={blogPage?.name ?? 'Blog'}>
+      <BlogFilters categories={categories ?? []} />
+      <Suspense
+        key={`${filters.category}-${filters.search}-${filters.sort}-${filters.page}`}
+        fallback={<BlogResultsSkeleton />}
+      >
+        <BlogResults
+          category={filters.category}
+          search={filters.search}
+          sort={filters.sort}
+          page={filters.page}
+        />
+      </Suspense>
     </Page>
   );
 }

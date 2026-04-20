@@ -88,6 +88,8 @@ const categorySchema = z
 
 export { categorySchema };
 
+export const allCategoriesSchema = z.array(categorySchema);
+
 const personSchema = z
   .object({
     _id: z.string(),

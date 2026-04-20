@@ -72,6 +72,12 @@ export const postPagesSlugs = defineQuery(`
   *[_type == "post" && defined(slug.current)][0..$limit].slug.current
 `);
 
+export const allCategoriesQuery = defineQuery(`
+  *[_type == "category" && defined(slug.current)] | order(title asc) {
+    ${categoryFragment}
+  }
+`);
+
 export const categorySlugs = defineQuery(`
   *[_type == "category" && defined(slug.current)][0..$limit].slug.current
 `);
@@ -92,15 +98,17 @@ export const postsArchiveQuery = defineQuery(`
       (
         !defined( $filters.personSlug ) || references(*[_type == "person" && slug.current == $filters.personSlug]._id)
       )
-      //
-      // Add more filter here if needed
-      //
-      // The filter value should be passed as a property of the $filter parameter
-      //
-      // (
-      //   !defined( $filters.anotherFilter ) || fieldname == $filters.anotherFilter)
-      // )
-    ] | order(_createdAt desc, _id desc)
+      &&
+      (
+        !defined( $filters.search ) || title match $filters.search + "*"
+      )
+    ] | order(
+      select(
+        $filters.sortOrder == "oldest" => _createdAt asc,
+        _createdAt desc
+      ),
+      _id desc
+    )
   }
   {
     "total": count(allResults),

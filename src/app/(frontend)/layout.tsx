@@ -1,6 +1,9 @@
 import '../globals.css';
 
+import dynamic from 'next/dynamic';
 import { draftMode } from 'next/headers';
+import { NuqsAdapter } from 'nuqs/adapters/next';
+import Alert from '@/components/layout/Alert';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import Main from '@/components/layout/Main';
@@ -15,8 +18,6 @@ const VisualEditing = dynamic(() =>
   import('next-sanity/visual-editing').then((mod) => mod.VisualEditing)
 );
 
-import dynamic from 'next/dynamic';
-import Alert from '@/components/layout/Alert';
 export default async function RootLayout({
   children,
 }: {
@@ -26,22 +27,22 @@ export default async function RootLayout({
 
   return (
     <body className={`font-inter bg-white text-black`}>
-      <section className="min-h-screen">
-        <Alert />
-        {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
-        <Toaster />
-        {isDraftMode && (
-          <>
-            <DraftModeToast />
-            {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
-            <VisualEditing />
-          </>
-        )}
-        {isDraftMode && <SanityLive onError={handleError} />}
-        <Header />
-        <Main>{children}</Main>
-        <Footer />
-      </section>
+      <NuqsAdapter>
+        <section className="min-h-screen">
+          <Alert />
+          <Toaster />
+          {isDraftMode && (
+            <>
+              <DraftModeToast />
+              <VisualEditing />
+            </>
+          )}
+          {isDraftMode && <SanityLive onError={handleError} />}
+          <Header />
+          <Main>{children}</Main>
+          <Footer />
+        </section>
+      </NuqsAdapter>
     </body>
   );
 }

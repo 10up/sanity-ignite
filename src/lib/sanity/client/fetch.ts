@@ -26,7 +26,6 @@ async function cachedFetch(
 ): Promise<unknown> {
   'use cache';
 
-  // @ts-expect-error -- Next.js types cacheLife with literal overloads; string works at runtime
   cacheLife(profile);
   for (const tag of tags) {
     cacheTag(tag);
