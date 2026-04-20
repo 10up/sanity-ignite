@@ -26,8 +26,7 @@ export default function PostListSection({
           </p>
         </div>
         <div className="max-w-4xl mx-auto space-y-12">
-          {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
-          {posts.slice(0, numberOfPosts).map((post: any) => (
+          {posts.slice(0, numberOfPosts).map((post) => (
             <PostCard key={post._id} post={post} />
           ))}
         </div>

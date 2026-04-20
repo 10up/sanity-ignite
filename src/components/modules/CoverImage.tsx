@@ -4,7 +4,7 @@ import { Image } from 'next-sanity/image';
 import { urlForImage } from '@/lib/sanity/client/utils';
 
 interface CoverImageProps {
-  image: { asset?: { _ref?: string }; alt?: string };
+  image: { asset?: { _ref?: string }; alt?: string | null };
   priority?: boolean;
 }
 
@@ -16,7 +16,13 @@ export default function CoverImage(props: CoverImageProps) {
       className="rounded-2xl shadow-md transition-shadow object-cover"
       fill={true}
       alt={stegaClean(source?.alt) || ''}
-      src={urlForImage(source)?.height(720).width(1280).auto('format').url() as string}
+      src={
+        urlForImage(source)
+          ?.height(720)
+          .width(1280)
+          .auto('format')
+          .url() as string
+      }
       sizes="100vw"
       priority={priority}
     />

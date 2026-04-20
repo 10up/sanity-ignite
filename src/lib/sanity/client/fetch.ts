@@ -55,10 +55,7 @@ function validate<T extends ZodType>(
 
   const parsed = schema.safeParse(data);
   if (!parsed.success) {
-    console.error(
-      `[sanityFetch${label}] Zod validation failed:`,
-      parsed.error.flatten()
-    );
+    console.error(`[sanityFetch${label}] Zod validation failed:`, parsed.error);
     return null;
   }
 

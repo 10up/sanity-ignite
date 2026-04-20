@@ -1,6 +1,7 @@
 'use client';
 
 import { useQueryStates } from 'nuqs';
+import { use } from 'react';
 import { blogSearchParams } from './searchParams';
 
 type Category = {
@@ -9,7 +10,12 @@ type Category = {
   slug: string | null;
 };
 
-export function BlogFilters({ categories }: { categories: Category[] }) {
+export function BlogFilters({
+  categoriesPromise,
+}: {
+  categoriesPromise: Promise<Category[] | null>;
+}) {
+  const categories = use(categoriesPromise) ?? [];
   const [filters, setFilters] = useQueryStates(blogSearchParams, {
     shallow: false,
   });

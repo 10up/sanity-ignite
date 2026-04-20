@@ -10,6 +10,7 @@
     "includes": [
       "**",
       "!sanity.types.ts",
+      "!**/.sanity/sanity.types.ts",
       "!**/.next/**",
       "!**/node_modules/**",
       "!**/dist/**",

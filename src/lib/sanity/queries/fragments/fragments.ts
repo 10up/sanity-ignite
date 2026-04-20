@@ -22,7 +22,7 @@ export const imageFragment = /* groq */ `
     height,
     width,
   },
-  asset->{...},
+  asset,
 `;
 
 export const openGraphFragment = /* groq */ `

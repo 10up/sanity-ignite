@@ -1,24 +1,45 @@
-import type { GetPageQueryResult, PostQueryResult, PostsArchiveQueryResult } from '@/sanity.types';
+import type { z } from 'zod';
+import type {
+  buttonSchema,
+  cardGridSectionSchema,
+  cardSchema,
+  categorySchema,
+  ctaSectionSchema,
+  dividerSectionSchema,
+  heroSectionSchema,
+  linkSchema,
+  mediaTextSectionSchema,
+  personSchema,
+  postCardSchema,
+  postListSectionSchema,
+  postSchema,
+  sectionSchema,
+  seoSchema,
+  subscribeSectionSchema,
+} from '../schemas';
 
-export type PostCardFragmentType = NonNullable<PostsArchiveQueryResult['results'][number]>;
-export type PostFragmentType = NonNullable<PostQueryResult>;
-export type PersonFragmentType = NonNullable<PostFragmentType['author']>;
-export type CategoryFragmentType = NonNullable<PostFragmentType['categories']>[number];
+export type PostCardFragmentType = z.infer<typeof postCardSchema>;
+export type PostFragmentType = z.infer<typeof postSchema>;
+export type PersonFragmentType = z.infer<typeof personSchema>;
+export type CategoryFragmentType = z.infer<typeof categorySchema>;
 
-export type PageFragmentType = NonNullable<GetPageQueryResult>;
-export type SeoFragmentType = NonNullable<PageFragmentType['seo']>;
+export type SeoFragmentType = z.infer<typeof seoSchema>;
 
-export type SectionsType = PageFragmentType['pageSections'];
-export type SectionType = NonNullable<SectionsType>[number];
+export type SectionType = z.infer<typeof sectionSchema>;
+export type SectionsType = SectionType[] | null | undefined;
 
-export type CardGridSectionFragmentType = Extract<SectionType, { _type: 'cardGrid' }>;
-export type CtaSectionFragmentType = Extract<SectionType, { _type: 'cta' }>;
-export type DividerSectionFragmentType = Extract<SectionType, { _type: 'divider' }>;
-export type HeroSectionFragmentType = Extract<SectionType, { _type: 'hero' }>;
-export type MediaTextSectionFragmentType = Extract<SectionType, { _type: 'mediaText' }>;
-export type PostListSectionFragmentType = Extract<SectionType, { _type: 'postList' }>;
-export type SubscribeSectionFragmentType = Extract<SectionType, { _type: 'subscribe' }>;
+export type CardGridSectionFragmentType = z.infer<typeof cardGridSectionSchema>;
+export type CtaSectionFragmentType = z.infer<typeof ctaSectionSchema>;
+export type DividerSectionFragmentType = z.infer<typeof dividerSectionSchema>;
+export type HeroSectionFragmentType = z.infer<typeof heroSectionSchema>;
+export type MediaTextSectionFragmentType = z.infer<
+  typeof mediaTextSectionSchema
+>;
+export type PostListSectionFragmentType = z.infer<typeof postListSectionSchema>;
+export type SubscribeSectionFragmentType = z.infer<
+  typeof subscribeSectionSchema
+>;
 
-export type ButtonFragmentType = NonNullable<HeroSectionFragmentType['buttons']>[number];
-export type CardFragmentType = NonNullable<CardGridSectionFragmentType['cards']>[number];
-export type LinkFragmentType = NonNullable<ButtonFragmentType['link']>;
+export type ButtonFragmentType = z.infer<typeof buttonSchema>;
+export type CardFragmentType = z.infer<typeof cardSchema>;
+export type LinkFragmentType = z.infer<typeof linkSchema>;

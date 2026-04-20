@@ -10,25 +10,25 @@ function parseAdditionalMetaTags(
   }
 
   const otherTags: Record<string, string> = {};
-  // biome-ignore lint/suspicious/noExplicitAny: pending TypeGen
-  additionalMetaTags.forEach((metaTag: any) => {
-    // biome-ignore lint/suspicious/noExplicitAny: pending TypeGen
-    metaTag?.metaAttributes?.forEach((metaAttribute: any) => {
-      if (metaAttribute?.attributeKey) {
-        if (
-          metaAttribute?.attributeType === 'string' &&
-          metaAttribute?.attributeValueString
-        ) {
-          otherTags[metaAttribute.attributeKey] =
-            metaAttribute.attributeValueString;
-        }
+  additionalMetaTags.forEach((metaTag) => {
+    metaTag?.metaAttributes?.forEach((metaAttribute) => {
+      const key = metaAttribute?.attributeKey;
+      if (!key) return;
 
-        if (
-          metaAttribute?.attributeType === 'image' &&
-          metaAttribute?.attributeValueImage?.asset?.url
-        ) {
-          otherTags[metaAttribute.attributeKey] =
-            metaAttribute.attributeValueImage.asset.url;
+      if (
+        metaAttribute?.attributeType === 'string' &&
+        metaAttribute?.attributeValueString
+      ) {
+        otherTags[key] = metaAttribute.attributeValueString;
+      }
+
+      if (metaAttribute?.attributeType === 'image') {
+        const asset = metaAttribute?.attributeValueImage?.asset as
+          | Record<string, unknown>
+          | undefined;
+        const url = asset?.url;
+        if (typeof url === 'string') {
+          otherTags[key] = url;
         }
       }
     });

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import type { z } from 'zod';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,15 +13,13 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/NavigationMenu';
 import { getLinkByLinkObject } from '@/lib/links';
+import type { settingsSchema } from '@/lib/sanity/queries/schemas';
 import { cn } from '@/lib/utils';
-import type { SettingsQueryResult } from '@/sanity.types';
 import { Button } from '../ui/Button';
 
-export default function NavBar({
-  menuItems,
-}: {
-  menuItems: NonNullable<NonNullable<SettingsQueryResult>['menu']>;
-}) {
+type MenuItem = NonNullable<z.infer<typeof settingsSchema>['menu']>[number];
+
+export default function NavBar({ menuItems }: { menuItems: MenuItem[] }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -29,8 +28,7 @@ export default function NavBar({
       <div className="hidden md:flex items-center space-x-6">
         <NavigationMenu>
           <NavigationMenuList>
-            {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
-            {menuItems.map((item: any) => (
+            {menuItems.map((item) => (
               <NavigationMenuItem key={item._key}>
                 {item.childMenu ? (
                   // Dropdown menu for items with children
@@ -42,8 +40,7 @@ export default function NavBar({
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <div className="p-1 w-[200px]">
-                        {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
-                        {item.childMenu.map((child: any) => (
+                        {item.childMenu.map((child) => (
                           <NavigationMenuLink key={child._key} asChild>
                             <Link
                               href={
@@ -135,16 +132,14 @@ export default function NavBar({
         )}
       >
         <div className="px-4 py-2">
-          {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
-          {menuItems.map((item: any) => (
+          {menuItems.map((item) => (
             <div key={item._key}>
               {item.childMenu ? (
                 // Parent item with children
                 <>
                   <div className="py-2 px-4 font-medium">{item.text}</div>
                   <div className="pl-4">
-                    {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
-                    {item.childMenu.map((child: any) => (
+                    {item.childMenu.map((child) => (
                       <Link
                         key={child._key}
                         href={

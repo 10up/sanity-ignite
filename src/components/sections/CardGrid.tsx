@@ -21,8 +21,7 @@ export default function CardGrid({
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
-          {cards?.map((card: any) => (
+          {cards?.map((card) => (
             <Card key={card.heading} card={card} />
           ))}
         </div>

@@ -2,11 +2,18 @@
 
 import type { SanityDocument } from 'next-sanity';
 import { useOptimistic } from 'next-sanity/hooks';
-import type { ElementType } from 'react';
+import type { ComponentType } from 'react';
 import { dataAttr } from '@/lib/sanity/client/utils';
 import type {
+  CardGridSectionFragmentType,
+  CtaSectionFragmentType,
+  DividerSectionFragmentType,
+  HeroSectionFragmentType,
+  MediaTextSectionFragmentType,
+  PostListSectionFragmentType,
   SectionsType,
   SectionType,
+  SubscribeSectionFragmentType,
 } from '@/lib/sanity/queries/fragments/fragment.types';
 import CardGrid from './CardGrid';
 import CTA from './CTA';
@@ -16,9 +23,17 @@ import MediaText from './MediaText';
 import PostList from './PostList';
 import Subscribe from './Subscribe';
 
-type PageSectionstype = SectionType['_type'];
+type SectionComponentMap = {
+  hero: ComponentType<{ section: HeroSectionFragmentType }>;
+  mediaText: ComponentType<{ section: MediaTextSectionFragmentType }>;
+  cta: ComponentType<{ section: CtaSectionFragmentType }>;
+  subscribe: ComponentType<{ section: SubscribeSectionFragmentType }>;
+  postList: ComponentType<{ section: PostListSectionFragmentType }>;
+  cardGrid: ComponentType<{ section: CardGridSectionFragmentType }>;
+  divider: ComponentType<{ section: DividerSectionFragmentType }>;
+};
 
-const SECTION_COMPONENTS: Record<PageSectionstype, ElementType> = {
+const SECTION_COMPONENTS: SectionComponentMap = {
   hero: Hero,
   mediaText: MediaText,
   cta: CTA,
@@ -51,11 +66,9 @@ export default function PageSections({
       }
 
       return action.document.pageSections.map(
-        // biome-ignore lint/suspicious/noExplicitAny: pending TypeGen
-        (section: any) =>
+        (section) =>
           currentSections?.find(
-            // biome-ignore lint/suspicious/noExplicitAny: pending TypeGen
-            (currentSection: any) => currentSection._key === section?._key
+            (currentSection) => currentSection._key === section?._key
           ) || section
       );
     }
@@ -73,32 +86,32 @@ export default function PageSections({
         path: 'pageSections',
       })}
     >
-      {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
-      {sections?.map((section: any) => {
-        const { _key, _type, ...sectionProps } = section;
-        const SectionComponent = SECTION_COMPONENTS[_type];
+      {sections?.map((section) => {
+        const SectionComponent = SECTION_COMPONENTS[
+          section._type as keyof SectionComponentMap
+        ] as ComponentType<{ section: SectionType }> | undefined;
 
         if (!SectionComponent) {
           return (
             <div
-              key={_key}
+              key={section._key}
               className="flex items-center justify-center p-8 my-8 text-center text-muted-foreground bg-muted rounded-lg"
             >
-              Component not found for block type: <code>{_type}</code>
+              Component not found for block type: <code>{section._type}</code>
             </div>
           );
         }
 
         return (
           <div
-            key={_key}
+            key={section._key}
             data-sanity={dataAttr({
               id: documentId,
               type: documentType,
-              path: `pageSections[_key=="${_key}"]`,
+              path: `pageSections[_key=="${section._key}"]`,
             })}
           >
-            <SectionComponent section={sectionProps} />
+            <SectionComponent section={section} />
           </div>
         );
       })}
