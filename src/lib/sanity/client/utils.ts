@@ -24,11 +24,11 @@ export function resolveOpenGraphImage(
   height = 627
 ) {
   if (!image) return;
-  // biome-ignore lint/suspicious/noFocusedTests: .fit() is an image-url method, not a test
+
   const url = imageBuilder
     .image(image)
     ?.width(width)
-    .height(height)
+    .height(height) // biome-ignore lint/suspicious/noFocusedTests: .fit() is an image-url method, not a test
     .fit('crop')
     .url();
   if (!url) return;
