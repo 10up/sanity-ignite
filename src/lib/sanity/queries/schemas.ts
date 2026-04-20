@@ -9,7 +9,7 @@ const imageSchema = z
         _ref: z.string(),
         _type: z.literal('reference'),
       })
-      .passthrough()
+      .loose()
       .optional(),
     hotspot: z
       .object({
@@ -19,7 +19,7 @@ const imageSchema = z
         height: z.number().nullish(),
         width: z.number().nullish(),
       })
-      .passthrough()
+      .loose()
       .nullish(),
     crop: z
       .object({
@@ -29,12 +29,12 @@ const imageSchema = z
         left: z.number().nullish(),
         bottom: z.number().nullish(),
       })
-      .passthrough()
+      .loose()
       .nullish(),
     alt: z.string().nullish(),
     _type: z.literal('image'),
   })
-  .passthrough();
+  .loose();
 
 const linkSchema = z
   .object({
@@ -51,7 +51,7 @@ const linkSchema = z
       })
       .nullish(),
   })
-  .passthrough();
+  .loose();
 
 const buttonVariantSchema = z
   .enum([
@@ -73,7 +73,7 @@ const buttonSchema = z
     text: z.string().nullish(),
     link: linkSchema.nullish(),
   })
-  .passthrough();
+  .loose();
 
 const blockContentSchema = z.array(
   z
@@ -88,11 +88,11 @@ const blockContentSchema = z.array(
               _key: z.string(),
               text: z.string().optional(),
             })
-            .passthrough()
+            .loose()
         )
         .optional(),
     })
-    .passthrough()
+    .loose()
 );
 
 const openGraphSchema = z
@@ -104,7 +104,7 @@ const openGraphSchema = z
     url: z.string().nullish(),
     image: imageSchema.nullish(),
   })
-  .passthrough();
+  .loose();
 
 const twitterSchema = z
   .object({
@@ -114,7 +114,7 @@ const twitterSchema = z
     cardType: z.string().nullish(),
     handle: z.string().nullish(),
   })
-  .passthrough();
+  .loose();
 
 const metaAttributeSchema = z
   .object({
@@ -124,7 +124,7 @@ const metaAttributeSchema = z
     attributeValueString: z.string().nullish(),
     attributeValueImage: imageSchema.nullish(),
   })
-  .passthrough();
+  .loose();
 
 const metaTagSchema = z
   .object({
@@ -132,7 +132,7 @@ const metaTagSchema = z
     _type: z.string(),
     metaAttributes: z.array(metaAttributeSchema).nullish(),
   })
-  .passthrough();
+  .loose();
 
 const seoSchema = z
   .object({
@@ -146,7 +146,7 @@ const seoSchema = z
     twitter: twitterSchema.nullish(),
     additionalMetaTags: z.array(metaTagSchema).nullish(),
   })
-  .passthrough();
+  .loose();
 
 const cardSchema = z
   .object({
@@ -154,7 +154,7 @@ const cardSchema = z
     content: blockContentSchema.nullish(),
     _type: z.string(),
   })
-  .passthrough();
+  .loose();
 
 // ─── Document fragments ──────────────────────────────────────────────────────
 
@@ -166,7 +166,7 @@ const categorySchema = z
     slug: z.string().nullable(),
     description: z.string().nullish(),
   })
-  .passthrough();
+  .loose();
 
 const personSchema = z
   .object({
@@ -178,7 +178,7 @@ const personSchema = z
     role: z.string().nullish(),
     image: imageSchema.nullish(),
   })
-  .passthrough();
+  .loose();
 
 const postCardSchema = z
   .object({
@@ -194,7 +194,7 @@ const postCardSchema = z
     categories: z.array(categorySchema).nullish(),
     author: personSchema.nullish(),
   })
-  .passthrough();
+  .loose();
 
 // ─── Page sections ───────────────────────────────────────────────────────────
 
@@ -203,7 +203,7 @@ const sectionBaseSchema = z
     _key: z.string(),
     _type: z.string(),
   })
-  .passthrough();
+  .loose();
 
 const heroSectionSchema = sectionBaseSchema.extend({
   _type: z.literal('hero'),
@@ -272,7 +272,7 @@ const pageSchema = z
     pageSections: z.array(sectionSchema).nullish(),
     seo: seoSchema.nullish(),
   })
-  .passthrough();
+  .loose();
 
 export const homePageSchema = z
   .object({
@@ -306,7 +306,7 @@ export const postSchema = postCardSchema
     content: blockContentSchema.nullish(),
     seo: seoSchema.nullish(),
   })
-  .passthrough();
+  .loose();
 
 export const postsArchiveSchema = z.object({
   total: z.number(),
@@ -330,7 +330,7 @@ const menuItemBaseSchema = z
     type: z.string().nullish(),
     link: linkSchema.nullish(),
   })
-  .passthrough();
+  .loose();
 
 const menuItemSchema = menuItemBaseSchema.extend({
   childMenu: z.array(menuItemBaseSchema).nullish(),
@@ -342,7 +342,7 @@ export const settingsSchema = z
     description: z.string().nullish(),
     menu: z.array(menuItemSchema).nullish(),
   })
-  .passthrough();
+  .loose();
 
 // ─── Re-exports for type inference ───────────────────────────────────────────
 
