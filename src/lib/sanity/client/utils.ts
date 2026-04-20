@@ -1,4 +1,4 @@
-import createImageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder } from '@sanity/image-url';
 import type { CreateDataAttributeProps } from 'next-sanity';
 import { createDataAttribute } from 'next-sanity';
 import { clientEnv } from '@/env/clientEnv';
@@ -14,16 +14,23 @@ export const urlForImage = (source: { asset?: { _ref?: string } }) => {
     return undefined;
   }
 
+  // biome-ignore lint/suspicious/noFocusedTests: .fit() is an image-url method, not a test
   return imageBuilder?.image(source).auto('format').fit('max');
 };
 
 export function resolveOpenGraphImage(
   image?: SeoFragmentType['metaImage'],
   width = 1200,
-  height = 627,
+  height = 627
 ) {
   if (!image) return;
-  const url = imageBuilder.image(image)?.width(width).height(height).fit('crop').url();
+  // biome-ignore lint/suspicious/noFocusedTests: .fit() is an image-url method, not a test
+  const url = imageBuilder
+    .image(image)
+    ?.width(width)
+    .height(height)
+    .fit('crop')
+    .url();
   if (!url) return;
   return { url, width, height };
 }

@@ -8,12 +8,24 @@ import type { ZodType, z } from 'zod';
 import { client } from './client';
 import { sanityFetch as liveFetch } from './live';
 
+const CACHE_PROFILES = {
+  default: { stale: 300, revalidate: 900 },
+  seconds: { stale: 30, revalidate: 1, expire: 60 },
+  minutes: { stale: 300, revalidate: 60, expire: 3600 },
+  hours: { stale: 300, revalidate: 3600, expire: 86400 },
+  days: { stale: 300, revalidate: 86400, expire: 604800 },
+  weeks: { stale: 300, revalidate: 604800, expire: 2592000 },
+  max: { stale: 300, revalidate: 2592000, expire: 31536000 },
+} as const;
+
+type CacheProfile = keyof typeof CACHE_PROFILES;
+
 type SanityFetchOptions<T extends ZodType> = {
   query: string;
   params?: QueryParams;
   schema: T;
   cache?: {
-    profile?: string;
+    profile?: CacheProfile;
     tags?: string[];
   };
 };
@@ -21,12 +33,12 @@ type SanityFetchOptions<T extends ZodType> = {
 async function cachedFetch(
   query: string,
   params: QueryParams | undefined,
-  profile: string,
+  profile: CacheProfile,
   tags: string[]
 ): Promise<unknown> {
   'use cache';
 
-  cacheLife(profile);
+  cacheLife(CACHE_PROFILES[profile]);
   for (const tag of tags) {
     cacheTag(tag);
   }

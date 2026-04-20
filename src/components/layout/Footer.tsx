@@ -1,8 +1,10 @@
+import { Suspense } from 'react';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { settingsQuery } from '@/lib/sanity/queries/queries';
 import { settingsSchema } from '@/lib/sanity/queries/schemas';
 import Logo from '../icons/Logo';
 import { Button } from '../ui/Button';
+import { CopyrightYear } from '../ui/CopyrightYear';
 
 export default async function Footer() {
   const settings = await sanityFetch({
@@ -120,7 +122,11 @@ export default async function Footer() {
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200 text-sm text-center">
           <p>
-            &copy; {new Date().getFullYear()} {settings.title} by{' '}
+            &copy;{' '}
+            <Suspense>
+              <CopyrightYear />
+            </Suspense>{' '}
+            {settings.title} by{' '}
             <a
               href="https://10up.com"
               className="underline hover:text-gray-900 transition-colors"

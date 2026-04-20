@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import PageSections from '@/components/sections/PageSections';
+import { serverEnv } from '@/env/serverEnv';
+import { client } from '@/lib/sanity/client/client';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { formatMetaData } from '@/lib/sanity/client/seo';
-import { getPageQuery } from '@/lib/sanity/queries/queries';
+import { getPageQuery, pageSlugs } from '@/lib/sanity/queries/queries';
 import { pageSchema_ } from '@/lib/sanity/queries/schemas';
 
 type Props = {
@@ -33,6 +35,18 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     page.seo as Parameters<typeof formatMetaData>[0],
     page?.name || ''
   );
+}
+
+export async function generateStaticParams() {
+  const slugs = await client.fetch(pageSlugs, {
+    limit: serverEnv.MAX_STATIC_PARAMS,
+  });
+
+  return slugs
+    ? slugs
+        .filter((slug: string | null) => slug !== null)
+        .map((slug: string) => ({ slug }))
+    : [];
 }
 
 export default async function Page(props: Props) {

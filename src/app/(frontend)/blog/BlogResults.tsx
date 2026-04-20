@@ -1,35 +1,36 @@
+import type { SearchParams } from 'nuqs/server';
 import { Pagination } from '@/app/(frontend)/blog/BlogPagination';
 import PostCard from '@/components/modules/PostCard';
 import { POSTS_PER_PAGE } from '@/lib/constants';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
-import { postsArchiveQuery } from '@/lib/sanity/queries/queries';
+import {
+  postsArchiveOldestQuery,
+  postsArchiveQuery,
+} from '@/lib/sanity/queries/queries';
 import { postsArchiveSchema } from '@/lib/sanity/queries/schemas';
+import { loadBlogSearchParams } from './searchParams';
 
 type BlogResultsProps = {
-  category: string | null;
-  search: string | null;
-  sort: string;
-  page: number;
+  searchParams: Promise<SearchParams>;
 };
 
-export async function BlogResults({
-  category,
-  search,
-  sort,
-  page,
-}: BlogResultsProps) {
+export async function BlogResults({ searchParams }: BlogResultsProps) {
+  const { category, search, sort, page } =
+    await loadBlogSearchParams(searchParams);
+
   const from = (page - 1) * POSTS_PER_PAGE;
   const to = page * POSTS_PER_PAGE - 1;
 
+  const query = sort === 'oldest' ? postsArchiveOldestQuery : postsArchiveQuery;
+
   const posts = await sanityFetch({
-    query: postsArchiveQuery,
+    query,
     params: {
       from,
       to,
       filters: {
         ...(category ? { categorySlug: category } : {}),
         ...(search ? { search } : {}),
-        ...(sort === 'oldest' ? { sortOrder: 'oldest' } : {}),
       },
     },
     schema: postsArchiveSchema,

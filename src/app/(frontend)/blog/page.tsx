@@ -15,7 +15,6 @@ import {
 import { BlogFilters } from './BlogFilters';
 import { BlogResults } from './BlogResults';
 import { BlogResultsSkeleton } from './BlogResultsSkeleton';
-import { loadBlogSearchParams } from './searchParams';
 
 type Props = {
   searchParams: Promise<SearchParams>;
@@ -39,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogPage({ searchParams }: Props) {
-  const [blogPage, categories, filters] = await Promise.all([
+  const [blogPage, categories] = await Promise.all([
     sanityFetch({
       query: blogPageQuery,
       schema: blogPageSchema,
@@ -50,22 +49,15 @@ export default async function BlogPage({ searchParams }: Props) {
       schema: allCategoriesSchema,
       cache: { profile: 'hours', tags: ['sanity:type:category'] },
     }),
-    loadBlogSearchParams(searchParams),
   ]);
 
   return (
     <Page title={blogPage?.name ?? 'Blog'}>
-      <BlogFilters categories={categories ?? []} />
-      <Suspense
-        key={`${filters.category}-${filters.search}-${filters.sort}-${filters.page}`}
-        fallback={<BlogResultsSkeleton />}
-      >
-        <BlogResults
-          category={filters.category}
-          search={filters.search}
-          sort={filters.sort}
-          page={filters.page}
-        />
+      <Suspense>
+        <BlogFilters categories={categories ?? []} />
+      </Suspense>
+      <Suspense fallback={<BlogResultsSkeleton />}>
+        <BlogResults searchParams={searchParams} />
       </Suspense>
     </Page>
   );

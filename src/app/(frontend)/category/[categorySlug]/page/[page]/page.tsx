@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import Page from '@/components/templates/Page';
 import PostRiver from '@/components/templates/PostRiver';
 import { POSTS_PER_PAGE } from '@/lib/constants';
@@ -74,11 +75,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   };
 }
 
-export async function generateStaticParams() {
-  return [];
-}
-
-export default async function PostPage(props: Props) {
+async function CategoryPageContent(props: Props) {
   const result = await loadData(props);
   const { posts, category } = result || {};
 
@@ -95,5 +92,13 @@ export default async function PostPage(props: Props) {
         paginationBase={`/category/${category.slug}`}
       />
     </Page>
+  );
+}
+
+export default async function PostPage(props: Props) {
+  return (
+    <Suspense>
+      <CategoryPageContent {...props} />
+    </Suspense>
   );
 }

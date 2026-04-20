@@ -75,10 +75,7 @@ export async function generateStaticParams() {
   return slugs
     ? slugs
         .filter((slug: string | null) => slug !== null)
-        .map((slug: string | null) => ({
-          categorySlug: slug,
-          pagination: undefined,
-        }))
+        .map((slug: string) => ({ categorySlug: slug }))
     : [];
 }
 

@@ -68,6 +68,10 @@ export const personQuery = defineQuery(`
   }
 `);
 
+export const pageSlugs = defineQuery(`
+  *[_type == "page" && defined(slug.current)][0..$limit].slug.current
+`);
+
 export const postPagesSlugs = defineQuery(`
   *[_type == "post" && defined(slug.current)][0..$limit].slug.current
 `);
@@ -86,7 +90,7 @@ export const personSlugs = defineQuery(`
   *[_type == "person" && defined(slug.current)][0..$limit].slug.current
 `);
 
-export const postsArchiveQuery = defineQuery(`
+const postsArchiveBase = (order: string) => `
   {
     "allResults": *[
       _type == "post"
@@ -102,13 +106,7 @@ export const postsArchiveQuery = defineQuery(`
       (
         !defined( $filters.search ) || title match $filters.search + "*"
       )
-    ] | order(
-      select(
-        $filters.sortOrder == "oldest" => _createdAt asc,
-        _createdAt desc
-      ),
-      _id desc
-    )
+    ] | order(${order})
   }
   {
     "total": count(allResults),
@@ -116,4 +114,12 @@ export const postsArchiveQuery = defineQuery(`
       ${postCardFragment}
     }
   }
-`);
+`;
+
+export const postsArchiveQuery = defineQuery(
+  postsArchiveBase('_createdAt desc, _id desc')
+);
+
+export const postsArchiveOldestQuery = defineQuery(
+  postsArchiveBase('_createdAt asc, _id asc')
+);
