@@ -46,6 +46,8 @@ next-env.d.ts
 # agent tooling
 .cursor
 .agents/skills
+skills-lock.json
+.mcp.json
 
 # ── GSD baseline (auto-generated) ──
 .gsd
