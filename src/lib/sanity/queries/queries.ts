@@ -69,7 +69,7 @@ export const allCategoriesQuery = defineQuery(`
   }
 `);
 
-const postsArchiveBase = (order: string) => `
+const postsArchiveBase = (order: string) => /* groq */ `
   {
     "allResults": *[
       _type == "post"
