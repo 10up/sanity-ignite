@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "gsd-workflow": {
+      "command": "/Users/christophereagle/.nvm/versions/node/v24.14.1/bin/node",
+      "args": [
+        "/Users/christophereagle/.nvm/versions/node/v24.14.1/lib/node_modules/gsd-pi/packages/mcp-server/dist/cli.js"
+      ],
+      "cwd": "/Users/christophereagle/Sites/sanity-ignite",
+      "env": {
+        "GSD_CLI_PATH": "/Users/christophereagle/.nvm/versions/node/v24.14.1/bin/gsd",
+        "GSD_WORKFLOW_EXECUTORS_MODULE": "/Users/christophereagle/.gsd/agent/extensions/gsd/tools/workflow-tool-executors.js",
+        "GSD_WORKFLOW_WRITE_GATE_MODULE": "/Users/christophereagle/.gsd/agent/extensions/gsd/bootstrap/write-gate.js",
+        "GSD_PERSIST_WRITE_GATE_STATE": "1",
+        "GSD_WORKFLOW_PROJECT_ROOT": "/Users/christophereagle/Sites/sanity-ignite"
+      }
+    }
+  }
+}
