@@ -59,6 +59,81 @@ export const homePageSchema = z
   })
   .merge(pageSchema);
 
+export const blogPageSchema = z
+  .object({
+    _id: z.string(),
+    _type: z.literal('blogPage'),
+    name: z.string().nullish(),
+  })
+  .merge(pageSchema);
+
+export const pageSchema_ = z
+  .object({
+    _id: z.string(),
+    _type: z.literal('page'),
+    name: z.string().nullish(),
+    slug: z.object({ current: z.string() }).nullish(),
+  })
+  .merge(pageSchema);
+
+const categorySchema = z
+  .object({
+    _id: z.string(),
+    _type: z.literal('category'),
+    title: z.string().nullish(),
+    slug: z.string().nullable(),
+    description: z.string().nullish(),
+  })
+  .passthrough();
+
+export { categorySchema };
+
+const personSchema = z
+  .object({
+    _id: z.string(),
+    _type: z.literal('person'),
+    firstName: z.string().nullish(),
+    lastName: z.string().nullish(),
+    slug: z.string().nullable(),
+    role: z.string().nullish(),
+  })
+  .passthrough();
+
+export { personSchema };
+
+const postCardSchema = z
+  .object({
+    _type: z.literal('post'),
+    _id: z.string(),
+    status: z.string().nullish(),
+    title: z.string(),
+    slug: z.string().nullable(),
+    excerpt: z.string().nullish(),
+    date: z.string().nullish(),
+    wordCount: z.number().nullish(),
+    categories: z.array(categorySchema).nullish(),
+    author: personSchema.nullish(),
+  })
+  .passthrough();
+
+export const postSchema = postCardSchema
+  .extend({
+    seo: seoSchema.nullish(),
+  })
+  .passthrough();
+
+export const postsArchiveSchema = z.object({
+  total: z.number(),
+  results: z.array(postCardSchema),
+});
+
+export const sitemapSchema = z.array(
+  z.object({
+    href: z.string().nullish(),
+    _updatedAt: z.string(),
+  })
+);
+
 const menuItemSchema = z
   .object({
     _type: z.string(),

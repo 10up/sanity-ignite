@@ -1,26 +1,29 @@
 import type { MetadataRoute } from 'next';
-import { client } from '@/lib/sanity/client/client';
+import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { getSitemapQuery } from '@/lib/sanity/queries/queries';
+import { sitemapSchema } from '@/lib/sanity/queries/schemas';
 import { getBaseUrl } from '@/utils/getBaseUrl';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  try {
-    const paths = await client.fetch(getSitemapQuery);
+  const paths = await sanityFetch({
+    query: getSitemapQuery,
+    schema: sitemapSchema,
+    cache: {
+      profile: 'hours',
+      tags: ['sanity:type:page', 'sanity:type:post', 'sanity:type:homePage'],
+    },
+  });
 
-    if (!paths) return [];
+  if (!paths) return [];
 
-    const baseUrl = getBaseUrl();
+  const baseUrl = getBaseUrl();
 
-    // biome-ignore lint/suspicious/noExplicitAny: untyped Sanity query result
-    return paths.map((path: any) => ({
-      // biome-ignore lint/style/noNonNullAssertion: href is always present in sitemap query
-      url: new URL(path.href!, baseUrl).toString(),
+  return paths
+    .filter((path) => path.href)
+    .map((path) => ({
+      url: new URL(path.href ?? '', baseUrl).toString(),
       lastModified: new Date(path._updatedAt),
-      changeFrequency: 'weekly',
+      changeFrequency: 'weekly' as const,
       priority: 1,
     }));
-  } catch (error) {
-    console.error('Failed to generate sitemap:', error);
-    return [];
-  }
 }

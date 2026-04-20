@@ -3,33 +3,32 @@ import { notFound } from 'next/navigation';
 import Page from '@/components/templates/Page';
 import PostRiver from '@/components/templates/PostRiver';
 import { POSTS_PER_PAGE } from '@/lib/constants';
-import { type PaginatedResult, paginatedData } from '@/lib/pagination';
-import { sanityFetch } from '@/lib/sanity/client/live';
+import { paginatedData } from '@/lib/pagination';
+import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { formatMetaData } from '@/lib/sanity/client/seo';
 import { blogPageQuery, postsArchiveQuery } from '@/lib/sanity/queries/queries';
-import type { BlogPageQueryResult, PostsArchiveQueryResult } from '@/sanity.types';
+import {
+  blogPageSchema,
+  postsArchiveSchema,
+} from '@/lib/sanity/queries/schemas';
 
 type Props = {
   params: Promise<{ page: string }>;
 };
 
-const loadPostsPageData = async (
-  props: Props,
-): Promise<{
-  blogPage: BlogPageQueryResult;
-  posts: PaginatedResult<PostsArchiveQueryResult>;
-}> => {
+const loadPostsPageData = async (props: Props) => {
   const { page } = await props.params;
-
   const pageNumber = parseInt(page, 10);
 
   if (!pageNumber) {
     notFound();
   }
 
-  const [{ data: blogPageData }, { data: posts }] = await Promise.all([
+  const [blogPage, posts] = await Promise.all([
     sanityFetch({
       query: blogPageQuery,
+      schema: blogPageSchema,
+      cache: { profile: 'hours', tags: ['sanity:type:blogPage'] },
     }),
     sanityFetch({
       query: postsArchiveQuery,
@@ -38,28 +37,33 @@ const loadPostsPageData = async (
         to: pageNumber * POSTS_PER_PAGE - 1,
         filters: {},
       },
+      schema: postsArchiveSchema,
+      cache: { profile: 'hours', tags: ['sanity:type:post'] },
     }),
   ]);
 
   return {
-    blogPage: blogPageData,
-    posts: paginatedData(posts, pageNumber, POSTS_PER_PAGE),
+    blogPage,
+    posts: posts ? paginatedData(posts, pageNumber, POSTS_PER_PAGE) : null,
   };
 };
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  const routeData = await loadPostsPageData(props);
+  const { blogPage, posts } = await loadPostsPageData(props);
 
-  if (!routeData.blogPage || !routeData.posts) {
+  if (!blogPage || !posts) {
     return notFound();
   }
 
-  if (!routeData.blogPage.seo) {
+  if (!blogPage.seo) {
     return {};
   }
 
-  const seo = formatMetaData(routeData.blogPage.seo, routeData.blogPage?.name || '');
-  seo.title += ` - Page ${routeData.posts.currentPage}`;
+  const seo = formatMetaData(
+    blogPage.seo as Parameters<typeof formatMetaData>[0],
+    blogPage?.name || ''
+  );
+  seo.title += ` - Page ${posts.currentPage}`;
 
   return seo;
 }
@@ -69,18 +73,18 @@ export async function generateStaticParams() {
 }
 
 export default async function PostPage(props: Props) {
-  const routeData = await loadPostsPageData(props);
+  const { blogPage, posts } = await loadPostsPageData(props);
 
-  if (!routeData) {
+  if (!blogPage || !posts) {
     notFound();
   }
 
   return (
-    <Page title={`${routeData.blogPage?.name} - Page ${routeData.posts.currentPage}`}>
+    <Page title={`${blogPage?.name} - Page ${posts.currentPage}`}>
       <PostRiver
-        listingData={routeData.posts.data}
-        currentPage={routeData.posts.currentPage}
-        totalPages={routeData.posts.totalPages}
+        listingData={posts.data}
+        currentPage={posts.currentPage}
+        totalPages={posts.totalPages}
       />
     </Page>
   );
