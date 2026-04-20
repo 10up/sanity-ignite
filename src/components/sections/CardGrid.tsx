@@ -14,11 +14,17 @@ export default function CardGrid({
         <div className="max-w-2xl mx-auto text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{heading}</h2>
           <div className="text-xl text-gray-600">
-            <PortableText className="text-xl" value={content as PortableTextBlock[]} />
+            <PortableText
+              className="text-xl"
+              value={content as PortableTextBlock[]}
+            />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {cards?.map((card) => <Card key={card.heading} card={card} />)}
+          {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
+          {cards?.map((card: any) => (
+            <Card key={card.heading} card={card} />
+          ))}
         </div>
       </div>
     </section>

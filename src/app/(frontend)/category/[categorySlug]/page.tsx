@@ -8,7 +8,11 @@ import { getDocumentLink } from '@/lib/links';
 import { paginatedData } from '@/lib/pagination';
 import { client } from '@/lib/sanity/client/client';
 import { sanityFetch } from '@/lib/sanity/client/live';
-import { categoryQuery, categorySlugs, postsArchiveQuery } from '@/lib/sanity/queries/queries';
+import {
+  categoryQuery,
+  categorySlugs,
+  postsArchiveQuery,
+} from '@/lib/sanity/queries/queries';
 
 type Props = {
   params: Promise<{ categorySlug: string }>;
@@ -60,8 +64,11 @@ export async function generateStaticParams() {
 
   return slugs
     ? slugs
-        .filter((slug) => slug !== null)
-        .map((slug) => ({ categorySlug: slug, pagination: undefined }))
+        .filter((slug: string | null) => slug !== null)
+        .map((slug: string | null) => ({
+          categorySlug: slug,
+          pagination: undefined,
+        }))
     : [];
 }
 
@@ -73,7 +80,7 @@ export default async function PostPage(props: Props) {
   }
 
   return (
-    <Page title={'Category: ' + category.title}>
+    <Page title={`Category: ${category.title}`}>
       <PostRiver
         listingData={posts.data}
         currentPage={posts.currentPage}

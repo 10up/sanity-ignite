@@ -29,20 +29,28 @@ export default function NavBar({
       <div className="hidden md:flex items-center space-x-6">
         <NavigationMenu>
           <NavigationMenuList>
-            {menuItems.map((item) => (
+            {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
+            {menuItems.map((item: any) => (
               <NavigationMenuItem key={item._key}>
                 {item.childMenu ? (
                   // Dropdown menu for items with children
                   <>
-                    <NavigationMenuTrigger className={cn(navigationMenuTriggerStyle())}>
+                    <NavigationMenuTrigger
+                      className={cn(navigationMenuTriggerStyle())}
+                    >
                       {item.text}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <div className="p-1 w-[200px]">
-                        {item.childMenu.map((child) => (
+                        {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
+                        {item.childMenu.map((child: any) => (
                           <NavigationMenuLink key={child._key} asChild>
                             <Link
-                              href={child.link ? getLinkByLinkObject(child.link) || '#' : '#'}
+                              href={
+                                child.link
+                                  ? getLinkByLinkObject(child.link) || '#'
+                                  : '#'
+                              }
                               className="block p-2 hover:bg-gray-100 rounded-md"
                               {...(child.link?.openInNewTab
                                 ? {
@@ -62,8 +70,13 @@ export default function NavBar({
                   // Simple link for items without children
                   <NavigationMenuLink asChild>
                     <Link
-                      href={item.link ? getLinkByLinkObject(item.link) || '#' : '#'}
-                      className={cn(navigationMenuTriggerStyle(), 'cursor-pointer')}
+                      href={
+                        item.link ? getLinkByLinkObject(item.link) || '#' : '#'
+                      }
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        'cursor-pointer'
+                      )}
                       {...(item.link?.openInNewTab
                         ? { target: '_blank', rel: 'noopener noreferrer' }
                         : {})}
@@ -105,7 +118,11 @@ export default function NavBar({
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d={isMobileMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
+            d={
+              isMobileMenuOpen
+                ? 'M6 18L18 6M6 6l12 12'
+                : 'M4 6h16M4 12h16M4 18h16'
+            }
           />
         </svg>
       </button>
@@ -114,21 +131,27 @@ export default function NavBar({
       <div
         className={cn(
           'md:hidden absolute top-full left-0 right-0 bg-white shadow-lg z-50 transform transition-all duration-300 ease-in-out origin-top',
-          isMobileMenuOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0',
+          isMobileMenuOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0'
         )}
       >
         <div className="px-4 py-2">
-          {menuItems.map((item) => (
+          {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
+          {menuItems.map((item: any) => (
             <div key={item._key}>
               {item.childMenu ? (
                 // Parent item with children
                 <>
                   <div className="py-2 px-4 font-medium">{item.text}</div>
                   <div className="pl-4">
-                    {item.childMenu.map((child) => (
+                    {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
+                    {item.childMenu.map((child: any) => (
                       <Link
                         key={child._key}
-                        href={child.link ? getLinkByLinkObject(child.link) || '#' : '#'}
+                        href={
+                          child.link
+                            ? getLinkByLinkObject(child.link) || '#'
+                            : '#'
+                        }
                         className="block py-2 px-4 hover:bg-gray-100 rounded-md"
                         onClick={() => setIsMobileMenuOpen(false)}
                         {...(child.link?.openInNewTab

@@ -11,7 +11,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const baseUrl = getBaseUrl();
 
-    return paths.map((path) => ({
+    // biome-ignore lint/suspicious/noExplicitAny: untyped Sanity query result
+    return paths.map((path: any) => ({
+      // biome-ignore lint/style/noNonNullAssertion: href is always present in sitemap query
       url: new URL(path.href!, baseUrl).toString(),
       lastModified: new Date(path._updatedAt),
       changeFrequency: 'weekly',

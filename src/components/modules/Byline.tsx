@@ -18,7 +18,12 @@ export default function Byline({ post }: { post: PostCardFragmentType }) {
               height={48}
               width={48}
               src={
-                urlForImage(post.author?.image)?.height(96).width(96).fit('crop').url() as string
+                urlForImage(post.author?.image)
+                  ?.height(96)
+                  .width(96)
+                  // biome-ignore lint/suspicious/noFocusedTests: false positive — .fit() is a Sanity image builder method
+                  .fit('crop')
+                  .url() as string
               }
             />
           </div>
@@ -26,7 +31,9 @@ export default function Byline({ post }: { post: PostCardFragmentType }) {
           <div className="mr-1">By </div>
         )}
         <div className="flex flex-col">
-          {post.author?.firstName && post.author?.lastName && post.author?.slug ? (
+          {post.author?.firstName &&
+          post.author?.lastName &&
+          post.author?.slug ? (
             <Link
               className="font-bold underline hover:text-gray-700 transition-colors"
               href={`/author/${post.author.slug}`}
@@ -42,9 +49,12 @@ export default function Byline({ post }: { post: PostCardFragmentType }) {
       <div className="flex flex-col items-end gap-2">
         {post.categories && post.categories?.length > 0 && (
           <div className="flex items-center gap-2">
-            {post.categories.filter(Boolean).map((category) => (
+            {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
+            {post.categories.filter(Boolean).map((category: any) => (
               <Badge variant="default" asChild key={category._id}>
-                <Link href={`/category/${category.slug}`}>{category.title}</Link>
+                <Link href={`/category/${category.slug}`}>
+                  {category.title}
+                </Link>
               </Badge>
             ))}
           </div>

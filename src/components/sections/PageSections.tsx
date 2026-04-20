@@ -4,7 +4,10 @@ import type { SanityDocument } from 'next-sanity';
 import { useOptimistic } from 'next-sanity/hooks';
 import type { ElementType } from 'react';
 import { dataAttr } from '@/lib/sanity/client/utils';
-import type { SectionsType, SectionType } from '@/lib/sanity/queries/fragments/fragment.types';
+import type {
+  SectionsType,
+  SectionType,
+} from '@/lib/sanity/queries/fragments/fragment.types';
 import CardGrid from './CardGrid';
 import CTA from './CTA';
 import Divider from './Divider';
@@ -48,11 +51,14 @@ export default function PageSections({
       }
 
       return action.document.pageSections.map(
-        (section) =>
-          currentSections?.find((currentSection) => currentSection._key === section?._key) ||
-          section,
+        // biome-ignore lint/suspicious/noExplicitAny: pending TypeGen
+        (section: any) =>
+          currentSections?.find(
+            // biome-ignore lint/suspicious/noExplicitAny: pending TypeGen
+            (currentSection: any) => currentSection._key === section?._key
+          ) || section
       );
-    },
+    }
   );
 
   if (!sections?.length) {
@@ -67,7 +73,8 @@ export default function PageSections({
         path: 'pageSections',
       })}
     >
-      {sections?.map((section) => {
+      {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
+      {sections?.map((section: any) => {
         const { _key, _type, ...sectionProps } = section;
         const SectionComponent = SECTION_COMPONENTS[_type];
 

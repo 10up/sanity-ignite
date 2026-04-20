@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArchivePagination } from '@/components/modules/ArchivePagination';
 import type { PostsArchiveQueryResult } from '@/sanity.types';
 import PostCard from '../modules/PostCard';
@@ -22,7 +21,8 @@ const PostRiver = ({
   return (
     <>
       <div className="grid grid-cols-1 gap-10">
-        {results.map((post) => {
+        {/* biome-ignore lint/suspicious/noExplicitAny: pending TypeGen */}
+        {results.map((post: any) => {
           return <PostCard key={post._id} post={post} />;
         })}
       </div>

@@ -1,12 +1,15 @@
 import Link from 'next/link';
-import { sanityFetch } from '@/lib/sanity/client/live';
+import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { settingsQuery } from '@/lib/sanity/queries/queries';
+import { settingsSchema } from '@/lib/sanity/queries/schemas';
 import Logo from '../icons/Logo';
 import NavBar from './NavBar';
 
 export default async function Header() {
-  const { data: settings } = await sanityFetch({
+  const settings = await sanityFetch({
     query: settingsQuery,
+    schema: settingsSchema,
+    cache: { profile: 'days', tags: ['sanity:type:settings'] },
   });
 
   if (!settings) {
@@ -20,7 +23,9 @@ export default async function Header() {
           {typeof settings.title !== 'undefined' && (
             <Link className="flex items-center space-x-4" href="/">
               <Logo />
-              <span className="text-lg md:text-2xl font-bold">{settings.title}</span>
+              <span className="text-lg md:text-2xl font-bold">
+                {settings.title}
+              </span>
             </Link>
           )}
         </div>

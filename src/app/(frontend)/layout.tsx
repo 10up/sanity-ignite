@@ -7,13 +7,21 @@ import Main from '@/components/layout/Main';
 import { SanityLive } from '@/lib/sanity/client/live';
 import { handleError } from './client-utils';
 
-const DraftModeToast = dynamic(() => import('@/components/modules/DraftModeToast'));
+const DraftModeToast = dynamic(
+  () => import('@/components/modules/DraftModeToast')
+);
 const Toaster = dynamic(() => import('sonner').then((mod) => mod.Toaster));
-const VisualEditing = dynamic(() => import('next-sanity/visual-editing').then((mod) => mod.VisualEditing));
+const VisualEditing = dynamic(() =>
+  import('next-sanity/visual-editing').then((mod) => mod.VisualEditing)
+);
 
 import dynamic from 'next/dynamic';
 import Alert from '@/components/layout/Alert';
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
@@ -29,8 +37,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <VisualEditing />
           </>
         )}
-        {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
-        <SanityLive onError={handleError} />
+        {isDraftMode && <SanityLive onError={handleError} />}
         <Header />
         <Main>{children}</Main>
         <Footer />
