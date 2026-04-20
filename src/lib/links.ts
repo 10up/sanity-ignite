@@ -10,7 +10,7 @@ export const getBaseURL = () => {
  */
 export const getDocumentLink = (
   { _type, slug }: { _type: string; slug: string | null },
-  absolute: boolean = false,
+  absolute: boolean = false
 ) => {
   const linkBase = absolute ? getBaseURL() : '';
 
@@ -20,7 +20,7 @@ export const getDocumentLink = (
     case 'post':
       return `${linkBase}/blog/${slug}`;
     case 'category':
-      return `${linkBase}/category/${slug}`;
+      return `${linkBase}/blog?category=${slug}`;
     case 'homePage':
       return `${linkBase}/`;
     default:
@@ -29,7 +29,7 @@ export const getDocumentLink = (
 };
 
 export const getLinkByLinkObject = (
-  link: Pick<LinkFragmentType, 'type' | 'external' | 'internal'>,
+  link: Pick<LinkFragmentType, 'type' | 'external' | 'internal'>
 ) => {
   const { type, external, internal } = link;
 

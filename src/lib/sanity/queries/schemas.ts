@@ -101,8 +101,6 @@ const personSchema = z
   })
   .passthrough();
 
-export { personSchema };
-
 const postCardSchema = z
   .object({
     _type: z.literal('post'),

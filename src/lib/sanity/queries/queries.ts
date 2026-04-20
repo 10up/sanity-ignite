@@ -3,7 +3,6 @@ import {
   categoryFragment,
   menuFragment,
   pageFragment,
-  personFragment,
   postCardFragment,
   postFragment,
 } from './fragments/fragments';
@@ -56,18 +55,6 @@ export const postQuery = defineQuery(`
   }
 `);
 
-export const categoryQuery = defineQuery(`
-  *[_type == "category" && slug.current == $slug] [0] {
-    ${categoryFragment}
-  }
-`);
-
-export const personQuery = defineQuery(`
-  *[_type == "person" && slug.current == $slug] [0] {
-    ${personFragment}
-  }
-`);
-
 export const pageSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)][0..$limit].slug.current
 `);
@@ -82,14 +69,6 @@ export const allCategoriesQuery = defineQuery(`
   }
 `);
 
-export const categorySlugs = defineQuery(`
-  *[_type == "category" && defined(slug.current)][0..$limit].slug.current
-`);
-
-export const personSlugs = defineQuery(`
-  *[_type == "person" && defined(slug.current)][0..$limit].slug.current
-`);
-
 const postsArchiveBase = (order: string) => `
   {
     "allResults": *[
@@ -97,10 +76,6 @@ const postsArchiveBase = (order: string) => `
       &&
       (
         !defined( $filters.categorySlug ) || references(*[_type == "category" && slug.current == $filters.categorySlug]._id)
-      )
-      &&
-      (
-        !defined( $filters.personSlug ) || references(*[_type == "person" && slug.current == $filters.personSlug]._id)
       )
       &&
       (
