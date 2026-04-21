@@ -789,7 +789,7 @@ export type SettingsQueryResult = {
 
 // Source: src/lib/sanity/queries/queries.ts
 // Variable: homePageQuery
-// Query: *[_type == "homePage"][0]{  _id,  _type,  ...,      pageSections[]{    ...,    _key,    _type,    _type == 'cardGrid' => {    _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  cards[]{      _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  },},    _type == 'cta' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'divider' => {  _type,  height},    _type == 'hero' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'mediaText' => {  _type,  heading,  text,  media,  mediaPosition,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'postList' => {    _type,    heading,    numberOfPosts,    "posts": *[_type == 'post'] | order(_createdAt desc, _id desc) [0...20] {          _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  "wordCount": count(string::split(coalesce(pt::text(content), ''), " ")),    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },    }},    _type == 'subscribe' => {  _type,  heading,  text}  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },}
+// Query: *[_type == "homePage"][0]{  _id,  _type,  ...,      pageSections[]{    ...,    _key,    _type,    _type == 'cardGrid' => {    _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  cards[]{      _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  },},    _type == 'cta' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'divider' => {  _type,  height},    _type == 'hero' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'mediaText' => {  _type,  heading,  text,  media,  mediaPosition,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'postList' => {    _type,    heading,    numberOfPosts,    "posts": *[_type == 'post'] | order(_createdAt desc, _id desc) [0...20] {          _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  "wordCount": count(string::split(coalesce(pt::text(content), ''), " ")),    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },    }},    _type == 'subscribe' => {  _type,  heading,  text}  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },}
 export type HomePageQueryResult = {
   _id: string;
   _type: "homePage";
@@ -1154,28 +1154,7 @@ export type HomePageQueryResult = {
                 height: number | null;
                 width: number | null;
               } | null;
-              asset: {
-                _id: string;
-                _type: "sanity.imageAsset";
-                _createdAt: string;
-                _updatedAt: string;
-                _rev: string;
-                originalFilename?: string;
-                label?: string;
-                title?: string;
-                description?: string;
-                altText?: string;
-                sha1hash?: string;
-                extension?: string;
-                mimeType?: string;
-                size?: number;
-                assetId?: string;
-                uploadId?: string;
-                path?: string;
-                url?: string;
-                metadata?: SanityImageMetadata;
-                source?: SanityAssetSourceData;
-              } | null;
+              asset: SanityImageAssetReference | null;
             } | null;
             additionalMetaTags: Array<{
               _key: string;
@@ -1201,28 +1180,7 @@ export type HomePageQueryResult = {
                     height: number | null;
                     width: number | null;
                   } | null;
-                  asset: {
-                    _id: string;
-                    _type: "sanity.imageAsset";
-                    _createdAt: string;
-                    _updatedAt: string;
-                    _rev: string;
-                    originalFilename?: string;
-                    label?: string;
-                    title?: string;
-                    description?: string;
-                    altText?: string;
-                    sha1hash?: string;
-                    extension?: string;
-                    mimeType?: string;
-                    size?: number;
-                    assetId?: string;
-                    uploadId?: string;
-                    path?: string;
-                    url?: string;
-                    metadata?: SanityImageMetadata;
-                    source?: SanityAssetSourceData;
-                  } | null;
+                  asset: SanityImageAssetReference | null;
                 } | null;
               }> | null;
             }> | null;
@@ -1248,28 +1206,7 @@ export type HomePageQueryResult = {
                   height: number | null;
                   width: number | null;
                 } | null;
-                asset: {
-                  _id: string;
-                  _type: "sanity.imageAsset";
-                  _createdAt: string;
-                  _updatedAt: string;
-                  _rev: string;
-                  originalFilename?: string;
-                  label?: string;
-                  title?: string;
-                  description?: string;
-                  altText?: string;
-                  sha1hash?: string;
-                  extension?: string;
-                  mimeType?: string;
-                  size?: number;
-                  assetId?: string;
-                  uploadId?: string;
-                  path?: string;
-                  url?: string;
-                  metadata?: SanityImageMetadata;
-                  source?: SanityAssetSourceData;
-                } | null;
+                asset: SanityImageAssetReference | null;
               } | null;
             } | null;
             twitter: {
@@ -1313,28 +1250,7 @@ export type HomePageQueryResult = {
         height: number | null;
         width: number | null;
       } | null;
-      asset: {
-        _id: string;
-        _type: "sanity.imageAsset";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        originalFilename?: string;
-        label?: string;
-        title?: string;
-        description?: string;
-        altText?: string;
-        sha1hash?: string;
-        extension?: string;
-        mimeType?: string;
-        size?: number;
-        assetId?: string;
-        uploadId?: string;
-        path?: string;
-        url?: string;
-        metadata?: SanityImageMetadata;
-        source?: SanityAssetSourceData;
-      } | null;
+      asset: SanityImageAssetReference | null;
     } | null;
     additionalMetaTags: Array<{
       _key: string;
@@ -1360,28 +1276,7 @@ export type HomePageQueryResult = {
             height: number | null;
             width: number | null;
           } | null;
-          asset: {
-            _id: string;
-            _type: "sanity.imageAsset";
-            _createdAt: string;
-            _updatedAt: string;
-            _rev: string;
-            originalFilename?: string;
-            label?: string;
-            title?: string;
-            description?: string;
-            altText?: string;
-            sha1hash?: string;
-            extension?: string;
-            mimeType?: string;
-            size?: number;
-            assetId?: string;
-            uploadId?: string;
-            path?: string;
-            url?: string;
-            metadata?: SanityImageMetadata;
-            source?: SanityAssetSourceData;
-          } | null;
+          asset: SanityImageAssetReference | null;
         } | null;
       }> | null;
     }> | null;
@@ -1407,28 +1302,7 @@ export type HomePageQueryResult = {
           height: number | null;
           width: number | null;
         } | null;
-        asset: {
-          _id: string;
-          _type: "sanity.imageAsset";
-          _createdAt: string;
-          _updatedAt: string;
-          _rev: string;
-          originalFilename?: string;
-          label?: string;
-          title?: string;
-          description?: string;
-          altText?: string;
-          sha1hash?: string;
-          extension?: string;
-          mimeType?: string;
-          size?: number;
-          assetId?: string;
-          uploadId?: string;
-          path?: string;
-          url?: string;
-          metadata?: SanityImageMetadata;
-          source?: SanityAssetSourceData;
-        } | null;
+        asset: SanityImageAssetReference | null;
       } | null;
     } | null;
     twitter: {
@@ -1443,7 +1317,7 @@ export type HomePageQueryResult = {
 
 // Source: src/lib/sanity/queries/queries.ts
 // Variable: blogPageQuery
-// Query: *[_type == "blogPage"][0]{  _id,  _type,  ...,      pageSections[]{    ...,    _key,    _type,    _type == 'cardGrid' => {    _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  cards[]{      _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  },},    _type == 'cta' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'divider' => {  _type,  height},    _type == 'hero' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'mediaText' => {  _type,  heading,  text,  media,  mediaPosition,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'postList' => {    _type,    heading,    numberOfPosts,    "posts": *[_type == 'post'] | order(_createdAt desc, _id desc) [0...20] {          _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  "wordCount": count(string::split(coalesce(pt::text(content), ''), " ")),    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },    }},    _type == 'subscribe' => {  _type,  heading,  text}  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },}
+// Query: *[_type == "blogPage"][0]{  _id,  _type,  ...,      pageSections[]{    ...,    _key,    _type,    _type == 'cardGrid' => {    _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  cards[]{      _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  },},    _type == 'cta' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'divider' => {  _type,  height},    _type == 'hero' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'mediaText' => {  _type,  heading,  text,  media,  mediaPosition,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'postList' => {    _type,    heading,    numberOfPosts,    "posts": *[_type == 'post'] | order(_createdAt desc, _id desc) [0...20] {          _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  "wordCount": count(string::split(coalesce(pt::text(content), ''), " ")),    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },    }},    _type == 'subscribe' => {  _type,  heading,  text}  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },}
 export type BlogPageQueryResult = {
   _id: string;
   _type: "blogPage";
@@ -1473,28 +1347,7 @@ export type BlogPageQueryResult = {
         height: number | null;
         width: number | null;
       } | null;
-      asset: {
-        _id: string;
-        _type: "sanity.imageAsset";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        originalFilename?: string;
-        label?: string;
-        title?: string;
-        description?: string;
-        altText?: string;
-        sha1hash?: string;
-        extension?: string;
-        mimeType?: string;
-        size?: number;
-        assetId?: string;
-        uploadId?: string;
-        path?: string;
-        url?: string;
-        metadata?: SanityImageMetadata;
-        source?: SanityAssetSourceData;
-      } | null;
+      asset: SanityImageAssetReference | null;
     } | null;
     additionalMetaTags: Array<{
       _key: string;
@@ -1520,28 +1373,7 @@ export type BlogPageQueryResult = {
             height: number | null;
             width: number | null;
           } | null;
-          asset: {
-            _id: string;
-            _type: "sanity.imageAsset";
-            _createdAt: string;
-            _updatedAt: string;
-            _rev: string;
-            originalFilename?: string;
-            label?: string;
-            title?: string;
-            description?: string;
-            altText?: string;
-            sha1hash?: string;
-            extension?: string;
-            mimeType?: string;
-            size?: number;
-            assetId?: string;
-            uploadId?: string;
-            path?: string;
-            url?: string;
-            metadata?: SanityImageMetadata;
-            source?: SanityAssetSourceData;
-          } | null;
+          asset: SanityImageAssetReference | null;
         } | null;
       }> | null;
     }> | null;
@@ -1567,28 +1399,7 @@ export type BlogPageQueryResult = {
           height: number | null;
           width: number | null;
         } | null;
-        asset: {
-          _id: string;
-          _type: "sanity.imageAsset";
-          _createdAt: string;
-          _updatedAt: string;
-          _rev: string;
-          originalFilename?: string;
-          label?: string;
-          title?: string;
-          description?: string;
-          altText?: string;
-          sha1hash?: string;
-          extension?: string;
-          mimeType?: string;
-          size?: number;
-          assetId?: string;
-          uploadId?: string;
-          path?: string;
-          url?: string;
-          metadata?: SanityImageMetadata;
-          source?: SanityAssetSourceData;
-        } | null;
+        asset: SanityImageAssetReference | null;
       } | null;
     } | null;
     twitter: {
@@ -1604,7 +1415,7 @@ export type BlogPageQueryResult = {
 
 // Source: src/lib/sanity/queries/queries.ts
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,        pageSections[]{    ...,    _key,    _type,    _type == 'cardGrid' => {    _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  cards[]{      _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  },},    _type == 'cta' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'divider' => {  _type,  height},    _type == 'hero' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'mediaText' => {  _type,  heading,  text,  media,  mediaPosition,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'postList' => {    _type,    heading,    numberOfPosts,    "posts": *[_type == 'post'] | order(_createdAt desc, _id desc) [0...20] {          _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  "wordCount": count(string::split(coalesce(pt::text(content), ''), " ")),    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },    }},    _type == 'subscribe' => {  _type,  heading,  text}  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,        pageSections[]{    ...,    _key,    _type,    _type == 'cardGrid' => {    _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  cards[]{      _type,  heading,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  icon,  },},    _type == 'cta' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'divider' => {  _type,  height},    _type == 'hero' => {  _type,  heading,  text,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'mediaText' => {  _type,  heading,  text,  media,  mediaPosition,    buttons[]{      _key,  _type,  variant,  text,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },},    _type == 'postList' => {    _type,    heading,    numberOfPosts,    "posts": *[_type == 'post'] | order(_createdAt desc, _id desc) [0...20] {          _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  "wordCount": count(string::split(coalesce(pt::text(content), ''), " ")),    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },    }},    _type == 'subscribe' => {  _type,  heading,  text}  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },  }
 export type GetPageQueryResult = {
   _id: string;
   _type: "page";
@@ -1967,28 +1778,7 @@ export type GetPageQueryResult = {
                 height: number | null;
                 width: number | null;
               } | null;
-              asset: {
-                _id: string;
-                _type: "sanity.imageAsset";
-                _createdAt: string;
-                _updatedAt: string;
-                _rev: string;
-                originalFilename?: string;
-                label?: string;
-                title?: string;
-                description?: string;
-                altText?: string;
-                sha1hash?: string;
-                extension?: string;
-                mimeType?: string;
-                size?: number;
-                assetId?: string;
-                uploadId?: string;
-                path?: string;
-                url?: string;
-                metadata?: SanityImageMetadata;
-                source?: SanityAssetSourceData;
-              } | null;
+              asset: SanityImageAssetReference | null;
             } | null;
             additionalMetaTags: Array<{
               _key: string;
@@ -2014,28 +1804,7 @@ export type GetPageQueryResult = {
                     height: number | null;
                     width: number | null;
                   } | null;
-                  asset: {
-                    _id: string;
-                    _type: "sanity.imageAsset";
-                    _createdAt: string;
-                    _updatedAt: string;
-                    _rev: string;
-                    originalFilename?: string;
-                    label?: string;
-                    title?: string;
-                    description?: string;
-                    altText?: string;
-                    sha1hash?: string;
-                    extension?: string;
-                    mimeType?: string;
-                    size?: number;
-                    assetId?: string;
-                    uploadId?: string;
-                    path?: string;
-                    url?: string;
-                    metadata?: SanityImageMetadata;
-                    source?: SanityAssetSourceData;
-                  } | null;
+                  asset: SanityImageAssetReference | null;
                 } | null;
               }> | null;
             }> | null;
@@ -2061,28 +1830,7 @@ export type GetPageQueryResult = {
                   height: number | null;
                   width: number | null;
                 } | null;
-                asset: {
-                  _id: string;
-                  _type: "sanity.imageAsset";
-                  _createdAt: string;
-                  _updatedAt: string;
-                  _rev: string;
-                  originalFilename?: string;
-                  label?: string;
-                  title?: string;
-                  description?: string;
-                  altText?: string;
-                  sha1hash?: string;
-                  extension?: string;
-                  mimeType?: string;
-                  size?: number;
-                  assetId?: string;
-                  uploadId?: string;
-                  path?: string;
-                  url?: string;
-                  metadata?: SanityImageMetadata;
-                  source?: SanityAssetSourceData;
-                } | null;
+                asset: SanityImageAssetReference | null;
               } | null;
             } | null;
             twitter: {
@@ -2126,28 +1874,7 @@ export type GetPageQueryResult = {
         height: number | null;
         width: number | null;
       } | null;
-      asset: {
-        _id: string;
-        _type: "sanity.imageAsset";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        originalFilename?: string;
-        label?: string;
-        title?: string;
-        description?: string;
-        altText?: string;
-        sha1hash?: string;
-        extension?: string;
-        mimeType?: string;
-        size?: number;
-        assetId?: string;
-        uploadId?: string;
-        path?: string;
-        url?: string;
-        metadata?: SanityImageMetadata;
-        source?: SanityAssetSourceData;
-      } | null;
+      asset: SanityImageAssetReference | null;
     } | null;
     additionalMetaTags: Array<{
       _key: string;
@@ -2173,28 +1900,7 @@ export type GetPageQueryResult = {
             height: number | null;
             width: number | null;
           } | null;
-          asset: {
-            _id: string;
-            _type: "sanity.imageAsset";
-            _createdAt: string;
-            _updatedAt: string;
-            _rev: string;
-            originalFilename?: string;
-            label?: string;
-            title?: string;
-            description?: string;
-            altText?: string;
-            sha1hash?: string;
-            extension?: string;
-            mimeType?: string;
-            size?: number;
-            assetId?: string;
-            uploadId?: string;
-            path?: string;
-            url?: string;
-            metadata?: SanityImageMetadata;
-            source?: SanityAssetSourceData;
-          } | null;
+          asset: SanityImageAssetReference | null;
         } | null;
       }> | null;
     }> | null;
@@ -2220,28 +1926,7 @@ export type GetPageQueryResult = {
           height: number | null;
           width: number | null;
         } | null;
-        asset: {
-          _id: string;
-          _type: "sanity.imageAsset";
-          _createdAt: string;
-          _updatedAt: string;
-          _rev: string;
-          originalFilename?: string;
-          label?: string;
-          title?: string;
-          description?: string;
-          altText?: string;
-          sha1hash?: string;
-          extension?: string;
-          mimeType?: string;
-          size?: number;
-          assetId?: string;
-          uploadId?: string;
-          path?: string;
-          url?: string;
-          metadata?: SanityImageMetadata;
-          source?: SanityAssetSourceData;
-        } | null;
+        asset: SanityImageAssetReference | null;
       } | null;
     } | null;
     twitter: {
@@ -2270,7 +1955,7 @@ export type GetSitemapQueryResult = Array<
 
 // Source: src/lib/sanity/queries/queries.ts
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {        _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  "wordCount": count(string::split(coalesce(pt::text(content), ''), " ")),    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },  }
+// Query: *[_type == "post" && slug.current == $slug] [0] {        _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  "wordCount": count(string::split(coalesce(pt::text(content), ''), " ")),    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },  }
 export type PostQueryResult = {
   _type: "post";
   _id: string;
@@ -2395,28 +2080,7 @@ export type PostQueryResult = {
         height: number | null;
         width: number | null;
       } | null;
-      asset: {
-        _id: string;
-        _type: "sanity.imageAsset";
-        _createdAt: string;
-        _updatedAt: string;
-        _rev: string;
-        originalFilename?: string;
-        label?: string;
-        title?: string;
-        description?: string;
-        altText?: string;
-        sha1hash?: string;
-        extension?: string;
-        mimeType?: string;
-        size?: number;
-        assetId?: string;
-        uploadId?: string;
-        path?: string;
-        url?: string;
-        metadata?: SanityImageMetadata;
-        source?: SanityAssetSourceData;
-      } | null;
+      asset: SanityImageAssetReference | null;
     } | null;
     additionalMetaTags: Array<{
       _key: string;
@@ -2442,28 +2106,7 @@ export type PostQueryResult = {
             height: number | null;
             width: number | null;
           } | null;
-          asset: {
-            _id: string;
-            _type: "sanity.imageAsset";
-            _createdAt: string;
-            _updatedAt: string;
-            _rev: string;
-            originalFilename?: string;
-            label?: string;
-            title?: string;
-            description?: string;
-            altText?: string;
-            sha1hash?: string;
-            extension?: string;
-            mimeType?: string;
-            size?: number;
-            assetId?: string;
-            uploadId?: string;
-            path?: string;
-            url?: string;
-            metadata?: SanityImageMetadata;
-            source?: SanityAssetSourceData;
-          } | null;
+          asset: SanityImageAssetReference | null;
         } | null;
       }> | null;
     }> | null;
@@ -2489,28 +2132,7 @@ export type PostQueryResult = {
           height: number | null;
           width: number | null;
         } | null;
-        asset: {
-          _id: string;
-          _type: "sanity.imageAsset";
-          _createdAt: string;
-          _updatedAt: string;
-          _rev: string;
-          originalFilename?: string;
-          label?: string;
-          title?: string;
-          description?: string;
-          altText?: string;
-          sha1hash?: string;
-          extension?: string;
-          mimeType?: string;
-          size?: number;
-          assetId?: string;
-          uploadId?: string;
-          path?: string;
-          url?: string;
-          metadata?: SanityImageMetadata;
-          source?: SanityAssetSourceData;
-        } | null;
+        asset: SanityImageAssetReference | null;
       } | null;
     } | null;
     twitter: {
@@ -2647,11 +2269,11 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "settings"][0]{\n  title,\n  description,\n  \n  menu[]{\n    \n  _type,\n  _key,\n  text,\n  type,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n    childMenu[]{\n      \n  _type,\n  _key,\n  text,\n  type,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n    }\n  }\n\n}': SettingsQueryResult;
-    '*[_type == "homePage"][0]{\n  _id,\n  _type,\n  ...,\n  \n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'cardGrid\' => {\n  \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  cards[]{\n    \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  },\n},\n    _type == \'cta\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'divider\' => {\n  _type,\n  height\n},\n    _type == \'hero\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'mediaText\' => {\n  _type,\n  heading,\n  text,\n  media,\n  mediaPosition,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'postList\' => {\n    _type,\n    heading,\n    numberOfPosts,\n    "posts": *[_type == \'post\'] | order(_createdAt desc, _id desc) [0...20] {\n      \n  \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  "wordCount": count(string::split(coalesce(pt::text(content), \'\'), " ")),\n\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n    }\n},\n    _type == \'subscribe\' => {\n  _type,\n  heading,\n  text\n}\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n}': HomePageQueryResult;
-    '*[_type == "blogPage"][0]{\n  _id,\n  _type,\n  ...,\n  \n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'cardGrid\' => {\n  \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  cards[]{\n    \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  },\n},\n    _type == \'cta\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'divider\' => {\n  _type,\n  height\n},\n    _type == \'hero\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'mediaText\' => {\n  _type,\n  heading,\n  text,\n  media,\n  mediaPosition,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'postList\' => {\n    _type,\n    heading,\n    numberOfPosts,\n    "posts": *[_type == \'post\'] | order(_createdAt desc, _id desc) [0...20] {\n      \n  \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  "wordCount": count(string::split(coalesce(pt::text(content), \'\'), " ")),\n\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n    }\n},\n    _type == \'subscribe\' => {\n  _type,\n  heading,\n  text\n}\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n}': BlogPageQueryResult;
-    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    \n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'cardGrid\' => {\n  \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  cards[]{\n    \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  },\n},\n    _type == \'cta\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'divider\' => {\n  _type,\n  height\n},\n    _type == \'hero\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'mediaText\' => {\n  _type,\n  heading,\n  text,\n  media,\n  mediaPosition,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'postList\' => {\n    _type,\n    heading,\n    numberOfPosts,\n    "posts": *[_type == \'post\'] | order(_createdAt desc, _id desc) [0...20] {\n      \n  \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  "wordCount": count(string::split(coalesce(pt::text(content), \'\'), " ")),\n\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n    }\n},\n    _type == \'subscribe\' => {\n  _type,\n  heading,\n  text\n}\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n  }\n': GetPageQueryResult;
+    '*[_type == "homePage"][0]{\n  _id,\n  _type,\n  ...,\n  \n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'cardGrid\' => {\n  \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  cards[]{\n    \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  },\n},\n    _type == \'cta\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'divider\' => {\n  _type,\n  height\n},\n    _type == \'hero\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'mediaText\' => {\n  _type,\n  heading,\n  text,\n  media,\n  mediaPosition,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'postList\' => {\n    _type,\n    heading,\n    numberOfPosts,\n    "posts": *[_type == \'post\'] | order(_createdAt desc, _id desc) [0...20] {\n      \n  \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  "wordCount": count(string::split(coalesce(pt::text(content), \'\'), " ")),\n\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n    }\n},\n    _type == \'subscribe\' => {\n  _type,\n  heading,\n  text\n}\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n}': HomePageQueryResult;
+    '*[_type == "blogPage"][0]{\n  _id,\n  _type,\n  ...,\n  \n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'cardGrid\' => {\n  \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  cards[]{\n    \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  },\n},\n    _type == \'cta\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'divider\' => {\n  _type,\n  height\n},\n    _type == \'hero\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'mediaText\' => {\n  _type,\n  heading,\n  text,\n  media,\n  mediaPosition,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'postList\' => {\n    _type,\n    heading,\n    numberOfPosts,\n    "posts": *[_type == \'post\'] | order(_createdAt desc, _id desc) [0...20] {\n      \n  \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  "wordCount": count(string::split(coalesce(pt::text(content), \'\'), " ")),\n\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n    }\n},\n    _type == \'subscribe\' => {\n  _type,\n  heading,\n  text\n}\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n}': BlogPageQueryResult;
+    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    \n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'cardGrid\' => {\n  \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  cards[]{\n    \n  _type,\n  heading,\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  icon,\n\n  },\n},\n    _type == \'cta\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'divider\' => {\n  _type,\n  height\n},\n    _type == \'hero\' => {\n  _type,\n  heading,\n  text,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'mediaText\' => {\n  _type,\n  heading,\n  text,\n  media,\n  mediaPosition,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  text,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n},\n    _type == \'postList\' => {\n    _type,\n    heading,\n    numberOfPosts,\n    "posts": *[_type == \'post\'] | order(_createdAt desc, _id desc) [0...20] {\n      \n  \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  "wordCount": count(string::split(coalesce(pt::text(content), \'\'), " ")),\n\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n    }\n},\n    _type == \'subscribe\' => {\n  _type,\n  heading,\n  text\n}\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n  }\n': GetPageQueryResult;
     '\n  *[((_type in ["page", "post"] && defined(slug.current)) || (_type == "homePage")) && seo.noIndex != true]{\n    "href": select(\n      _type == "page" => "/" + slug.current,\n      _type == "post" => "/posts/" + slug.current,\n      _type == "homePage" => "/",\n      slug.current\n    ),\n    _updatedAt\n  }\n': GetSitemapQueryResult;
-    '\n  *[_type == "post" && slug.current == $slug] [0] {\n    \n  \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  "wordCount": count(string::split(coalesce(pt::text(content), \'\'), " ")),\n\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n  }\n': PostQueryResult;
+    '\n  *[_type == "post" && slug.current == $slug] [0] {\n    \n  \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  "wordCount": count(string::split(coalesce(pt::text(content), \'\'), " ")),\n\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n  }\n': PostQueryResult;
     '\n  *[_type == "page" && defined(slug.current)][0..$limit].slug.current\n': PageSlugsResult;
     '\n  *[_type == "post" && defined(slug.current)][0..$limit].slug.current\n': PostPagesSlugsResult;
     '\n  *[_type == "category" && defined(slug.current)] | order(title asc) {\n    \n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n\n  }\n': AllCategoriesQueryResult;

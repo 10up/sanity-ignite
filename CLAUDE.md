@@ -1,4 +1,4 @@
-# Sanity Ignite
+# Ignite for Sanity
 
 ## Philosophy
 
@@ -10,7 +10,3 @@ This is a scaffold. Every pattern, abstraction, and architectural choice exists 
 - **Reference implementations, not frameworks** — provide concrete examples (the blog, the page builder, the DTL) that teams copy and adapt. Don't build internal mini-frameworks that teams have to learn before they can build.
 
 When in doubt, write the version a mid-level developer would thank you for inheriting.
-
-## Branching Convention
-
-Each milestone gets its own branch off the current epic branch (`epic/v2`). Branch naming: `feature/v2-<milestone-id>` (e.g., `feature/v2-M002`). PRs for each milestone target the epic branch, not trunk.

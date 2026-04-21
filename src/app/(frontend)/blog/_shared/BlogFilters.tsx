@@ -1,65 +1,22 @@
-'use client';
+import { cacheLife, cacheTag } from 'next/cache';
+import { CACHE_PROFILES, sanityFetch } from '@/lib/sanity/client/fetch';
+import { allCategoriesQuery } from '@/lib/sanity/queries/queries';
+import { allCategoriesSchema } from '@/lib/sanity/queries/schemas';
+import { BlogFiltersClient } from './BlogFiltersClient';
 
-import { useQueryStates } from 'nuqs';
-import { use } from 'react';
-import { blogSearchParams } from './searchParams';
-
-type Category = {
-  _id: string;
-  title?: string | null;
-  slug: string | null;
-};
-
-export function BlogFilters({
-  categoriesPromise,
-}: {
-  categoriesPromise: Promise<Category[] | null>;
-}) {
-  const categories = use(categoriesPromise) ?? [];
-  const [filters, setFilters] = useQueryStates(blogSearchParams, {
-    shallow: false,
-  });
+export async function BlogFilters() {
+  'use cache';
+  cacheTag('sanity:type:category');
+  cacheLife(CACHE_PROFILES.days);
+  const categories =
+    (await sanityFetch({
+      query: allCategoriesQuery,
+      schema: allCategoriesSchema,
+    })) ?? [];
 
   return (
     <div className="flex flex-wrap items-center gap-4 mb-8">
-      <input
-        type="search"
-        placeholder="Search posts…"
-        value={filters.search ?? ''}
-        onChange={(e) =>
-          setFilters({ search: e.target.value || null, page: 1 })
-        }
-        className="rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-      />
-
-      <select
-        value={filters.category ?? ''}
-        onChange={(e) =>
-          setFilters({ category: e.target.value || null, page: 1 })
-        }
-        className="rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-      >
-        <option value="">All categories</option>
-        {categories.map((cat) => (
-          <option key={cat._id} value={cat.slug ?? ''}>
-            {cat.title}
-          </option>
-        ))}
-      </select>
-
-      <select
-        value={filters.sort}
-        onChange={(e) =>
-          setFilters({
-            sort: e.target.value as 'recent' | 'oldest',
-            page: 1,
-          })
-        }
-        className="rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-      >
-        <option value="recent">Newest first</option>
-        <option value="oldest">Oldest first</option>
-      </select>
+      <BlogFiltersClient categories={categories} />
     </div>
   );
 }

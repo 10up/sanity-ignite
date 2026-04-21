@@ -8,7 +8,7 @@ import type { ZodType, z } from 'zod';
 import { client } from './client';
 import { sanityFetch as liveFetch } from './live';
 
-const CACHE_PROFILES = {
+export const CACHE_PROFILES = {
   default: { stale: 300, revalidate: 900 },
   seconds: { stale: 30, revalidate: 1, expire: 60 },
   minutes: { stale: 300, revalidate: 60, expire: 3600 },
@@ -18,7 +18,7 @@ const CACHE_PROFILES = {
   max: { stale: 300, revalidate: 2592000, expire: 31536000 },
 } as const;
 
-type CacheProfile = keyof typeof CACHE_PROFILES;
+export type CacheProfile = keyof typeof CACHE_PROFILES;
 
 type SanityFetchOptions<T extends ZodType> = {
   query: string;

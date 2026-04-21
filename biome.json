@@ -7,15 +7,14 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": [
-      "**",
-      "!sanity.types.ts",
-      "!**/.sanity/sanity.types.ts",
-      "!**/.next/**",
-      "!**/node_modules/**",
-      "!**/dist/**",
-      "!**/build/**"
-    ]
+    "experimentalScannerIgnores": [
+      "node_modules",
+      ".next",
+      "dist",
+      "build",
+      ".sanity"
+    ],
+    "includes": ["**", "!sanity.types.ts", "!**/.sanity/sanity.types.ts"]
   },
   "formatter": {
     "enabled": true,
@@ -41,9 +40,6 @@
             "syntax": "shorthand"
           }
         }
-      },
-      "complexity": {
-        "noExcessiveCognitiveComplexity": "error"
       }
     }
   },

@@ -9,7 +9,7 @@ export default async function Header() {
   const settings = await sanityFetch({
     query: settingsQuery,
     schema: settingsSchema,
-    cache: { profile: 'days', tags: ['sanity:type:settings'] },
+    cache: { profile: 'max', tags: ['sanity:type:settings'] },
   });
 
   if (!settings) {

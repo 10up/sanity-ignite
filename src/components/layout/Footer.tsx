@@ -10,7 +10,7 @@ export default async function Footer() {
   const settings = await sanityFetch({
     query: settingsQuery,
     schema: settingsSchema,
-    cache: { profile: 'days', tags: ['sanity:type:settings'] },
+    cache: { profile: 'max', tags: ['sanity:type:settings'] },
   });
 
   if (!settings) {
