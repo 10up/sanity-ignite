@@ -7,7 +7,13 @@ import { getDocumentLink } from '@/lib/links';
 import { urlForImage } from '@/lib/sanity/client/utils';
 import type { PostCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
-export default function PostCard({ post }: { post: PostCardFragmentType }) {
+export default function PostCard({
+  post,
+  idx,
+}: {
+  post: PostCardFragmentType;
+  idx: number;
+}) {
   const { title, excerpt, date, author, image, categories } = post;
 
   const featuredCategory = categories?.[0];
@@ -20,17 +26,11 @@ export default function PostCard({ post }: { post: PostCardFragmentType }) {
             <Image
               src={urlForImage(image)?.width(1000).height(667).url() as string}
               alt={image?.alt || 'Blog Post Image'}
-              style={{
-                objectFit: 'cover',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-              }}
-              width={1000}
-              height={667}
+              fill={true}
               className="object-cover"
+              sizes="(min-width: 1024px) 944px, calc(100vw - 5rem)"
+              preload={idx < 2}
+              loading={idx < 2 ? 'eager' : 'lazy'}
             />
           ) : null}
         </div>
@@ -38,7 +38,9 @@ export default function PostCard({ post }: { post: PostCardFragmentType }) {
           <div className="flex items-center space-x-4 mb-2">
             {featuredCategory && (
               <Badge variant="default" asChild>
-                <Link href={getDocumentLink(featuredCategory)}>{featuredCategory.title}</Link>
+                <Link href={getDocumentLink(featuredCategory)}>
+                  {featuredCategory.title}
+                </Link>
               </Badge>
             )}
             <ReadTime wordCount={post.wordCount} />
@@ -49,7 +51,10 @@ export default function PostCard({ post }: { post: PostCardFragmentType }) {
             </time>
           ) : null}
           <h3 className="text-2xl font-bold mb-">
-            <Link href={`/blog/${post.slug}`} className="hover:text-pink-600 transition-colors">
+            <Link
+              href={`/blog/${post.slug}`}
+              className="hover:text-pink-600 transition-colors"
+            >
               {title}
             </Link>
           </h3>

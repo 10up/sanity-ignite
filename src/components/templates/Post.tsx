@@ -13,7 +13,11 @@ const Post = ({ post }: Props) => {
     <div className="container mx-auto max-w-5xl pt-5 md:pt-8 pb-12">
       {post.image?.asset?._ref ? (
         <div className="mb-6 md:mb-14">
-          <CoverImage image={post.image} priority />
+          <CoverImage
+            image={post.image}
+            preload
+            sizes="(min-width: 1024px) 944px, calc(100vw - 5rem)"
+          />
         </div>
       ) : null}
       <h1 className="text-3xl md:text-5xl font-bold mb-6">{post.title}</h1>

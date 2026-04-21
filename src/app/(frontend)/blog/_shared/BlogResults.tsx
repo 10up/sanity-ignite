@@ -70,9 +70,11 @@ export async function BlogResultsCached({
   return (
     <>
       <div className="grid grid-cols-1 gap-10">
-        {posts.results.map((post: (typeof posts.results)[number]) => (
-          <PostCard key={post._id} post={post} />
-        ))}
+        {posts.results.map(
+          (post: (typeof posts.results)[number], index: number) => (
+            <PostCard key={post._id} post={post} idx={index} />
+          )
+        )}
       </div>
       {totalPages > 1 && (
         <Pagination currentPage={page} totalPages={totalPages} />

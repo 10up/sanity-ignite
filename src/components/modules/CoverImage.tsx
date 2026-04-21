@@ -5,11 +5,12 @@ import { urlForImage } from '@/lib/sanity/client/utils';
 
 interface CoverImageProps {
   image: { asset?: { _ref?: string }; alt?: string | null };
-  priority?: boolean;
+  preload?: boolean;
+  sizes?: string;
 }
 
 export default function CoverImage(props: CoverImageProps) {
-  const { image: source, priority } = props;
+  const { image: source, preload, sizes } = props;
 
   const image = source?.asset?._ref ? (
     <Image
@@ -23,8 +24,8 @@ export default function CoverImage(props: CoverImageProps) {
           .auto('format')
           .url() as string
       }
-      sizes="100vw"
-      priority={priority}
+      sizes={sizes || '100vw'}
+      preload={preload}
     />
   ) : (
     <div className="bg-slate-50" style={{ paddingTop: '100%' }} />

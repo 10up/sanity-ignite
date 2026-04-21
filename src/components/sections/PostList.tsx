@@ -26,8 +26,8 @@ export default function PostListSection({
           </p>
         </div>
         <div className="max-w-4xl mx-auto space-y-12">
-          {posts.slice(0, numberOfPosts).map((post) => (
-            <PostCard key={post._id} post={post} />
+          {posts.slice(0, numberOfPosts).map((post, index) => (
+            <PostCard key={post._id} post={post} idx={index} />
           ))}
         </div>
 
