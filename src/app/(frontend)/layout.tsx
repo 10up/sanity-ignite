@@ -50,9 +50,15 @@ export default async function RootLayout({
           <Suspense fallback={null}>
             <DraftModeTools />
           </Suspense>
-          <Header />
-          <Main>{children}</Main>
-          <Footer />
+          <Suspense fallback={null}>
+            <Header />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Main>{children}</Main>
+          </Suspense>
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
         </section>
       </NuqsAdapter>
     </body>

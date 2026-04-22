@@ -13,20 +13,19 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-const fetchPost = async (slug: string) =>
-  sanityFetch({
-    query: postQuery,
-    params: { slug },
-    schema: postSchema,
-    cache: {
-      profile: 'days',
-      tags: [`sanity:slug:${slug}`],
-    },
-  });
+const postFetchOptions = (slug: string) => ({
+  query: postQuery,
+  params: { slug },
+  schema: postSchema,
+  cache: {
+    profile: 'days' as const,
+    tags: [`sanity:slug:${slug}`],
+  },
+});
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const { slug } = await props.params;
-  const post = await fetchPost(slug);
+  const post = await sanityFetch(postFetchOptions(slug));
 
   if (!post) {
     return {};
@@ -55,7 +54,7 @@ export default async function PostPage(props: Props) {
   'use cache';
 
   const { slug } = await props.params;
-  const post = await fetchPost(slug);
+  const post = await sanityFetch(postFetchOptions(slug));
 
   if (!post) {
     notFound();

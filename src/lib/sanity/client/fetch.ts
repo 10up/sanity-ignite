@@ -62,6 +62,17 @@ function validate<T extends ZodType>(
   return parsed.data;
 }
 
+/**
+ * The primary Sanity fetch client for Server Components.
+ *
+ * Returns the `previewDrafts` perspective when Draft Mode is on (so editors
+ * see their in-progress content in the Presentation tool) and the cached
+ * `published` perspective otherwise. Results are validated against the
+ * provided Zod schema.
+ *
+ * Call this from any Server Component rendered inside a `<Suspense>`
+ * boundary.
+ * */
 export async function sanityFetch<T extends ZodType>({
   query,
   params,

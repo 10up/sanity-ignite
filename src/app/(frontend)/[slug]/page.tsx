@@ -12,20 +12,19 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-const fetchPage = async (slug: string) =>
-  sanityFetch({
-    query: getPageQuery,
-    params: { slug },
-    schema: pageSchema_,
-    cache: {
-      profile: 'hours',
-      tags: ['sanity:type:page', `sanity:slug:${slug}`],
-    },
-  });
+const pageFetchOptions = (slug: string) => ({
+  query: getPageQuery,
+  params: { slug },
+  schema: pageSchema_,
+  cache: {
+    profile: 'hours' as const,
+    tags: ['sanity:type:page', `sanity:slug:${slug}`],
+  },
+});
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const { slug } = await props.params;
-  const page = await fetchPage(slug);
+  const page = await sanityFetch(pageFetchOptions(slug));
 
   if (!page?.seo) {
     return {};
@@ -51,7 +50,7 @@ export async function generateStaticParams() {
 
 export default async function Page(props: Props) {
   const { slug } = await props.params;
-  const page = await fetchPage(slug);
+  const page = await sanityFetch(pageFetchOptions(slug));
 
   if (!page) {
     notFound();
