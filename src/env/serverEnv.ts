@@ -1,17 +1,14 @@
 import 'server-only';
 
-import * as v from 'valibot';
+import { z } from 'zod';
 import { createEnv } from '@/utils/createEnv';
 
 const envSchema = {
-  SANITY_API_READ_TOKEN: v.pipe(v.string(), v.minLength(1)),
-  MAX_STATIC_PARAMS: v.pipe(
-    v.string(),
-    v.transform(parseInt),
-    v.number(),
-    v.minValue(1),
-    v.maxValue(1000),
-  ),
+  SANITY_API_READ_TOKEN: z.string().min(1),
+  MAX_STATIC_PARAMS: z
+    .string()
+    .transform((value) => Number.parseInt(value, 10))
+    .pipe(z.number().min(1).max(1000)),
 };
 const serverEnv = createEnv(envSchema);
 export { serverEnv };

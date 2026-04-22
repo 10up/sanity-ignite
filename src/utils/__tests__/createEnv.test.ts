@@ -1,5 +1,5 @@
-import * as v from 'valibot';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { z } from 'zod';
 import { createEnv } from '../createEnv';
 
 describe('createEnv', () => {
@@ -17,7 +17,7 @@ describe('createEnv', () => {
     process.env.TEST_VAR = 'value';
 
     const schema = {
-      TEST_VAR: v.string(),
+      TEST_VAR: z.string(),
     };
 
     const result = createEnv(schema);
@@ -30,11 +30,11 @@ describe('createEnv', () => {
     delete global.process;
 
     const schema = {
-      TEST_VAR: v.string(),
+      TEST_VAR: z.string(),
     };
 
     expect(() => createEnv(schema)).toThrow(
-      'process is not available. This function should run in a Node.js environment.',
+      'process is not available. This function should run in a Node.js environment.'
     );
 
     global.process = originalProcess;
@@ -44,7 +44,7 @@ describe('createEnv', () => {
     delete process.env.MISSING_VAR;
 
     const schema = {
-      MISSING_VAR: v.string(),
+      MISSING_VAR: z.string(),
     };
 
     expect(() => createEnv(schema)).toThrow();
@@ -54,7 +54,7 @@ describe('createEnv', () => {
     process.env.NUMBER_VAR = 'not-a-number';
 
     const schema = {
-      NUMBER_VAR: v.number(),
+      NUMBER_VAR: z.number(),
     };
 
     expect(() => createEnv(schema)).toThrow();
