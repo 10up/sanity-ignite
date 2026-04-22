@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { SearchParams } from 'nuqs/server';
 import { Suspense } from 'react';
 import Page from '@/components/templates/Page';
+import type { CacheProfile } from '@/lib/sanity/client/fetch';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { formatMetaData } from '@/lib/sanity/client/seo';
 import { blogPageQuery } from '@/lib/sanity/queries/queries';
@@ -18,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const blogPage = await sanityFetch({
     query: blogPageQuery,
     schema: blogPageSchema,
-    cache: { profile: 'days', tags: ['sanity:type:blogPage'] },
+    cache: { profile: 'days' as CacheProfile, tags: ['sanity:type:blogPage'] },
   });
 
   if (!blogPage?.seo) {

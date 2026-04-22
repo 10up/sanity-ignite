@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { sanityFetch } from '@/lib/sanity/client/fetch';
+import { type CacheProfile, sanityFetch } from '@/lib/sanity/client/fetch';
 import { settingsQuery } from '@/lib/sanity/queries/queries';
 import { settingsSchema } from '@/lib/sanity/queries/schemas';
 import Logo from '../icons/Logo';
@@ -10,7 +10,7 @@ export default async function Footer() {
   const settings = await sanityFetch({
     query: settingsQuery,
     schema: settingsSchema,
-    cache: { profile: 'max', tags: ['sanity:type:settings'] },
+    cache: { profile: 'max' as CacheProfile, tags: ['sanity:type:settings'] },
   });
 
   if (!settings) {

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import type { CacheProfile } from '@/lib/sanity/client/fetch';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { getSitemapQuery } from '@/lib/sanity/queries/queries';
 import { sitemapSchema } from '@/lib/sanity/queries/schemas';
@@ -9,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     query: getSitemapQuery,
     schema: sitemapSchema,
     cache: {
-      profile: 'hours',
+      profile: 'days' as CacheProfile,
       tags: ['sanity:type:page', 'sanity:type:post', 'sanity:type:homePage'],
     },
   });

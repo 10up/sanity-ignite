@@ -5,7 +5,11 @@ import Post from '@/components/templates/Post';
 import { serverEnv } from '@/env/serverEnv';
 import { getDocumentLink } from '@/lib/links';
 import { client } from '@/lib/sanity/client/client';
-import { CACHE_PROFILES, sanityFetch } from '@/lib/sanity/client/fetch';
+import {
+  CACHE_PROFILES,
+  type CacheProfile,
+  sanityFetch,
+} from '@/lib/sanity/client/fetch';
 import { postPagesSlugs, postQuery } from '@/lib/sanity/queries/queries';
 import { postSchema } from '@/lib/sanity/queries/schemas';
 
@@ -18,7 +22,7 @@ const postFetchOptions = (slug: string) => ({
   params: { slug },
   schema: postSchema,
   cache: {
-    profile: 'days' as const,
+    profile: 'days' as CacheProfile,
     tags: [`sanity:slug:${slug}`],
   },
 });

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import PageSections from '@/components/sections/PageSections';
 import { serverEnv } from '@/env/serverEnv';
 import { client } from '@/lib/sanity/client/client';
+import type { CacheProfile } from '@/lib/sanity/client/fetch';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { formatMetaData } from '@/lib/sanity/client/seo';
 import { getPageQuery, pageSlugs } from '@/lib/sanity/queries/queries';
@@ -17,7 +18,7 @@ const pageFetchOptions = (slug: string) => ({
   params: { slug },
   schema: pageSchema_,
   cache: {
-    profile: 'hours' as const,
+    profile: 'days' as CacheProfile,
     tags: ['sanity:type:page', `sanity:slug:${slug}`],
   },
 });
