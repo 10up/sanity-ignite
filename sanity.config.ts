@@ -29,8 +29,8 @@ const homeLocation = {
 // path for different document types and used in the presentation tool.
 function resolveHref(documentType?: string, slug?: string): string | undefined {
   switch (documentType) {
-    case 'post':
-      return slug ? `/blog/${slug}` : undefined;
+    case 'article':
+      return slug ? `/articles/${slug}` : undefined;
     case 'page':
       return slug ? `/${slug}` : undefined;
     default:
@@ -48,6 +48,13 @@ export default defineConfig({
   dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
   plugins: [
     // Presentation tool configuration for Visual Editing
+
+    structureTool({
+      structure, // Custom studio structure configuration, imported from ./src/structure.ts
+    }),
+    // Additional plugins for enhanced functionality
+    assist(),
+    visionTool(),
     presentationTool({
       previewUrl: {
         // origin: SANITY_STUDIO_PREVIEW_URL,
@@ -64,7 +71,7 @@ export default defineConfig({
           },
           {
             route: '/blog/:slug',
-            filter: `_type == "post" && slug.current == $slug || _id == $slug`,
+            filter: `_type == "article" && slug.current == $slug || _id == $slug`,
           },
         ]),
         // Locations Resolver API allows you to define where data is being used in your application. https://www.sanity.io/docs/presentation-resolver-api#8d8bca7bfcd7
@@ -83,12 +90,12 @@ export default defineConfig({
               locations: [
                 {
                   title: doc?.name || 'Untitled',
-                  href: resolveHref('page', doc?.slug)!,
+                  href: resolveHref('page', doc?.slug) ?? '/',
                 },
               ],
             }),
           }),
-          post: defineLocations({
+          article: defineLocations({
             select: {
               title: 'title',
               slug: 'slug.current',
@@ -97,7 +104,7 @@ export default defineConfig({
               locations: [
                 {
                   title: doc?.title || 'Untitled',
-                  href: resolveHref('post', doc?.slug)!,
+                  href: resolveHref('article', doc?.slug) ?? '/',
                 },
                 {
                   title: 'Home',
@@ -109,12 +116,6 @@ export default defineConfig({
         },
       },
     }),
-    structureTool({
-      structure, // Custom studio structure configuration, imported from ./src/structure.ts
-    }),
-    // Additional plugins for enhanced functionality
-    assist(),
-    visionTool(),
   ],
   schema: {
     types: schemaTypes,

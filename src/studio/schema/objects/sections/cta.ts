@@ -28,12 +28,9 @@ export default defineType({
     select: {
       title: 'heading',
     },
-    prepare(selection) {
-      const { title } = selection;
-
+    prepare({ title }) {
       return {
-        title: title,
-        subtitle: 'Call to Action',
+        title: `[Call to Action] ${title || 'Untitled'}`,
       };
     },
   },

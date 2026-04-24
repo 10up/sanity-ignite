@@ -9,8 +9,8 @@ import { defaultFieldGroups } from '../config/fieldGroups';
  */
 
 export default defineType({
-  name: 'post',
-  title: 'Posts',
+  name: 'article',
+  title: 'Articles',
   icon: DocumentTextIcon,
   type: 'document',
   groups: defaultFieldGroups,
@@ -56,7 +56,8 @@ export default defineType({
             // Custom validation to ensure alt text is provided if the image is present. https://www.sanity.io/docs/validation
             return rule.custom((alt, context) => {
               if (
-                (context.document?.coverImage as { asset?: { _ref?: string } })?.asset?._ref &&
+                (context.document?.coverImage as { asset?: { _ref?: string } })
+                  ?.asset?._ref &&
                 !alt
               ) {
                 return 'Required';
@@ -101,6 +102,15 @@ export default defineType({
       group: 'content',
     }),
     defineField({
+      name: 'readTime',
+      title: 'Read Time (minutes)',
+      type: 'number',
+      description:
+        'Estimated read time in minutes. Automatically calculated when published.',
+      readOnly: true,
+      group: 'content',
+    }),
+    defineField({
       title: 'SEO & Metadata',
       name: 'seo',
       type: 'seoMetaFields',
@@ -118,7 +128,9 @@ export default defineType({
     },
     prepare({ title, media, authorFirstName, authorLastName, date }) {
       const subtitles = [
-        authorFirstName && authorLastName && `by ${authorFirstName} ${authorLastName}`,
+        authorFirstName &&
+          authorLastName &&
+          `by ${authorFirstName} ${authorLastName}`,
         date && `on ${format(parseISO(date), 'LLL d, yyyy')}`,
       ].filter(Boolean);
 

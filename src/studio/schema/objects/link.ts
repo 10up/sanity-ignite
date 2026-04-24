@@ -2,7 +2,7 @@ import { Link } from 'lucide-react';
 import { defineField, defineType } from 'sanity';
 import { createRadioListLayout } from '@/utils/schema';
 
-const allLinkableTypes = [{ type: 'post' }, { type: 'page' }];
+const allLinkableTypes = [{ type: 'article' }, { type: 'page' }];
 
 export default defineType({
   name: 'link',
@@ -54,7 +54,8 @@ export default defineType({
     prepare({ externalUrl, urlType, internalUrl, openInNewTab }) {
       const url = urlType === 'external' ? externalUrl : `/${internalUrl}`;
       const newTabIndicator = openInNewTab ? ' ↗' : '';
-      const truncatedUrl = url?.length > 30 ? `${url.substring(0, 30)}...` : url;
+      const truncatedUrl =
+        url?.length > 30 ? `${url.substring(0, 30)}...` : url;
 
       return {
         title: `${urlType === 'external' ? 'External' : 'Internal'} Link`,

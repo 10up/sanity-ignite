@@ -8,12 +8,18 @@ export default defineType({
   title: 'Hero',
   fields: [
     defineField({
+      name: 'kicker',
+      type: 'string',
+    }),
+    defineField({
       name: 'heading',
       type: 'string',
     }),
     defineField({
-      name: 'text',
-      type: 'blockContent',
+      name: 'tagline',
+      title: 'Tagline',
+      type: 'text',
+      rows: 3,
     }),
     defineField({
       name: 'image',
@@ -28,10 +34,11 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'buttons',
-      type: 'array',
-      of: [{ type: 'button' }],
-      validation: (Rule) => Rule.min(2).max(4),
+      name: 'article',
+      type: 'reference',
+      to: [{ type: 'article' }],
+      title: 'Article',
+      options: { disableNew: true },
     }),
   ],
   preview: {
@@ -41,7 +48,7 @@ export default defineType({
     },
     prepare({ title, image }) {
       return {
-        title: title || 'Untitled',
+        title: `[Hero] ${title || 'Untitled'}`,
         content: 'Hero text',
         media: image || DocumentTextIcon,
       };

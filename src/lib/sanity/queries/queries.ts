@@ -1,10 +1,10 @@
 import { defineQuery } from 'next-sanity';
 import {
+  articleCardFragment,
+  articleFragment,
   categoryFragment,
   menuFragment,
   pageFragment,
-  postCardFragment,
-  postFragment,
 } from './fragments/fragments';
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
@@ -38,10 +38,10 @@ export const getPageQuery = defineQuery(`
 `);
 
 export const getSitemapQuery = defineQuery(`
-  *[((_type in ["page", "post"] && defined(slug.current)) || (_type == "homePage")) && seo.noIndex != true]{
+  *[((_type in ["page", "article"] && defined(slug.current)) || (_type == "homePage")) && seo.noIndex != true]{
     "href": select(
       _type == "page" => "/" + slug.current,
-      _type == "post" => "/posts/" + slug.current,
+      _type == "article" => "/articles/" + slug.current,
       _type == "homePage" => "/",
       slug.current
     ),
@@ -49,9 +49,9 @@ export const getSitemapQuery = defineQuery(`
   }
 `);
 
-export const postQuery = defineQuery(`
-  *[_type == "post" && slug.current == $slug] [0] {
-    ${postFragment}
+export const articleQuery = defineQuery(`
+  *[_type == "article" && slug.current == $slug] [0] {
+    ${articleFragment}
   }
 `);
 
@@ -59,8 +59,8 @@ export const pageSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)][0..$limit].slug.current
 `);
 
-export const postPagesSlugs = defineQuery(`
-  *[_type == "post" && defined(slug.current)][0..$limit].slug.current
+export const articlePagesSlugs = defineQuery(`
+  *[_type == "article" && defined(slug.current)][0..$limit].slug.current
 `);
 
 export const allCategoriesQuery = defineQuery(`
@@ -69,10 +69,10 @@ export const allCategoriesQuery = defineQuery(`
   }
 `);
 
-const postsArchiveBase = (order: string) => /* groq */ `
+const articlesArchiveBase = (order: string) => /* groq */ `
   {
     "allResults": *[
-      _type == "post"
+      _type == "article"
       &&
       (
         !defined( $filters.categorySlug ) || references(*[_type == "category" && slug.current == $filters.categorySlug]._id)
@@ -86,15 +86,15 @@ const postsArchiveBase = (order: string) => /* groq */ `
   {
     "total": count(allResults),
     "results": allResults[$from..$to] {
-      ${postCardFragment}
+      ${articleCardFragment}
     }
   }
 `;
 
-export const postsArchiveQuery = defineQuery(
-  postsArchiveBase('_createdAt desc, _id desc')
+export const articlesArchiveQuery = defineQuery(
+  articlesArchiveBase('_createdAt desc, _id desc')
 );
 
-export const postsArchiveOldestQuery = defineQuery(
-  postsArchiveBase('_createdAt asc, _id asc')
+export const articlesArchiveOldestQuery = defineQuery(
+  articlesArchiveBase('_createdAt asc, _id asc')
 );

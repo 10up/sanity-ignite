@@ -5,22 +5,22 @@ import { useOptimistic } from 'next-sanity/hooks';
 import type { ComponentType } from 'react';
 import { dataAttr } from '@/lib/sanity/client/utils';
 import type {
+  ArticleListSectionFragmentType,
   CardGridSectionFragmentType,
   CtaSectionFragmentType,
   DividerSectionFragmentType,
   HeroSectionFragmentType,
   MediaTextSectionFragmentType,
-  PostListSectionFragmentType,
   SectionsType,
   SectionType,
   SubscribeSectionFragmentType,
 } from '@/lib/sanity/queries/fragments/fragment.types';
+import ArticleList from './ArticleList';
 import CardGrid from './CardGrid';
 import CTA from './CTA';
 import Divider from './Divider';
-import Hero from './Hero';
+import { Hero } from './Hero';
 import MediaText from './MediaText';
-import PostList from './PostList';
 import Subscribe from './Subscribe';
 
 type SectionComponentMap = {
@@ -28,7 +28,7 @@ type SectionComponentMap = {
   mediaText: ComponentType<{ section: MediaTextSectionFragmentType }>;
   cta: ComponentType<{ section: CtaSectionFragmentType }>;
   subscribe: ComponentType<{ section: SubscribeSectionFragmentType }>;
-  postList: ComponentType<{ section: PostListSectionFragmentType }>;
+  articleList: ComponentType<{ section: ArticleListSectionFragmentType }>;
   cardGrid: ComponentType<{ section: CardGridSectionFragmentType }>;
   divider: ComponentType<{ section: DividerSectionFragmentType }>;
 };
@@ -38,7 +38,7 @@ const SECTION_COMPONENTS: SectionComponentMap = {
   mediaText: MediaText,
   cta: CTA,
   subscribe: Subscribe,
-  postList: PostList,
+  articleList: ArticleList,
   cardGrid: CardGrid,
   divider: Divider,
 } as const;
@@ -49,9 +49,42 @@ type PageSectionsProps = {
   sections?: SectionsType;
 };
 
+// The Sanity document shape that useOptimistic receives from the Presentation tool.
 type PageData = SanityDocument<{
   pageSections?: SectionsType;
 }>;
+
+// Action shape emitted by next-sanity's useOptimistic when an editor mutates a document.
+type SanityOptimisticAction = { id: string; document?: PageData };
+
+/**
+ * Applies an optimistic update from Sanity's Presentation tool to the sections array.
+ *
+ * When an editor changes content in Sanity Studio, Sanity emits a document mutation
+ * event via SSE before the server re-renders. This reducer applies those changes
+ * immediately to the client-side state so the preview feels instant.
+ *
+ * Strategy: for each section in the incoming document, keep the already-rendered
+ * version if it exists (prevents flicker), or use the new data for newly added sections.
+ *
+ * This optimistic state is temporary — SanityLive triggers router.refresh() shortly
+ * after, which replaces it with the authoritative server-rendered data.
+ */
+function applyOptimisticSectionUpdate(
+  documentId: string,
+  currentSections: SectionsType,
+  action: SanityOptimisticAction
+): SectionsType {
+  if (action.id !== documentId || !action.document?.pageSections) {
+    return currentSections;
+  }
+
+  return action.document.pageSections.map(
+    (incomingSection) =>
+      currentSections?.find((s) => s._key === incomingSection._key) ??
+      incomingSection
+  );
+}
 
 export default function PageSections({
   documentId,
@@ -60,18 +93,8 @@ export default function PageSections({
 }: PageSectionsProps) {
   const sections = useOptimistic<SectionsType, PageData>(
     initialSections ?? [],
-    (currentSections, action) => {
-      if (action.id !== documentId || !action?.document?.pageSections) {
-        return currentSections;
-      }
-
-      return action.document.pageSections.map(
-        (section) =>
-          currentSections?.find(
-            (currentSection) => currentSection._key === section?._key
-          ) || section
-      );
-    }
+    (current, action) =>
+      applyOptimisticSectionUpdate(documentId, current, action)
   );
 
   if (!sections?.length) {

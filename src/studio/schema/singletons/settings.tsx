@@ -29,7 +29,8 @@ export default defineType({
     }),
     defineField({
       name: 'description',
-      description: 'Used both for the <meta> description tag for SEO, and the blog subheader.',
+      description:
+        'Used both for the <meta> description tag for SEO, and the blog subheader.',
       title: 'Description',
       type: 'text',
     }),
@@ -53,7 +54,8 @@ export default defineType({
           validation: (rule) => {
             return rule.custom((alt, context) => {
               if (
-                (context.document?.ogImage as { asset?: { _ref?: string } })?.asset?._ref &&
+                (context.document?.ogImage as { asset?: { _ref?: string } })
+                  ?.asset?._ref &&
                 !alt
               ) {
                 return 'Required';

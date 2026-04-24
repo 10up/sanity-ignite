@@ -30,12 +30,9 @@ export default defineType({
     select: {
       title: 'heading',
     },
-    prepare(selection) {
-      const { title } = selection;
-
+    prepare({ title }) {
       return {
-        title: title,
-        subtitle: 'Subscribe',
+        title: `[Subscribe] ${title || 'Untitled'}`,
       };
     },
   },

@@ -28,6 +28,7 @@ type SanityFetchOptions<T extends ZodType> = {
     profile?: CacheProfile;
     tags?: string[];
   };
+  bypassLiveFetch?: boolean;
 };
 
 async function cachedFetch(
@@ -70,20 +71,21 @@ function validate<T extends ZodType>(
  * `published` perspective otherwise. Results are validated against the
  * provided Zod schema.
  *
- * Call this from any Server Component rendered inside a `<Suspense>`
- * boundary.
+ * Call this from any Server Component
  * */
 export async function sanityFetch<T extends ZodType>({
   query,
   params,
   schema,
   cache,
+  bypassLiveFetch = false,
 }: SanityFetchOptions<T>): Promise<z.infer<T> | null> {
-  const { isEnabled: isDraft } = await draftMode();
-
-  if (isDraft) {
-    const { data } = await liveFetch({ query, params });
-    return validate(schema, data, ':draft');
+  if (!bypassLiveFetch) {
+    const { isEnabled: isDraft } = await draftMode();
+    if (isDraft) {
+      const { data } = await liveFetch({ query, params });
+      return validate(schema, data, ':draft');
+    }
   }
 
   const data = await cachedFetch(

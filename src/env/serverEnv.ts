@@ -5,6 +5,7 @@ import { createEnv } from '@/utils/createEnv';
 
 const envSchema = {
   SANITY_API_READ_TOKEN: z.string().min(1),
+  SANITY_WEBHOOK_SECRET: z.string().min(1),
   MAX_STATIC_PARAMS: z
     .string()
     .transform((value) => Number.parseInt(value, 10))

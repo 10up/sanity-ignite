@@ -1,3 +1,5 @@
+'use client';
+
 import { format } from 'date-fns';
 
 export function DateComponent({ dateString }: { dateString?: string | null }) {

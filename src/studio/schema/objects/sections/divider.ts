@@ -18,7 +18,7 @@ export default defineType({
   ],
   preview: {
     prepare() {
-      return { title: `Divider` };
+      return { title: 'Divider' };
     },
   },
 });

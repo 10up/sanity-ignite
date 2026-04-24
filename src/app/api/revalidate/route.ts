@@ -2,6 +2,7 @@ import { revalidateTag } from 'next/cache';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { parseBody } from 'next-sanity/webhook';
+import { serverEnv } from '@/env/serverEnv';
 
 type SanityWebhookPayload = {
   _type: string;
@@ -12,7 +13,7 @@ export async function POST(req: NextRequest) {
   try {
     const { isValidSignature, body } = await parseBody<SanityWebhookPayload>(
       req,
-      process.env.SANITY_WEBHOOK_SECRET
+      serverEnv.SANITY_WEBHOOK_SECRET
     );
 
     if (!isValidSignature) {

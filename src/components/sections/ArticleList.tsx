@@ -1,20 +1,20 @@
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import type { PostListSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
-import PostCard from '../modules/PostCard';
+import type { ArticleListSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import ArticleCard from '../modules/ArticleCard';
 import { Button } from '../ui/Button';
 
-export default function PostListSection({
+export default function ArticleListSection({
   section,
 }: {
-  section: PostListSectionFragmentType;
+  section: ArticleListSectionFragmentType;
 }) {
-  const { posts } = section;
-  if (!posts.length) {
+  const { articles } = section;
+  if (!articles.length) {
     return null;
   }
 
-  const numberOfPosts = section.numberOfPosts ?? 3;
+  const numberOfArticles = section.numberOfarticles ?? 3;
 
   return (
     <section className="py-10 md:py-14">
@@ -26,8 +26,8 @@ export default function PostListSection({
           </p>
         </div>
         <div className="max-w-4xl mx-auto space-y-12">
-          {posts.slice(0, numberOfPosts).map((post, index) => (
-            <PostCard key={post._id} post={post} idx={index} />
+          {articles.slice(0, numberOfArticles).map((article, index) => (
+            <ArticleCard key={article._id} article={article} idx={index} />
           ))}
         </div>
 

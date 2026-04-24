@@ -123,13 +123,6 @@ export const buttonsFragment = /* groq */ `
   },
 `;
 
-export const heroSectionFragment = /* groq */ `
-  _type,
-  heading,
-  text,
-  ${buttonsFragment}
-`;
-
 export const mediaTextSectionFragment = /* groq */ `
   _type,
   heading,
@@ -158,7 +151,7 @@ export const personFragment = /* groq */ `
   "slug": slug.current,
 `;
 
-export const postCardFragment = /* groq */ `
+export const articleCardFragment = /* groq */ `
   _type,
   _id,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
@@ -169,24 +162,35 @@ export const postCardFragment = /* groq */ `
   "categories": categories[]->{${categoryFragment}},
   "date": coalesce(date, _updatedAt),
   "author": author->{${personFragment}},
-  "wordCount": count(string::split(coalesce(pt::text(content), ''), " ")),
+  readTime,
 `;
 
-export const postFragment = /* groq */ `
-  ${postCardFragment}
+export const articleFragment = /* groq */ `
+  ${articleCardFragment}
   ${contentFragment}
   seo {
     ${seoFragment}
   },
 `;
 
-export const postListSectionFragment = /* groq */ `
+export const articleListSectionFragment = /* groq */ `
     _type,
     heading,
-    numberOfPosts,
-    "posts": *[_type == 'post'] | order(_createdAt desc, _id desc) [0...20] {
-      ${postFragment}
+    numberOfarticles,
+    "articles": *[_type == 'article'] | order(_createdAt desc, _id desc) [0...20] {
+      ${articleFragment}
     }
+`;
+
+export const heroSectionFragment = /* groq */ `
+  _type,
+  kicker,
+  heading,
+  tagline,
+  image,
+  article->{
+    ${articleCardFragment}
+  },
 `;
 
 export const dividerSectionFragment = /* groq */ `
@@ -231,7 +235,7 @@ export const pageBuilderFragment = /* groq */ `
     _type == 'divider' => {${dividerSectionFragment}},
     _type == 'hero' => {${heroSectionFragment}},
     _type == 'mediaText' => {${mediaTextSectionFragment}},
-    _type == 'postList' => {${postListSectionFragment}},
+    _type == 'articleList' => {${articleListSectionFragment}},
     _type == 'subscribe' => {${subscribeSectionFragment}}
   },
 `;

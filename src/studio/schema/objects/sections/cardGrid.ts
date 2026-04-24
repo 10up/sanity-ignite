@@ -15,4 +15,14 @@ export default defineType({
       of: [card],
     }),
   ],
+  preview: {
+    select: {
+      title: 'heading',
+    },
+    prepare({ title }) {
+      return {
+        title: `[Card Grid] ${title || 'Untitled'}`,
+      };
+    },
+  },
 });

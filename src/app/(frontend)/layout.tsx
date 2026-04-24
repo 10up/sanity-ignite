@@ -4,9 +4,9 @@ import dynamic from 'next/dynamic';
 import { draftMode } from 'next/headers';
 import { NuqsAdapter } from 'nuqs/adapters/next';
 import { Suspense } from 'react';
-import Alert from '@/components/layout/Alert';
-import Footer from '@/components/layout/Footer';
-import Header from '@/components/layout/Header';
+import { Banner } from '@/components/layout/Banner';
+import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
 import Main from '@/components/layout/Main';
 import { SanityLive } from '@/lib/sanity/client/live';
 import { handleError, sanityLiveRevalidateSyncTags } from './client-utils';
@@ -42,23 +42,21 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <body className={`font-inter bg-white text-black`}>
+    <body>
       <NuqsAdapter>
         <section className="min-h-screen">
-          <Alert />
           <Toaster />
           <Suspense fallback={null}>
             <DraftModeTools />
           </Suspense>
+          <Banner />
           <Suspense fallback={null}>
             <Header />
           </Suspense>
           <Suspense fallback={null}>
             <Main>{children}</Main>
           </Suspense>
-          <Suspense fallback={null}>
-            <Footer />
-          </Suspense>
+          <Footer />
         </section>
       </NuqsAdapter>
     </body>

@@ -180,19 +180,19 @@ const personSchema = z
   })
   .loose();
 
-const postCardSchema = z
+const articleCardSchema = z
   .object({
-    _type: z.literal('post'),
+    _type: z.literal('article'),
     _id: z.string(),
     status: z.string().nullish(),
     title: z.string(),
     slug: z.string().nullable(),
     excerpt: z.string().nullish(),
     date: z.string().nullish(),
-    wordCount: z.number().nullish(),
     image: imageSchema.nullish(),
     categories: z.array(categorySchema).nullish(),
     author: personSchema.nullish(),
+    readTime: z.number().nullish(),
   })
   .loose();
 
@@ -207,10 +207,11 @@ const sectionBaseSchema = z
 
 const heroSectionSchema = sectionBaseSchema.extend({
   _type: z.literal('hero'),
+  kicker: z.string().nullish(),
   heading: z.string().nullish(),
-  text: blockContentSchema.nullish(),
+  tagline: z.string().nullish(),
   image: imageSchema.nullish(),
-  buttons: z.array(buttonSchema).nullish(),
+  article: articleCardSchema.nullish(),
 });
 
 const mediaTextSectionSchema = sectionBaseSchema.extend({
@@ -248,11 +249,11 @@ const subscribeSectionSchema = sectionBaseSchema.extend({
   buttonText: z.string().nullish(),
 });
 
-const postListSectionSchema = sectionBaseSchema.extend({
-  _type: z.literal('postList'),
+const articleListSectionSchema = sectionBaseSchema.extend({
+  _type: z.literal('articleList'),
   heading: z.string().nullish(),
-  numberOfPosts: z.number().nullish(),
-  posts: z.array(postCardSchema),
+  numberOfarticles: z.number().nullish(),
+  articles: z.array(articleCardSchema),
 });
 
 const sectionSchema = z.discriminatedUnion('_type', [
@@ -262,7 +263,7 @@ const sectionSchema = z.discriminatedUnion('_type', [
   cardGridSectionSchema,
   dividerSectionSchema,
   subscribeSectionSchema,
-  postListSectionSchema,
+  articleListSectionSchema,
 ]);
 
 // ─── Page schemas ────────────────────────────────────────────────────────────
@@ -301,16 +302,16 @@ export const pageSchema_ = z
 
 export const allCategoriesSchema = z.array(categorySchema);
 
-export const postSchema = postCardSchema
+export const articleSchema = articleCardSchema
   .extend({
     content: blockContentSchema.nullish(),
     seo: seoSchema.nullish(),
   })
   .loose();
 
-export const postsArchiveSchema = z.object({
+export const articlesArchiveSchema = z.object({
   total: z.number(),
-  results: z.array(postCardSchema),
+  results: z.array(articleCardSchema),
 });
 
 export const sitemapSchema = z.array(
@@ -353,14 +354,14 @@ export {
   imageSchema,
   seoSchema,
   personSchema,
-  postCardSchema,
+  articleCardSchema,
   heroSectionSchema,
   mediaTextSectionSchema,
   ctaSectionSchema,
   cardGridSectionSchema,
   dividerSectionSchema,
   subscribeSectionSchema,
-  postListSectionSchema,
+  articleListSectionSchema,
   cardSchema,
   sectionSchema,
 };

@@ -1,5 +1,8 @@
 import type { z } from 'zod';
 import type {
+  articleCardSchema,
+  articleListSectionSchema,
+  articleSchema,
   buttonSchema,
   cardGridSectionSchema,
   cardSchema,
@@ -10,16 +13,13 @@ import type {
   linkSchema,
   mediaTextSectionSchema,
   personSchema,
-  postCardSchema,
-  postListSectionSchema,
-  postSchema,
   sectionSchema,
   seoSchema,
   subscribeSectionSchema,
 } from '../schemas';
 
-export type PostCardFragmentType = z.infer<typeof postCardSchema>;
-export type PostFragmentType = z.infer<typeof postSchema>;
+export type ArticleCardFragmentType = z.infer<typeof articleCardSchema>;
+export type ArticleFragmentType = z.infer<typeof articleSchema>;
 export type PersonFragmentType = z.infer<typeof personSchema>;
 export type CategoryFragmentType = z.infer<typeof categorySchema>;
 
@@ -35,7 +35,9 @@ export type HeroSectionFragmentType = z.infer<typeof heroSectionSchema>;
 export type MediaTextSectionFragmentType = z.infer<
   typeof mediaTextSectionSchema
 >;
-export type PostListSectionFragmentType = z.infer<typeof postListSectionSchema>;
+export type ArticleListSectionFragmentType = z.infer<
+  typeof articleListSectionSchema
+>;
 export type SubscribeSectionFragmentType = z.infer<
   typeof subscribeSectionSchema
 >;

@@ -17,6 +17,7 @@
     "built": "npm run next:build",
     "start": "npm run next:start",
     "sanity:typegen": "mkdir -p ./.sanity && sanity schema extract --path=.sanity/schema.json && sanity typegen generate",
+    "seed:pulse": "sanity datasets import --replace scripts/pulse-seed.ndjson",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "prepare": "husky install"

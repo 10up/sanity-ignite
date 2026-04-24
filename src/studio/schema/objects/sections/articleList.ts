@@ -2,8 +2,8 @@ import { ListIcon } from '@sanity/icons';
 import { defineField, defineType } from 'sanity';
 
 export default defineType({
-  name: 'postList',
-  title: 'Post List',
+  name: 'articleList',
+  title: 'Article List',
   type: 'object',
   icon: ListIcon,
   fields: [
@@ -14,8 +14,8 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'numberOfPosts',
-      title: 'Number of Posts to Show',
+      name: 'numberOfArticles',
+      title: 'Number of Articles to Show',
       type: 'number',
       validation: (Rule) => Rule.required().min(1).max(20),
       initialValue: 3,
@@ -25,12 +25,9 @@ export default defineType({
     select: {
       title: 'heading',
     },
-    prepare(selection) {
-      const { title } = selection;
-
+    prepare({ title }) {
       return {
-        title: title,
-        subtitle: 'Post List',
+        title: `[Article List] ${title || 'Untitled'}`,
       };
     },
   },

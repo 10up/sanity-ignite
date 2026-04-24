@@ -5,16 +5,16 @@ import { Badge } from '@/components/ui/Badge';
 import { ReadTime } from '@/components/ui/ReadTime';
 import { getDocumentLink } from '@/lib/links';
 import { urlForImage } from '@/lib/sanity/client/utils';
-import type { PostCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import type { ArticleCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
 
-export default function PostCard({
-  post,
+export default function Articleard({
+  article,
   idx,
 }: {
-  post: PostCardFragmentType;
+  article: ArticleCardFragmentType;
   idx: number;
 }) {
-  const { title, excerpt, date, author, image, categories } = post;
+  const { title, excerpt, date, author, image, categories } = article;
 
   const featuredCategory = categories?.[0];
 
@@ -43,7 +43,7 @@ export default function PostCard({
                 </Link>
               </Badge>
             )}
-            <ReadTime wordCount={post.wordCount} />
+            <ReadTime wordCount={article.wordCount} />
           </div>
           {date ? (
             <time className="text-sm text-gray-500 mb-4">
@@ -52,7 +52,7 @@ export default function PostCard({
           ) : null}
           <h3 className="text-2xl font-bold mb-">
             <Link
-              href={`/blog/${post.slug}`}
+              href={`/article/${article.slug}`}
               className="hover:text-pink-600 transition-colors"
             >
               {title}
@@ -67,7 +67,7 @@ export default function PostCard({
             ) : null}
           </div>
           <Link
-            href={`/blog/${post.slug}`}
+            href={`/article/${article.slug}`}
             className="flex items-center text-pink-600 font-medium hover:text-pink-700 transition-colors"
           >
             Read More
