@@ -1,5 +1,5 @@
 import { clientEnv } from '@/env/clientEnv';
-import type { LinkFragmentType } from './sanity/queries/fragments/fragment.types';
+import type { LinkFragmentType } from './sanity/queries/schemas';
 
 export const getBaseURL = () => {
   return clientEnv.NEXT_PUBLIC_SITE_URL || '';
@@ -9,7 +9,7 @@ export const getBaseURL = () => {
  * Generic function to generate a link to a document based on its type and slug
  */
 export const getDocumentLink = (
-  { _type, slug }: { _type: string; slug: string | null },
+  { _type, slug }: { _type: string; slug: string | null | undefined },
   absolute: boolean = false
 ) => {
   const linkBase = absolute ? getBaseURL() : '';
@@ -17,10 +17,10 @@ export const getDocumentLink = (
   switch (_type) {
     case 'page':
       return `${linkBase}/${slug}`;
-    case 'post':
-      return `${linkBase}/blog/${slug}`;
+    case 'article':
+      return `${linkBase}/article/${slug}`;
     case 'category':
-      return `${linkBase}/blog?category=${slug}`;
+      return `${linkBase}/articles?category=${slug}`;
     case 'homePage':
       return `${linkBase}/`;
     default:

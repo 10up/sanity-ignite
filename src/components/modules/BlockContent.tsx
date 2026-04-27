@@ -9,13 +9,21 @@
  */
 
 import Image from 'next/image';
-import { PortableText, type PortableTextBlock, type PortableTextComponents } from 'next-sanity';
+import {
+  PortableText,
+  type PortableTextBlock,
+  type PortableTextComponents,
+} from 'next-sanity';
 import type { PropsWithChildren, ReactNode } from 'react';
 import Link from '@/components/modules/Link';
 import { urlForImage } from '@/lib/sanity/client/utils';
-import type { LinkFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import type {
+  LinkFragmentType,
+  RelatedArticlesBlockType,
+} from '@/lib/sanity/queries/schemas';
 import { cn } from '@/lib/utils';
 import { parseChildrenToSlug } from '@/utils/strings';
+import { RelatedArticlesInline } from '../sections/RelatedArticlesInline';
 
 type HeadingProps = PropsWithChildren<{
   as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -52,23 +60,23 @@ function Heading({ as, id, children, className = '' }: HeadingProps) {
   );
 }
 
-export default function CustomPortableText({
+export default function BlockContent({
   className,
   value,
 }: {
   className?: string;
-  value: PortableTextBlock[];
+  value: unknown[];
 }) {
   const components: PortableTextComponents = {
     block: {
       normal: ({ children }) => (
-        <p className="text-lg leading-relaxed text-gray-700 mb-6">{children}</p>
+        <p className="text leading-relaxed text-ink/90 mb-6">{children}</p>
       ),
       h1: ({ children, value }) => (
         <Heading
           as="h1"
           id={parseChildrenToSlug(value.children)}
-          className="text-4xl md:text-5xl font-bold mb-8 text-gray-900 scroll-mt-20"
+          className="text-4xl md:text-5xl font-bold mb-8 text-ink scroll-mt-20"
         >
           {children}
         </Heading>
@@ -77,7 +85,7 @@ export default function CustomPortableText({
         <Heading
           as="h2"
           id={parseChildrenToSlug(value.children)}
-          className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 scroll-mt-20"
+          className="text-3xl md:text-4xl font-bold mb-6 text-ink scroll-mt-20"
         >
           {children}
         </Heading>
@@ -86,7 +94,7 @@ export default function CustomPortableText({
         <Heading
           as="h3"
           id={parseChildrenToSlug(value.children)}
-          className="text-2xl md:text-3xl font-bold mb-4 text-gray-900 scroll-mt-20"
+          className="text-2xl md:text-3xl font-bold mb-4 text-ink scroll-mt-20"
         >
           {children}
         </Heading>
@@ -95,41 +103,22 @@ export default function CustomPortableText({
         <Heading
           as="h4"
           id={parseChildrenToSlug(value.children)}
-          className="text-xl md:text-2xl font-bold mb-4 text-gray-900 scroll-mt-20"
+          className="text-xl md:text-2xl font-bold mb-4 text-ink scroll-mt-20"
         >
           {children}
         </Heading>
-      ),
-      h5: ({ children, value }) => (
-        <Heading
-          as="h5"
-          id={parseChildrenToSlug(value.children)}
-          className="text-lg md:text-xl font-bold mb-4 text-gray-900 scroll-mt-20"
-        >
-          {children}
-        </Heading>
-      ),
-      h6: ({ children, value }) => (
-        <Heading
-          as="h6"
-          id={parseChildrenToSlug(value.children)}
-          className="text-base md:text-lg font-bold mb-4 text-gray-900 scroll-mt-20"
-        >
-          {children}
-        </Heading>
-      ),
-      blockquote: ({ children }) => (
-        <blockquote className="border-l-4 border-gray-300 pl-4 my-6 italic text-gray-600">
-          {children}
-        </blockquote>
       ),
     },
     list: {
       bullet: ({ children }) => (
-        <ul className="list-disc list-outside ml-6 mb-6 space-y-2 text-gray-700">{children}</ul>
+        <ul className="list-disc list-outside ml-6 mb-6 space-y-2 text-gray-700">
+          {children}
+        </ul>
       ),
       number: ({ children }) => (
-        <ol className="list-decimal list-outside ml-6 mb-6 space-y-2 text-gray-700">{children}</ol>
+        <ol className="list-decimal list-outside ml-6 mb-6 space-y-2 text-gray-700">
+          {children}
+        </ol>
       ),
     },
     listItem: {
@@ -138,7 +127,9 @@ export default function CustomPortableText({
     },
     marks: {
       code: ({ children }) => (
-        <code className="bg-gray-100 rounded px-1 py-0.5 font-mono text-sm">{children}</code>
+        <code className="bg-gray-100 rounded px-1 py-0.5 font-mono text-sm">
+          {children}
+        </code>
       ),
       em: ({ children }) => <em className="italic">{children}</em>,
       link: ({
@@ -155,13 +146,20 @@ export default function CustomPortableText({
         }
 
         return (
-          <Link link={customLink} className="text-primary hover:no-underline underline">
+          <Link
+            link={customLink}
+            className="text-primary hover:no-underline underline"
+          >
             {children}
           </Link>
         );
       },
-      strong: ({ children }) => <strong className="font-bold">{children}</strong>,
-      'strike-through': ({ children }) => <del className="line-through">{children}</del>,
+      strong: ({ children }) => (
+        <strong className="font-semibold">{children}</strong>
+      ),
+      'strike-through': ({ children }) => (
+        <del className="line-through">{children}</del>
+      ),
       underline: ({ children }) => <u className="underline">{children}</u>,
       sup: ({ children }) => <sup className="text-xs">{children}</sup>,
       sub: ({ children }) => <sub className="text-xs">{children}</sub>,
@@ -169,28 +167,51 @@ export default function CustomPortableText({
     types: {
       image: (props) => {
         const { value } = props;
-        if (!value) {
+        console.log({ value });
+        if (!value || !value?.asset?._ref) {
           return null;
         }
 
         return (
-          <div className="my-8 rounded-lg overflow-hidden shadow-lg">
+          <div className="my-8 mx-auto lg:max-w-9/12 max-w-full">
             <Image
               width="1000"
               height="667"
               src={urlForImage(value)?.width(1000).height(667).url() as string}
               alt={value?.alt || ''}
-              className="w-full h-auto"
+              className="w-full h-auto rounded-lg"
+              loading="lazy"
             />
           </div>
         );
       },
+      blockQuote: ({ value }: { value: { quote?: string; cite?: string } }) => (
+        <figure className="my-8 lg:max-w-9/12 max-w-11/12 mx-auto border-l-4 border-purple pl-4">
+          <blockquote className="font-bold text-2xl leading-snug text-ink tracking-tight text-balance">
+            <p>&ldquo;{value.quote}&rdquo;</p>
+          </blockquote>
+          {value.cite && (
+            <figcaption className="mt-3 font-mono text-xs text-muted-ink">
+              —{' '}
+              <cite className="font-mono not-italic uppercase tracking-widest">
+                {value.cite}
+              </cite>
+            </figcaption>
+          )}
+        </figure>
+      ),
+      relatedArticles: ({ value }: { value: RelatedArticlesBlockType }) => (
+        <RelatedArticlesInline articles={value.relatedArticles} />
+      ),
     },
   };
 
   return (
     <div className={className}>
-      <PortableText components={components} value={value} />
+      <PortableText
+        components={components}
+        value={value as PortableTextBlock[]}
+      />
     </div>
   );
 }

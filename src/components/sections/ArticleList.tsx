@@ -1,8 +1,5 @@
-import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
-import type { ArticleListSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
-import ArticleCard from '../modules/ArticleCard';
-import { Button } from '../ui/Button';
+import { TopStories } from '@/components/sections/TopStories';
+import type { ArticleListSectionFragmentType } from '@/lib/sanity/queries/schemas';
 
 export default function ArticleListSection({
   section,
@@ -13,32 +10,10 @@ export default function ArticleListSection({
   if (!articles.length) {
     return null;
   }
-
-  const numberOfArticles = section.numberOfarticles ?? 3;
-
-  return (
-    <section className="py-10 md:py-14">
-      <div className="container mx-auto">
-        <div className="max-w-2xl mx-auto text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">{section?.heading}</h2>
-          <p className="text-gray-600">
-            Latest updates and insights from our team
-          </p>
-        </div>
-        <div className="max-w-4xl mx-auto space-y-12">
-          {articles.slice(0, numberOfArticles).map((article, index) => (
-            <ArticleCard key={article._id} article={article} idx={index} />
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <Button asChild variant="gradient" size={'xl'}>
-            <Link href={'/blog'}>
-              View All Posts <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
-          </Button>
-        </div>
-      </div>
-    </section>
-  );
+  switch (section.layout) {
+    case 'top-stories':
+      return <TopStories section={section} />;
+    default:
+      return null;
+  }
 }

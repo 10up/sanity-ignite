@@ -2,11 +2,10 @@ import Link from 'next/link';
 import { Image } from 'next-sanity/image';
 import { Badge } from '@/components/ui/Badge';
 import { DateComponent } from '@/components/ui/Date';
-import { ReadTime } from '@/components/ui/ReadTime';
 import { urlForImage } from '@/lib/sanity/client/utils';
-import type { PostCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import type { ArticleFragmentType } from '@/lib/sanity/queries/schemas';
 
-export default function Byline({ post }: { post: PostCardFragmentType }) {
+export default function Byline({ post }: { post: ArticleFragmentType }) {
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center">
@@ -58,7 +57,6 @@ export default function Byline({ post }: { post: PostCardFragmentType }) {
             ))}
           </div>
         )}
-        <ReadTime wordCount={post.wordCount} />
       </div>
     </div>
   );

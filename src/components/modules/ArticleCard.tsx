@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/Badge';
 import { ReadTime } from '@/components/ui/ReadTime';
 import { getDocumentLink } from '@/lib/links';
 import { urlForImage } from '@/lib/sanity/client/utils';
-import type { ArticleCardFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import type { ArticleCardFragmentType } from '@/lib/sanity/queries/schemas';
 
 export default function Articleard({
   article,

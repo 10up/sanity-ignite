@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import type { SeoFragmentType } from '../queries/fragments/fragment.types';
+import type { SeoFragmentType } from '../queries/schemas';
 import { resolveOpenGraphImage } from './utils';
 
 function parseAdditionalMetaTags(

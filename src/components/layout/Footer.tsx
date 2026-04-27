@@ -20,7 +20,7 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             prefetch={false}
-            className="font-bold text-purple hover:underline"
+            className="font-semibold text-white hover:underline"
           >
             Fueled
           </Link>

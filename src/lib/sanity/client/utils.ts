@@ -2,7 +2,7 @@ import { createImageUrlBuilder } from '@sanity/image-url';
 import type { CreateDataAttributeProps } from 'next-sanity';
 import { createDataAttribute } from 'next-sanity';
 import { clientEnv } from '@/env/clientEnv';
-import type { SeoFragmentType } from '../queries/fragments/fragment.types';
+import type { SeoFragmentType } from '../queries/schemas';
 
 const imageBuilder = createImageUrlBuilder({
   projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,

@@ -1,4 +1,5 @@
-import { ImageIcon } from '@sanity/icons';
+import { BlockquoteIcon, ImageIcon } from '@sanity/icons';
+import { LayoutPanelTop, Subscript, Superscript } from 'lucide-react';
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
 /**
@@ -20,6 +21,12 @@ export default defineType({
   of: [
     defineArrayMember({
       type: 'block',
+      styles: [
+        { title: 'Normal', value: 'normal' },
+        { title: 'H2', value: 'h2' },
+        { title: 'H3', value: 'h3' },
+        { title: 'H4', value: 'h4' },
+      ],
       marks: {
         decorators: [
           { title: 'Code', value: 'code' },
@@ -30,21 +37,13 @@ export default defineType({
           {
             title: 'Sup',
             value: 'sup',
-            icon: () => (
-              <div>
-                x<sup>2</sup>
-              </div>
-            ),
+            icon: Superscript,
             component: ({ children }) => <sup>{children}</sup>,
           },
           {
             title: 'Sub',
             value: 'sub',
-            icon: () => (
-              <div>
-                x<sub>2</sub>
-              </div>
-            ),
+            icon: Subscript,
             component: ({ children }) => <sub>{children}</sub>,
           },
         ],
@@ -80,6 +79,57 @@ export default defineType({
           description: 'Important for SEO and accessibility.',
         },
       ],
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'blockQuote',
+      title: 'Quote',
+      icon: BlockquoteIcon,
+      fields: [
+        defineField({
+          name: 'quote',
+          type: 'text',
+          title: 'Quote',
+          rows: 3,
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'cite',
+          type: 'string',
+          title: 'Attribution',
+        }),
+      ],
+    }),
+    defineArrayMember({
+      type: 'object',
+      name: 'relatedArticles',
+      title: 'Related Articles',
+      description: 'Select a category to display inline related articles.',
+      icon: LayoutPanelTop,
+      fields: [
+        defineField({
+          name: 'category',
+          type: 'reference',
+          to: [{ type: 'category' }],
+          validation: (Rule) =>
+            Rule.required().error(
+              'Please select a category to display related articles.'
+            ),
+        }),
+      ],
+      preview: {
+        select: {
+          categoryTitle: 'category.title',
+        },
+        prepare({ categoryTitle }) {
+          return {
+            title: 'Related Articles',
+            subtitle: categoryTitle
+              ? `Category: ${categoryTitle}`
+              : 'No category selected',
+          };
+        },
+      },
     }),
   ],
 });

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { DateComponent } from '@/components/ui/Date';
 import { urlForImage } from '@/lib/sanity/client/utils';
-import type { HeroSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import type { HeroSectionFragmentType } from '@/lib/sanity/queries/schemas';
 
 export const Hero = ({ section }: { section: HeroSectionFragmentType }) => {
   console.log({ section });
@@ -18,13 +18,20 @@ export const Hero = ({ section }: { section: HeroSectionFragmentType }) => {
     .url();
   return (
     <section className="relative overflow-hidden bg-ink px-7 pb-11 pt-10 text-paper">
-      {/* Accent wash — approximate prior radial grain with token-friendly gradients */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-primary/15"
       />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-[50%] left-1/2 -translate-x-1/2 size-600 blur-[100px] rounded-full opacity-30"
+        style={{
+          background:
+            'radial-gradient(circle at 40% 60%, #ec4899, #a855f7 45%, #6366f1 70%)',
+        }}
+      />
 
-      <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-end gap-10 lg:grid-cols-[1.1fr_1fr]">
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-end gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-primary/20 px-3 py-1.5 font-mono text-purple text-xs font-medium uppercase tracking-widest">
             {kicker}
@@ -46,6 +53,7 @@ export const Hero = ({ section }: { section: HeroSectionFragmentType }) => {
                 width={40}
                 height={40}
                 className="size-10 shrink-0 rounded-full object-cover"
+                loading="lazy"
               />
             )}
             <span className="font-semibold text-paper">
@@ -73,6 +81,7 @@ export const Hero = ({ section }: { section: HeroSectionFragmentType }) => {
               fill
               className="object-cover"
               sizes="(min-width: 1024px) 42rem, 100vw"
+              loading="eager"
             />
           )}
         </div>

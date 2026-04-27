@@ -1,3 +1,4 @@
+
 export const twitterFragment = /* groq */ `
   _type,
   site,
@@ -100,13 +101,6 @@ const markDefsFragment = /* groq */ `
   },
 `;
 
-const contentFragment = /* groq */ `
-  content[]{
-    ...,
-    ${markDefsFragment}
-  },
-`;
-
 export const buttonFragment = /* groq */ `
   _key,
   _type,
@@ -163,6 +157,25 @@ export const articleCardFragment = /* groq */ `
   "date": coalesce(date, _updatedAt),
   "author": author->{${personFragment}},
   readTime,
+  countryInterest,
+`;
+
+const relatedArticlesFragment = /* groq */ `
+  "relatedArticles": *[
+    _type == "article" &&
+    _id != ^.^._id &&
+    references(^.category._ref)
+  ] | order(_createdAt desc) [0...6] {
+    ${articleCardFragment}
+  },
+`;
+
+const contentFragment = /* groq */ `
+  content[]{
+    ...,
+    ${markDefsFragment}
+    _type == "relatedArticles" => {${relatedArticlesFragment}}
+  },
 `;
 
 export const articleFragment = /* groq */ `
@@ -176,10 +189,11 @@ export const articleFragment = /* groq */ `
 export const articleListSectionFragment = /* groq */ `
     _type,
     heading,
-    numberOfarticles,
-    "articles": *[_type == 'article'] | order(_createdAt desc, _id desc) [0...20] {
-      ${articleFragment}
-    }
+    layout,
+    "articles": select(
+      layout == 'top-stories' => articles[]->{${articleCardFragment}},
+      *[_type == 'article'] | order(_createdAt desc, _id desc) [0...10] {${articleCardFragment}}
+    )
 `;
 
 export const heroSectionFragment = /* groq */ `

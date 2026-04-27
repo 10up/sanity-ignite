@@ -35,6 +35,7 @@ const imageSchema = z
     _type: z.literal('image'),
   })
   .loose();
+export type ImageFragmentType = z.infer<typeof imageSchema>;
 
 const linkSchema = z
   .object({
@@ -52,6 +53,7 @@ const linkSchema = z
       .nullish(),
   })
   .loose();
+export type LinkFragmentType = z.infer<typeof linkSchema>;
 
 const buttonVariantSchema = z
   .enum([
@@ -74,26 +76,7 @@ const buttonSchema = z
     link: linkSchema.nullish(),
   })
   .loose();
-
-const blockContentSchema = z.array(
-  z
-    .object({
-      _type: z.string(),
-      _key: z.string().optional(),
-      children: z
-        .array(
-          z
-            .object({
-              _type: z.string(),
-              _key: z.string(),
-              text: z.string().optional(),
-            })
-            .loose()
-        )
-        .optional(),
-    })
-    .loose()
-);
+export type ButtonFragmentType = z.infer<typeof buttonSchema>;
 
 const openGraphSchema = z
   .object({
@@ -147,14 +130,7 @@ const seoSchema = z
     additionalMetaTags: z.array(metaTagSchema).nullish(),
   })
   .loose();
-
-const cardSchema = z
-  .object({
-    heading: z.string().nullish(),
-    content: blockContentSchema.nullish(),
-    _type: z.string(),
-  })
-  .loose();
+export type SeoFragmentType = z.infer<typeof seoSchema>;
 
 // ─── Document fragments ──────────────────────────────────────────────────────
 
@@ -167,6 +143,7 @@ const categorySchema = z
     description: z.string().nullish(),
   })
   .loose();
+export type CategoryFragmentType = z.infer<typeof categorySchema>;
 
 const personSchema = z
   .object({
@@ -179,6 +156,7 @@ const personSchema = z
     image: imageSchema.nullish(),
   })
   .loose();
+export type PersonFragmentType = z.infer<typeof personSchema>;
 
 const articleCardSchema = z
   .object({
@@ -193,8 +171,31 @@ const articleCardSchema = z
     categories: z.array(categorySchema).nullish(),
     author: personSchema.nullish(),
     readTime: z.number().nullish(),
+    countryInterest: z.array(z.string()).nullish(),
   })
   .loose();
+export type ArticleCardFragmentType = z.infer<typeof articleCardSchema>;
+
+const blockContentSchema = z.array(
+  z
+    .object({
+      _type: z.string(),
+      _key: z.string().optional(),
+      children: z
+        .array(
+          z
+            .object({
+              _type: z.string(),
+              _key: z.string(),
+              text: z.string().optional(),
+            })
+            .loose()
+        )
+        .optional(),
+      relatedArticles: z.array(articleCardSchema).optional(),
+    })
+    .loose()
+);
 
 // ─── Page sections ───────────────────────────────────────────────────────────
 
@@ -213,6 +214,7 @@ const heroSectionSchema = sectionBaseSchema.extend({
   image: imageSchema.nullish(),
   article: articleCardSchema.nullish(),
 });
+export type HeroSectionFragmentType = z.infer<typeof heroSectionSchema>;
 
 const mediaTextSectionSchema = sectionBaseSchema.extend({
   _type: z.literal('mediaText'),
@@ -222,6 +224,9 @@ const mediaTextSectionSchema = sectionBaseSchema.extend({
   image: imageSchema.nullish(),
   buttons: z.array(buttonSchema).nullish(),
 });
+export type MediaTextSectionFragmentType = z.infer<
+  typeof mediaTextSectionSchema
+>;
 
 const ctaSectionSchema = sectionBaseSchema.extend({
   _type: z.literal('cta'),
@@ -229,18 +234,21 @@ const ctaSectionSchema = sectionBaseSchema.extend({
   text: z.string().nullish(),
   buttons: z.array(buttonSchema).nullish(),
 });
+export type CtaSectionFragmentType = z.infer<typeof ctaSectionSchema>;
 
 const cardGridSectionSchema = sectionBaseSchema.extend({
   _type: z.literal('cardGrid'),
   heading: z.string().nullish(),
   content: blockContentSchema.nullish(),
-  cards: z.array(cardSchema).nullish(),
+  cards: z.array(articleCardSchema).nullish(),
 });
+export type CardGridSectionFragmentType = z.infer<typeof cardGridSectionSchema>;
 
 const dividerSectionSchema = sectionBaseSchema.extend({
   _type: z.literal('divider'),
   height: z.number().nullish(),
 });
+export type DividerSectionFragmentType = z.infer<typeof dividerSectionSchema>;
 
 const subscribeSectionSchema = sectionBaseSchema.extend({
   _type: z.literal('subscribe'),
@@ -248,13 +256,19 @@ const subscribeSectionSchema = sectionBaseSchema.extend({
   content: blockContentSchema.nullish(),
   buttonText: z.string().nullish(),
 });
+export type SubscribeSectionFragmentType = z.infer<
+  typeof subscribeSectionSchema
+>;
 
 const articleListSectionSchema = sectionBaseSchema.extend({
   _type: z.literal('articleList'),
   heading: z.string().nullish(),
-  numberOfarticles: z.number().nullish(),
+  layout: z.string().nullish(),
   articles: z.array(articleCardSchema),
 });
+export type ArticleListSectionFragmentType = z.infer<
+  typeof articleListSectionSchema
+>;
 
 const sectionSchema = z.discriminatedUnion('_type', [
   heroSectionSchema,
@@ -265,6 +279,8 @@ const sectionSchema = z.discriminatedUnion('_type', [
   subscribeSectionSchema,
   articleListSectionSchema,
 ]);
+export type SectionType = z.infer<typeof sectionSchema>;
+export type SectionsType = SectionType[] | null | undefined;
 
 // ─── Page schemas ────────────────────────────────────────────────────────────
 
@@ -308,11 +324,24 @@ export const articleSchema = articleCardSchema
     seo: seoSchema.nullish(),
   })
   .loose();
+export type ArticleFragmentType = z.infer<typeof articleSchema>;
 
-export const articlesArchiveSchema = z.object({
-  total: z.number(),
-  results: z.array(articleCardSchema),
+export const relatedArticlesBlockSchema = z.object({
+  _key: z.string(),
+  _type: z.literal('relatedArticles'),
+  category: z
+    .object({
+      _ref: z.string(),
+      _type: z.literal('reference'),
+    })
+    .nullish(),
+  relatedArticles: z.array(articleCardSchema),
 });
+export type RelatedArticlesBlockType = z.infer<
+  typeof relatedArticlesBlockSchema
+>;
+
+export const articlesArchiveSchema = z.array(articleCardSchema).nullish();
 
 export const sitemapSchema = z.array(
   z.object({
@@ -362,6 +391,5 @@ export {
   dividerSectionSchema,
   subscribeSectionSchema,
   articleListSectionSchema,
-  cardSchema,
   sectionSchema,
 };

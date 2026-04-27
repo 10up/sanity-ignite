@@ -1,11 +1,11 @@
 import type { PortableTextBlock } from 'next-sanity';
+import CustomPortableText from '@/components/modules/BlockContent';
 import Byline from '@/components/modules/Byline';
 import CoverImage from '@/components/modules/CoverImage';
-import CustomPortableText from '@/components/modules/PortableText';
-import type { PostFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import type { ArticleFragmentType } from '@/lib/sanity/queries/schemas';
 
 type Props = {
-  post: PostFragmentType;
+  post: ArticleFragmentType;
 };
 
 const Post = ({ post }: Props) => {

@@ -1,16 +1,23 @@
 import type { PortableTextBlock } from 'next-sanity';
 import { Image } from 'next-sanity/image';
-import PortableText from '@/components/modules/PortableText';
+import PortableText from '@/components/modules/BlockContent';
 import { urlForImage } from '@/lib/sanity/client/utils';
-import type { MediaTextSectionFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import type { MediaTextSectionFragmentType } from '@/lib/sanity/queries/schemas';
 import { cn } from '@/utils/styles';
 
-export default function MediaTextSection({ section }: { section: MediaTextSectionFragmentType }) {
+export default function MediaTextSection({
+  section,
+}: {
+  section: MediaTextSectionFragmentType;
+}) {
   return (
     <div
-      className={cn('container py-10 md:py-14 mx-auto flex flex-col lg:flex-row', {
-        'order-2': section?.imagePosition === 'right',
-      })}
+      className={cn(
+        'container py-10 md:py-14 mx-auto flex flex-col lg:flex-row',
+        {
+          'order-2': section?.imagePosition === 'right',
+        }
+      )}
     >
       <div className="lg:w-1/2">
         {section.image?.asset && (
@@ -19,7 +26,12 @@ export default function MediaTextSection({ section }: { section: MediaTextSectio
             className="shadow-md rounded-4xl"
             width="1000"
             height="667"
-            src={urlForImage(section.image)?.width(1000).height(667).url() as string}
+            src={
+              urlForImage(section.image)
+                ?.width(1000)
+                .height(667)
+                .url() as string
+            }
           />
         )}
       </div>
@@ -28,7 +40,10 @@ export default function MediaTextSection({ section }: { section: MediaTextSectio
           {section?.heading}
         </h2>
         <div className="text-xl mb-5">
-          <PortableText className="" value={section.content as PortableTextBlock[]} />
+          <PortableText
+            className=""
+            value={section.content as PortableTextBlock[]}
+          />
         </div>
       </div>
     </div>

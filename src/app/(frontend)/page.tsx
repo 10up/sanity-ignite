@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
+import { NewsletterSubscribe } from '@/components/sections/NewsletterSubscribe';
 import PageSections from '@/components/sections/PageSections';
+import { HomeArticleFeed } from '@/components/sections/TwoColumnFeed';
 import type { CacheProfile } from '@/lib/sanity/client/fetch';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { formatMetaData } from '@/lib/sanity/client/seo';
@@ -35,10 +37,14 @@ export default async function Page() {
   const { _id, _type, pageSections } = homePage;
 
   return (
-    <PageSections
-      documentId={_id}
-      documentType={_type}
-      sections={pageSections}
-    />
+    <>
+      <PageSections
+        documentId={_id}
+        documentType={_type}
+        sections={pageSections}
+      />
+      <HomeArticleFeed />
+      <NewsletterSubscribe />
+    </>
   );
 }

@@ -5,7 +5,7 @@ import {
   categoryFragment,
   menuFragment,
   pageFragment,
-} from './fragments/fragments';
+} from './fragments';
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
   title,
@@ -98,3 +98,17 @@ export const articlesArchiveQuery = defineQuery(
 export const articlesArchiveOldestQuery = defineQuery(
   articlesArchiveBase('_createdAt asc, _id asc')
 );
+
+export const latestArticlesQuery = defineQuery(`
+  *[_type == "article" && defined(slug.current)] | order(_createdAt desc) [0...10] {
+    ${articleCardFragment}
+  }
+`);
+export const recommendedArticlesQuery = defineQuery(`
+  *[_type == "article" && defined(slug.current)]
+  | score($country in countryInterest)
+  | order(_createdAt desc)
+  [0...10] {
+    ${articleCardFragment}
+  }
+`);

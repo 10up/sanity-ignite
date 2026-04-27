@@ -1,6 +1,7 @@
 import { DocumentTextIcon } from '@sanity/icons';
 import { format, parseISO } from 'date-fns';
 import { defineField, defineType } from 'sanity';
+import { ALLOWED_COUNTRIES } from '@/lib/fixtures/countries';
 import { defaultFieldGroups } from '../config/fieldGroups';
 
 /**
@@ -108,6 +109,18 @@ export default defineType({
       description:
         'Estimated read time in minutes. Automatically calculated when published.',
       readOnly: true,
+      group: 'content',
+    }),
+    defineField({
+      name: 'countryInterest',
+      title: 'Country Interest',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description:
+        'Target specific countries for this article. Leave empty to show to all countries.',
+      options: {
+        list: ALLOWED_COUNTRIES.map((code) => ({ title: code, value: code })),
+      },
       group: 'content',
     }),
     defineField({

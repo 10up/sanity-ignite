@@ -29,6 +29,7 @@ type SanityFetchOptions<T extends ZodType> = {
     tags?: string[];
   };
   bypassLiveFetch?: boolean;
+  bypassValidation?: boolean;
 };
 
 async function cachedFetch(
@@ -79,6 +80,7 @@ export async function sanityFetch<T extends ZodType>({
   schema,
   cache,
   bypassLiveFetch = false,
+  bypassValidation = false,
 }: SanityFetchOptions<T>): Promise<z.infer<T> | null> {
   if (!bypassLiveFetch) {
     const { isEnabled: isDraft } = await draftMode();
@@ -94,6 +96,8 @@ export async function sanityFetch<T extends ZodType>({
     cache?.profile ?? 'hours',
     cache?.tags ?? []
   );
-
-  return validate(schema, data, '');
+  if (!bypassValidation) {
+    return validate(schema, data, '');
+  }
+  return data as z.infer<T> | null;
 }

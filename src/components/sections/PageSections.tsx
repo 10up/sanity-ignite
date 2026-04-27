@@ -6,41 +6,25 @@ import type { ComponentType } from 'react';
 import { dataAttr } from '@/lib/sanity/client/utils';
 import type {
   ArticleListSectionFragmentType,
-  CardGridSectionFragmentType,
-  CtaSectionFragmentType,
-  DividerSectionFragmentType,
   HeroSectionFragmentType,
   MediaTextSectionFragmentType,
   SectionsType,
   SectionType,
-  SubscribeSectionFragmentType,
-} from '@/lib/sanity/queries/fragments/fragment.types';
+} from '@/lib/sanity/queries/schemas';
 import ArticleList from './ArticleList';
-import CardGrid from './CardGrid';
-import CTA from './CTA';
-import Divider from './Divider';
-import { Hero } from './Hero';
+import { Hero } from './HomeHero';
 import MediaText from './MediaText';
-import Subscribe from './Subscribe';
 
 type SectionComponentMap = {
   hero: ComponentType<{ section: HeroSectionFragmentType }>;
   mediaText: ComponentType<{ section: MediaTextSectionFragmentType }>;
-  cta: ComponentType<{ section: CtaSectionFragmentType }>;
-  subscribe: ComponentType<{ section: SubscribeSectionFragmentType }>;
   articleList: ComponentType<{ section: ArticleListSectionFragmentType }>;
-  cardGrid: ComponentType<{ section: CardGridSectionFragmentType }>;
-  divider: ComponentType<{ section: DividerSectionFragmentType }>;
 };
 
 const SECTION_COMPONENTS: SectionComponentMap = {
   hero: Hero,
   mediaText: MediaText,
-  cta: CTA,
-  subscribe: Subscribe,
   articleList: ArticleList,
-  cardGrid: CardGrid,
-  divider: Divider,
 } as const;
 
 type PageSectionsProps = {

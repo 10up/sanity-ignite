@@ -28,7 +28,7 @@ export const Header = async () => {
     <header className="relative flex items-center justify-between overflow-hidden border-line-dark border-b bg-ink px-7 py-3.5 text-paper">
       <div className="relative z-10 flex min-w-0 flex-1 items-center gap-8 mx-auto max-w-7xl">
         <Link
-          href="/pulse"
+          href="/"
           className="flex shrink-0 items-center gap-2 font-extrabold text-lg tracking-tight"
         >
           <span className="mr-0 inline-block text-sm">🔥</span>
