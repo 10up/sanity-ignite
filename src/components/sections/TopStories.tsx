@@ -16,7 +16,7 @@ export const TopStories = ({
   return (
     <section className="border-line border-b bg-white pb-8 pt-7 max-w-7xl mx-auto">
       <div className="mb-4 flex items-baseline justify-between">
-        <h2 className="flex items-center gap-2.5 font-bold tracking-tight text-ink">
+        <h2 className="flex items-center gap-2.5 text-sm font-mono font-semibold uppercase tracking-wide text-ink">
           <span aria-hidden className="h-4 w-1 shrink-0 rounded-sm bg-purple" />
           {heading}
         </h2>
@@ -80,7 +80,7 @@ const TopStoryCard = ({
             </span>
           ) : null}
         </div>
-        <div className="font-semibold text-purple text-xs tracking-wide">
+        <div className="text-xxs font-bold tracking-wider uppercase text-purple">
           {kicker}
         </div>
         <h3 className="my-1 text-balance font-bold leading-snug tracking-tight text-ink">

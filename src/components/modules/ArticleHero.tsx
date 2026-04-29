@@ -42,7 +42,7 @@ export const ArticleHero = ({
                 src={
                   urlForImage(authorImage)?.width(40).height(40).url() as string
                 }
-                alt="Author"
+                alt={authorName}
                 className="size-10 rounded-full object-cover"
               />
             ) : null}
@@ -51,7 +51,7 @@ export const ArticleHero = ({
               <div className="text-xs text-muted-ink">{authorRole}</div>
             </div>
             <div className="ml-auto font-mono text-xs text-muted-ink">
-              Apr 27, 2026 · 6 min read
+              <time dateTime="2026-04-27">Apr 27, 2026</time> · 6 min read
             </div>
           </div>
         </div>
@@ -60,9 +60,10 @@ export const ArticleHero = ({
         {image && (
           <Image
             src={urlForImage(image)?.width(1280).height(600).url() as string}
-            alt={image?.alt ?? ''}
+            alt={image?.alt ?? title}
             fill
-            className="object-cover object-center"
+            sizes="(min-width: 1024px) 1280px, 100vw"
+            className="object-cover"
             loading="eager"
           />
         )}

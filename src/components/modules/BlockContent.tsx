@@ -38,6 +38,7 @@ function Heading({ as, id, children, className = '' }: HeadingProps) {
       {children}
       <a
         href={`#${id}`}
+        aria-label="Link to this section"
         className="absolute left-0 top-0 bottom-0 -ml-6 flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
       >
         <svg
@@ -46,6 +47,7 @@ function Heading({ as, id, children, className = '' }: HeadingProps) {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+          aria-hidden="true"
         >
           <title>Anchor</title>
           <path
@@ -178,7 +180,7 @@ export default function BlockContent({
               width="1000"
               height="667"
               src={urlForImage(value)?.width(1000).height(667).url() as string}
-              alt={value?.alt || ''}
+              alt={value?.alt || 'Article image'}
               className="w-full h-auto rounded-lg"
               loading="lazy"
             />
@@ -187,7 +189,7 @@ export default function BlockContent({
       },
       blockQuote: ({ value }: { value: { quote?: string; cite?: string } }) => (
         <figure className="my-8 lg:max-w-9/12 max-w-11/12 mx-auto border-l-4 border-purple pl-4">
-          <blockquote className="font-bold text-2xl leading-snug text-ink tracking-tight text-balance">
+          <blockquote className="font-bold text-3xl leading-snug text-ink tracking-tight text-pretty">
             <p>&ldquo;{value.quote}&rdquo;</p>
           </blockquote>
           {value.cite && (

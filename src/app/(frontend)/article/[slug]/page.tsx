@@ -1,18 +1,18 @@
-// import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
+import { z } from 'zod';
 import { ArticleHero } from '@/components/modules/ArticleHero';
 import BlockContent from '@/components/modules/BlockContent';
 import {
   RecommendedArticleList,
   RecommendedArticleListSkeleton,
 } from '@/components/sections/RecommendedArticleList';
-// import { serverEnv } from '@/env/serverEnv';
-// import { client } from '@/lib/sanity/client/client';
+import { serverEnv } from '@/env/serverEnv';
 import type { CacheProfile } from '@/lib/sanity/client/fetch';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
-// import { formatMetaData } from '@/lib/sanity/client/seo';
-import { articleQuery } from '@/lib/sanity/queries/queries';
+import { formatMetaData } from '@/lib/sanity/client/seo';
+import { articleQuery, articleSlugs } from '@/lib/sanity/queries/queries';
 import { articleSchema } from '@/lib/sanity/queries/schemas';
 
 type Props = {
@@ -29,31 +29,39 @@ const articleFetchOptions = (slug: string) => ({
   },
 });
 
-// export async function generateMetadata(props: Props): Promise<Metadata> {
-//   const { slug } = await props.params;
-//   const page = await sanityFetch(pageFetchOptions(slug));
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const { slug } = await props.params;
+  const article = await sanityFetch({
+    ...articleFetchOptions(slug),
+    bypassLiveFetch: true,
+  });
 
-//   if (!page?.seo) {
-//     return {};
-//   }
+  if (!article?.seo) {
+    return {};
+  }
 
-//   return formatMetaData(
-//     page.seo as Parameters<typeof formatMetaData>[0],
-//     page?.name || ''
-//   );
-// }
+  return formatMetaData(
+    article.seo as Parameters<typeof formatMetaData>[0],
+    article?.title || ''
+  );
+}
 
-// export async function generateStaticParams() {
-//   const slugs = await client.fetch(pageSlugs, {
-//     limit: serverEnv.MAX_STATIC_PARAMS,
-//   });
+export async function generateStaticParams() {
+  const slugs = await sanityFetch({
+    query: articleSlugs,
+    schema: z.array(z.string()),
+    params: {
+      limit: serverEnv.MAX_STATIC_PARAMS,
+    },
+    bypassLiveFetch: true,
+  });
 
-//   return slugs
-//     ? slugs
-//         .filter((slug: string | null) => slug !== null)
-//         .map((slug: string) => ({ slug }))
-//     : [];
-// }
+  if (!slugs) {
+    return [];
+  }
+
+  return slugs.map((slug) => ({ slug }));
+}
 
 export default async function Page(props: Props) {
   const { slug } = await props.params;
@@ -64,12 +72,12 @@ export default async function Page(props: Props) {
   }
 
   return (
-    <article>
+    <article id="main" aria-label={article.title}>
       <ArticleHero
         title={article.title}
         excerpt={article.excerpt ?? ''}
         primaryCategory={article.categories?.[0]?.title ?? ''}
-        authorName={`${article.author?.firstName} ${article.author?.lastName}`}
+        authorName={`${article.author?.firstName ?? ''} ${article.author?.lastName ?? ''}`}
         authorRole={article.author?.role ?? ''}
         authorImage={article.author?.image}
         image={article.image}

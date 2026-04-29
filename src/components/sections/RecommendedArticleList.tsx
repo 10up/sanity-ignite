@@ -23,7 +23,7 @@ export const RecommendedArticleList = async () => {
   });
 
   return (
-    <aside>
+    <aside aria-label={`Recommended stories in ${country}`}>
       <div className="sticky top-5">
         <div className="rounded-lg bg-paper p-4.5 pb-1">
           <div className="mb-3 flex items-center gap-2 font-bold text-primary text-xs uppercase tracking-wide">

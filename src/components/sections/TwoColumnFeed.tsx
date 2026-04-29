@@ -19,7 +19,7 @@ export const HomeArticleFeed = async () => {
   return (
     <section className="mx-auto grid max-w-7xl grid-cols-1 gap-10 py-10 lg:grid-cols-[1fr_320px] lg:gap-x-8">
       <div className="min-w-0">
-        <h2 className="flex items-center gap-2.5 font-bold tracking-tight text-ink">
+        <h2 className="flex items-center gap-2.5 text-sm font-mono font-semibold uppercase tracking-wide text-ink">
           <span aria-hidden className="h-4 w-1 shrink-0 rounded-sm bg-purple" />
           Latest stories
         </h2>

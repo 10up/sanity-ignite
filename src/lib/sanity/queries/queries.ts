@@ -59,7 +59,7 @@ export const pageSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)][0..$limit].slug.current
 `);
 
-export const articlePagesSlugs = defineQuery(`
+export const articleSlugs = defineQuery(`
   *[_type == "article" && defined(slug.current)][0..$limit].slug.current
 `);
 

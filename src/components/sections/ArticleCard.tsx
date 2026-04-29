@@ -36,12 +36,12 @@ export const ArticleCard = ({
         <div className="mb-1.5 flex flex-wrap items-center gap-2.5">
           <Link
             href={categoryHref}
-            className="font-semibold text-purple text-xs tracking-wide hover:underline"
+            className="text-xxs font-bold tracking-wider uppercase text-purple hover:underline"
           >
             {category}
           </Link>
         </div>
-        <h3 className="mb-2 text-balance font-bold text-xl leading-snug tracking-tight text-ink">
+        <h3 className="mb-2 font-bold leading-snug tracking-tight text-ink text-xl text-pretty">
           <Link href={href}>{title}</Link>
         </h3>
         <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
