@@ -20,7 +20,7 @@ export const getDocumentLink = (
     case 'article':
       return `${linkBase}/article/${slug}`;
     case 'category':
-      return `${linkBase}/articles?category=${slug}`;
+      return `${linkBase}/category/${slug}`;
     case 'homePage':
       return `${linkBase}/`;
     default:

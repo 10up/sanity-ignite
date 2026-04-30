@@ -15,7 +15,7 @@ import hero from './objects/sections/hero';
 import mediaText from './objects/sections/mediaText';
 import subscribe from './objects/sections/subscribe';
 import seoTypes from './objects/seo';
-import blogPage from './singletons/blogPage';
+import blogPage from './singletons/articleArchivePage';
 import homePage from './singletons/homePage';
 import settings from './singletons/settings';
 

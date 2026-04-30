@@ -15,7 +15,10 @@ const fetchOptions = {
 };
 
 export async function generateMetadata() {
-  const homePage = await sanityFetch(fetchOptions);
+  const homePage = await sanityFetch({
+    ...fetchOptions,
+    bypassLiveFetch: true,
+  });
 
   if (!homePage?.seo) {
     return {};
@@ -44,7 +47,6 @@ export default async function Page() {
         sections={pageSections}
       />
       <HomeArticleFeed />
-      <NewsletterSubscribe />
     </>
   );
 }

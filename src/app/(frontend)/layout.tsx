@@ -8,6 +8,7 @@ import { Banner } from '@/components/layout/Banner';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import Main from '@/components/layout/Main';
+import { NewsletterSubscribe } from '@/components/sections/NewsletterSubscribe';
 import { SanityLive } from '@/lib/sanity/client/live';
 import { handleError, sanityLiveRevalidateSyncTags } from './client-utils';
 
@@ -56,6 +57,7 @@ export default async function RootLayout({
           <Suspense fallback={null}>
             <Main>{children}</Main>
           </Suspense>
+          <NewsletterSubscribe />
           <Footer />
         </section>
       </NuqsAdapter>

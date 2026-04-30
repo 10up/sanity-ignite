@@ -139,8 +139,15 @@ const categorySchema = z
     _id: z.string(),
     _type: z.literal('category'),
     title: z.string().nullish(),
-    slug: z.string().nullable(),
+    slug: z.string().nullish(),
     description: z.string().nullish(),
+    parent: z
+      .object({
+        _ref: z.string(),
+        _type: z.literal('reference'),
+      })
+      .nullish(),
+    seo: seoSchema.nullish(),
   })
   .loose();
 export type CategoryFragmentType = z.infer<typeof categorySchema>;
@@ -291,21 +298,22 @@ const pageSchema = z
   })
   .loose();
 
-export const homePageSchema = z
-  .object({
-    _id: z.string(),
-    _type: z.literal('homePage'),
-    name: z.string().nullish(),
-  })
-  .merge(pageSchema);
+export const homePageSchema = z.object({
+  ...pageSchema.shape,
+  _id: z.string(),
+  _type: z.literal('homePage'),
+  name: z.string().nullish(),
+});
 
-export const blogPageSchema = z
+export const articleArchivePageSchema = z
   .object({
     _id: z.string(),
-    _type: z.literal('blogPage'),
+    _type: z.literal('articleArchivePage'),
     name: z.string().nullish(),
+    featuredArticle: articleCardSchema.nullish(),
+    seo: seoSchema.nullish(),
   })
-  .merge(pageSchema);
+  .loose();
 
 export const pageSchema_ = z
   .object({
@@ -314,7 +322,7 @@ export const pageSchema_ = z
     name: z.string().nullish(),
     slug: z.object({ current: z.string() }).nullish(),
   })
-  .merge(pageSchema);
+  .extend(pageSchema.shape);
 
 export const allCategoriesSchema = z.array(categorySchema);
 

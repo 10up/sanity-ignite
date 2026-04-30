@@ -3,8 +3,8 @@ import { defineField, defineType } from 'sanity';
 import { defaultFieldGroups } from '../config/fieldGroups';
 
 export default defineType({
-  name: 'blogPage',
-  title: 'Blog Page',
+  name: 'articleArchivePage',
+  title: 'Article Archive Page',
   type: 'document',
   groups: defaultFieldGroups,
   icon: DocumentIcon,
@@ -12,7 +12,14 @@ export default defineType({
     defineField({
       name: 'name',
       type: 'string',
-      initialValue: 'Blog Page',
+      initialValue: 'Articles',
+      group: 'content',
+    }),
+    defineField({
+      name: 'featuredArticle',
+      title: 'Featured Article',
+      type: 'reference',
+      to: [{ type: 'article' }],
       group: 'content',
     }),
     defineField({

@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { ArticleCard } from '@/components/sections/ArticleCard';
+import { ArticleCard } from '@/components/sections/ArticleListCard';
 import { getDocumentLink } from '@/lib/links';
 import { type CacheProfile, sanityFetch } from '@/lib/sanity/client/fetch';
 import { latestArticlesQuery } from '@/lib/sanity/queries/queries';
@@ -30,7 +30,7 @@ export const HomeArticleFeed = async () => {
               category={article.categories?.[0]?.title ?? ''}
               categoryHref={getDocumentLink({
                 _type: 'category',
-                slug: article.categories?.[0]?.slug,
+                slug: article.categories?.[0]?.slug ?? '',
               })}
               title={article.title}
               excerpt={article.excerpt ?? ''}

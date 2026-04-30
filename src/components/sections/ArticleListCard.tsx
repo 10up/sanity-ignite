@@ -74,24 +74,28 @@ export const ArticleCard = ({
           </span>
         </div>
       </div>
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded">
-        {image ? (
-          <Link href={href}>
-            <Image
-              src={urlForImage(image)?.width(180).height(180).url() ?? ''}
-              alt={image?.alt ?? ''}
-              fill
-              className="object-cover"
-              sizes="180px"
-              loading="lazy"
-            />
-          </Link>
-        ) : (
-          <Link href={href}>
-            <div className="absolute inset-0 bg-paper" />
-          </Link>
-        )}
-      </div>
+      {image ? (
+        <Link
+          href={href}
+          className="relative aspect-[4/3] w-full overflow-hidden rounded"
+        >
+          <Image
+            src={urlForImage(image)?.width(180).height(180).url() ?? ''}
+            alt={image?.alt ?? ''}
+            fill
+            className="object-cover"
+            sizes="180px"
+            loading="lazy"
+          />
+        </Link>
+      ) : (
+        <Link
+          href={href}
+          className="relative aspect-[4/3] w-full overflow-hidden rounded"
+        >
+          <div className="absolute inset-0 bg-paper" />
+        </Link>
+      )}
     </article>
   );
 };

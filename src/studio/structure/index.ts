@@ -1,4 +1,5 @@
 import { CogIcon, DocumentIcon, HomeIcon } from '@sanity/icons';
+import { Archive, FileText, ListOrdered } from 'lucide-react';
 import type { StructureResolver } from 'sanity/structure';
 
 /**
@@ -9,21 +10,35 @@ import type { StructureResolver } from 'sanity/structure';
 
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Website Content')
+    .title('Content')
     .items([
       S.listItem()
         .title('Home')
         .child(S.document().schemaType('homePage').documentId('homePage'))
         .icon(HomeIcon),
       S.listItem()
-        .title('Blog Page')
-        .child(S.document().schemaType('blogPage').documentId('blogPage'))
-        .icon(DocumentIcon),
-      // Filter out "AI Assist Context" and "Settings" content from the list of content types
+        .title('Articles')
+        .child(S.document().schemaType('article').documentId('article'))
+        .icon(FileText),
+      S.listItem()
+        .title('Article Archive Page')
+        .child(
+          S.document()
+            .schemaType('articleArchivePage')
+            .documentId('articleArchivePage')
+        )
+        .icon(Archive),
+      // Filter out all items manually added to the list
       ...S.documentTypeListItems().filter((listItem) => {
         const id = listItem.getId();
         return typeof id !== 'undefined'
-          ? !['settings', 'homePage', 'assist.instruction.context', 'blogPage'].includes(id)
+          ? ![
+              'settings',
+              'article',
+              'homePage',
+              'assist.instruction.context',
+              'articleArchivePage',
+            ].includes(id)
           : false;
       }),
       S.listItem()

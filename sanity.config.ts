@@ -70,7 +70,7 @@ export default defineConfig({
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
           {
-            route: '/blog/:slug',
+            route: '/articles/:slug',
             filter: `_type == "article" && slug.current == $slug || _id == $slug`,
           },
         ]),

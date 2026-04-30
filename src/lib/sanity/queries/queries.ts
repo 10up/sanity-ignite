@@ -5,6 +5,7 @@ import {
   categoryFragment,
   menuFragment,
   pageFragment,
+  seoFragment,
 } from './fragments';
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]{
@@ -20,11 +21,19 @@ export const homePageQuery = defineQuery(`*[_type == "homePage"][0]{
   ${pageFragment}
 }`);
 
-export const blogPageQuery = defineQuery(`*[_type == "blogPage"][0]{
+export const categoryQuery =
+  defineQuery(`*[_type == "category" && slug.current == $slug][0] {
   _id,
   _type,
-  ...,
-  ${pageFragment}
+  title,
+  "slug": slug.current,
+  description,
+  "featuredArticle": featuredArticle->{
+    ${articleCardFragment}
+  },
+  seo {
+    ${seoFragment}
+  }
 }`);
 
 export const getPageQuery = defineQuery(`

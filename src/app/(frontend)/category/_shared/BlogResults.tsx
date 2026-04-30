@@ -1,6 +1,6 @@
 import { cacheLife, cacheTag } from 'next/cache';
 import type { SearchParams } from 'nuqs/server';
-import { Pagination } from '@/app/(frontend)/articles/_shared/BlogPagination';
+import { Pagination } from '@/app/(frontend)/category/_shared/BlogPagination';
 import PostCard from '@/components/modules/ArticleCard';
 import { POSTS_PER_PAGE } from '@/lib/constants';
 import { CACHE_PROFILES, sanityFetch } from '@/lib/sanity/client/fetch';
