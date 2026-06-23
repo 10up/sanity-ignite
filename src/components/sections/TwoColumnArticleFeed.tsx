@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { ArticleCard } from '@/components/sections/ArticleListCard';
+import { ArticleListCard } from '@/components/sections/ArticleListCard';
 import { getDocumentLink } from '@/lib/links';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import {
@@ -74,7 +74,7 @@ const CachedTwoColumnArticleFeed = async ({
         </h2>
         <div className="*:last-of-type:border-b-0">
           {latestArticles?.map((article) => (
-            <ArticleCard
+            <ArticleListCard
               key={article._id}
               category={article.categories?.[0]?.title ?? ''}
               categoryHref={getDocumentLink({

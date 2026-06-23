@@ -16,16 +16,19 @@ export const ArticleGrid = ({
           {heading}
         </h2>
       </div>
-
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {articles.map((article) => (
           <ArticleGridCard
             key={article._id}
             href={getDocumentLink({ _type: 'article', slug: article.slug })}
             image={article.image}
-            kicker={article.categories?.[0]?.title ?? ''}
+            categoryHref={getDocumentLink({
+              _type: 'category',
+              slug: article.categories?.[0]?.slug,
+            })}
+            category={article.categories?.[0]?.title ?? ''}
             title={article.title}
-            read={article.readTime}
+            readTime={article.readTime}
           />
         ))}
       </div>

@@ -48,9 +48,9 @@ export const Header = async () => {
             aria-hidden="true"
           />
           Ignite for Sanity{' '}
-          <span className="relative overflow-hidden text-xs text-paper font-semibold border border-purple inline-flex items-center justify-center rounded-sm leading-none size-6 bg-purple/30">
+          <span className="relative overflow-hidden text-xs text-paper font-semibold border border-purple inline-flex items-center justify-center rounded-sm leading-none size-6 bg-purple/50">
             <span aria-hidden="true" className="version-badge-shimmer" />
-            <span className="relative z-[1]">v2</span>
+            <span className="relative z-[1] text-shadow-sm">v2</span>
           </span>
         </Link>
         <nav

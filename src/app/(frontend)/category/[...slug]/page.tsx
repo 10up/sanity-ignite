@@ -15,7 +15,7 @@ type Props = {
   params: Promise<{ slug: string[] }>;
 };
 
-export default async function CategoryPage(props: Props) {
+export default async function Category(props: Props) {
   const { isEnabled } = await draftMode();
 
   if (isEnabled) {
@@ -27,9 +27,7 @@ export default async function CategoryPage(props: Props) {
   }
 
   const { slug } = await props.params;
-  return (
-    <CachedCategoryPage slug={slug} perspective="published" stega={false} />
-  );
+  return <CategoryPage slug={slug} perspective="published" stega={false} />;
 }
 
 async function DynamicCategoryPage({ params }: Pick<Props, 'params'>) {
@@ -37,16 +35,18 @@ async function DynamicCategoryPage({ params }: Pick<Props, 'params'>) {
     params,
     getDynamicFetchOptions(),
   ]);
-  return <CachedCategoryPage slug={slug} {...options} />;
+  return <CategoryPage slug={slug} {...options} />;
 }
 
-async function CachedCategoryPage({
+// Uncached orchestrator: resolves the category (via a cached fetch), runs the
+// 404 logic, then renders the static hero alongside the dynamic feed. Keeping
+// this layer outside `'use cache'` lets TwoColumnArticleFeed read request-time
+// data (cookies) the same way it does on the home page.
+async function CategoryPage({
   slug,
   perspective,
   stega,
 }: { slug: string[] } & DynamicFetchOptions) {
-  'use cache';
-
   const [parentSlug, subcategorySlug, ...rest] = slug ?? [];
 
   if (!parentSlug || rest.length > 0) {
@@ -56,14 +56,7 @@ async function CachedCategoryPage({
   // The query climbs to the parent, so we can resolve from whichever slug is
   // the most specific (the subcategory when present, otherwise the parent).
   const requestedSlug = subcategorySlug ?? parentSlug;
-  const category = await sanityFetch({
-    query: categoryQuery,
-    schema: categorySchema,
-    params: { slug: requestedSlug },
-    tags: [`sanity:category:${requestedSlug}`],
-    perspective,
-    stega,
-  });
+  const category = await fetchCategory({ requestedSlug, perspective, stega });
 
   // The first segment must be the top-level (parent) category. A bare
   // subcategory slug (e.g. `/category/politics`) resolves to its parent, so the
@@ -87,12 +80,29 @@ async function CachedCategoryPage({
   return (
     <>
       <CategoryHero category={category} activeSubcategory={activeSubcategory} />
-      <Suspense fallback={null}>
-        <TwoColumnArticleFeed
-          categorySlug={activeSubcategory ?? category.slug}
-          size={20}
-        />
-      </Suspense>
+      <TwoColumnArticleFeed
+        categorySlug={activeSubcategory ?? category.slug}
+        size={20}
+      />
     </>
   );
+}
+
+// Cached layer: only the category fetch lives inside `'use cache'`. It returns
+// serializable data the uncached orchestrator renders from.
+async function fetchCategory({
+  requestedSlug,
+  perspective,
+  stega,
+}: { requestedSlug: string } & DynamicFetchOptions) {
+  'use cache';
+
+  return sanityFetch({
+    query: categoryQuery,
+    schema: categorySchema,
+    params: { slug: requestedSlug },
+    tags: [`sanity:category:${requestedSlug}`],
+    perspective,
+    stega,
+  });
 }

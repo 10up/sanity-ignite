@@ -7,7 +7,7 @@ import type {
   PersonFragmentType,
 } from '@/lib/sanity/queries/schemas';
 
-export type ArticleCardProps = {
+export type ArticleListCardProps = {
   category: string;
   categoryHref: string;
   title: string;
@@ -19,7 +19,7 @@ export type ArticleCardProps = {
   image: ImageFragmentType | null | undefined;
 };
 
-export const ArticleCard = ({
+export const ArticleListCard = ({
   category,
   categoryHref,
   title,
@@ -29,7 +29,7 @@ export const ArticleCard = ({
   readTime,
   href,
   image,
-}: ArticleCardProps) => {
+}: ArticleListCardProps) => {
   return (
     <article className="grid grid-cols-[1fr_180px] items-start gap-5 border-line border-b py-4.5">
       <div className="min-w-0">
@@ -41,7 +41,7 @@ export const ArticleCard = ({
             {category}
           </Link>
         </div>
-        <h3 className="mb-2 font-bold leading-snug tracking-tight text-ink text-xl text-pretty">
+        <h3 className="mb-2 font-bold leading-snug tracking-tight text-ink text-xl text-pretty hover:underline">
           <Link href={href}>{title}</Link>
         </h3>
         <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
@@ -77,7 +77,7 @@ export const ArticleCard = ({
       {image ? (
         <Link
           href={href}
-          className="relative aspect-[4/3] w-full overflow-hidden rounded"
+          className="relative aspect-[4/3] size-full overflow-hidden rounded"
         >
           <Image
             src={urlForImage(image)?.width(180).height(180).url() ?? ''}
