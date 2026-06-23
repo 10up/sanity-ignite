@@ -109,7 +109,7 @@ export default defineConfig({
         return prev.map((originalAction) =>
           originalAction.action === 'publish'
             ? PublishWithReadTimeAction
-            : originalAction,
+            : originalAction
         );
       }
       return prev;

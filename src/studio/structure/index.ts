@@ -1,5 +1,5 @@
-import { CogIcon, DocumentIcon, HomeIcon } from '@sanity/icons';
-import { Archive, FileText, ListOrdered } from 'lucide-react';
+import { CogIcon, HomeIcon } from '@sanity/icons';
+import { Archive, FileText } from 'lucide-react';
 import type { StructureResolver } from 'sanity/structure';
 
 /**

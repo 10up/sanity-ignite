@@ -26,8 +26,8 @@
   --v2-paper: #f7f5f1;
   --v2-purple: #6e5bff;
   --v2-purple-soft: #ece8ff;
-  --v2-orange: #FF5733;
-  --v2-orange-soft: #FFE9E2;
+  --v2-orange: #ff5733;
+  --v2-orange-soft: #ffe9e2;
   --v2-gold: #d4af37;
   --v2-gold-soft: #fff4d6;
   --v2-line: rgb(10 10 11 / 0.1);
@@ -72,7 +72,6 @@
   --sidebar-border: var(--v2-line);
   --sidebar-ring: var(--v2-purple);
 }
-
 
 @theme inline {
   /* V2 — utility classes: bg-ink, text-paper-2, border-line, … */

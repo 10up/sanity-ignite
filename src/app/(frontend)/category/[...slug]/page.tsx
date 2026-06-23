@@ -27,7 +27,9 @@ export default async function CategoryPage(props: Props) {
   }
 
   const { slug } = await props.params;
-  return <CachedCategoryPage slug={slug} perspective="published" stega={false} />;
+  return (
+    <CachedCategoryPage slug={slug} perspective="published" stega={false} />
+  );
 }
 
 async function DynamicCategoryPage({ params }: Pick<Props, 'params'>) {

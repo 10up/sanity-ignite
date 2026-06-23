@@ -8,9 +8,10 @@ const TITLE_MAX_LENGTH = 60;
 
 const getTitleFeedback = (
   title: string,
-  seoKeywords: string[],
+  seoKeywords: string[]
 ): { text: string; color: 'green' | 'orange' | 'red' }[] => {
-  const feedbackItems: { text: string; color: 'green' | 'orange' | 'red' }[] = [];
+  const feedbackItems: { text: string; color: 'green' | 'orange' | 'red' }[] =
+    [];
 
   if (!title?.trim()) {
     feedbackItems.push({
@@ -40,7 +41,9 @@ const getTitleFeedback = (
   }
 
   if (seoKeywords.length > 0) {
-    const foundKeyword = seoKeywords.some((kw) => title.toLowerCase().includes(kw.toLowerCase()));
+    const foundKeyword = seoKeywords.some((kw) =>
+      title.toLowerCase().includes(kw.toLowerCase())
+    );
     if (!foundKeyword) {
       feedbackItems.push({
         text: 'You have defined keywords but none appear in the title.',
@@ -81,7 +84,10 @@ const SEOTitle = (props: StringInputProps) => {
       {renderDefault(props)}
       <Stack space={2}>
         {feedbackItems.map((item) => (
-          <div key={item.text} style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+          <div
+            key={item.text}
+            style={{ display: 'flex', alignItems: 'center', gap: '7px' }}
+          >
             <div
               style={{
                 width: '10px',

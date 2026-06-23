@@ -9,6 +9,8 @@ describe('assertValue', () => {
   });
 
   it('should throw an error if the value is undefined', () => {
-    expect(() => assertValue(undefined, 'Value is required')).toThrow('Value is required');
+    expect(() => assertValue(undefined, 'Value is required')).toThrow(
+      'Value is required'
+    );
   });
 });

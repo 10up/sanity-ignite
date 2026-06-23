@@ -26,7 +26,10 @@ describe('createRadioListLayout', () => {
   });
 
   it('should merge object and string options', () => {
-    const items = ['string-item', { title: 'Object Title', value: 'object-value' }];
+    const items = [
+      'string-item',
+      { title: 'Object Title', value: 'object-value' },
+    ];
     const options = { direction: 'horizontal' } as const;
     const result = createRadioListLayout(items, options);
 

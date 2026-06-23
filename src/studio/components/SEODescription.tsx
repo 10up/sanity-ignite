@@ -15,7 +15,9 @@ const META_DESCRIPTION_MAX_LENGTH = 160;
  * - If it’s under ~100, it’s likely too short.
  * - If it’s over ~160, it might get truncated in search engine results.
  */
-const getDescriptionFeedback = (metaDescription: string): { text: string; color: string } => {
+const getDescriptionFeedback = (
+  metaDescription: string
+): { text: string; color: string } => {
   if (!metaDescription || !metaDescription.trim()) {
     return {
       text: 'No meta description has been specified. Search engines will display copy from the page instead. Make sure to write one!',

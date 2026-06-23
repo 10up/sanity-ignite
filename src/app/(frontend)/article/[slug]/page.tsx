@@ -14,7 +14,6 @@ import { sanityFetch } from '@/lib/sanity/client/fetch';
 import {
   type DynamicFetchOptions,
   getDynamicFetchOptions,
-  type LivePerspective,
 } from '@/lib/sanity/client/live';
 import { formatMetaData } from '@/lib/sanity/client/seo';
 import { articleQuery, articleSlugs } from '@/lib/sanity/queries/queries';

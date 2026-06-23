@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Image } from 'next-sanity/image';
-import { Badge } from '@/components/ui/shadcn/badge';
 import { DateComponent } from '@/components/ui/Date';
+import { Badge } from '@/components/ui/shadcn/badge';
 import { getDocumentLink } from '@/lib/links';
 import { urlForImage } from '@/lib/sanity/client/utils';
 import type { ArticleFragmentType } from '@/lib/sanity/queries/schemas';

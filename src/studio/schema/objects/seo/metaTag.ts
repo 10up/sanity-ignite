@@ -19,10 +19,9 @@ export default defineField({
     },
     prepare({ metaTags }) {
       return {
-        title:
-          metaTags && metaTags[0]?.attributeValueString
-            ? metaTags[0]?.attributeValueString
-            : 'Meta Tag',
+        title: metaTags?.[0]?.attributeValueString
+          ? metaTags[0]?.attributeValueString
+          : 'Meta Tag',
       };
     },
   },
