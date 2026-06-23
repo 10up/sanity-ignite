@@ -1,7 +1,11 @@
 import { Suspense } from 'react';
 import { ArticleCard } from '@/components/sections/ArticleListCard';
 import { getDocumentLink } from '@/lib/links';
-import { type CacheProfile, sanityFetch } from '@/lib/sanity/client/fetch';
+import { sanityFetch } from '@/lib/sanity/client/fetch';
+import {
+  type DynamicFetchOptions,
+  getDynamicFetchOptions,
+} from '@/lib/sanity/client/live';
 import {
   latestArticlesQuery,
   latestCategoryArticlesQuery,
@@ -12,6 +16,9 @@ import {
   RecommendedArticleListSkeleton,
 } from './RecommendedArticleList';
 
+// Dynamic island: resolves draft mode / perspective at request time, then
+// renders a cached child. Render inside a <Suspense> boundary when nested under
+// cached content (e.g. the category page).
 export const TwoColumnArticleFeed = async ({
   categorySlug,
   size = 10,
@@ -19,14 +26,43 @@ export const TwoColumnArticleFeed = async ({
   categorySlug?: string;
   size?: number;
 }) => {
+  const options = await getDynamicFetchOptions();
+  return (
+    <CachedTwoColumnArticleFeed
+      categorySlug={categorySlug}
+      size={size}
+      {...options}
+    >
+      <Suspense fallback={<RecommendedArticleListSkeleton />}>
+        <RecommendedArticleList />
+      </Suspense>
+    </CachedTwoColumnArticleFeed>
+  );
+};
+
+const CachedTwoColumnArticleFeed = async ({
+  categorySlug,
+  size,
+  children,
+  perspective,
+  stega,
+}: {
+  categorySlug?: string;
+  size: number;
+  children: React.ReactNode;
+} & DynamicFetchOptions) => {
+  'use cache';
+
   const query = categorySlug
     ? latestCategoryArticlesQuery
     : latestArticlesQuery;
   const latestArticles = await sanityFetch({
     query,
     schema: articlesArchiveSchema,
-    cache: { profile: 'days' as CacheProfile, tags: ['sanity:type:article'] },
+    tags: ['sanity:type:article'],
     params: categorySlug ? { categorySlug, size } : { size },
+    perspective,
+    stega,
   });
 
   return (
@@ -56,11 +92,7 @@ export const TwoColumnArticleFeed = async ({
           ))}
         </div>
       </div>
-      <div className="min-w-0">
-        <Suspense fallback={<RecommendedArticleListSkeleton />}>
-          <RecommendedArticleList />
-        </Suspense>
-      </div>
+      <div className="min-w-0">{children}</div>
     </section>
   );
 };

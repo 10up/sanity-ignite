@@ -1,8 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { isSameOrigin } from '@/lib/http/sameOrigin';
-import { sanityFetch } from '@/lib/sanity/client/fetch';
-import { searchArticlesQuery } from '@/lib/sanity/queries/queries';
-import { searchResultsSchema } from '@/lib/sanity/queries/schemas';
+import { searchArticles } from '@/lib/sanity/client/search';
 
 // Search is an idempotent read, so it lives in a GET route handler rather than a
 // Server Action: it's cacheable per query, debounce-friendly, and the client can
@@ -20,13 +18,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ results: [] });
   }
 
-  const results = await sanityFetch({
-    query: searchArticlesQuery,
-    params: { searchTerm },
-    schema: searchResultsSchema,
-    cache: { profile: 'hours', tags: ['sanity:type:article'] },
-    bypassLiveFetch: true,
-  });
+  const results = await searchArticles(searchTerm);
 
   return NextResponse.json({ results: results ?? [] });
 }

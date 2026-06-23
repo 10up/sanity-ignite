@@ -1,24 +1,18 @@
 import type { MetadataRoute } from 'next';
-import type { CacheProfile } from '@/lib/sanity/client/fetch';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { getSitemapQuery } from '@/lib/sanity/queries/queries';
 import { sitemapSchema } from '@/lib/sanity/queries/schemas';
 import { getBaseUrl } from '@/utils/getBaseUrl';
 
+const TAGS = [
+  'sanity:type:page',
+  'sanity:type:article',
+  'sanity:type:category',
+  'sanity:type:homePage',
+];
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const paths = await sanityFetch({
-    query: getSitemapQuery,
-    schema: sitemapSchema,
-    cache: {
-      profile: 'days' as CacheProfile,
-      tags: [
-        'sanity:type:page',
-        'sanity:type:article',
-        'sanity:type:category',
-        'sanity:type:homePage',
-      ],
-    },
-  });
+  const paths = await fetchSitemap();
 
   if (!paths) return [];
 
@@ -32,4 +26,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly' as const,
       priority: 1,
     }));
+}
+
+async function fetchSitemap() {
+  'use cache';
+  return sanityFetch({
+    query: getSitemapQuery,
+    schema: sitemapSchema,
+    tags: TAGS,
+    perspective: 'published',
+    stega: false,
+  });
 }

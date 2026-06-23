@@ -112,6 +112,7 @@ export default function PageSections({
         return (
           <div
             key={section._key}
+            data-section-type={section._type}
             data-sanity={dataAttr({
               id: documentId,
               type: documentType,

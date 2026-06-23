@@ -34,7 +34,7 @@ export const Banner = () => {
       </Link>
       <span className="text-primary-foreground/88">
         {' '}
-        to learn more about our work and services
+        to learn more about our work
       </span>
     </div>
   );

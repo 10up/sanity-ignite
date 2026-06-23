@@ -70,7 +70,7 @@ export const ArticleCard = ({
             </span>
           ) : null}
           <span className="font-mono text-xs text-muted-ink">
-            <DateComponent dateString={date} />· {readTime} min read
+            <DateComponent dateString={date} />· {readTime ?? 3} min read
           </span>
         </div>
       </div>

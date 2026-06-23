@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { z } from 'zod';
@@ -9,8 +10,12 @@ import {
   RecommendedArticleListSkeleton,
 } from '@/components/sections/RecommendedArticleList';
 import { serverEnv } from '@/env/serverEnv';
-import type { CacheProfile } from '@/lib/sanity/client/fetch';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
+import {
+  type DynamicFetchOptions,
+  getDynamicFetchOptions,
+  type LivePerspective,
+} from '@/lib/sanity/client/live';
 import { formatMetaData } from '@/lib/sanity/client/seo';
 import { articleQuery, articleSlugs } from '@/lib/sanity/queries/queries';
 import { articleSchema } from '@/lib/sanity/queries/schemas';
@@ -19,21 +24,22 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-const articleFetchOptions = (slug: string) => ({
-  query: articleQuery,
-  params: { slug },
-  schema: articleSchema,
-  cache: {
-    profile: 'days' as CacheProfile,
-    tags: [`sanity:type:article`, `sanity:slug:${slug}`],
-  },
-});
+const cacheTags = (slug: string) => [
+  'sanity:type:article',
+  `sanity:slug:${slug}`,
+];
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
+  'use cache';
   const { slug } = await props.params;
+  const { perspective } = await getDynamicFetchOptions();
   const article = await sanityFetch({
-    ...articleFetchOptions(slug),
-    bypassLiveFetch: true,
+    query: articleQuery,
+    params: { slug },
+    schema: articleSchema,
+    tags: cacheTags(slug),
+    perspective,
+    stega: false,
   });
 
   if (!article?.seo) {
@@ -47,13 +53,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
+  'use cache';
   const slugs = await sanityFetch({
     query: articleSlugs,
     schema: z.array(z.string()),
-    params: {
-      limit: serverEnv.MAX_STATIC_PARAMS,
-    },
-    bypassLiveFetch: true,
+    params: { limit: serverEnv.MAX_STATIC_PARAMS },
+    perspective: 'published',
+    stega: false,
   });
 
   if (!slugs) {
@@ -63,9 +69,57 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-export default async function Page(props: Props) {
+export default async function Article(props: Props) {
+  const { isEnabled } = await draftMode();
+
+  if (isEnabled) {
+    return (
+      <Suspense fallback={null}>
+        <DynamicArticle params={props.params} />
+      </Suspense>
+    );
+  }
+
   const { slug } = await props.params;
-  const article = await sanityFetch(articleFetchOptions(slug));
+  return (
+    <CachedArticle slug={slug} perspective="published" stega={false}>
+      <Suspense fallback={<RecommendedArticleListSkeleton />}>
+        <RecommendedArticleList />
+      </Suspense>
+    </CachedArticle>
+  );
+}
+
+async function DynamicArticle({ params }: Pick<Props, 'params'>) {
+  const [{ slug }, options] = await Promise.all([
+    params,
+    getDynamicFetchOptions(),
+  ]);
+  return (
+    <CachedArticle slug={slug} {...options}>
+      <Suspense fallback={<RecommendedArticleListSkeleton />}>
+        <RecommendedArticleList />
+      </Suspense>
+    </CachedArticle>
+  );
+}
+
+async function CachedArticle({
+  slug,
+  children,
+  perspective,
+  stega,
+}: { slug: string; children: React.ReactNode } & DynamicFetchOptions) {
+  'use cache';
+
+  const article = await sanityFetch({
+    query: articleQuery,
+    params: { slug },
+    schema: articleSchema,
+    tags: cacheTags(slug),
+    perspective,
+    stega,
+  });
 
   if (!article) {
     notFound();
@@ -81,16 +135,13 @@ export default async function Page(props: Props) {
         authorRole={article.author?.role ?? ''}
         authorImage={article.author?.image}
         image={article.image}
+        readTime={article.readTime ?? 3}
       />
       <div className="mx-auto grid max-w-6xl grid-cols-1 lg:grid-cols-[1fr_320px] lg:gap-x-8 py-10">
         <div className="min-w-0">
           {article.content && <BlockContent value={article.content} />}
         </div>
-        <div className="min-w-0">
-          <Suspense fallback={<RecommendedArticleListSkeleton />}>
-            <RecommendedArticleList />
-          </Suspense>
-        </div>
+        <div className="min-w-0">{children}</div>
       </div>
     </article>
   );

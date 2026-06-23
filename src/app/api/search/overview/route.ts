@@ -3,9 +3,7 @@ import { streamText } from 'ai';
 import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { isSameOrigin } from '@/lib/http/sameOrigin';
-import { sanityFetch } from '@/lib/sanity/client/fetch';
-import { searchArticlesQuery } from '@/lib/sanity/queries/queries';
-import { searchResultsSchema } from '@/lib/sanity/queries/schemas';
+import { searchArticles } from '@/lib/sanity/client/search';
 
 // Streams a short, LLM-generated overview of the search results. This is the
 // real version of the "stream in" effect: `toTextStreamResponse()` emits plain
@@ -97,14 +95,8 @@ export async function POST(request: NextRequest) {
 
   const { searchTerm } = parsed.data;
 
-  // Same query/params/cache as GET /api/search, so this shares the cache entry.
-  const articles = await sanityFetch({
-    query: searchArticlesQuery,
-    params: { searchTerm },
-    schema: searchResultsSchema,
-    cache: { profile: 'hours', tags: ['sanity:type:article'] },
-    bypassLiveFetch: true,
-  });
+  // Same cached helper as GET /api/search, so this shares the cache entry.
+  const articles = await searchArticles(searchTerm);
 
   // Nothing to summarize — skip the model call entirely.
   if (!articles || articles.length === 0) {

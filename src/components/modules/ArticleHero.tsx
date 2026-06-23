@@ -10,6 +10,7 @@ type ArticleHeroProps = {
   authorName: string;
   authorRole: string;
   authorImage?: ImageFragmentType | null | undefined;
+  readTime: number;
 };
 
 export const ArticleHero = ({
@@ -20,6 +21,7 @@ export const ArticleHero = ({
   authorName,
   authorRole,
   authorImage,
+  readTime,
 }: ArticleHeroProps) => {
   return (
     <div className="space-y-10">
@@ -51,7 +53,8 @@ export const ArticleHero = ({
               <div className="text-xs text-muted-ink">{authorRole}</div>
             </div>
             <div className="ml-auto font-mono text-xs text-muted-ink">
-              <time dateTime="2026-04-27">Apr 27, 2026</time> · 6 min read
+              <time dateTime="2026-04-27">Apr 27, 2026</time> · {readTime} min
+              read
             </div>
           </div>
         </div>

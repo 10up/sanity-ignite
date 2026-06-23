@@ -17,6 +17,7 @@ import {
 import { structureTool } from 'sanity/structure';
 import { clientEnv } from '@/env/clientEnv';
 import { getDocumentLink } from '@/lib/links';
+import { PublishWithReadTimeAction } from './src/studio/actions/article/publishWithReadTime';
 import { schemaTypes } from './src/studio/schema';
 import { structure } from './src/studio/structure';
 
@@ -101,5 +102,17 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
+  },
+  document: {
+    actions: (prev, context) => {
+      if (context.schemaType === 'article') {
+        return prev.map((originalAction) =>
+          originalAction.action === 'publish'
+            ? PublishWithReadTimeAction
+            : originalAction,
+        );
+      }
+      return prev;
+    },
   },
 });

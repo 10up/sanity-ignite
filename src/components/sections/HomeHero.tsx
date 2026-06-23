@@ -61,7 +61,7 @@ export const Hero = ({ section }: { section: HeroSectionFragmentType }) => {
             </span>
             <DateComponent dateString={article?.date} />
             <span className="text-muted-on-dark font-mono text-xs">
-              {article?.readTime} min read
+              {article?.readTime ?? 3} min read
             </span>
             <Link
               href={getDocumentLink({ _type: 'article', slug: article?.slug })}

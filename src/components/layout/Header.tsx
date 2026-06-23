@@ -1,19 +1,26 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import type { CacheProfile } from '@/lib/sanity/client/fetch';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { settingsQuery } from '@/lib/sanity/queries/queries';
 import { settingsSchema } from '@/lib/sanity/queries/schemas';
 import { SiteSearch } from '../modules/SiteSearch';
 import { NavLinks } from './NavLinks';
 
-export const Header = async () => {
-  const settings = await sanityFetch({
+// Global site settings/menu are the same for everyone, so they're always
+// fetched as published content in their own cached boundary.
+async function fetchSettings() {
+  'use cache';
+  return sanityFetch({
     query: settingsQuery,
     schema: settingsSchema,
-    cache: { profile: 'max' as CacheProfile, tags: ['sanity:type:settings'] },
-    bypassLiveFetch: true,
+    tags: ['sanity:type:settings'],
+    perspective: 'published',
+    stega: false,
   });
+}
+
+export const Header = async () => {
+  const settings = await fetchSettings();
 
   if (!settings) {
     return null;
@@ -32,12 +39,18 @@ export const Header = async () => {
           href="/"
           className="flex shrink-0 items-center gap-2 font-extrabold text-lg tracking-tight"
         >
-          <span className="mr-0 inline-block text-sm" aria-hidden="true">
-            🔥
-          </span>
+          <Image
+            src="/fueled_planet@2x.png"
+            alt="Ignite for Sanity"
+            width={32}
+            height={32}
+            className="mr-0 inline-block text-sm size-8"
+            aria-hidden="true"
+          />
           Ignite for Sanity{' '}
-          <span className="text-xs text-paper font-semibold border border-purple inline-flex items-center justify-center rounded-sm leading-none size-6 bg-purple/30">
-            v2
+          <span className="relative overflow-hidden text-xs text-paper font-semibold border border-purple inline-flex items-center justify-center rounded-sm leading-none size-6 bg-purple/30">
+            <span aria-hidden="true" className="version-badge-shimmer" />
+            <span className="relative z-[1]">v2</span>
           </span>
         </Link>
         <nav

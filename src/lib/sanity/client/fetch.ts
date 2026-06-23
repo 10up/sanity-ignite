@@ -1,52 +1,23 @@
 import 'server-only';
 
-import { cacheLife, cacheTag } from 'next/cache';
-import { draftMode } from 'next/headers';
 import type { QueryParams } from 'next-sanity';
 import type { ZodType, z } from 'zod';
 
-import { client } from './client';
+import type { DynamicFetchOptions } from './live';
 import { sanityFetch as liveFetch } from './live';
-
-export const CACHE_PROFILES = {
-  default: { stale: 300, revalidate: 900 },
-  seconds: { stale: 30, revalidate: 1, expire: 60 },
-  minutes: { stale: 300, revalidate: 60, expire: 3600 },
-  hours: { stale: 300, revalidate: 3600, expire: 86400 },
-  days: { stale: 300, revalidate: 86400, expire: 604800 },
-  weeks: { stale: 300, revalidate: 604800, expire: 2592000 },
-  max: { stale: 300, revalidate: 2592000, expire: 31536000 },
-} as const;
-
-export type CacheProfile = keyof typeof CACHE_PROFILES;
 
 type SanityFetchOptions<T extends ZodType> = {
   query: string;
   params?: QueryParams;
   schema: T;
-  cache?: {
-    profile?: CacheProfile;
-    tags?: string[];
-  };
-  bypassLiveFetch?: boolean;
+  /**
+   * Semantic, webhook-driven revalidation tags (e.g. `sanity:type:article`,
+   * `sanity:slug:my-post`). They are forwarded to `cacheTag()` so the
+   * `/api/revalidate` webhook can purge this entry with `revalidateTag()`.
+   */
+  tags?: string[];
   bypassValidation?: boolean;
-};
-
-async function cachedFetch(
-  query: string,
-  params: QueryParams | undefined,
-  profile: CacheProfile,
-  tags: string[]
-): Promise<unknown> {
-  'use cache';
-
-  cacheLife(CACHE_PROFILES[profile]);
-  for (const tag of tags) {
-    cacheTag(tag);
-  }
-
-  return client.fetch(query, params ?? {});
-}
+} & DynamicFetchOptions;
 
 function validate<T extends ZodType>(
   schema: T,
@@ -65,39 +36,34 @@ function validate<T extends ZodType>(
 }
 
 /**
- * The primary Sanity fetch client for Server Components.
+ * Zod-validating wrapper around the native Sanity Live `sanityFetch`.
  *
- * Returns the `previewDrafts` perspective when Draft Mode is on (so editors
- * see their in-progress content in the Presentation tool) and the cached
- * `published` perspective otherwise. Results are validated against the
- * provided Zod schema.
+ * IMPORTANT — Cache Components contract:
+ * This MUST be called from inside a `'use cache'` boundary (the "cached" layer
+ * of the three-layer pattern). The underlying Live fetch calls `cacheTag()` and
+ * `cacheLife()`, which throw outside `'use cache'`.
  *
- * Call this from any Server Component
- * */
+ * `perspective` and `stega` are request-time values: resolve them OUTSIDE the
+ * cache boundary with `getDynamicFetchOptions()` (or hardcode `'published'` /
+ * `false` for always-public data) and pass them in as serializable props.
+ *
+ * The Zod `schema` is referenced from module scope by the calling cached
+ * component, never passed across a cache boundary as an argument.
+ */
 export async function sanityFetch<T extends ZodType>({
   query,
   params,
   schema,
-  cache,
-  bypassLiveFetch = false,
+  tags,
+  perspective,
+  stega,
   bypassValidation = false,
 }: SanityFetchOptions<T>): Promise<z.infer<T> | null> {
-  if (!bypassLiveFetch) {
-    const { isEnabled: isDraft } = await draftMode();
-    if (isDraft) {
-      const { data } = await liveFetch({ query, params });
-      return validate(schema, data, ':draft');
-    }
+  const { data } = await liveFetch({ query, params, perspective, stega, tags });
+
+  if (bypassValidation) {
+    return data as z.infer<T> | null;
   }
 
-  const data = await cachedFetch(
-    query,
-    params,
-    cache?.profile ?? 'hours',
-    cache?.tags ?? []
-  );
-  if (!bypassValidation) {
-    return validate(schema, data, '');
-  }
-  return data as z.infer<T> | null;
+  return validate(schema, data, '');
 }

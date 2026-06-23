@@ -1,11 +1,5 @@
-import Image from 'next/image';
-import Link from 'next/link';
 import { getDocumentLink } from '@/lib/links';
-import { urlForImage } from '@/lib/sanity/client/utils';
-import type {
-  ArticleListSectionFragmentType,
-  ImageFragmentType,
-} from '@/lib/sanity/queries/schemas';
+import type { ArticleListSectionFragmentType } from '@/lib/sanity/queries/schemas';
 import { ArticleGridCard } from './ArticleGridCard';
 
 export const ArticleGrid = ({

@@ -10,7 +10,7 @@ import { Header } from '@/components/layout/Header';
 import Main from '@/components/layout/Main';
 import { NewsletterSubscribe } from '@/components/sections/NewsletterSubscribe';
 import { SanityLive } from '@/lib/sanity/client/live';
-import { handleError, sanityLiveRevalidateSyncTags } from './client-utils';
+import { handleError } from './client-utils';
 
 const DraftModeToast = dynamic(
   () => import('@/components/modules/DraftModeToast')
@@ -29,10 +29,9 @@ async function DraftModeTools() {
     <>
       <DraftModeToast />
       <VisualEditing />
-      <SanityLive
-        onError={handleError}
-        revalidateSyncTags={sanityLiveRevalidateSyncTags}
-      />
+      {/* With `includeDrafts`, Sanity Live defaults its action to `router.refresh()`,
+          so editor changes stream into the preview without a custom handler. */}
+      <SanityLive includeDrafts onError={handleError} />
     </>
   );
 }

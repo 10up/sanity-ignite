@@ -1,6 +1,5 @@
 'use client';
 
-import type { SyncTag } from '@sanity/client';
 import { isCorsOriginError } from 'next-sanity';
 import { toast } from 'sonner';
 
@@ -28,11 +27,4 @@ export function handleError(error: unknown) {
       duration: Infinity,
     });
   }
-}
-
-/** Return `'refresh'` so Live uses `router.refresh()` instead of `revalidateTag` for sync tags. */
-export async function sanityLiveRevalidateSyncTags(
-  _tags: SyncTag[]
-): Promise<'refresh'> {
-  return 'refresh';
 }
