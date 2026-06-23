@@ -2,6 +2,7 @@ import { TrendingUp } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { ALLOWED_COUNTRIES } from '@/lib/fixtures/countries';
+import { getDocumentLink } from '@/lib/links';
 import { type CacheProfile, sanityFetch } from '@/lib/sanity/client/fetch';
 import { recommendedArticlesQuery } from '@/lib/sanity/queries/queries';
 import { articlesArchiveSchema } from '@/lib/sanity/queries/schemas';
@@ -44,7 +45,7 @@ export const RecommendedArticleList = async () => {
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <Link
-                  href={`/article/${item.slug}`}
+                  href={getDocumentLink({ _type: 'article', slug: item.slug })}
                   className="font-medium text-sm leading-snug text-ink hover:underline hover:text-ink/80 transition-colors"
                   prefetch={false}
                 >

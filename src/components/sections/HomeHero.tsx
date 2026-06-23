@@ -2,11 +2,11 @@ import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { DateComponent } from '@/components/ui/Date';
+import { getDocumentLink } from '@/lib/links';
 import { urlForImage } from '@/lib/sanity/client/utils';
 import type { HeroSectionFragmentType } from '@/lib/sanity/queries/schemas';
 
 export const Hero = ({ section }: { section: HeroSectionFragmentType }) => {
-  console.log({ section });
   const { kicker, heading, tagline, article } = section;
   const articleImage = urlForImage(article?.image)
     ?.width(1000)
@@ -64,7 +64,7 @@ export const Hero = ({ section }: { section: HeroSectionFragmentType }) => {
               {article?.readTime} min read
             </span>
             <Link
-              href={`/article/${article?.slug}`}
+              href={getDocumentLink({ _type: 'article', slug: article?.slug })}
               className="ml-3 inline-flex items-center gap-1.5 rounded-full bg-paper px-3.5 py-1.5 font-semibold text-ink text-xs"
             >
               Read story

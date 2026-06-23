@@ -167,7 +167,6 @@ export default function BlockContent({
     types: {
       image: (props) => {
         const { value } = props;
-        console.log({ value });
         if (!value || !value?.asset?._ref) {
           return null;
         }

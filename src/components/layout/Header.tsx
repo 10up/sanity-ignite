@@ -1,17 +1,13 @@
-import { cacheLife, cacheTag } from 'next/cache';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { CacheProfile } from '@/lib/sanity/client/fetch';
-import { CACHE_PROFILES, sanityFetch } from '@/lib/sanity/client/fetch';
+import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { settingsQuery } from '@/lib/sanity/queries/queries';
 import { settingsSchema } from '@/lib/sanity/queries/schemas';
+import { SiteSearch } from '../modules/SiteSearch';
 import { NavLinks } from './NavLinks';
 
 export const Header = async () => {
-  'use cache';
-  cacheTag('sanity:type:settings');
-  cacheLife(CACHE_PROFILES.max);
-
   const settings = await sanityFetch({
     query: settingsQuery,
     schema: settingsSchema,
@@ -36,13 +32,18 @@ export const Header = async () => {
           href="/"
           className="flex shrink-0 items-center gap-2 font-extrabold text-lg tracking-tight"
         >
-          <span className="mr-0 inline-block text-sm" aria-hidden="true">🔥</span>
+          <span className="mr-0 inline-block text-sm" aria-hidden="true">
+            🔥
+          </span>
           Ignite for Sanity{' '}
           <span className="text-xs text-paper font-semibold border border-purple inline-flex items-center justify-center rounded-sm leading-none size-6 bg-purple/30">
             v2
           </span>
         </Link>
-        <nav aria-label="Main navigation" className="flex min-w-0 flex-wrap items-center gap-x-6 gap-y-2 font-medium text-sm">
+        <nav
+          aria-label="Main navigation"
+          className="flex min-w-0 flex-wrap items-center gap-x-6 gap-y-2 font-medium text-sm"
+        >
           <NavLinks items={settings.menu ?? []} />
         </nav>
         <div className="ml-auto flex items-center gap-2">
@@ -80,6 +81,7 @@ export const Header = async () => {
               className="w-auto h-[15px] transform translate-y-[-1px]"
             />
           </Link>
+          <SiteSearch searchPlaceholder="Search..." />
         </div>
       </div>
     </header>

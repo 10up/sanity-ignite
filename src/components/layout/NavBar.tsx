@@ -11,11 +11,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from '@/components/ui/NavigationMenu';
+} from '@/components/ui/shadcn/navigation-menu';
 import { getLinkByLinkObject } from '@/lib/links';
 import type { settingsSchema } from '@/lib/sanity/queries/schemas';
 import { cn } from '@/lib/utils';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/shadcn/button';
 
 type MenuItem = NonNullable<z.infer<typeof settingsSchema>['menu']>[number];
 

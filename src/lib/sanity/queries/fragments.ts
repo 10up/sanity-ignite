@@ -1,4 +1,3 @@
-
 export const twitterFragment = /* groq */ `
   _type,
   site,

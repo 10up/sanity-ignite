@@ -76,3 +76,6 @@ vendor/
 coverage/
 .cache/
 tmp/
+
+# local dev scripts
+scripts

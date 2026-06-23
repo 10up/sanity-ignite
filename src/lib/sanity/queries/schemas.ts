@@ -141,6 +141,14 @@ const categorySchema = z
     title: z.string().nullish(),
     slug: z.string().nullish(),
     description: z.string().nullish(),
+    children: z
+      .array(
+        z.object({
+          title: z.string().nullish(),
+          slug: z.string().nullish(),
+        })
+      )
+      .nullish(),
     parent: z
       .object({
         _ref: z.string(),
@@ -291,7 +299,7 @@ export type SectionsType = SectionType[] | null | undefined;
 
 // ─── Page schemas ────────────────────────────────────────────────────────────
 
-const pageSchema = z
+const pageSchemaBase = z
   .object({
     pageSections: z.array(sectionSchema).nullish(),
     seo: seoSchema.nullish(),
@@ -299,7 +307,7 @@ const pageSchema = z
   .loose();
 
 export const homePageSchema = z.object({
-  ...pageSchema.shape,
+  ...pageSchemaBase.shape,
   _id: z.string(),
   _type: z.literal('homePage'),
   name: z.string().nullish(),
@@ -315,14 +323,16 @@ export const articleArchivePageSchema = z
   })
   .loose();
 
-export const pageSchema_ = z
+export const pageSchema = z
   .object({
     _id: z.string(),
     _type: z.literal('page'),
     name: z.string().nullish(),
     slug: z.object({ current: z.string() }).nullish(),
   })
-  .extend(pageSchema.shape);
+  .extend(pageSchemaBase.shape);
+
+export const pageSlugsSchema = z.array(z.string());
 
 export const allCategoriesSchema = z.array(categorySchema);
 
@@ -350,6 +360,19 @@ export type RelatedArticlesBlockType = z.infer<
 >;
 
 export const articlesArchiveSchema = z.array(articleCardSchema).nullish();
+
+// ─── Search ──────────────────────────────────────────────────────────────────
+
+export const searchResultSchema = z.object({
+  _id: z.string(),
+  _score: z.number(),
+  title: z.string(),
+  slug: z.string().nullable(),
+  summary: z.string().nullish(),
+});
+export type SearchResultType = z.infer<typeof searchResultSchema>;
+
+export const searchResultsSchema = z.array(searchResultSchema);
 
 export const sitemapSchema = z.array(
   z.object({

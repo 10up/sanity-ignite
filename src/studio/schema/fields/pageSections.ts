@@ -1,11 +1,11 @@
 import { defineArrayMember, defineField } from 'sanity';
-import articleList from '../objects/sections/articleList';
-import cardGrid from '../objects/sections/cardGrid';
-import cta from '../objects/sections/cta';
-import divider from '../objects/sections/divider';
-import hero from '../objects/sections/hero';
-import mediaText from '../objects/sections/mediaText';
-import subscribe from '../objects/sections/subscribe';
+import articleList from '../objects/pageSections/articleList';
+import cardGrid from '../objects/pageSections/cardGrid';
+import cta from '../objects/pageSections/cta';
+import divider from '../objects/pageSections/divider';
+import hero from '../objects/pageSections/hero';
+import mediaText from '../objects/pageSections/mediaText';
+import subscribe from '../objects/pageSections/subscribe';
 
 const pageSectionsObjects = [
   cardGrid,

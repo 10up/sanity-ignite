@@ -2,30 +2,30 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import PageSections from '@/components/sections/PageSections';
 import { serverEnv } from '@/env/serverEnv';
-import { client } from '@/lib/sanity/client/client';
 import type { CacheProfile } from '@/lib/sanity/client/fetch';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { formatMetaData } from '@/lib/sanity/client/seo';
-import { getPageQuery, pageSlugs } from '@/lib/sanity/queries/queries';
-import { pageSchema_ } from '@/lib/sanity/queries/schemas';
+import { getPageQuery, getPageSlugs } from '@/lib/sanity/queries/queries';
+import { pageSchema, pageSlugsSchema } from '@/lib/sanity/queries/schemas';
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-const pageFetchOptions = (slug: string) => ({
+const fetchOptions = (slug: string) => ({
   query: getPageQuery,
   params: { slug },
-  schema: pageSchema_,
+  schema: pageSchema,
   cache: {
     profile: 'days' as CacheProfile,
     tags: ['sanity:type:page', `sanity:slug:${slug}`],
   },
+  bypassLiveFetch: true,
 });
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const { slug } = await props.params;
-  const page = await sanityFetch(pageFetchOptions(slug));
+  const page = await sanityFetch(fetchOptions(slug));
 
   if (!page?.seo) {
     return {};
@@ -38,8 +38,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const slugs = await client.fetch(pageSlugs, {
-    limit: serverEnv.MAX_STATIC_PARAMS,
+  const slugs = await sanityFetch({
+    query: getPageSlugs,
+    schema: pageSlugsSchema,
+    params: {
+      limit: serverEnv.MAX_STATIC_PARAMS,
+    },
+    bypassLiveFetch: true,
   });
 
   return slugs
@@ -51,7 +56,7 @@ export async function generateStaticParams() {
 
 export default async function Page(props: Props) {
   const { slug } = await props.params;
-  const page = await sanityFetch(pageFetchOptions(slug));
+  const page = await sanityFetch(fetchOptions(slug));
 
   if (!page) {
     notFound();

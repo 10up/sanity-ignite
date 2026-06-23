@@ -16,6 +16,7 @@ import {
 } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
 import { clientEnv } from '@/env/clientEnv';
+import { getDocumentLink } from '@/lib/links';
 import { schemaTypes } from './src/studio/schema';
 import { structure } from './src/studio/structure';
 
@@ -30,9 +31,8 @@ const homeLocation = {
 function resolveHref(documentType?: string, slug?: string): string | undefined {
   switch (documentType) {
     case 'article':
-      return slug ? `/article/${slug}` : undefined;
     case 'page':
-      return slug ? `/${slug}` : undefined;
+      return slug ? getDocumentLink({ _type: documentType, slug }) : undefined;
     default:
       console.warn('Invalid document type:', documentType);
       return undefined;
@@ -70,7 +70,7 @@ export default defineConfig({
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
           {
-            route: '/articles/:slug',
+            route: '/article/:slug',
             filter: `_type == "article" && slug.current == $slug || _id == $slug`,
           },
         ]),
@@ -93,24 +93,6 @@ export default defineConfig({
                   href: resolveHref('page', doc?.slug) ?? '/',
                 },
               ],
-            }),
-          }),
-          article: defineLocations({
-            select: {
-              title: 'title',
-              slug: 'slug.current',
-            },
-            resolve: (doc) => ({
-              locations: [
-                {
-                  title: doc?.title || 'Untitled',
-                  href: resolveHref('article', doc?.slug) ?? '/',
-                },
-                {
-                  title: 'Home',
-                  href: '/',
-                } satisfies DocumentLocation,
-              ].filter(Boolean) as DocumentLocation[],
             }),
           }),
         },

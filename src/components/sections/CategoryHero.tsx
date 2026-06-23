@@ -1,10 +1,17 @@
 import type { CategoryFragmentType } from '@/lib/sanity/queries/schemas';
+import { CategoryHeroSubCategories } from './CategoryHeroSubCategories';
 
 export const CategoryHero = ({
   category,
+  activeSubcategory,
 }: {
   category: CategoryFragmentType;
+  activeSubcategory: string | null;
 }) => {
+  const subcategories = (category.children ?? []).flatMap((child) =>
+    child.slug && child.title ? [{ title: child.title, slug: child.slug }] : []
+  );
+
   return (
     <section className="relative overflow-hidden bg-ink text-white px-7 py-10">
       <div
@@ -20,30 +27,13 @@ export const CategoryHero = ({
         <p className="relative text-muted-on-dark text-base leading-[1.55] max-w-[560px]">
           {category.description}
         </p>
-        <div className="relative flex gap-2 flex-wrap mt-5">
-          {[
-            'All',
-            'Sanity',
-            'Next.js',
-            'Vercel',
-            'AI',
-            'Edge',
-            'WordPress',
-            'Contentful',
-            'Shopify',
-          ].map((t, i) => (
-            <span
-              key={i}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-medium font-mono text-white cursor-pointer ${
-                i === 0
-                  ? 'bg-purple border-0'
-                  : 'bg-white/[0.08] border border-line-dark'
-              }`}
-            >
-              {t}
-            </span>
-          ))}
-        </div>
+        {subcategories.length > 0 && category.slug && (
+          <CategoryHeroSubCategories
+            parentSlug={category.slug}
+            subcategories={subcategories}
+            activeSubcategory={activeSubcategory}
+          />
+        )}
       </div>
     </section>
   );

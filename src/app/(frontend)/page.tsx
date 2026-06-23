@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
-import { NewsletterSubscribe } from '@/components/sections/NewsletterSubscribe';
 import PageSections from '@/components/sections/PageSections';
-import { HomeArticleFeed } from '@/components/sections/TwoColumnFeed';
+import { TwoColumnArticleFeed } from '@/components/sections/TwoColumnArticleFeed';
 import type { CacheProfile } from '@/lib/sanity/client/fetch';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { formatMetaData } from '@/lib/sanity/client/seo';
@@ -46,7 +45,7 @@ export default async function Page() {
         documentType={_type}
         sections={pageSections}
       />
-      <HomeArticleFeed />
+      <TwoColumnArticleFeed />
     </>
   );
 }

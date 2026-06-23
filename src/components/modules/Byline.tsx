@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { Image } from 'next-sanity/image';
-import { Badge } from '@/components/ui/Badge';
+import { Badge } from '@/components/ui/shadcn/badge';
 import { DateComponent } from '@/components/ui/Date';
+import { getDocumentLink } from '@/lib/links';
 import { urlForImage } from '@/lib/sanity/client/utils';
 import type { ArticleFragmentType } from '@/lib/sanity/queries/schemas';
 
@@ -30,15 +31,10 @@ export default function Byline({ post }: { post: ArticleFragmentType }) {
           <div className="mr-1">By </div>
         )}
         <div className="flex flex-col">
-          {post.author?.firstName &&
-          post.author?.lastName &&
-          post.author?.slug ? (
-            <Link
-              className="font-bold underline hover:text-gray-700 transition-colors"
-              href={`/author/${post.author.slug}`}
-            >
+          {post.author?.firstName && post.author?.lastName ? (
+            <span className="font-bold">
               {post.author.firstName} {post.author.lastName}
-            </Link>
+            </span>
           ) : null}
           <div className="text-gray-500 text-sm">
             <DateComponent dateString={post.date} />
@@ -50,7 +46,12 @@ export default function Byline({ post }: { post: ArticleFragmentType }) {
           <div className="flex items-center gap-2">
             {post.categories.filter(Boolean).map((category) => (
               <Badge variant="default" asChild key={category._id}>
-                <Link href={`/category/${category.slug}`}>
+                <Link
+                  href={getDocumentLink({
+                    _type: 'category',
+                    slug: category.slug,
+                  })}
+                >
                   {category.title}
                 </Link>
               </Badge>

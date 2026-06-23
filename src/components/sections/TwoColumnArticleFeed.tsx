@@ -2,18 +2,31 @@ import { Suspense } from 'react';
 import { ArticleCard } from '@/components/sections/ArticleListCard';
 import { getDocumentLink } from '@/lib/links';
 import { type CacheProfile, sanityFetch } from '@/lib/sanity/client/fetch';
-import { latestArticlesQuery } from '@/lib/sanity/queries/queries';
+import {
+  latestArticlesQuery,
+  latestCategoryArticlesQuery,
+} from '@/lib/sanity/queries/queries';
 import { articlesArchiveSchema } from '@/lib/sanity/queries/schemas';
 import {
   RecommendedArticleList,
   RecommendedArticleListSkeleton,
 } from './RecommendedArticleList';
 
-export const HomeArticleFeed = async () => {
+export const TwoColumnArticleFeed = async ({
+  categorySlug,
+  size = 10,
+}: {
+  categorySlug?: string;
+  size?: number;
+}) => {
+  const query = categorySlug
+    ? latestCategoryArticlesQuery
+    : latestArticlesQuery;
   const latestArticles = await sanityFetch({
-    query: latestArticlesQuery,
+    query,
     schema: articlesArchiveSchema,
     cache: { profile: 'days' as CacheProfile, tags: ['sanity:type:article'] },
+    params: categorySlug ? { categorySlug, size } : { size },
   });
 
   return (

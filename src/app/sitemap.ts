@@ -11,7 +11,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     schema: sitemapSchema,
     cache: {
       profile: 'days' as CacheProfile,
-      tags: ['sanity:type:page', 'sanity:type:post', 'sanity:type:homePage'],
+      tags: [
+        'sanity:type:page',
+        'sanity:type:article',
+        'sanity:type:category',
+        'sanity:type:homePage',
+      ],
     },
   });
 

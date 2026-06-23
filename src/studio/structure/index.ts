@@ -13,14 +13,17 @@ export const structure: StructureResolver = (S) =>
     .title('Content')
     .items([
       S.listItem()
+        .id('homePage')
         .title('Home')
         .child(S.document().schemaType('homePage').documentId('homePage'))
         .icon(HomeIcon),
       S.listItem()
+        .id('article')
         .title('Articles')
-        .child(S.document().schemaType('article').documentId('article'))
+        .child(S.documentTypeList('article').title('Articles'))
         .icon(FileText),
       S.listItem()
+        .id('articleArchivePage')
         .title('Article Archive Page')
         .child(
           S.document()
@@ -42,6 +45,7 @@ export const structure: StructureResolver = (S) =>
           : false;
       }),
       S.listItem()
+        .id('settings')
         .title('Site Settings')
         .child(S.document().schemaType('settings').documentId('siteSettings'))
         .icon(CogIcon),

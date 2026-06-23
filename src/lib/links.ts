@@ -6,10 +6,21 @@ export const getBaseURL = () => {
 };
 
 /**
- * Generic function to generate a link to a document based on its type and slug
+ * Generic function to generate a link to a document based on its type and slug.
+ *
+ * For subcategories, pass the top-level `parentSlug` so the URL matches the
+ * `/category/[...slug]` route (`/category/{parentSlug}/{slug}`).
  */
 export const getDocumentLink = (
-  { _type, slug }: { _type: string; slug: string | null | undefined },
+  {
+    _type,
+    slug,
+    parentSlug,
+  }: {
+    _type: string;
+    slug: string | null | undefined;
+    parentSlug?: string | null;
+  },
   absolute: boolean = false
 ) => {
   const linkBase = absolute ? getBaseURL() : '';
@@ -20,7 +31,7 @@ export const getDocumentLink = (
     case 'article':
       return `${linkBase}/article/${slug}`;
     case 'category':
-      return `${linkBase}/category/${slug}`;
+      return `${linkBase}/category/${parentSlug ? `${parentSlug}/` : ''}${slug}`;
     case 'homePage':
       return `${linkBase}/`;
     default:

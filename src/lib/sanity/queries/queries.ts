@@ -22,19 +22,22 @@ export const homePageQuery = defineQuery(`*[_type == "homePage"][0]{
 }`);
 
 export const categoryQuery =
-  defineQuery(`*[_type == "category" && slug.current == $slug][0] {
-  _id,
-  _type,
-  title,
-  "slug": slug.current,
-  description,
-  "featuredArticle": featuredArticle->{
-    ${articleCardFragment}
-  },
-  seo {
-    ${seoFragment}
+  defineQuery(`*[_type == "category" && slug.current == $slug][0]{
+  "category": coalesce(parent->, @){
+    _id,
+    _type,
+    title,
+    "slug": slug.current,
+    description,
+    "children": *[_type == "category" && references(^._id)] | order(title asc) {
+      title,
+      "slug": slug.current
+    },
+    seo {
+      ${seoFragment}
+    }
   }
-}`);
+}.category`);
 
 export const getPageQuery = defineQuery(`
   *[_type == 'page' && slug.current == $slug][0]{
@@ -47,10 +50,11 @@ export const getPageQuery = defineQuery(`
 `);
 
 export const getSitemapQuery = defineQuery(`
-  *[((_type in ["page", "article"] && defined(slug.current)) || (_type == "homePage")) && seo.noIndex != true]{
+  *[((_type in ["page", "article", "category"] && defined(slug.current)) || (_type == "homePage")) && seo.noIndex != true]{
     "href": select(
       _type == "page" => "/" + slug.current,
-      _type == "article" => "/articles/" + slug.current,
+      _type == "article" => "/article/" + slug.current,
+      _type == "category" => "/category/" + select(defined(parent) => parent->slug.current + "/", "") + slug.current,
       _type == "homePage" => "/",
       slug.current
     ),
@@ -64,7 +68,7 @@ export const articleQuery = defineQuery(`
   }
 `);
 
-export const pageSlugs = defineQuery(`
+export const getPageSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)][0..$limit].slug.current
 `);
 
@@ -109,15 +113,40 @@ export const articlesArchiveOldestQuery = defineQuery(
 );
 
 export const latestArticlesQuery = defineQuery(`
-  *[_type == "article" && defined(slug.current)] | order(_createdAt desc) [0...10] {
+  *[_type == "article" && defined(slug.current)] | order(_createdAt desc) [0...$size] {
     ${articleCardFragment}
   }
 `);
+
+export const latestCategoryArticlesQuery = defineQuery(`
+  *[_type == "article" && defined(slug.current) && references(*[_type == "category" && slug.current == $categorySlug]._id)] | order(_createdAt desc) [0...$size] {
+    ${articleCardFragment}
+  }
+`);
+
 export const recommendedArticlesQuery = defineQuery(`
   *[_type == "article" && defined(slug.current)]
   | score($country in countryInterest)
   | order(_createdAt desc)
   [0...10] {
     ${articleCardFragment}
+  }
+`);
+
+// Semantic search over the dataset embeddings index. `text::semanticSimilarity`
+// is only valid as an argument to `score()`, and requires embeddings to be
+// enabled on the dataset (`npm run embeddings:enable`). `_embeddings` (the raw
+// match-fragment metadata) is intentionally omitted — it's large and unused on
+// the client. See https://www.sanity.io/docs/content-lake/dataset-embeddings
+export const searchArticlesQuery = defineQuery(`
+  *[_type == "article" && defined(slug.current)]
+  | score(text::semanticSimilarity($searchTerm))
+  | order(_score desc)
+  [0...10] {
+    _id,
+    _score,
+    title,
+    "slug": slug.current,
+    "summary": excerpt
   }
 `);
