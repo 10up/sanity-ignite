@@ -7,10 +7,8 @@ import { Button } from '@/components/ui/shadcn/button';
 
 export default function ErrorBoundary({
   error,
-  reset,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
 }) {
   useEffect(() => {
     // Replace with your error reporting service (Sentry, etc.)

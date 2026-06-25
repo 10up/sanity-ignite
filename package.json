@@ -18,13 +18,13 @@
     "built": "npm run next:build",
     "start": "npm run next:start",
     "sanity:typegen": "mkdir -p ./.sanity && sanity schema extract --path=.sanity/schema.json && sanity typegen generate",
-    "seed:pulse": "sanity datasets import --replace scripts/pulse-seed.ndjson",
+    "seed": "sanity datasets import --replace scripts/pulse-seed.ndjson",
     "embeddings:projection": "node src/studio/schema/embeddings/projection.ts",
     "embeddings:enable": "sanity datasets embeddings enable --projection \"$(npm run -s embeddings:projection)\"",
     "embeddings:status": "sanity datasets embeddings status",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.85",
@@ -75,8 +75,5 @@
   },
   "engines": {
     "node": ">=22.0.0"
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": "biome check"
   }
 }
