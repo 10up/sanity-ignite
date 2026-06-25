@@ -234,10 +234,10 @@ export type HeroSectionFragmentType = z.infer<typeof heroSectionSchema>;
 const mediaTextSectionSchema = sectionBaseSchema.extend({
   _type: z.literal('mediaText'),
   heading: z.string().nullish(),
+  subtitle: z.string().nullish(),
   content: blockContentSchema.nullish(),
   imagePosition: z.string().nullish(),
   image: imageSchema.nullish(),
-  buttons: z.array(buttonSchema).nullish(),
 });
 export type MediaTextSectionFragmentType = z.infer<
   typeof mediaTextSectionSchema

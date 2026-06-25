@@ -119,10 +119,13 @@ export const buttonsFragment = /* groq */ `
 export const mediaTextSectionFragment = /* groq */ `
   _type,
   heading,
-  text,
-  media,
-  mediaPosition,
-  ${buttonsFragment}
+  subtitle,
+  content[]{
+    ...,
+    ${markDefsFragment}
+  },
+  imagePosition,
+  image,
 `;
 
 export const categoryFragment = /* groq */ `
