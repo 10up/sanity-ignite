@@ -4,6 +4,7 @@ import { sanityFetch } from '@/lib/sanity/client/fetch';
 import { settingsQuery } from '@/lib/sanity/queries/queries';
 import { settingsSchema } from '@/lib/sanity/queries/schemas';
 import { SiteSearch } from '../modules/SiteSearch';
+import { MobileNav } from './MobileNav';
 import { NavLinks } from './NavLinks';
 
 // Global site settings/menu are the same for everyone, so they're always
@@ -34,32 +35,32 @@ export const Header = async () => {
       >
         Skip to main content
       </a>
-      <div className="relative z-10 flex min-w-0 flex-1 items-center gap-8 mx-auto max-w-7xl">
+      <div className="relative z-10 flex min-w-0 flex-1 items-center gap-4 mx-auto max-w-7xl lg:gap-8">
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-2 font-extrabold text-lg tracking-tight"
+          className="flex min-w-0 shrink items-center gap-2 font-extrabold text-lg tracking-tight"
         >
           <Image
             src="/fueled_planet@2x.png"
             alt="Ignite for Sanity"
             width={32}
             height={32}
-            className="mr-0 inline-block text-sm size-8"
+            className="mr-0 inline-block shrink-0 text-sm size-8"
             aria-hidden="true"
           />
-          Ignite for Sanity{' '}
-          <span className="relative overflow-hidden text-xs text-paper font-semibold border border-purple inline-flex items-center justify-center rounded-sm leading-none size-6 bg-purple/50">
+          <span className="truncate">Ignite for Sanity</span>{' '}
+          <span className="relative shrink-0 overflow-hidden text-xs text-paper font-semibold border border-purple inline-flex items-center justify-center rounded-sm leading-none size-6 bg-purple/50">
             <span aria-hidden="true" className="version-badge-shimmer" />
             <span className="relative z-[1] text-shadow-sm">v2</span>
           </span>
         </Link>
         <nav
           aria-label="Main navigation"
-          className="flex min-w-0 flex-wrap items-center gap-x-6 gap-y-2 font-medium text-sm"
+          className="hidden min-w-0 flex-wrap items-center gap-x-6 gap-y-2 font-medium text-sm lg:flex"
         >
           <NavLinks items={settings.menu ?? []} />
         </nav>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto hidden items-center gap-2 lg:flex">
           <Link
             href="https://github.com/10up/sanity-ignite"
             target="_blank"
@@ -95,6 +96,10 @@ export const Header = async () => {
             />
           </Link>
           <SiteSearch searchPlaceholder="Search..." />
+        </div>
+        <div className="ml-auto flex items-center gap-1 lg:hidden">
+          <SiteSearch searchPlaceholder="Search..." />
+          <MobileNav items={settings.menu ?? []} />
         </div>
       </div>
     </header>

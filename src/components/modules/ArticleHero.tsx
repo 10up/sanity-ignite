@@ -26,11 +26,11 @@ export const ArticleHero = ({
   return (
     <div className="space-y-10">
       <div className="bg-paper">
-        <div className="max-w-4xl mx-auto pt-10 pb-4 space-y-4">
+        <div className="max-w-4xl mx-auto px-5 pt-10 pb-4 space-y-4 lg:px-7">
           <div className="inline-flex items-center gap-3 rounded-full bg-primary/20 px-3 py-1.5 text-purple font-semibold uppercase tracking-widest text-xxs font-mono">
             {primaryCategory}
           </div>
-          <h1 className="font-display text-5xl font-extrabold leading-[1.02] tracking-tighter text-ink">
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.05] lg:leading-[1.02] tracking-tighter text-ink">
             {title}
           </h1>
           <p className="font-mono text-lg tracking-tight leading-relaxed text-p text-muted-ink">
@@ -59,17 +59,19 @@ export const ArticleHero = ({
           </div>
         </div>
       </div>
-      <div className="relative aspect-[16/7] w-full max-w-7xl mx-auto rounded-lg bg-paper overflow-hidden">
-        {image && (
-          <Image
-            src={urlForImage(image)?.width(1280).height(600).url() as string}
-            alt={image?.alt ?? title}
-            fill
-            sizes="(min-width: 1024px) 1280px, 100vw"
-            className="object-cover"
-            loading="eager"
-          />
-        )}
+      <div className="mx-auto w-full max-w-7xl px-5 lg:px-0">
+        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-paper sm:aspect-[16/7]">
+          {image && (
+            <Image
+              src={urlForImage(image)?.width(1280).height(600).url() as string}
+              alt={image?.alt ?? title}
+              fill
+              sizes="(min-width: 1024px) 1280px, 100vw"
+              className="object-cover"
+              loading="eager"
+            />
+          )}
+        </div>
       </div>
     </div>
   );

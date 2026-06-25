@@ -16,6 +16,18 @@ export const Hero = ({ section }: { section: HeroSectionFragmentType }) => {
     ?.width(128)
     .height(128)
     .url();
+  // Reused in two positions: inline between heading/tagline on mobile, and in
+  // the right-hand column on desktop. Same `src`, so the browser fetches once.
+  const heroImage = articleImage ? (
+    <Image
+      src={articleImage}
+      alt=""
+      fill
+      className="object-cover"
+      sizes="(min-width: 1024px) 42rem, 100vw"
+      loading="eager"
+    />
+  ) : null;
   return (
     <section className="relative overflow-hidden bg-ink px-7 pb-11 pt-10 text-paper">
       <div
@@ -37,9 +49,15 @@ export const Hero = ({ section }: { section: HeroSectionFragmentType }) => {
             {kicker}
           </div>
 
-          <h1 className="font-display my-4.5 text-6xl font-extrabold leading-none tracking-tight text-paper lg:text-7xl text-balance">
+          <h1 className="font-display my-4.5 text-4xl sm:text-5xl font-extrabold leading-tight lg:leading-none tracking-tight text-paper lg:text-7xl text-balance">
             {heading}
           </h1>
+
+          {heroImage && (
+            <div className="relative my-5 aspect-[4/3] w-full overflow-hidden rounded-lg border border-line-dark lg:hidden">
+              {heroImage}
+            </div>
+          )}
 
           <p className="max-w-xl text-pretty text-lg leading-relaxed text-muted-on-dark">
             {tagline}
@@ -73,17 +91,8 @@ export const Hero = ({ section }: { section: HeroSectionFragmentType }) => {
           </div>
         </div>
 
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border border-line-dark">
-          {articleImage && (
-            <Image
-              src={articleImage}
-              alt=""
-              fill
-              className="object-cover"
-              sizes="(min-width: 1024px) 42rem, 100vw"
-              loading="eager"
-            />
-          )}
+        <div className="relative hidden aspect-[4/3] w-full overflow-hidden rounded-lg border border-line-dark lg:block">
+          {heroImage}
         </div>
       </div>
     </section>

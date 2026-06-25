@@ -118,7 +118,7 @@ async function CachedPage({
     <main id="main" aria-label={page.name ?? ''}>
       <JsonLd data={buildPageSchema(page)} />
       <PageHero title={page.name ?? ''} excerpt={page.excerpt ?? ''} />
-      <div className="mx-auto max-w-4xl py-10">
+      <div className="mx-auto max-w-4xl px-5 py-10 lg:px-7">
         {page.content && <BlockContent value={page.content} />}
       </div>
     </main>

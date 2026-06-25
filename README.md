@@ -96,7 +96,7 @@ src/
     studio/              # Embedded Sanity Studio
   components/
     icons/               # Custom SVG/icon components
-    layout/              # Header, Footer, NavBar, etc.
+    layout/              # Header, Footer, MobileNav, etc.
     modules/             # Components that receive Sanity data
     sections/            # Page builder sections
     templates/           # Page-level templates

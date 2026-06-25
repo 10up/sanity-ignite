@@ -144,7 +144,7 @@ async function CachedArticle({
         image={article.image}
         readTime={article.readTime ?? 3}
       />
-      <div className="mx-auto grid max-w-6xl grid-cols-1 lg:grid-cols-[1fr_320px] lg:gap-x-8 py-10">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 px-5 py-10 lg:grid-cols-[1fr_320px] lg:gap-x-8 lg:px-7">
         <div className="min-w-0">
           {article.content && <BlockContent value={article.content} />}
         </div>

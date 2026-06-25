@@ -8,7 +8,7 @@ import type { ArticleFragmentType } from '@/lib/sanity/queries/schemas';
 
 export default function Byline({ post }: { post: ArticleFragmentType }) {
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
       <div className="flex items-center">
         {post.author?.image?.asset?._ref ? (
           <div className="mr-4 h-9 w-9">

@@ -20,7 +20,7 @@ export const CategoryHero = ({
       />
       <div className="max-w-7xl mx-auto">
         <div>
-          <h1 className="font-display my-4.5 text-6xl font-extrabold leading-none tracking-tight text-paper lg:text-7xl text-balance">
+          <h1 className="font-display my-4.5 text-4xl sm:text-5xl font-extrabold leading-tight lg:leading-none tracking-tight text-paper lg:text-7xl text-balance">
             {category.title}
           </h1>
         </div>

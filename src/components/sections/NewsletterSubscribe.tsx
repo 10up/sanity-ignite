@@ -12,7 +12,7 @@ export const NewsletterSubscribe = () => {
 
   return (
     <section className="border-line border-y bg-paper py-11">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl px-5 lg:px-7">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
           <div>
             <div className="font-semibold text-purple text-xs uppercase tracking-widest">

@@ -16,7 +16,7 @@ export default function MediaTextSection({
   const imageRight = section?.imagePosition === 'right';
 
   return (
-    <section className="mx-auto max-w-7xl py-10 border-line border-b bg-white pb-8 ">
+    <section className="mx-auto max-w-7xl px-0 py-7 lg:px-7 border-line border-b bg-white pb-8 ">
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2">
         {/* On mobile the image always leads; on lg it moves right when chosen. */}
         <div className={cn('min-w-0', imageRight && 'lg:order-2')}>
@@ -34,14 +34,14 @@ export default function MediaTextSection({
           )}
         </div>
 
-        <div className="min-w-0 py-10">
+        <div className="min-w-0">
           {section?.subtitle && (
             <p className="font-bold text-xxs uppercase tracking-wider text-purple">
               {section.subtitle}
             </p>
           )}
           {section?.heading && (
-            <h2 className="mt-1.5 font-display text-balance font-extrabold text-4xl leading-none tracking-tighter text-ink lg:text-5xl">
+            <h2 className="mt-1.5 font-display text-balance font-extrabold text-4xl leading-none tracking-tight text-ink lg:text-5xl">
               {section.heading}
             </h2>
           )}

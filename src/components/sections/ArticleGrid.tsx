@@ -9,7 +9,7 @@ export const ArticleGrid = ({
 }) => {
   const { heading, articles } = section;
   return (
-    <section className="border-line border-b bg-white pb-8 pt-7 max-w-7xl mx-auto">
+    <section className="border-line border-b bg-white pb-8 pt-7 max-w-7xl mx-auto px-5 lg:px-7">
       <div className="mb-4 flex items-baseline justify-between">
         <h2 className="flex items-center gap-2.5 text-sm font-mono font-semibold uppercase tracking-wide text-ink">
           <span aria-hidden className="h-4 w-1 shrink-0 rounded-sm bg-purple" />

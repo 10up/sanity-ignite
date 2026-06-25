@@ -22,7 +22,7 @@ export const RelatedArticlesInline = ({
         <span aria-hidden className="h-4 w-1 shrink-0 rounded-sm bg-purple" />
         Related Stories
       </h4>
-      <ul className="grid grid-cols-2 gap-4">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {articles.map((article) => (
           <li key={article._id}>
             <Link
