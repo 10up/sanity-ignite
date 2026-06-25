@@ -9,7 +9,9 @@ import {
   RecommendedArticleList,
   RecommendedArticleListSkeleton,
 } from '@/components/sections/RecommendedArticleList';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { serverEnv } from '@/env/serverEnv';
+import { buildArticleSchema } from '@/lib/agent-readiness/structured-data';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import {
   type DynamicFetchOptions,
@@ -131,6 +133,7 @@ async function CachedArticle({
 
   return (
     <article id="main" aria-label={article.title}>
+      <JsonLd data={buildArticleSchema(article)} />
       <ArticleHero
         title={article.title}
         excerpt={article.excerpt ?? ''}

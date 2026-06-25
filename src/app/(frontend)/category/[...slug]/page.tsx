@@ -7,6 +7,8 @@ import {
   RecommendedArticleListSkeleton,
 } from '@/components/sections/RecommendedArticleList';
 import { TwoColumnArticleFeed } from '@/components/sections/TwoColumnArticleFeed';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { buildCategorySchema } from '@/lib/agent-readiness/structured-data';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import {
   type DynamicFetchOptions,
@@ -84,6 +86,7 @@ async function CategoryPage({
 
   return (
     <>
+      <JsonLd data={buildCategorySchema(category, activeSubcategory)} />
       <CategoryHero category={category} activeSubcategory={activeSubcategory} />
       <TwoColumnArticleFeed
         categorySlug={activeSubcategory ?? category.slug}

@@ -77,6 +77,14 @@ export const getPageSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)][0..$limit].slug.current
 `);
 
+// Indexable pages with titles, used to build the /llms.txt index.
+export const navPagesQuery = defineQuery(`
+  *[_type == "page" && defined(slug.current) && seo.noIndex != true] | order(name asc) {
+    "title": name,
+    "slug": slug.current
+  }
+`);
+
 export const articleSlugs = defineQuery(`
   *[_type == "article" && defined(slug.current)][0..$limit].slug.current
 `);

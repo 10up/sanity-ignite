@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { createEnv } from '@/utils/createEnv';
 
 const envSchema = {
+  NODE_ENV: z.enum(['development', 'production']).default('development'),
   SANITY_API_READ_TOKEN: z.string().min(1),
   SANITY_WEBHOOK_SECRET: z.string().min(1),
   MAX_STATIC_PARAMS: z

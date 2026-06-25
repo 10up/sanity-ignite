@@ -4,7 +4,9 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import BlockContent from '@/components/modules/BlockContent';
 import { PageHero } from '@/components/sections/PageHero';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { serverEnv } from '@/env/serverEnv';
+import { buildPageSchema } from '@/lib/agent-readiness/structured-data';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import {
   type DynamicFetchOptions,
@@ -114,6 +116,7 @@ async function CachedPage({
 
   return (
     <main id="main" aria-label={page.name ?? ''}>
+      <JsonLd data={buildPageSchema(page)} />
       <PageHero title={page.name ?? ''} excerpt={page.excerpt ?? ''} />
       <div className="mx-auto max-w-4xl py-10">
         {page.content && <BlockContent value={page.content} />}

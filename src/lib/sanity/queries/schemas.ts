@@ -371,6 +371,16 @@ export const settingsSchema = z
     menu: z.array(menuItemSchema).nullish(),
   })
   .loose();
+export type SettingsType = z.infer<typeof settingsSchema>;
+
+// ─── Agent readiness: feeds & llms.txt ───────────────────────────────────────
+
+export const navPagesSchema = z.array(
+  z.object({
+    title: z.string().nullish(),
+    slug: z.string().nullish(),
+  })
+);
 
 // ─── Re-exports for type inference ───────────────────────────────────────────
 

@@ -1,5 +1,6 @@
 import '../globals.css';
 
+import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { draftMode } from 'next/headers';
 import { Suspense } from 'react';
@@ -8,8 +9,20 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import Main from '@/components/layout/Main';
 import { NewsletterSubscribe } from '@/components/sections/NewsletterSubscribe';
+import { SiteJsonLd } from '@/components/seo/SiteJsonLd';
 import { SanityLive } from '@/lib/sanity/client/live';
+import { getBaseUrl } from '@/utils/getBaseUrl';
 import { handleError } from './client-utils';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(getBaseUrl()),
+  alternates: {
+    types: {
+      'application/rss+xml': [{ url: '/feed.xml', title: 'RSS feed' }],
+      'application/feed+json': [{ url: '/feed.json', title: 'JSON feed' }],
+    },
+  },
+};
 
 const DraftModeToast = dynamic(
   () => import('@/components/modules/DraftModeToast')
@@ -44,6 +57,9 @@ export default async function RootLayout({
     <body>
       <section className="min-h-screen">
         <Toaster />
+        <Suspense fallback={null}>
+          <SiteJsonLd />
+        </Suspense>
         <Suspense fallback={null}>
           <DraftModeTools />
         </Suspense>
