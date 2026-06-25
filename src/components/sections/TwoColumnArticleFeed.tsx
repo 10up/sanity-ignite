@@ -1,54 +1,26 @@
-import { Suspense } from 'react';
 import { ArticleListCard } from '@/components/sections/ArticleListCard';
 import { getDocumentLink } from '@/lib/links';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
-import {
-  type DynamicFetchOptions,
-  getDynamicFetchOptions,
-} from '@/lib/sanity/client/live';
+import type { DynamicFetchOptions } from '@/lib/sanity/client/live';
 import {
   latestArticlesQuery,
   latestCategoryArticlesQuery,
 } from '@/lib/sanity/queries/queries';
 import { articlesArchiveSchema } from '@/lib/sanity/queries/schemas';
-import {
-  RecommendedArticleList,
-  RecommendedArticleListSkeleton,
-} from './RecommendedArticleList';
 
-// Dynamic island: resolves draft mode / perspective at request time, then
-// renders a cached child. Render inside a <Suspense> boundary when nested under
-// cached content (e.g. the category page).
+// Cached component: receives `perspective`/`stega` from the parent (the "dynamic"
+// layer resolves them once, outside any cache boundary). The personalized
+// sidebar is slotted in as `children` because it reads a per-user cookie and
+// must stay a dynamic island — render it inside a <Suspense> at the call site.
 export const TwoColumnArticleFeed = async ({
   categorySlug,
   size = 10,
-}: {
-  categorySlug?: string;
-  size?: number;
-}) => {
-  const options = await getDynamicFetchOptions();
-  return (
-    <CachedTwoColumnArticleFeed
-      categorySlug={categorySlug}
-      size={size}
-      {...options}
-    >
-      <Suspense fallback={<RecommendedArticleListSkeleton />}>
-        <RecommendedArticleList />
-      </Suspense>
-    </CachedTwoColumnArticleFeed>
-  );
-};
-
-const CachedTwoColumnArticleFeed = async ({
-  categorySlug,
-  size,
   children,
   perspective,
   stega,
 }: {
   categorySlug?: string;
-  size: number;
+  size?: number;
   children: React.ReactNode;
 } & DynamicFetchOptions) => {
   'use cache';

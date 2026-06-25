@@ -3,6 +3,7 @@ import {
   articleCardFragment,
   articleFragment,
   categoryFragment,
+  contentFragment,
   menuFragment,
   pageFragment,
   seoFragment,
@@ -45,7 +46,11 @@ export const getPageQuery = defineQuery(`
     _type,
     name,
     slug,
-    ${pageFragment}
+    excerpt,
+    ${contentFragment}
+    seo {
+      ${seoFragment}
+    }
   }
 `);
 

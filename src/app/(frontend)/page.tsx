@@ -2,6 +2,10 @@ import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import PageSections from '@/components/sections/PageSections';
+import {
+  RecommendedArticleList,
+  RecommendedArticleListSkeleton,
+} from '@/components/sections/RecommendedArticleList';
 import { TwoColumnArticleFeed } from '@/components/sections/TwoColumnArticleFeed';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import {
@@ -43,10 +47,19 @@ async function fetchHomePageMeta(perspective: LivePerspective) {
 }
 
 export default async function Page() {
+  // Resolve request-time perspective/stega once, outside any cache boundary, and
+  // drill it into the cached feed. The personalized recommended list stays a
+  // dynamic island, slotted in as `children` inside its own <Suspense>.
+  const { perspective, stega } = await getDynamicFetchOptions();
+
   return (
     <>
       <HomePageSections />
-      <TwoColumnArticleFeed />
+      <TwoColumnArticleFeed perspective={perspective} stega={stega}>
+        <Suspense fallback={<RecommendedArticleListSkeleton />}>
+          <RecommendedArticleList />
+        </Suspense>
+      </TwoColumnArticleFeed>
     </>
   );
 }
@@ -60,7 +73,7 @@ async function HomePageSections() {
   if (isEnabled) {
     return (
       <Suspense fallback={null}>
-        <DynamicHomePageSections />
+        <DraftHomePageSections />
       </Suspense>
     );
   }
@@ -68,8 +81,8 @@ async function HomePageSections() {
   return <CachedHomePageSections perspective="published" stega={false} />;
 }
 
-// Dynamic layer: resolves request-time perspective/stega outside `'use cache'`.
-async function DynamicHomePageSections() {
+// Draft layer: resolves request-time perspective/stega outside `'use cache'`.
+async function DraftHomePageSections() {
   const options = await getDynamicFetchOptions();
   return <CachedHomePageSections {...options} />;
 }

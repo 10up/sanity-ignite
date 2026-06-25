@@ -169,7 +169,7 @@ const relatedArticlesFragment = /* groq */ `
   },
 `;
 
-const contentFragment = /* groq */ `
+export const contentFragment = /* groq */ `
   content[]{
     ...,
     ${markDefsFragment}
@@ -206,50 +206,14 @@ export const heroSectionFragment = /* groq */ `
   },
 `;
 
-export const dividerSectionFragment = /* groq */ `
-  _type,
-  height
-`;
-
-export const ctaSectionFragment = /* groq */ `
-  _type,
-  heading,
-  text,
-  ${buttonsFragment}
-`;
-
-export const subscribeSectionFragment = /* groq */ `
-  _type,
-  heading,
-  text
-`;
-
-export const cardGridFragment = /* groq */ `
-  _type,
-  heading,
-  ${contentFragment}
-  icon,
-`;
-
-export const cardGridsSectionFragment = /* groq */ `
-  ${cardGridFragment}
-  cards[]{
-    ${cardGridFragment}
-  },
-`;
-
 export const pageBuilderFragment = /* groq */ `
   pageSections[]{
     ...,
     _key,
     _type,
-    _type == 'cardGrid' => {${cardGridsSectionFragment}},
-    _type == 'cta' => {${ctaSectionFragment}},
-    _type == 'divider' => {${dividerSectionFragment}},
     _type == 'hero' => {${heroSectionFragment}},
     _type == 'mediaText' => {${mediaTextSectionFragment}},
-    _type == 'articleList' => {${articleListSectionFragment}},
-    _type == 'subscribe' => {${subscribeSectionFragment}}
+    _type == 'articleList' => {${articleListSectionFragment}}
   },
 `;
 

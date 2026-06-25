@@ -2,6 +2,10 @@ import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { CategoryHero } from '@/components/sections/CategoryHero';
+import {
+  RecommendedArticleList,
+  RecommendedArticleListSkeleton,
+} from '@/components/sections/RecommendedArticleList';
 import { TwoColumnArticleFeed } from '@/components/sections/TwoColumnArticleFeed';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import {
@@ -21,7 +25,7 @@ export default async function Category(props: Props) {
   if (isEnabled) {
     return (
       <Suspense fallback={null}>
-        <DynamicCategoryPage params={props.params} />
+        <DraftCategoryPage params={props.params} />
       </Suspense>
     );
   }
@@ -30,7 +34,7 @@ export default async function Category(props: Props) {
   return <CategoryPage slug={slug} perspective="published" stega={false} />;
 }
 
-async function DynamicCategoryPage({ params }: Pick<Props, 'params'>) {
+async function DraftCategoryPage({ params }: Pick<Props, 'params'>) {
   const [{ slug }, options] = await Promise.all([
     params,
     getDynamicFetchOptions(),
@@ -39,9 +43,10 @@ async function DynamicCategoryPage({ params }: Pick<Props, 'params'>) {
 }
 
 // Uncached orchestrator: resolves the category (via a cached fetch), runs the
-// 404 logic, then renders the static hero alongside the dynamic feed. Keeping
-// this layer outside `'use cache'` lets TwoColumnArticleFeed read request-time
-// data (cookies) the same way it does on the home page.
+// 404 logic, then renders the hero alongside the feed. It already holds the
+// request-time `perspective`/`stega` (resolved by `Category`), so it drills them
+// straight into the cached feed. Only the personalized recommended list stays a
+// dynamic island, slotted in as `children` inside its own <Suspense>.
 async function CategoryPage({
   slug,
   perspective,
@@ -83,7 +88,13 @@ async function CategoryPage({
       <TwoColumnArticleFeed
         categorySlug={activeSubcategory ?? category.slug}
         size={20}
-      />
+        perspective={perspective}
+        stega={stega}
+      >
+        <Suspense fallback={<RecommendedArticleListSkeleton />}>
+          <RecommendedArticleList />
+        </Suspense>
+      </TwoColumnArticleFeed>
     </>
   );
 }

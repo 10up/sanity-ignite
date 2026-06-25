@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import PageSections from '@/components/sections/PageSections';
+import BlockContent from '@/components/modules/BlockContent';
+import { PageHero } from '@/components/sections/PageHero';
 import { serverEnv } from '@/env/serverEnv';
 import { sanityFetch } from '@/lib/sanity/client/fetch';
 import {
@@ -18,7 +19,7 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-const tagsFor = (slug: string) => ['sanity:type:page', `sanity:slug:${slug}`];
+const cacheTags = (slug: string) => ['sanity:type:page', `sanity:slug:${slug}`];
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const { slug } = await props.params;
@@ -41,7 +42,7 @@ async function fetchPageMeta(slug: string, perspective: LivePerspective) {
     query: getPageQuery,
     params: { slug },
     schema: pageSchema,
-    tags: tagsFor(slug),
+    tags: cacheTags(slug),
     perspective,
     stega: false,
   });
@@ -74,7 +75,7 @@ export default async function Page(props: Props) {
   if (isEnabled) {
     return (
       <Suspense fallback={null}>
-        <DynamicPage params={props.params} />
+        <DraftPage params={props.params} />
       </Suspense>
     );
   }
@@ -83,7 +84,7 @@ export default async function Page(props: Props) {
   return <CachedPage slug={slug} perspective="published" stega={false} />;
 }
 
-async function DynamicPage({ params }: Pick<Props, 'params'>) {
+async function DraftPage({ params }: Pick<Props, 'params'>) {
   const [{ slug }, options] = await Promise.all([
     params,
     getDynamicFetchOptions(),
@@ -102,7 +103,7 @@ async function CachedPage({
     query: getPageQuery,
     params: { slug },
     schema: pageSchema,
-    tags: tagsFor(slug),
+    tags: cacheTags(slug),
     perspective,
     stega,
   });
@@ -111,13 +112,12 @@ async function CachedPage({
     notFound();
   }
 
-  const { _id, _type, pageSections } = page;
-
   return (
-    <PageSections
-      documentId={_id}
-      documentType={_type}
-      sections={pageSections}
-    />
+    <main id="main" aria-label={page.name ?? ''}>
+      <PageHero title={page.name ?? ''} excerpt={page.excerpt ?? ''} />
+      <div className="mx-auto max-w-4xl py-10">
+        {page.content && <BlockContent value={page.content} />}
+      </div>
+    </main>
   );
 }

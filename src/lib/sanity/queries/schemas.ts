@@ -243,38 +243,6 @@ export type MediaTextSectionFragmentType = z.infer<
   typeof mediaTextSectionSchema
 >;
 
-const ctaSectionSchema = sectionBaseSchema.extend({
-  _type: z.literal('cta'),
-  heading: z.string().nullish(),
-  text: z.string().nullish(),
-  buttons: z.array(buttonSchema).nullish(),
-});
-export type CtaSectionFragmentType = z.infer<typeof ctaSectionSchema>;
-
-const cardGridSectionSchema = sectionBaseSchema.extend({
-  _type: z.literal('cardGrid'),
-  heading: z.string().nullish(),
-  content: blockContentSchema.nullish(),
-  cards: z.array(articleCardSchema).nullish(),
-});
-export type CardGridSectionFragmentType = z.infer<typeof cardGridSectionSchema>;
-
-const dividerSectionSchema = sectionBaseSchema.extend({
-  _type: z.literal('divider'),
-  height: z.number().nullish(),
-});
-export type DividerSectionFragmentType = z.infer<typeof dividerSectionSchema>;
-
-const subscribeSectionSchema = sectionBaseSchema.extend({
-  _type: z.literal('subscribe'),
-  heading: z.string().nullish(),
-  content: blockContentSchema.nullish(),
-  buttonText: z.string().nullish(),
-});
-export type SubscribeSectionFragmentType = z.infer<
-  typeof subscribeSectionSchema
->;
-
 const articleListSectionSchema = sectionBaseSchema.extend({
   _type: z.literal('articleList'),
   heading: z.string().nullish(),
@@ -288,10 +256,6 @@ export type ArticleListSectionFragmentType = z.infer<
 const sectionSchema = z.discriminatedUnion('_type', [
   heroSectionSchema,
   mediaTextSectionSchema,
-  ctaSectionSchema,
-  cardGridSectionSchema,
-  dividerSectionSchema,
-  subscribeSectionSchema,
   articleListSectionSchema,
 ]);
 export type SectionType = z.infer<typeof sectionSchema>;
@@ -329,8 +293,11 @@ export const pageSchema = z
     _type: z.literal('page'),
     name: z.string().nullish(),
     slug: z.object({ current: z.string() }).nullish(),
+    excerpt: z.string().nullish(),
+    content: blockContentSchema.nullish(),
+    seo: seoSchema.nullish(),
   })
-  .extend(pageSchemaBase.shape);
+  .loose();
 
 export const pageSlugsSchema = z.array(z.string());
 
@@ -417,10 +384,6 @@ export {
   articleCardSchema,
   heroSectionSchema,
   mediaTextSectionSchema,
-  ctaSectionSchema,
-  cardGridSectionSchema,
-  dividerSectionSchema,
-  subscribeSectionSchema,
   articleListSectionSchema,
   sectionSchema,
 };

@@ -14,6 +14,7 @@ import { sanityFetch } from '@/lib/sanity/client/fetch';
 import {
   type DynamicFetchOptions,
   getDynamicFetchOptions,
+  type LivePerspective,
 } from '@/lib/sanity/client/live';
 import { formatMetaData } from '@/lib/sanity/client/seo';
 import { articleQuery, articleSlugs } from '@/lib/sanity/queries/queries';
@@ -29,17 +30,9 @@ const cacheTags = (slug: string) => [
 ];
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
-  'use cache';
   const { slug } = await props.params;
   const { perspective } = await getDynamicFetchOptions();
-  const article = await sanityFetch({
-    query: articleQuery,
-    params: { slug },
-    schema: articleSchema,
-    tags: cacheTags(slug),
-    perspective,
-    stega: false,
-  });
+  const article = await fetchArticleMeta(slug, perspective);
 
   if (!article?.seo) {
     return {};
@@ -49,6 +42,18 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     article.seo as Parameters<typeof formatMetaData>[0],
     article?.title || ''
   );
+}
+
+async function fetchArticleMeta(slug: string, perspective: LivePerspective) {
+  'use cache';
+  return sanityFetch({
+    query: articleQuery,
+    params: { slug },
+    schema: articleSchema,
+    tags: cacheTags(slug),
+    perspective,
+    stega: false,
+  });
 }
 
 export async function generateStaticParams() {
@@ -74,7 +79,7 @@ export default async function Article(props: Props) {
   if (isEnabled) {
     return (
       <Suspense fallback={null}>
-        <DynamicArticle params={props.params} />
+        <DraftArticle params={props.params} />
       </Suspense>
     );
   }
@@ -89,7 +94,7 @@ export default async function Article(props: Props) {
   );
 }
 
-async function DynamicArticle({ params }: Pick<Props, 'params'>) {
+async function DraftArticle({ params }: Pick<Props, 'params'>) {
   const [{ slug }, options] = await Promise.all([
     params,
     getDynamicFetchOptions(),

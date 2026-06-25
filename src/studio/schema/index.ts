@@ -7,13 +7,8 @@ import button from './objects/button';
 import link from './objects/link';
 import menuItem from './objects/menuItem';
 import articleList from './objects/pageSections/articleList';
-import card from './objects/pageSections/card';
-import cardGrid from './objects/pageSections/cardGrid';
-import cta from './objects/pageSections/cta';
-import divider from './objects/pageSections/divider';
 import hero from './objects/pageSections/hero';
 import mediaText from './objects/pageSections/mediaText';
-import subscribe from './objects/pageSections/subscribe';
 import seoTypes from './objects/seo';
 import blogPage from './singletons/articleArchivePage';
 import homePage from './singletons/homePage';
@@ -32,14 +27,9 @@ export const schemaTypes = [
   category,
 
   // Sections
-  cta,
   hero,
   mediaText,
   articleList,
-  card,
-  cardGrid,
-  divider,
-  subscribe,
 
   // Objects
   blockContent,
