@@ -14,10 +14,11 @@ coverage
 /out/
 
 # sanity
-.sanity/**/*
-!.sanity/.gitkeep
+.sanity
+!.sanity/sanity.types.ts
+!.sanity/schema.json
+# dist
 dist
-schema.json
 
 # misc
 .DS_Store

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "next:dev": "next dev --turbopack",
-    "next:build": "npm run sanity:typegen && next build",
+    "next:build": "next build",
     "next:start": "next start",
     "next:debug": "NEXT_PRIVATE_DEBUG_CACHE=1 next:build && next:start",
     "lint": "biome lint .",
