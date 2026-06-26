@@ -7,6 +7,7 @@ import {
   latestCategoryArticlesQuery,
 } from '@/lib/sanity/queries/queries';
 import { articlesArchiveSchema } from '@/lib/sanity/queries/schemas';
+import { tag } from '@/lib/sanity/revalidation';
 
 // Cached component: receives `perspective`/`stega` from the parent (the "dynamic"
 // layer resolves them once, outside any cache boundary). The personalized
@@ -28,10 +29,15 @@ export const TwoColumnArticleFeed = async ({
   const query = categorySlug
     ? latestCategoryArticlesQuery
     : latestArticlesQuery;
+  // The category list also carries a category-scoped tag so an article webhook
+  // can purge just the categories that article belongs to (see getRevalidateTags).
+  const tags = categorySlug
+    ? [tag.type('article'), tag.category(categorySlug)]
+    : [tag.type('article')];
   const latestArticles = await sanityFetch({
     query,
     schema: articlesArchiveSchema,
-    tags: ['sanity:type:article'],
+    tags,
     params: categorySlug ? { categorySlug, size } : { size },
     perspective,
     stega,

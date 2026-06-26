@@ -3,15 +3,14 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { parseBody } from 'next-sanity/webhook';
 import { serverEnv } from '@/env/serverEnv';
-
-type SanityWebhookPayload = {
-  _type: string;
-  slug?: { current?: string };
-};
+import {
+  getRevalidateTags,
+  type RevalidatePayload,
+} from '@/lib/sanity/revalidation';
 
 export async function POST(req: NextRequest) {
   try {
-    const { isValidSignature, body } = await parseBody<SanityWebhookPayload>(
+    const { isValidSignature, body } = await parseBody<RevalidatePayload>(
       req,
       serverEnv.SANITY_WEBHOOK_SECRET
     );
@@ -30,11 +29,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const tags: string[] = [`sanity:type:${body._type}`];
-
-    if (body.slug?.current) {
-      tags.push(`sanity:slug:${body.slug.current}`);
-    }
+    const tags = getRevalidateTags(body);
 
     for (const tag of tags) {
       revalidateTag(tag, { expire: 0 });

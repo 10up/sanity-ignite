@@ -16,6 +16,7 @@ import {
 } from '@/lib/sanity/client/live';
 import { categoryQuery } from '@/lib/sanity/queries/queries';
 import { categorySchema } from '@/lib/sanity/queries/schemas';
+import { tag } from '@/lib/sanity/revalidation';
 
 type Props = {
   params: Promise<{ slug: string[] }>;
@@ -114,8 +115,10 @@ async function fetchCategory({
   return sanityFetch({
     query: categoryQuery,
     schema: categorySchema,
+    // `type:category` catches parent/child edits (a parent page lists its
+    // children); `category:<slug>` keeps the page individually addressable.
     params: { slug: requestedSlug },
-    tags: [`sanity:category:${requestedSlug}`],
+    tags: [tag.type('category'), tag.category(requestedSlug)],
     perspective,
     stega,
   });

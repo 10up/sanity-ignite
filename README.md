@@ -53,10 +53,21 @@ Route -> sanityFetch({ query, schema, cache }) -> Zod validation -> Component
 
 ### Caching & Revalidation
 
-Cache is tag-based. Each `sanityFetch` call declares its tags (e.g. `sanity:type:post`, `sanity:slug:my-post`). Revalidation happens via:
+Cache is tag-based. Each `sanityFetch` call declares its tags (e.g. `sanity:type:article`, `sanity:slug:my-post`) using the builders in `src/lib/sanity/revalidation.ts`. Revalidation happens via:
 
-1. **Webhook endpoint** (`/api/revalidate`) — Sanity sends a webhook on content changes, which calls `revalidateTag()` for the affected document type and slug
+1. **Webhook endpoint** (`/api/revalidate`) — Sanity sends a webhook on content changes; `getRevalidateTags()` maps the changed document to every affected cache tag (including tags for content that _embeds_ it, e.g. an article edit also revalidates the home page builder and its category pages) and calls `revalidateTag()` for each
 2. **Time-based** — `cacheLife` profiles (`hours`, `days`, etc.) set the TTL
+
+#### Configuring the Sanity webhook
+
+The fan-out lives in code (`src/lib/sanity/revalidation.ts`), but the webhook that delivers the payload is configured in Sanity. Create a [GROQ-powered webhook](https://www.sanity.io/docs/content-lake/webhooks) at [sanity.io/manage](https://www.sanity.io/manage) (API → Webhooks) and copy the **Filter** and **Projection** blocks from `src/lib/sanity/webhooks/revalidate.groq`. Set:
+
+- **URL** — `https://<your-domain>/api/revalidate`
+- **HTTP method** — `POST`
+- **Trigger on** — Create, Update, Delete
+- **Secret** — the same value as `SANITY_WEBHOOK_SECRET` in your env
+
+The projection shapes the payload to exactly what `getRevalidateTags()` expects, so the two files must stay in sync.
 
 ### Blog Filtering & Pagination
 
