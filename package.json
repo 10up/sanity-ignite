@@ -18,7 +18,6 @@
     "built": "npm run next:build",
     "start": "npm run next:start",
     "sanity:typegen": "sanity schema extract --path=.sanity/schema.json && sanity typegen generate",
-    "seed": "sanity datasets import --replace scripts/pulse-seed.ndjson",
     "embeddings:projection": "node src/studio/schema/embeddings/projection.ts",
     "embeddings:enable": "sanity datasets embeddings enable --projection \"$(npm run -s embeddings:projection)\"",
     "embeddings:status": "sanity datasets embeddings status",
