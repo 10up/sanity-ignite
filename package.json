@@ -17,7 +17,7 @@
     "dev": "next dev --turbopack",
     "built": "npm run next:build",
     "start": "npm run next:start",
-    "sanity:typegen": "mkdir -p ./.sanity && node --no-sparkplug node_modules/@sanity/cli/bin/run.js schema extract --path=.sanity/schema.json && node --no-sparkplug node_modules/@sanity/cli/bin/run.js typegen generate",
+    "sanity:typegen": "sanity schema extract --path=.sanity/schema.json && sanity typegen generate",
     "seed": "sanity datasets import --replace scripts/pulse-seed.ndjson",
     "embeddings:projection": "node src/studio/schema/embeddings/projection.ts",
     "embeddings:enable": "sanity datasets embeddings enable --projection \"$(npm run -s embeddings:projection)\"",

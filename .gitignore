@@ -14,8 +14,8 @@ coverage
 /out/
 
 # sanity
-.sanity
-!.sanity/sanity.types.ts
+.sanity/**/*
+!.sanity/.gitkeep
 dist
 schema.json
 
