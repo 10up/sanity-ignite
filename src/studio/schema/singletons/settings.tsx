@@ -33,6 +33,26 @@ export default defineType({
       type: 'text',
     }),
     defineField({
+      name: 'logo',
+      title: 'Logo',
+      type: 'image',
+      description:
+        'Brand mark shown in the footer bar of dynamically-generated social cards.',
+      options: {
+        aiAssist: {
+          imageDescriptionField: 'alt',
+        },
+      },
+      fields: [
+        defineField({
+          name: 'alt',
+          description: 'Important for accessibility and SEO.',
+          title: 'Alternative text',
+          type: 'string',
+        }),
+      ],
+    }),
+    defineField({
       name: 'ogImage',
       title: 'Open Graph Image',
       type: 'image',

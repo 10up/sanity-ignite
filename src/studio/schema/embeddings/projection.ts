@@ -28,7 +28,6 @@ export const articleEmbeddingsProjection = /* groq */ `{
     "summary": excerpt,
     "metaTitle": seo.metaTitle,
     "metaDescription": seo.metaDescription,
-    "keywords": seo.seoKeywords,
     "content": pt::text(content)
   }
 }`;

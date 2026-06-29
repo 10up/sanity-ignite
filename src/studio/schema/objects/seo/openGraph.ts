@@ -7,18 +7,8 @@ export default defineField({
   title: 'Open Graph',
   type: 'object',
   description:
-    'Control how your content appears when shared on social media platforms (e.g., Facebook, LinkedIn) or in messaging apps (e.g., Slack, WhatsApp).',
+    'Optional per-page text overrides for how your content appears when shared on social media platforms (e.g., Facebook, LinkedIn) or in messaging apps (e.g., Slack, WhatsApp). The share image is set by the Meta / Social Image field above; the URL and site name are derived automatically.',
   fields: [
-    defineField({
-      name: 'url',
-      title: 'URL',
-      type: 'string',
-    }),
-    defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-    }),
     defineField({
       name: 'title',
       title: 'Title',
@@ -34,11 +24,6 @@ export default defineField({
       components: {
         input: SEODescription,
       },
-    }),
-    defineField({
-      name: 'siteName',
-      title: 'Site Name',
-      type: 'string',
     }),
   ],
 });

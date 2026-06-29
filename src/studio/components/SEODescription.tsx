@@ -50,7 +50,7 @@ const getDescriptionFeedback = (
 const SEODescription = (props: StringInputProps) => {
   const { value, renderDefault } = props;
 
-  // Access the parent object to get keywords from the `seoKeywords` field
+  // Fall back to the parent object's `metaDescription` when this field is empty.
   const { path } = props;
   const parentPath = path.slice(0, -1);
   const parent = useFormValue(parentPath) as {

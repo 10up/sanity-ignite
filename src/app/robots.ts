@@ -36,7 +36,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       ...TRAINING_CRAWLERS.map((userAgent) => ({ userAgent, disallow: '/' })),
       ...RETRIEVAL_CRAWLERS.map((userAgent) => ({ userAgent, allow: '/' })),
-      { userAgent: '*', allow: '/' },
+      // Allow social/link-preview bots to reach the dynamic OG image route.
+      { userAgent: '*', allow: ['/', '/api/og/'] },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
   };

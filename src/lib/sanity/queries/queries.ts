@@ -4,6 +4,7 @@ import {
   articleFragment,
   categoryFragment,
   contentFragment,
+  imageFragment,
   menuFragment,
   pageFragment,
   seoFragment,
@@ -44,6 +45,7 @@ export const getPageQuery = defineQuery(`
   *[_type == 'page' && slug.current == $slug][0]{
     _id,
     _type,
+    _updatedAt,
     name,
     slug,
     excerpt,
@@ -51,6 +53,26 @@ export const getPageQuery = defineQuery(`
     seo {
       ${seoFragment}
     }
+  }
+`);
+
+// Normalised data for the dynamic OG card route. Resolves the headline/excerpt
+// and the background-image fallback chain (document image → meta image → site
+// OG image) in GROQ so the route handler stays presentational. Matches the
+// homepage/singletons too — they have no `slug.current`, so the first clause
+// wins. The route builds CDN URLs from the returned image refs.
+export const ogCardQuery = defineQuery(`
+  *[_type == $type && (!defined(slug.current) || slug.current == $slug)][0]{
+    "headline": coalesce(seo.cardHeadline, seo.metaTitle, title, name),
+    "excerpt": coalesce(seo.cardExcerpt, seo.metaDescription, excerpt),
+    "layout": coalesce(seo.cardLayout, "left"),
+    "image": coalesce(seo.metaImage, image, *[_type == "settings"][0].ogImage){
+      ${imageFragment}
+    },
+    "logo": *[_type == "settings"][0].logo{
+      ${imageFragment}
+    },
+    "siteName": *[_type == "settings"][0].title
   }
 `);
 

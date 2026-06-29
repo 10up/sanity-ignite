@@ -15,14 +15,6 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: .sanity/schema.json
-export type Twitter = {
-  _type: "twitter";
-  cardType?: string;
-  creator?: string;
-  site?: string;
-  handle?: string;
-};
-
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
@@ -42,52 +34,17 @@ export type SeoMetaFields = {
     crop?: SanityImageCrop;
     _type: "image";
   };
-  seoKeywords?: Array<string>;
+  generateCard?: boolean;
+  cardLayout?: "left" | "right";
+  cardHeadline?: string;
+  cardExcerpt?: string;
   openGraph?: OpenGraph;
-  additionalMetaTags?: Array<
-    {
-      _key: string;
-    } & MetaTag
-  >;
-  twitter?: Twitter;
 };
 
 export type OpenGraph = {
   _type: "openGraph";
-  url?: string;
-  image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
   title?: string;
   description?: string;
-  siteName?: string;
-};
-
-export type MetaTag = {
-  _type: "metaTag";
-  metaAttributes?: Array<
-    {
-      _key: string;
-    } & MetaAttribute
-  >;
-};
-
-export type MetaAttribute = {
-  _type: "metaAttribute";
-  attributeKey?: string;
-  attributeType?: "string" | "image";
-  attributeValueImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  attributeValueString?: string;
 };
 
 export type MenuItem = {
@@ -223,36 +180,6 @@ export type Hero = {
   article?: ArticleReference;
 };
 
-export type Page = {
-  _id: string;
-  _type: "page";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  excerpt?: string;
-  content?: BlockContent;
-  seo?: SeoMetaFields;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
-export type ArticleArchivePage = {
-  _id: string;
-  _type: "articleArchivePage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  featuredArticle?: ArticleReference;
-  seo?: SeoMetaFields;
-};
-
 export type PersonReference = {
   _ref: string;
   _type: "reference";
@@ -327,6 +254,25 @@ export type SanityImageHotspot = {
   width?: number;
 };
 
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  slug?: Slug;
+  excerpt?: string;
+  content?: BlockContent;
+  seo?: SeoMetaFields;
+};
+
 export type HomePage = {
   _id: string;
   _type: "homePage";
@@ -373,6 +319,14 @@ export type Settings = {
     } & MenuItem
   >;
   description?: string;
+  logo?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
   ogImage?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -619,12 +573,9 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | Twitter
   | SanityImageAssetReference
   | SeoMetaFields
   | OpenGraph
-  | MetaTag
-  | MetaAttribute
   | MenuItem
   | Button
   | ArticleReference
@@ -635,14 +586,13 @@ export type AllSanitySchemaTypes =
   | ArticleList
   | MediaText
   | Hero
-  | Page
-  | Slug
-  | ArticleArchivePage
   | PersonReference
   | Article
   | Person
   | SanityImageCrop
   | SanityImageHotspot
+  | Slug
+  | Page
   | HomePage
   | Category
   | Settings
@@ -738,7 +688,7 @@ export type SettingsQueryResult = {
 
 // Source: src/lib/sanity/queries/queries.ts
 // Variable: homePageQuery
-// Query: *[_type == "homePage"][0]{  _id,  _type,  ...,      pageSections[]{    ...,    _key,    _type,    _type == 'hero' => {  _type,  kicker,  heading,  tagline,  image,  article->{      _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,  },},    _type == 'mediaText' => {  _type,  heading,  subtitle,  content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  imagePosition,  image,},    _type == 'articleList' => {    _type,    heading,    layout,    "articles": select(      layout == 'top-stories' => articles[]->{  _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,},      *[_type == 'article'] | order(_createdAt desc, _id desc) [0...10] {  _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,}    )}  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },}
+// Query: *[_type == "homePage"][0]{  _id,  _type,  ...,      pageSections[]{    ...,    _key,    _type,    _type == 'hero' => {  _type,  kicker,  heading,  tagline,  image,  article->{      _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,  },},    _type == 'mediaText' => {  _type,  heading,  subtitle,  content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },  },  imagePosition,  image,},    _type == 'articleList' => {    _type,    heading,    layout,    "articles": select(      layout == 'top-stories' => articles[]->{  _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,},      *[_type == 'article'] | order(_createdAt desc, _id desc) [0...10] {  _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,}    )}  },  seo {      _type,  metaTitle,  noIndex,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  generateCard,  cardLayout,  cardHeadline,  cardExcerpt,  openGraph {      _type,  description,  title,  }  },}
 export type HomePageQueryResult = {
   _id: string;
   _type: "homePage";
@@ -945,7 +895,6 @@ export type HomePageQueryResult = {
     _type: "seoMetaFields";
     metaTitle: string | null;
     noIndex: boolean | null;
-    seoKeywords: Array<string> | null;
     metaDescription: string | null;
     metaImage: {
       _type: "image";
@@ -965,72 +914,21 @@ export type HomePageQueryResult = {
       } | null;
       asset: SanityImageAssetReference | null;
     } | null;
-    additionalMetaTags: Array<{
-      _key: string;
-      _type: "metaTag";
-      metaAttributes: Array<{
-        _type: "metaAttribute";
-        attributeValueString: string | null;
-        attributeType: "image" | "string" | null;
-        attributeKey: string | null;
-        attributeValueImage: {
-          _type: "image";
-          crop: {
-            _type: "sanity.imageCrop";
-            right: number | null;
-            top: number | null;
-            left: number | null;
-            bottom: number | null;
-          } | null;
-          hotspot: {
-            _type: "sanity.imageHotspot";
-            x: number | null;
-            y: number | null;
-            height: number | null;
-            width: number | null;
-          } | null;
-          asset: SanityImageAssetReference | null;
-        } | null;
-      }> | null;
-    }> | null;
+    generateCard: boolean | null;
+    cardLayout: "left" | "right" | null;
+    cardHeadline: string | null;
+    cardExcerpt: string | null;
     openGraph: {
       _type: "openGraph";
-      siteName: string | null;
-      url: string | null;
       description: string | null;
       title: string | null;
-      image: {
-        _type: "image";
-        crop: {
-          _type: "sanity.imageCrop";
-          right: number | null;
-          top: number | null;
-          left: number | null;
-          bottom: number | null;
-        } | null;
-        hotspot: {
-          _type: "sanity.imageHotspot";
-          x: number | null;
-          y: number | null;
-          height: number | null;
-          width: number | null;
-        } | null;
-        asset: SanityImageAssetReference | null;
-      } | null;
-    } | null;
-    twitter: {
-      _type: "twitter";
-      site: string | null;
-      creator: string | null;
-      cardType: string | null;
-      handle: string | null;
     } | null;
   } | null;
 } | null;
 
 // Source: src/lib/sanity/queries/queries.ts
 // Variable: categoryQuery
-// Query: *[_type == "category" && slug.current == $slug][0]{  "category": coalesce(parent->, @){    _id,    _type,    title,    "slug": slug.current,    description,    "children": *[_type == "category" && references(^._id)] | order(title asc) {      title,      "slug": slug.current    },    seo {        _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }    }  }}.category
+// Query: *[_type == "category" && slug.current == $slug][0]{  "category": coalesce(parent->, @){    _id,    _type,    title,    "slug": slug.current,    description,    "children": *[_type == "category" && references(^._id)] | order(title asc) {      title,      "slug": slug.current    },    seo {        _type,  metaTitle,  noIndex,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  generateCard,  cardLayout,  cardHeadline,  cardExcerpt,  openGraph {      _type,  description,  title,  }    }  }}.category
 export type CategoryQueryResult = {
   _id: string;
   _type: "category";
@@ -1046,10 +944,11 @@ export type CategoryQueryResult = {
 
 // Source: src/lib/sanity/queries/queries.ts
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    excerpt,      content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },    _type == "relatedArticles" => {  "relatedArticles": *[    _type == "article" &&    _id != ^.^._id &&    references(^.category._ref)  ] | order(_createdAt desc) [0...6] {      _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,  },}  },    seo {        _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }    }  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    _updatedAt,    name,    slug,    excerpt,      content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },    _type == "relatedArticles" => {  "relatedArticles": *[    _type == "article" &&    _id != ^.^._id &&    references(^.category._ref)  ] | order(_createdAt desc) [0...6] {      _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,  },}  },    seo {        _type,  metaTitle,  noIndex,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  generateCard,  cardLayout,  cardHeadline,  cardExcerpt,  openGraph {      _type,  description,  title,  }    }  }
 export type GetPageQueryResult = {
   _id: string;
   _type: "page";
+  _updatedAt: string;
   name: string | null;
   slug: Slug | null;
   excerpt: string | null;
@@ -1171,7 +1070,6 @@ export type GetPageQueryResult = {
     _type: "seoMetaFields";
     metaTitle: string | null;
     noIndex: boolean | null;
-    seoKeywords: Array<string> | null;
     metaDescription: string | null;
     metaImage: {
       _type: "image";
@@ -1191,40 +1089,26 @@ export type GetPageQueryResult = {
       } | null;
       asset: SanityImageAssetReference | null;
     } | null;
-    additionalMetaTags: Array<{
-      _key: string;
-      _type: "metaTag";
-      metaAttributes: Array<{
-        _type: "metaAttribute";
-        attributeValueString: string | null;
-        attributeType: "image" | "string" | null;
-        attributeKey: string | null;
-        attributeValueImage: {
-          _type: "image";
-          crop: {
-            _type: "sanity.imageCrop";
-            right: number | null;
-            top: number | null;
-            left: number | null;
-            bottom: number | null;
-          } | null;
-          hotspot: {
-            _type: "sanity.imageHotspot";
-            x: number | null;
-            y: number | null;
-            height: number | null;
-            width: number | null;
-          } | null;
-          asset: SanityImageAssetReference | null;
-        } | null;
-      }> | null;
-    }> | null;
+    generateCard: boolean | null;
+    cardLayout: "left" | "right" | null;
+    cardHeadline: string | null;
+    cardExcerpt: string | null;
     openGraph: {
       _type: "openGraph";
-      siteName: string | null;
-      url: string | null;
       description: string | null;
       title: string | null;
+    } | null;
+  } | null;
+} | null;
+
+// Source: src/lib/sanity/queries/queries.ts
+// Variable: ogCardQuery
+// Query: *[_type == $type && (!defined(slug.current) || slug.current == $slug)][0]{    "headline": coalesce(seo.cardHeadline, seo.metaTitle, title, name),    "excerpt": coalesce(seo.cardExcerpt, seo.metaDescription, excerpt),    "layout": coalesce(seo.cardLayout, "left"),    "image": coalesce(seo.metaImage, image, *[_type == "settings"][0].ogImage){        _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,    },    "logo": *[_type == "settings"][0].logo{        _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,    },    "siteName": *[_type == "settings"][0].title  }
+export type OgCardQueryResult =
+  | {
+      headline: null;
+      excerpt: null;
+      layout: "left";
       image: {
         _type: "image";
         crop: {
@@ -1243,16 +1127,153 @@ export type GetPageQueryResult = {
         } | null;
         asset: SanityImageAssetReference | null;
       } | null;
-    } | null;
-    twitter: {
-      _type: "twitter";
-      site: string | null;
-      creator: string | null;
-      cardType: string | null;
-      handle: string | null;
-    } | null;
-  } | null;
-} | null;
+      logo: {
+        _type: "image";
+        crop: {
+          _type: "sanity.imageCrop";
+          right: number | null;
+          top: number | null;
+          left: number | null;
+          bottom: number | null;
+        } | null;
+        hotspot: {
+          _type: "sanity.imageHotspot";
+          x: number | null;
+          y: number | null;
+          height: number | null;
+          width: number | null;
+        } | null;
+        asset: SanityImageAssetReference | null;
+      } | null;
+      siteName: string | null;
+    }
+  | {
+      headline: string | null;
+      excerpt: null;
+      layout: "left";
+      image: {
+        _type: "image";
+        crop: {
+          _type: "sanity.imageCrop";
+          right: number | null;
+          top: number | null;
+          left: number | null;
+          bottom: number | null;
+        } | null;
+        hotspot: {
+          _type: "sanity.imageHotspot";
+          x: number | null;
+          y: number | null;
+          height: number | null;
+          width: number | null;
+        } | null;
+        asset: SanityImageAssetReference | null;
+      } | null;
+      logo: {
+        _type: "image";
+        crop: {
+          _type: "sanity.imageCrop";
+          right: number | null;
+          top: number | null;
+          left: number | null;
+          bottom: number | null;
+        } | null;
+        hotspot: {
+          _type: "sanity.imageHotspot";
+          x: number | null;
+          y: number | null;
+          height: number | null;
+          width: number | null;
+        } | null;
+        asset: SanityImageAssetReference | null;
+      } | null;
+      siteName: string | null;
+    }
+  | {
+      headline: string | null;
+      excerpt: string | null;
+      layout: "left" | "right";
+      image: {
+        _type: "image";
+        crop: {
+          _type: "sanity.imageCrop";
+          right: number | null;
+          top: number | null;
+          left: number | null;
+          bottom: number | null;
+        } | null;
+        hotspot: {
+          _type: "sanity.imageHotspot";
+          x: number | null;
+          y: number | null;
+          height: number | null;
+          width: number | null;
+        } | null;
+        asset: SanityImageAssetReference | null;
+      } | null;
+      logo: {
+        _type: "image";
+        crop: {
+          _type: "sanity.imageCrop";
+          right: number | null;
+          top: number | null;
+          left: number | null;
+          bottom: number | null;
+        } | null;
+        hotspot: {
+          _type: "sanity.imageHotspot";
+          x: number | null;
+          y: number | null;
+          height: number | null;
+          width: number | null;
+        } | null;
+        asset: SanityImageAssetReference | null;
+      } | null;
+      siteName: string | null;
+    }
+  | {
+      headline: string | null;
+      excerpt: string | null;
+      layout: "left" | "right";
+      image: {
+        _type: "image";
+        crop: {
+          _type: "sanity.imageCrop";
+          right: number | null;
+          top: number | null;
+          left: number | null;
+          bottom: number | null;
+        } | null;
+        hotspot: {
+          _type: "sanity.imageHotspot";
+          x: number | null;
+          y: number | null;
+          height: number | null;
+          width: number | null;
+        } | null;
+        asset: SanityImageAssetReference | null;
+      } | null;
+      logo: {
+        _type: "image";
+        crop: {
+          _type: "sanity.imageCrop";
+          right: number | null;
+          top: number | null;
+          left: number | null;
+          bottom: number | null;
+        } | null;
+        hotspot: {
+          _type: "sanity.imageHotspot";
+          x: number | null;
+          y: number | null;
+          height: number | null;
+          width: number | null;
+        } | null;
+        asset: SanityImageAssetReference | null;
+      } | null;
+      siteName: string | null;
+    }
+  | null;
 
 // Source: src/lib/sanity/queries/queries.ts
 // Variable: getSitemapQuery
@@ -1274,8 +1295,9 @@ export type GetSitemapQueryResult = Array<
 
 // Source: src/lib/sanity/queries/queries.ts
 // Variable: articleQuery
-// Query: *[_type == "article" && slug.current == $slug] [0] {        _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },    _type == "relatedArticles" => {  "relatedArticles": *[    _type == "article" &&    _id != ^.^._id &&    references(^.category._ref)  ] | order(_createdAt desc) [0...6] {      _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,  },}  },  seo {      _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  additionalMetaTags[]{      _key,  _type,  metaAttributes[] {      _type,  attributeValueString,  attributeType,  attributeKey,  attributeValueImage {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  },  openGraph {      _type,  siteName,  url,  description,  title,  image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },  }
+// Query: *[_type == "article" && slug.current == $slug] [0] {      _updatedAt,    _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,    content[]{    ...,      markDefs[]{    ...,      ...customLink{      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current  },  },  },    _type == "relatedArticles" => {  "relatedArticles": *[    _type == "article" &&    _id != ^.^._id &&    references(^.category._ref)  ] | order(_createdAt desc) [0...6] {      _type,  _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  image,  "categories": categories[]->{  _id,  _type,  title,  "slug": slug.current,  description,},  "date": coalesce(date, _updatedAt),  "author": author->{  _id,  _type,  firstName,  lastName,  image,  role,  biography,  "slug": slug.current,},  readTime,  countryInterest,  },}  },  seo {      _type,  metaTitle,  noIndex,  metaDescription,  metaImage{      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset,  },  generateCard,  cardLayout,  cardHeadline,  cardExcerpt,  openGraph {      _type,  description,  title,  }  },  }
 export type ArticleQueryResult = {
+  _updatedAt: string;
   _type: "article";
   _id: string;
   status: "draft" | "published";
@@ -1435,7 +1457,6 @@ export type ArticleQueryResult = {
     _type: "seoMetaFields";
     metaTitle: string | null;
     noIndex: boolean | null;
-    seoKeywords: Array<string> | null;
     metaDescription: string | null;
     metaImage: {
       _type: "image";
@@ -1455,65 +1476,14 @@ export type ArticleQueryResult = {
       } | null;
       asset: SanityImageAssetReference | null;
     } | null;
-    additionalMetaTags: Array<{
-      _key: string;
-      _type: "metaTag";
-      metaAttributes: Array<{
-        _type: "metaAttribute";
-        attributeValueString: string | null;
-        attributeType: "image" | "string" | null;
-        attributeKey: string | null;
-        attributeValueImage: {
-          _type: "image";
-          crop: {
-            _type: "sanity.imageCrop";
-            right: number | null;
-            top: number | null;
-            left: number | null;
-            bottom: number | null;
-          } | null;
-          hotspot: {
-            _type: "sanity.imageHotspot";
-            x: number | null;
-            y: number | null;
-            height: number | null;
-            width: number | null;
-          } | null;
-          asset: SanityImageAssetReference | null;
-        } | null;
-      }> | null;
-    }> | null;
+    generateCard: boolean | null;
+    cardLayout: "left" | "right" | null;
+    cardHeadline: string | null;
+    cardExcerpt: string | null;
     openGraph: {
       _type: "openGraph";
-      siteName: string | null;
-      url: string | null;
       description: string | null;
       title: string | null;
-      image: {
-        _type: "image";
-        crop: {
-          _type: "sanity.imageCrop";
-          right: number | null;
-          top: number | null;
-          left: number | null;
-          bottom: number | null;
-        } | null;
-        hotspot: {
-          _type: "sanity.imageHotspot";
-          x: number | null;
-          y: number | null;
-          height: number | null;
-          width: number | null;
-        } | null;
-        asset: SanityImageAssetReference | null;
-      } | null;
-    } | null;
-    twitter: {
-      _type: "twitter";
-      site: string | null;
-      creator: string | null;
-      cardType: string | null;
-      handle: string | null;
     } | null;
   } | null;
 } | null;
@@ -1804,11 +1774,12 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "settings"][0]{\n  title,\n  description,\n  \n  menu[]{\n    \n  _type,\n  _key,\n  text,\n  type,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n    childMenu[]{\n      \n  _type,\n  _key,\n  text,\n  type,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n    }\n  }\n\n}': SettingsQueryResult;
-    '*[_type == "homePage"][0]{\n  _id,\n  _type,\n  ...,\n  \n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'hero\' => {\n  _type,\n  kicker,\n  heading,\n  tagline,\n  image,\n  article->{\n    \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n\n  },\n},\n    _type == \'mediaText\' => {\n  _type,\n  heading,\n  subtitle,\n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n  imagePosition,\n  image,\n},\n    _type == \'articleList\' => {\n    _type,\n    heading,\n    layout,\n    "articles": select(\n      layout == \'top-stories\' => articles[]->{\n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n},\n      *[_type == \'article\'] | order(_createdAt desc, _id desc) [0...10] {\n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n}\n    )\n}\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n}': HomePageQueryResult;
-    '*[_type == "category" && slug.current == $slug][0]{\n  "category": coalesce(parent->, @){\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    description,\n    "children": *[_type == "category" && references(^._id)] | order(title asc) {\n      title,\n      "slug": slug.current\n    },\n    seo {\n      \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n    }\n  }\n}.category': CategoryQueryResult;
-    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    excerpt,\n    \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n    _type == "relatedArticles" => {\n  "relatedArticles": *[\n    _type == "article" &&\n    _id != ^.^._id &&\n    references(^.category._ref)\n  ] | order(_createdAt desc) [0...6] {\n    \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n\n  },\n}\n  },\n\n    seo {\n      \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n    }\n  }\n': GetPageQueryResult;
+    '*[_type == "homePage"][0]{\n  _id,\n  _type,\n  ...,\n  \n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'hero\' => {\n  _type,\n  kicker,\n  heading,\n  tagline,\n  image,\n  article->{\n    \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n\n  },\n},\n    _type == \'mediaText\' => {\n  _type,\n  heading,\n  subtitle,\n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n  },\n  imagePosition,\n  image,\n},\n    _type == \'articleList\' => {\n    _type,\n    heading,\n    layout,\n    "articles": select(\n      layout == \'top-stories\' => articles[]->{\n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n},\n      *[_type == \'article\'] | order(_createdAt desc, _id desc) [0...10] {\n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n}\n    )\n}\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  generateCard,\n  cardLayout,\n  cardHeadline,\n  cardExcerpt,\n  openGraph {\n    \n  _type,\n  description,\n  title,\n\n  }\n\n  },\n\n}': HomePageQueryResult;
+    '*[_type == "category" && slug.current == $slug][0]{\n  "category": coalesce(parent->, @){\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    description,\n    "children": *[_type == "category" && references(^._id)] | order(title asc) {\n      title,\n      "slug": slug.current\n    },\n    seo {\n      \n  _type,\n  metaTitle,\n  noIndex,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  generateCard,\n  cardLayout,\n  cardHeadline,\n  cardExcerpt,\n  openGraph {\n    \n  _type,\n  description,\n  title,\n\n  }\n\n    }\n  }\n}.category': CategoryQueryResult;
+    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    _updatedAt,\n    name,\n    slug,\n    excerpt,\n    \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n    _type == "relatedArticles" => {\n  "relatedArticles": *[\n    _type == "article" &&\n    _id != ^.^._id &&\n    references(^.category._ref)\n  ] | order(_createdAt desc) [0...6] {\n    \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n\n  },\n}\n  },\n\n    seo {\n      \n  _type,\n  metaTitle,\n  noIndex,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  generateCard,\n  cardLayout,\n  cardHeadline,\n  cardExcerpt,\n  openGraph {\n    \n  _type,\n  description,\n  title,\n\n  }\n\n    }\n  }\n': GetPageQueryResult;
+    '\n  *[_type == $type && (!defined(slug.current) || slug.current == $slug)][0]{\n    "headline": coalesce(seo.cardHeadline, seo.metaTitle, title, name),\n    "excerpt": coalesce(seo.cardExcerpt, seo.metaDescription, excerpt),\n    "layout": coalesce(seo.cardLayout, "left"),\n    "image": coalesce(seo.metaImage, image, *[_type == "settings"][0].ogImage){\n      \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n    },\n    "logo": *[_type == "settings"][0].logo{\n      \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n    },\n    "siteName": *[_type == "settings"][0].title\n  }\n': OgCardQueryResult;
     '\n  *[((_type in ["page", "article", "category"] && defined(slug.current)) || (_type == "homePage")) && seo.noIndex != true]{\n    "href": select(\n      _type == "page" => "/" + slug.current,\n      _type == "article" => "/article/" + slug.current,\n      _type == "category" => "/category/" + select(defined(parent) => parent->slug.current + "/", "") + slug.current,\n      _type == "homePage" => "/",\n      slug.current\n    ),\n    _updatedAt\n  }\n': GetSitemapQueryResult;
-    '\n  *[_type == "article" && slug.current == $slug] [0] {\n    \n  \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n    _type == "relatedArticles" => {\n  "relatedArticles": *[\n    _type == "article" &&\n    _id != ^.^._id &&\n    references(^.category._ref)\n  ] | order(_createdAt desc) [0...6] {\n    \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n\n  },\n}\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  additionalMetaTags[]{\n    \n  _key,\n  _type,\n  metaAttributes[] {\n    \n  _type,\n  attributeValueString,\n  attributeType,\n  attributeKey,\n  attributeValueImage {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n\n  },\n  openGraph {\n    \n  _type,\n  siteName,\n  url,\n  description,\n  title,\n  image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n\n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n  }\n': ArticleQueryResult;
+    '\n  *[_type == "article" && slug.current == $slug] [0] {\n    \n  _updatedAt,\n  \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n\n  \n  content[]{\n    ...,\n    \n  markDefs[]{\n    ...,\n    \n  ...customLink{\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current\n  },\n\n  },\n\n  },\n\n    _type == "relatedArticles" => {\n  "relatedArticles": *[\n    _type == "article" &&\n    _id != ^.^._id &&\n    references(^.category._ref)\n  ] | order(_createdAt desc) [0...6] {\n    \n  _type,\n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  image,\n  "categories": categories[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  description,\n},\n  "date": coalesce(date, _updatedAt),\n  "author": author->{\n  _id,\n  _type,\n  firstName,\n  lastName,\n  image,\n  role,\n  biography,\n  "slug": slug.current,\n},\n  readTime,\n  countryInterest,\n\n  },\n}\n  },\n\n  seo {\n    \n  _type,\n  metaTitle,\n  noIndex,\n  metaDescription,\n  metaImage{\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset,\n\n  },\n  generateCard,\n  cardLayout,\n  cardHeadline,\n  cardExcerpt,\n  openGraph {\n    \n  _type,\n  description,\n  title,\n\n  }\n\n  },\n\n  }\n': ArticleQueryResult;
     '\n  *[_type == "page" && defined(slug.current)][0..$limit].slug.current\n': GetPageSlugsResult;
     '\n  *[_type == "page" && defined(slug.current) && seo.noIndex != true] | order(name asc) {\n    "title": name,\n    "slug": slug.current\n  }\n': NavPagesQueryResult;
     '\n  *[_type == "article" && defined(slug.current)][0..$limit].slug.current\n': ArticleSlugsResult;

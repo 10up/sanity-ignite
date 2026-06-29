@@ -14,6 +14,7 @@ import {
   type LivePerspective,
 } from '@/lib/sanity/client/live';
 import { formatMetaData } from '@/lib/sanity/client/seo';
+import { fetchSiteName } from '@/lib/sanity/client/settings';
 import { homePageQuery } from '@/lib/sanity/queries/queries';
 import { homePageSchema } from '@/lib/sanity/queries/schemas';
 
@@ -21,7 +22,10 @@ const cacheTags = ['sanity:type:homePage'];
 
 export async function generateMetadata() {
   const { perspective } = await getDynamicFetchOptions();
-  const homePage = await fetchHomePageMeta(perspective);
+  const [homePage, siteName] = await Promise.all([
+    fetchHomePageMeta(perspective),
+    fetchSiteName(),
+  ]);
 
   if (!homePage?.seo) {
     return {};
@@ -29,7 +33,8 @@ export async function generateMetadata() {
 
   return formatMetaData(
     homePage.seo as Parameters<typeof formatMetaData>[0],
-    homePage?.name || ''
+    homePage?.name || '',
+    { type: 'homePage', slug: 'home', updatedAt: homePage._updatedAt, siteName }
   );
 }
 

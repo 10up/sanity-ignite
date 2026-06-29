@@ -19,6 +19,7 @@ import {
   type LivePerspective,
 } from '@/lib/sanity/client/live';
 import { formatMetaData } from '@/lib/sanity/client/seo';
+import { fetchSiteName } from '@/lib/sanity/client/settings';
 import { articleQuery, articleSlugs } from '@/lib/sanity/queries/queries';
 import { articleSchema } from '@/lib/sanity/queries/schemas';
 
@@ -34,7 +35,10 @@ const cacheTags = (slug: string) => [
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const { slug } = await props.params;
   const { perspective } = await getDynamicFetchOptions();
-  const article = await fetchArticleMeta(slug, perspective);
+  const [article, siteName] = await Promise.all([
+    fetchArticleMeta(slug, perspective),
+    fetchSiteName(),
+  ]);
 
   if (!article?.seo) {
     return {};
@@ -42,7 +46,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   return formatMetaData(
     article.seo as Parameters<typeof formatMetaData>[0],
-    article?.title || ''
+    article?.title || '',
+    { type: 'article', slug, updatedAt: article._updatedAt, siteName }
   );
 }
 

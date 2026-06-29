@@ -83,37 +83,6 @@ const openGraphSchema = z
     _type: z.string(),
     title: z.string().nullish(),
     description: z.string().nullish(),
-    siteName: z.string().nullish(),
-    url: z.string().nullish(),
-    image: imageSchema.nullish(),
-  })
-  .loose();
-
-const twitterSchema = z
-  .object({
-    _type: z.string(),
-    site: z.string().nullish(),
-    creator: z.string().nullish(),
-    cardType: z.string().nullish(),
-    handle: z.string().nullish(),
-  })
-  .loose();
-
-const metaAttributeSchema = z
-  .object({
-    _type: z.string(),
-    attributeKey: z.string().nullish(),
-    attributeType: z.string().nullish(),
-    attributeValueString: z.string().nullish(),
-    attributeValueImage: imageSchema.nullish(),
-  })
-  .loose();
-
-const metaTagSchema = z
-  .object({
-    _key: z.string(),
-    _type: z.string(),
-    metaAttributes: z.array(metaAttributeSchema).nullish(),
   })
   .loose();
 
@@ -122,12 +91,13 @@ const seoSchema = z
     _type: z.string(),
     metaTitle: z.string().nullish(),
     noIndex: z.boolean().nullish(),
-    seoKeywords: z.union([z.string(), z.array(z.string())]).nullish(),
     metaDescription: z.string().nullish(),
     metaImage: imageSchema.nullish(),
+    generateCard: z.boolean().nullish(),
+    cardLayout: z.string().nullish(),
+    cardHeadline: z.string().nullish(),
+    cardExcerpt: z.string().nullish(),
     openGraph: openGraphSchema.nullish(),
-    twitter: twitterSchema.nullish(),
-    additionalMetaTags: z.array(metaTagSchema).nullish(),
   })
   .loose();
 export type SeoFragmentType = z.infer<typeof seoSchema>;
@@ -274,23 +244,15 @@ export const homePageSchema = z.object({
   ...pageSchemaBase.shape,
   _id: z.string(),
   _type: z.literal('homePage'),
+  _updatedAt: z.string().nullish(),
   name: z.string().nullish(),
 });
-
-export const articleArchivePageSchema = z
-  .object({
-    _id: z.string(),
-    _type: z.literal('articleArchivePage'),
-    name: z.string().nullish(),
-    featuredArticle: articleCardSchema.nullish(),
-    seo: seoSchema.nullish(),
-  })
-  .loose();
 
 export const pageSchema = z
   .object({
     _id: z.string(),
     _type: z.literal('page'),
+    _updatedAt: z.string().nullish(),
     name: z.string().nullish(),
     slug: z.object({ current: z.string() }).nullish(),
     excerpt: z.string().nullish(),
@@ -305,6 +267,7 @@ export const allCategoriesSchema = z.array(categorySchema);
 
 export const articleSchema = articleCardSchema
   .extend({
+    _updatedAt: z.string().nullish(),
     content: blockContentSchema.nullish(),
     seo: seoSchema.nullish(),
   })

@@ -1,5 +1,5 @@
 import { CogIcon, HomeIcon } from '@sanity/icons';
-import { Archive, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import type { StructureResolver } from 'sanity/structure';
 
 /**
@@ -22,15 +22,6 @@ export const structure: StructureResolver = (S) =>
         .title('Articles')
         .child(S.documentTypeList('article').title('Articles'))
         .icon(FileText),
-      S.listItem()
-        .id('articleArchivePage')
-        .title('Article Archive Page')
-        .child(
-          S.document()
-            .schemaType('articleArchivePage')
-            .documentId('articleArchivePage')
-        )
-        .icon(Archive),
       // Filter out all items manually added to the list
       ...S.documentTypeListItems().filter((listItem) => {
         const id = listItem.getId();
@@ -40,7 +31,6 @@ export const structure: StructureResolver = (S) =>
               'article',
               'homePage',
               'assist.instruction.context',
-              'articleArchivePage',
             ].includes(id)
           : false;
       }),

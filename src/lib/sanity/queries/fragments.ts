@@ -1,11 +1,3 @@
-export const twitterFragment = /* groq */ `
-  _type,
-  site,
-  creator,
-  cardType,
-  handle,
-`;
-
 export const imageFragment = /* groq */ `
   _type,
   crop {
@@ -27,50 +19,24 @@ export const imageFragment = /* groq */ `
 
 export const openGraphFragment = /* groq */ `
   _type,
-  siteName,
-  url,
   description,
   title,
-  image {
-    ${imageFragment}
-  },
-`;
-
-export const metaAttributesFragment = /* groq */ `
-  _type,
-  attributeValueString,
-  attributeType,
-  attributeKey,
-  attributeValueImage {
-    ${imageFragment}
-  },
-`;
-
-export const additionalMetaTagFragment = /* groq */ `
-  _key,
-  _type,
-  metaAttributes[] {
-    ${metaAttributesFragment}
-  },
 `;
 
 export const seoFragment = /* groq */ `
   _type,
   metaTitle,
   noIndex,
-  seoKeywords,
   metaDescription,
   metaImage{
     ${imageFragment}
   },
-  additionalMetaTags[]{
-    ${additionalMetaTagFragment}
-  },
+  generateCard,
+  cardLayout,
+  cardHeadline,
+  cardExcerpt,
   openGraph {
     ${openGraphFragment}
-  },
-  twitter {
-    ${twitterFragment}
   }
 `;
 
@@ -181,6 +147,7 @@ export const contentFragment = /* groq */ `
 `;
 
 export const articleFragment = /* groq */ `
+  _updatedAt,
   ${articleCardFragment}
   ${contentFragment}
   seo {

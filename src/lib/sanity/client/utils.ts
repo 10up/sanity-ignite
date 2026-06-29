@@ -2,7 +2,7 @@ import { createImageUrlBuilder } from '@sanity/image-url';
 import type { CreateDataAttributeProps } from 'next-sanity';
 import { createDataAttribute } from 'next-sanity';
 import { clientEnv } from '@/env/clientEnv';
-import type { SeoFragmentType } from '../queries/schemas';
+import type { ImageFragmentType } from '../queries/schemas';
 
 const imageBuilder = createImageUrlBuilder({
   projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -10,7 +10,7 @@ const imageBuilder = createImageUrlBuilder({
 });
 
 export const urlForImage = (
-  source: { asset?: { _ref?: string } } | null | undefined
+  source: { asset?: { _ref?: string } | null } | null | undefined
 ) => {
   if (!source?.asset?._ref) {
     return undefined;
@@ -21,7 +21,7 @@ export const urlForImage = (
 };
 
 export function resolveOpenGraphImage(
-  image?: SeoFragmentType['metaImage'],
+  image?: ImageFragmentType | null,
   width = 1200,
   height = 627
 ) {

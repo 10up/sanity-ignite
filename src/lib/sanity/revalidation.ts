@@ -99,7 +99,7 @@ export function getRevalidateTags(body: RevalidatePayload): string[] {
 // content (person → author byline, category → article labels).
 
 export const filter = defineQuery(
-  `_type in ["settings", "homePage", "articleArchivePage", "page", "article", "category"]`
+  `_type in ["settings", "homePage", "page", "article", "category"]`
 );
 
 // --- Projection --------------------------------------------------------------
