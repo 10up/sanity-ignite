@@ -1,26 +1,37 @@
 import { clientEnv } from '@/env/clientEnv';
-import type { LinkFragmentType } from './sanity/queries/fragments/fragment.types';
+import type { LinkFragmentType } from './sanity/queries/schemas';
 
 export const getBaseURL = () => {
   return clientEnv.NEXT_PUBLIC_SITE_URL || '';
 };
 
 /**
- * Generic function to generate a link to a document based on its type and slug
+ * Generic function to generate a link to a document based on its type and slug.
+ *
+ * For subcategories, pass the top-level `parentSlug` so the URL matches the
+ * `/category/[...slug]` route (`/category/{parentSlug}/{slug}`).
  */
 export const getDocumentLink = (
-  { _type, slug }: { _type: string; slug: string | null },
-  absolute: boolean = false,
+  {
+    _type,
+    slug,
+    parentSlug,
+  }: {
+    _type: string;
+    slug: string | null | undefined;
+    parentSlug?: string | null;
+  },
+  absolute: boolean = false
 ) => {
   const linkBase = absolute ? getBaseURL() : '';
 
   switch (_type) {
     case 'page':
       return `${linkBase}/${slug}`;
-    case 'post':
-      return `${linkBase}/blog/${slug}`;
+    case 'article':
+      return `${linkBase}/article/${slug}`;
     case 'category':
-      return `${linkBase}/category/${slug}`;
+      return `${linkBase}/category/${parentSlug ? `${parentSlug}/` : ''}${slug}`;
     case 'homePage':
       return `${linkBase}/`;
     default:
@@ -29,7 +40,7 @@ export const getDocumentLink = (
 };
 
 export const getLinkByLinkObject = (
-  link: Pick<LinkFragmentType, 'type' | 'external' | 'internal'>,
+  link: Pick<LinkFragmentType, 'type' | 'external' | 'internal'>
 ) => {
   const { type, external, internal } = link;
 

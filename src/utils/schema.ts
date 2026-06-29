@@ -3,7 +3,7 @@ import { upperCaseWords } from './strings';
 
 export const createRadioListLayout = (
   items: Array<string | { title: string; value: string }>,
-  options?: StringOptions,
+  options?: StringOptions
 ): StringOptions => {
   const list = items.map((item) => {
     if (typeof item === 'string') {

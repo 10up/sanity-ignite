@@ -15,9 +15,10 @@ coverage
 
 # sanity
 .sanity
+!.sanity/sanity.types.ts
+!.sanity/schema.json
+# dist
 dist
-schema.json
-#sanity.types.ts
 
 # misc
 .DS_Store
@@ -42,3 +43,40 @@ next-env.d.ts
 # Env files created by scripts for working locally
 .env
 .env.local
+
+# agent tooling
+.cursor
+.agents/skills
+skills-lock.json
+.mcp.json
+
+# ── GSD baseline (auto-generated) ──
+.gsd
+.gsd-id
+.bg-shell/
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.code-workspace
+.env.*
+!.env.example
+node_modules/
+.next/
+dist/
+build/
+__pycache__/
+*.pyc
+.venv/
+venv/
+target/
+vendor/
+*.log
+coverage/
+.cache/
+tmp/
+
+# local dev scripts
+scripts

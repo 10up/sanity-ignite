@@ -1,54 +1,97 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin 'tailwindcss-animate';
 
 @custom-variant dark (&:is(.dark *));
 
+/* Font stacks → Next.js injects `--font-*` variables on <html> (see `src/app/layout.tsx`) */
 @theme {
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: ui-serif, Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --text-xxs: 0.6875rem; /* 11px */
 }
 
 .container {
   @apply px-10;
 }
 
+/* ─── V2 palette (source values) ─── */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: var(--color-pink-500);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: var(--color-blue-500);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --v2-ink: #0a0a0b;
+  --v2-ink-2: #141416;
+  --v2-ink-3: #1e1e22;
+  --v2-paper: #f7f5f1;
+  --v2-purple: #6e5bff;
+  --v2-purple-soft: #ece8ff;
+  --v2-orange: #ff5733;
+  --v2-orange-soft: #ffe9e2;
+  --v2-gold: #d4af37;
+  --v2-gold-soft: #fff4d6;
+  --v2-line: rgb(10 10 11 / 0.1);
+  --v2-line-dark: rgb(255 255 255 / 0.1);
+  --v2-muted: rgb(10 10 11 / 0.6);
+  --v2-muted-on-dark: rgb(255 255 255 / 0.72);
+}
+
+/* ─── Semantic tokens (light) — map UI primitives to V2 ─── */
+:root {
+  --background: var(--v2-paper);
+  --foreground: var(--v2-ink);
+  --card: var(--v2-paper);
+  --card-foreground: var(--v2-ink);
+  --popover: var(--v2-paper);
+  --popover-foreground: var(--v2-ink);
+  --primary: var(--v2-purple);
+  --primary-foreground: var(--v2-paper);
+  --secondary: var(--v2-paper-2);
+  --secondary-foreground: var(--v2-ink);
+  --muted: var(--v2-paper-2);
+  --muted-foreground: var(--v2-muted);
+  --accent: var(--v2-orange);
+  --accent-foreground: var(--v2-ink);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.87 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --destructive-foreground: var(--v2-paper);
+  --border: var(--v2-line);
+  --input: var(--v2-line);
+  --ring: var(--v2-purple);
+  --chart-1: var(--v2-purple);
+  --chart-2: oklch(0.45 0.15 280);
+  --chart-3: var(--v2-ink-2);
+  --chart-4: oklch(0.65 0.12 280);
+  --chart-5: oklch(0.55 0.08 260);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.87 0 0);
+  --sidebar: var(--v2-paper-2);
+  --sidebar-foreground: var(--v2-ink);
+  --sidebar-primary: var(--v2-purple);
+  --sidebar-primary-foreground: var(--v2-paper);
+  --sidebar-accent: var(--v2-purple-soft);
+  --sidebar-accent-foreground: var(--v2-ink);
+  --sidebar-border: var(--v2-line);
+  --sidebar-ring: var(--v2-purple);
 }
 
 @theme inline {
+  /* V2 — utility classes: bg-ink, text-paper-2, border-line, … */
+  --color-ink: var(--v2-ink);
+  --color-ink-2: var(--v2-ink-2);
+  --color-ink-3: var(--v2-ink-3);
+  --color-paper: var(--v2-paper);
+  --color-paper-2: var(--v2-paper-2);
+  --color-purple: var(--v2-purple);
+  --color-purple-soft: var(--v2-purple-soft);
+  --color-orange: var(--v2-orange);
+  --color-orange-soft: var(--v2-orange-soft);
+  --color-gold: var(--v2-gold);
+  --color-gold-soft: var(--v2-gold-soft);
+  --color-line: var(--v2-line);
+  --color-line-dark: var(--v2-line-dark);
+  --color-muted-ink: var(--v2-muted);
+  --color-muted-on-dark: var(--v2-muted-on-dark);
+
+  /* Semantic — shadcn-style */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -87,11 +130,69 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@utility skeleton-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    rgb(10 10 11 / 0.05) 20%,
+    rgb(255 255 255 / 0.45) 50%,
+    rgb(10 10 11 / 0.05) 80%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer {
+    animation: none;
+  }
+}
+
+@keyframes version-badge-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.version-badge-shimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: linear-gradient(
+    105deg,
+    transparent 25%,
+    rgb(255 255 255 / 0.15) 38%,
+    rgb(255 255 255 / 0.55) 50%,
+    rgb(255 255 255 / 0.15) 62%,
+    transparent 75%
+  );
+  background-size: 200% 100%;
+  animation: version-badge-shimmer 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .version-badge-shimmer {
+    animation: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white text-ink font-sans antialiased;
   }
 }

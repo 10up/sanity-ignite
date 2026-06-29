@@ -1,20 +1,21 @@
 'use server';
 
-import * as v from 'valibot';
+import { z } from 'zod';
 import type { ActionResponse } from './types';
 
-const EmailSchema = v.pipe(
-  v.string(),
-  v.nonEmpty('Please enter your email.'),
-  v.email('The email is badly formatted.'),
-);
+const EmailSchema = z
+  .string()
+  .min(1, 'Please enter your email.')
+  .email('The email is badly formatted.');
 
-export const subscribeAction = async (formData: FormData): Promise<ActionResponse> => {
+export const subscribeAction = async (
+  formData: FormData
+): Promise<ActionResponse> => {
   'use server';
 
   try {
-    // biome-ignorelint/correctness/noUnusedVariables: starter code
-    const email = v.parse(EmailSchema, formData.get('email'));
+    // biome-ignore lint/correctness/noUnusedVariables: starter code
+    const email = EmailSchema.parse(formData.get('email'));
 
     // Add your newsletter signup logic here
 
@@ -23,10 +24,10 @@ export const subscribeAction = async (formData: FormData): Promise<ActionRespons
       error: null,
     };
   } catch (error: unknown) {
-    if (v.isValiError(error)) {
+    if (error instanceof z.ZodError) {
       return {
         status: 'error',
-        error: error.message,
+        error: error.issues[0]?.message ?? 'Invalid input.',
       };
     }
 

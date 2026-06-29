@@ -14,5 +14,6 @@
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit"
-  }
+  },
+  "css.lint.unknownAtRules": "ignore"
 }

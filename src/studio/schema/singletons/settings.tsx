@@ -1,6 +1,5 @@
 import { CogIcon } from '@sanity/icons';
 import { defineField, defineType } from 'sanity';
-import * as demo from '@/lib/sanity/client/demo';
 
 /**
  * Settings schema Singleton.  Singletons are single documents that are displayed not in a collection, handy for things like site settings and other global configurations.
@@ -18,7 +17,6 @@ export default defineType({
       description: 'This field is the title of your website.',
       title: 'Title',
       type: 'string',
-      initialValue: demo.title,
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -29,9 +27,30 @@ export default defineType({
     }),
     defineField({
       name: 'description',
-      description: 'Used both for the <meta> description tag for SEO, and the blog subheader.',
+      description:
+        'Used both for the <meta> description tag for SEO, and the blog subheader.',
       title: 'Description',
       type: 'text',
+    }),
+    defineField({
+      name: 'logo',
+      title: 'Logo',
+      type: 'image',
+      description:
+        'Brand mark shown in the footer bar of dynamically-generated social cards.',
+      options: {
+        aiAssist: {
+          imageDescriptionField: 'alt',
+        },
+      },
+      fields: [
+        defineField({
+          name: 'alt',
+          description: 'Important for accessibility and SEO.',
+          title: 'Alternative text',
+          type: 'string',
+        }),
+      ],
     }),
     defineField({
       name: 'ogImage',
@@ -53,7 +72,8 @@ export default defineType({
           validation: (rule) => {
             return rule.custom((alt, context) => {
               if (
-                (context.document?.ogImage as { asset?: { _ref?: string } })?.asset?._ref &&
+                (context.document?.ogImage as { asset?: { _ref?: string } })
+                  ?.asset?._ref &&
                 !alt
               ) {
                 return 'Required';

@@ -15,7 +15,9 @@ const META_DESCRIPTION_MAX_LENGTH = 160;
  * - If it’s under ~100, it’s likely too short.
  * - If it’s over ~160, it might get truncated in search engine results.
  */
-const getDescriptionFeedback = (metaDescription: string): { text: string; color: string } => {
+const getDescriptionFeedback = (
+  metaDescription: string
+): { text: string; color: string } => {
   if (!metaDescription || !metaDescription.trim()) {
     return {
       text: 'No meta description has been specified. Search engines will display copy from the page instead. Make sure to write one!',
@@ -48,7 +50,7 @@ const getDescriptionFeedback = (metaDescription: string): { text: string; color:
 const SEODescription = (props: StringInputProps) => {
   const { value, renderDefault } = props;
 
-  // Access the parent object to get keywords from the `seoKeywords` field
+  // Fall back to the parent object's `metaDescription` when this field is empty.
   const { path } = props;
   const parentPath = path.slice(0, -1);
   const parent = useFormValue(parentPath) as {

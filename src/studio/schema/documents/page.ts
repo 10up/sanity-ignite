@@ -1,7 +1,6 @@
 import { DocumentIcon } from '@sanity/icons';
 import { defineField, defineType } from 'sanity';
 import { defaultFieldGroups } from '../config/fieldGroups';
-import pageSections from '../fields/pageSections';
 
 /**
  * Page schema.  Define and edit the fields for the 'page' content type.
@@ -32,7 +31,18 @@ export default defineType({
       },
       group: 'content',
     }),
-    pageSections,
+    defineField({
+      name: 'excerpt',
+      title: 'Excerpt',
+      type: 'text',
+      group: 'content',
+    }),
+    defineField({
+      name: 'content',
+      title: 'Content',
+      type: 'blockContent',
+      group: 'content',
+    }),
     defineField({
       title: 'SEO & Metadata',
       name: 'seo',

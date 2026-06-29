@@ -1,38 +1,76 @@
 import '../globals.css';
 
+import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { draftMode } from 'next/headers';
-import Footer from '@/components/layout/Footer';
-import Header from '@/components/layout/Header';
+import { Suspense } from 'react';
+import { Banner } from '@/components/layout/Banner';
+import { Footer } from '@/components/layout/Footer';
+import { Header } from '@/components/layout/Header';
 import Main from '@/components/layout/Main';
+import { NewsletterSubscribe } from '@/components/sections/NewsletterSubscribe';
+import { SiteJsonLd } from '@/components/seo/SiteJsonLd';
 import { SanityLive } from '@/lib/sanity/client/live';
+import { getBaseUrl } from '@/utils/getBaseUrl';
 import { handleError } from './client-utils';
 
-const DraftModeToast = dynamic(() => import('@/components/modules/DraftModeToast'));
-const Toaster = dynamic(() => import('sonner').then((mod) => mod.Toaster));
-const VisualEditing = dynamic(() => import('next-sanity').then((mod) => mod.VisualEditing));
+export const metadata: Metadata = {
+  metadataBase: new URL(getBaseUrl()),
+  alternates: {
+    types: {
+      'application/rss+xml': [{ url: '/feed.xml', title: 'RSS feed' }],
+      'application/feed+json': [{ url: '/feed.json', title: 'JSON feed' }],
+    },
+  },
+};
 
-import dynamic from 'next/dynamic';
-import Alert from '@/components/layout/Alert';
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled: isDraftMode } = await draftMode();
+const DraftModeToast = dynamic(
+  () => import('@/components/modules/DraftModeToast')
+);
+const Toaster = dynamic(() => import('sonner').then((mod) => mod.Toaster));
+const VisualEditing = dynamic(() =>
+  import('next-sanity/visual-editing').then((mod) => mod.VisualEditing)
+);
+
+// Runtime-only — reads draftMode(), never prerenders
+async function DraftModeTools() {
+  const { isEnabled } = await draftMode();
+  if (!isEnabled) return null;
 
   return (
-    <body className={`font-inter bg-white text-black`}>
+    <>
+      <DraftModeToast />
+      <VisualEditing />
+      {/* With `includeDrafts`, Sanity Live defaults its action to `router.refresh()`,
+          so editor changes stream into the preview without a custom handler. */}
+      <SanityLive includeDrafts onError={handleError} />
+    </>
+  );
+}
+
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <body>
       <section className="min-h-screen">
-        <Alert />
-        {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
         <Toaster />
-        {isDraftMode && (
-          <>
-            <DraftModeToast />
-            {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
-            <VisualEditing />
-          </>
-        )}
-        {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
-        <SanityLive onError={handleError} />
-        <Header />
-        <Main>{children}</Main>
+        <Suspense fallback={null}>
+          <SiteJsonLd />
+        </Suspense>
+        <Suspense fallback={null}>
+          <DraftModeTools />
+        </Suspense>
+        <Banner />
+        <Suspense fallback={null}>
+          <Header />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Main>{children}</Main>
+        </Suspense>
+        <NewsletterSubscribe />
         <Footer />
       </section>
     </body>

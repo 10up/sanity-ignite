@@ -1,18 +1,20 @@
-# Ignite for Sanity
+# Ignite for Sanity v2
 
-A Sanity starter kit providing modern, clean designs for your content-driven websites. Built with Next.js and Tailwind CSS.
+A Sanity + Next.js App router starter kit for modern content-driven websites. Built with Next.js 16, Tailwind CSS 4, and Sanity.
 
-Out of the box it includes schema for pages, posts, categories, authors, and global settings. Pages are structured with a page builder that lets you compose a number of components: hero, CTA, post list, subscribe, content, etc.
+Out of the box it includes schema for articles, pages, categories, and authors, plus singletons for the home page and global settings. Pages are composed with static and page builder blocks whose sections are rendered through a component map.
 
 ## Key Dependencies
 
-- Next.js
-- Sanity
-- Tailwind CSS
-- Shadcn/ui
-- React
-- TypeScript
-- Vitest
+- Next.js 16 (App Router, `use cache`, Cache Components and PPR)
+- Sanity 5 + next-sanity 13
+- Tailwind CSS 4
+- shadcn/ui (Radix UI primitives)
+- Zod (runtime + env validation)
+- AI SDK (`@ai-sdk/anthropic`) for the streamed search overview
+- Biome (linting + formatting)
+- Vitest (testing)
+- TypeScript 5
 
 ## Getting Started
 
@@ -34,185 +36,208 @@ npm run dev
 
 Open the next app locally at [http://localhost:3000](http://localhost:3000) and the Sanity Studio at [http://localhost:3000/studio](http://localhost:3000/studio).
 
+## Architecture
+
+### Data Fetching
+
+All Sanity data flows through a unified fetch transformation layer (`src/lib/sanity/client/fetch.ts`):
+
+```
+Route -> sanityFetch({ query, schema, tags, perspective, stega }) -> Zod validation -> Component
+```
+
+- Every query result is validated against a **Zod schema** before reaching components.
+- `tags` are semantic, webhook-driven cache tags (e.g. `sanity:type:article`, `sanity:slug:my-post`) forwarded to `cacheTag()`.
+- `perspective` and `stega` are **request-time** values resolved by `getDynamicFetchOptions()` (`src/lib/sanity/client/live.ts`) and passed in as serializable props.
+
+#### The three-layer pattern (Cache Components)
+
+Next.js Cache Components forbid request-time data (cookies, `draftMode()`) inside a `'use cache'` boundary, so `sanityFetch` **must** be called from inside one. Routes resolve this with three layers (see `src/app/(frontend)/page.tsx`):
+
+1. **Orchestrator** — branches on `draftMode()`. The published branch prerenders a static shell; the draft branch streams a dynamic render.
+2. **Dynamic layer** — resolves `perspective`/`stega`/cookies _outside_ any cache boundary.
+3. **Cached layer** — `'use cache'`, receives serializable props, fetches, and renders.
+
+This is what lets Sanity Live + Visual Editing coexist with Cache Components. `defineLive({ strict: true })` enforces that `perspective` and `stega` are always supplied.
+
+### Rendering Model
+
+- **Static-first** — published pages prerender as a static shell.
+- **Streaming** — slower or request-specific content streams in through `<Suspense>` with skeleton fallbacks.
+- **Personalization slots** — `RecommendedArticleList` is a dynamic island: it reads the `x-user-country` cookie at request time and is slotted in as `children` inside the cached feed, so the page stays cached while the personalized list streams in. Recommendations are ranked in GROQ with `score($country in countryInterest)`. Wire your edge layer (e.g. a geo header) to the `x-user-country` cookie at deploy time; the allow-list lives in `src/lib/fixtures/countries.ts`.
+
+### Search
+
+Article search is exposed as two route handlers backed by one cached helper (`src/lib/sanity/client/search.ts`):
+
+- `GET /api/search?q=` — semantic search over the Sanity **dataset embeddings** index using `text::semanticSimilarity()`. Requires embeddings to be enabled on the dataset (`npm run embeddings:enable`).
+- `POST /api/search/overview` — streams a short, LLM-generated overview of the results via the AI SDK (Anthropic, Haiku 4.5 by default). Defended with a same-origin guard, per-IP rate limit, and server-authoritative inputs; degrades gracefully (`204`) when `ANTHROPIC_API_KEY` is absent.
+
+Both routes call the same `'use cache'` helper with the same term, so they share one cache entry. The search UI (`src/components/modules/SiteSearch.tsx`) debounces input and cancels stale requests with `AbortController`.
+
+### Caching & Revalidation
+
+Cache is tag-based. Each `sanityFetch` call declares its tags using the builders in `src/lib/sanity/revalidation.ts`. Revalidation happens via:
+
+1. **Webhook endpoint** (`/api/revalidate`) — Sanity sends a webhook on content changes; `getRevalidateTags()` maps the changed document to every affected cache tag (including tags for content that _embeds_ it, e.g. an article edit also revalidates the home page builder and its category pages) and calls `revalidateTag()` for each.
+2. **Time-based** — `cacheLife` profiles set the TTL. The default is next-sanity's `sanity` preset (`next.config.ts`), since on-demand webhook revalidation makes the stock 15-minute window too aggressive.
+
+#### Configuring the Sanity webhook
+
+The fan-out lives in code (`src/lib/sanity/revalidation.ts`), but the webhook that delivers the payload is configured in Sanity. Create a [GROQ-powered webhook](https://www.sanity.io/docs/content-lake/webhooks) at [sanity.io/manage](https://www.sanity.io/manage) (API → Webhooks) and copy the exported `filter` and `projection` blocks from `src/lib/sanity/revalidation.ts` into the matching fields. Set:
+
+- **URL** — `https://<your-domain>/api/revalidate`
+- **HTTP method** — `POST`
+- **Trigger on** — Create, Update, Delete
+- **Secret** — the same value as `SANITY_WEBHOOK_SECRET` in your env
+
+The projection shapes the payload to exactly what `getRevalidateTags()` expects, so the two stay in sync.
+
+### Agent Readiness
+
+The site publishes machine-readable surfaces so agents can read its content without scraping HTML (see `src/lib/agent-readiness/` and the `src/app/(agent-readiness)/` route group):
+
+- `/llms.txt` — a curated Markdown index of the most important content.
+- `/feed.xml` and `/feed.json` — RSS 2.0 and JSON Feed 1.1 of the latest articles.
+- `/.well-known/agent-skills/` — the site publishes its own Agent Skill (`SKILL.md`) plus a discovery index.
+- **schema.org JSON-LD** — embedded in each page's server-rendered HTML, with entities linked by `@id`.
+- **Discovery** `Link` **headers** — every response advertises the above via RFC 8288 `Link` headers (`next.config.ts`).
+- `robots.ts` — per-vendor AI crawler rules (opt out of training crawlers, opt in to retrieval crawlers).
+
+### Open Graph Cards
+
+Each page can ship a dynamically generated social share image (1200×630 PNG) rendered with `next/og` (Satori). The system is built around one presentational component so the editor preview and the shipped image can never drift apart:
+
+- **`src/lib/og/OgCard.tsx`** — the single source of truth for the card. Restricted to the CSS subset Satori supports (flexbox + inline styles, no grid, no class names) so the exact same component renders correctly in both the rasterizer and the browser.
+- **`src/app/api/og/[type]/[slug]/route.tsx`** — the generator route. Fetches the card data with `ogCardQuery`, builds CDN image URLs for the background and logo, and returns an `ImageResponse`. `type` is validated against an allow-list (`page`, `article`, `homePage`) and passed to GROQ as a bound parameter. The response is cached immutably (`max-age=31536000`).
+- **`src/lib/og/fonts.ts`** — loads Geist Sans/Mono from Google Fonts as raw buffers for Satori, subsetting each face to only the glyphs the card uses (keeps it under the `ImageResponse` bundle limit). Results are memoised per (family, weight, text) for the life of the server instance.
+- **`src/studio/components/SocialImageInput.tsx`** — the Studio input attached to the `seo.generateCard` toggle. It renders the *same* `OgCard` straight to the DOM, scaled to the field width, so editors get a live, accurate preview as they type.
+
+#### Content resolution
+
+`ogCardQuery` (`src/lib/sanity/queries/queries.ts`) resolves the headline, excerpt, background image, and logo entirely in GROQ via `coalesce()` fallback chains, so the route handler stays presentational:
+
+- **Headline** — `seo.cardHeadline` → `seo.metaTitle` → `title`/`name`
+- **Excerpt** — `seo.cardExcerpt` → `seo.metaDescription` → `excerpt`
+- **Background image** — `seo.metaImage` → document `image` → site `ogImage` (from Settings)
+- **Logo + site name** — always from the `settings` singleton
+
+The optional override fields (`cardLayout`, `cardHeadline`, `cardExcerpt`) live in the SEO object (`src/studio/schema/objects/seo/seo.ts`) and are hidden until `generateCard` is toggled on.
+
+#### Wiring into metadata
+
+`formatMetaData()` (`src/lib/sanity/client/seo.ts`) points `og:image` at the generator route only when the editor has toggled `generateCard` on; otherwise it shares the chosen `metaImage` as-is. It appends a `?v=<updatedAt>` token so an edit produces a fresh URL (and therefore a fresh CDN cache entry) while unchanged content keeps hitting the immutable cache. Next.js mirrors the Open Graph tags into `twitter:*` automatically, so there are no platform-specific fields to maintain.
+
+### Type Generation
+
+Sanity TypeGen generates TypeScript types from your schema and GROQ queries:
+
+```bash
+npm run sanity:typegen
+```
+
+This extracts the schema to `.sanity/schema.json` and writes types to `.sanity/sanity.types.ts` (configured in `sanity.cli.ts`). TypeGen also runs automatically as part of `npm run next:build`; re-run `npm run sanity:typegen` after changing schema or queries during development.
+
 ## Folder Structure
 
 ```
-
-🔥 sanity-ignite
-├── 📂 src                  # Main source code directory
-│ ├── 📂 app                # Next.js application
-│ │ ├── 📂 (frontend)       # Frontend routes
-│ │ ├── 📂 studio           # Sanity Studio route
-│ │ ├── 📂 api              # API routes (Next.js route handlers)
-│ ├── 📂 components         # UI components and icons
-│ │ ├── 📂 icons            # Custom SVG/icon components
-│ │ ├── 📂 ui               # Presentational UI components with no side effects
-│ │ ├── 📂 modules          # Components that receive Sanity data and may call server actions
-│ │ ├── 📂 sections         # Page builder sections
-│ │ ├── 📂 templates        # Page templates
-│ ├── 📂 hooks              # Custom react hooks
-│ ├── 📂 actions            # Server-side actions
-│ ├── 📂 env                # Environment specific functions and `.env` validation
-│ ├── 📂 lib                # Shared libraries and integrations
-│ │ ├── 📂 sanity           # Sanity integration
-│ │ │ ├── 📂 queries        # Sanity GraphQL/GROQ queries
-│ │ │ ├── 📂 client         # Sanity client configuration
-│ │ ├── 📂 (example)        # Every integration (e.g., CRM, Newsletter SDKs) gets its own subfolder
-│ ├── 📂 studio             # Sanity Studio configuration
-│ │ ├── 📂 schemas          # Schema definitions for Sanity content models
-│ │ ├── 📂 components       # Custom Sanity components
-│ │ ├── 📂 plugins          # Custom Sanity plugins
-│ │ ├── 📂 structure        # Custom Sanity structure definitions
-│ ├── 📂 utils              # Utility functions and TypeScript types
+src/
+  actions/               # Server actions (newsletter subscribe, draft mode)
+  app/
+    (frontend)/          # Frontend routes
+      [slug]/            # Dynamic pages (page builder)
+      article/[slug]/    # Individual article
+      category/[...slug]/ # Category + subcategory archives
+      layout.tsx         # Frontend layout (SanityLive, Visual Editing)
+    (agent-readiness)/   # llms.txt, feeds, agent-skills route group
+    api/
+      draft-mode/enable/ # Visual editing draft mode
+      og/                # Dynamic Open Graph card images (next/og)
+      revalidate/        # Webhook revalidation endpoint
+      search/            # Semantic search + streamed AI overview
+    studio/              # Embedded Sanity Studio
+    robots.ts            # robots.txt (incl. AI crawler rules)
+    sitemap.ts           # sitemap.xml
+  components/
+    icons/               # Custom SVG/icon components
+    layout/              # Header, Footer, MobileNav, etc.
+    modules/             # Components that receive Sanity data
+    sections/            # Page builder + page sections
+    seo/                 # JSON-LD components
+    templates/           # Page-level templates
+    ui/                  # Presentational UI (incl. shadcn/)
+  env/                   # Environment variable validation (Zod)
+  hooks/                 # Custom React hooks
+  lib/
+    agent-readiness/     # llms.txt / feeds / JSON-LD / skill builders
+    og/                  # OgCard component + font loader for dynamic OG images
+    sanity/
+      client/            # Sanity client, fetch/live layer, search, SEO utils
+      queries/           # GROQ queries, fragments + Zod schemas
+      revalidation.ts    # Tag builders + webhook fan-out (filter/projection)
+  studio/
+    schema/              # Sanity schema (documents, singletons, objects, embeddings)
+    components/          # Custom Studio input components
+    structure/           # Custom Studio structure
+    actions/             # Custom document actions (e.g. publish with read time)
+  utils/                 # Utility functions
 ```
 
-### 📂 `src/components` - UI Component Structure
+### Component Categories
 
-- **`ui/` - Presentational UI Components**
+- `ui/` — Pure presentational components. No Sanity types, no data fetching, no global state. Includes vendored `shadcn/` components.
+- `modules/` — Accept Sanity data as props. May call server actions but don't fetch directly.
+- `sections/` — Page builder sections rendered by `PageSections` via a component map, plus other page-level sections.
+- `templates/` — Page-level layout wrappers shared across routes.
 
-  - This folder contains **pure UI components** that have **no side effects**.
-  - Components here can be used **both in client and server components**.
-  - **🚫 Do not use:** Sanity types, data fetching, or global state within these components.
+## Environment Variables
 
-- **`modules/` - Components that Accept Sanity Data**
+Environment variables are typed and validated via Zod to provide a server and client-safe typed API.
 
-  - These components receive **data from Sanity queries** and might contain logic to manipulate or render that data.
-  - No direct data fetching should happen inside these components.
-  - They can, however, call **server actions** that fetch or modify data.
-
-- **`sections/` - Page Builder Sections**
-
-  - Large, structured UI sections that form reusable parts of pages.
-  - Used to assemble pages dynamically in a CMS-driven way.
-
-- **`templates/` - Page Templates**
-
-  - Higher-level layout structures that can be shared between multiple routes.
-
-- **`icons/` - Custom SVG/Icon Components**
-  - Collection of SVG-based components used throughout the UI.
-  - Icons should be stored as SVG files and imported as React components. Icons should NOT be added as React components directly.
-
----
-
-### 📂 `src/lib` - Shared Libraries & Integrations
-
-- **`sanity/` - Sanity Integration**
-
-  - **`queries/`** → Contains all Sanity **GROQ queries** used in the frontend.
-  - **`client/`** → Configures the Sanity client and SanityLive client used for API calls
-
-- **`(example)/` - External Service Integrations**
-  - Each external service (e.g., CRM, Newsletter SDKs) should have its own **subfolder** under `lib/`.
-  - Example: `/lib/newsletter/` for newsletter subscriptions, `/lib/crm/` for CRM integrations.
-
----
-
-### 📂 `src/studio` - Sanity Studio Configuration
-
-This folder contains everything needed to **configure and customize Sanity Studio**, the headless content operating system used in this project.
-
-- **`schemas/` - Content Models**
-
-  - Defines the schema of content in Sanity (e.g., `Post`, `Author`, `Category`).
-
-- **`components/` - Custom Sanity Components**
-
-  - Custom React components that enhance the Sanity Studio interface.
-  - These might include **custom inputs, preview components, or UI overrides**.
-
-- **`plugins/` - Sanity Plugins**
-
-  - Third-party or custom plugins that **extend Sanity’s functionality**.
-  - Examples: AI-powered content suggestions, media management, or real-time collaboration tools.
-
-- **`structure/` - Custom Studio Structure**
-  - Defines how content is **organized** inside the Sanity Studio UI.
-  - Custom menus, navigation rules, and UI layouts are configured here.
-
-## 🌍 Environment Variables (`.env` Files)
-
-The project uses **environment variables** to store **configuration values** that differ between environments (e.g., local development, testing, and production). These variables are stored in `.env` files, which Next.js loads automatically. Read more on the Nex.js Docs [here](https://nextjs.org/docs/app/building-your-application/configuring/environment-variables).
-
-### 📂 Available `.env` Files
-
-| File               | Purpose                                                                                           |
-| ------------------ | ------------------------------------------------------------------------------------------------- |
-| **`.env.local`**   | Stores **local** environment variables. This file is **git-ignored** and should not be committed. |
-| **`.env.example`** | A **template** for environment variables. It lists required variables without actual values.      |
-| **`.env.test`**    | Contains environment variables used specifically for running **unit tests**.                      |
-
----
-
-## 🛠️ How to Use `.env` Files
-
-### 1️⃣ **Setting Up Your Local Environment**
-
-Before running the project locally, copy `.env.example` and create a `.env.local` file:
+### Setup
 
 ```sh
 cp .env.example .env.local
 ```
 
-Then, **fill in the required values** based on your local setup.
+### Files
 
-### 2️⃣ **Validation of Environment Variables**
+| File           | Purpose                               |
+| -------------- | ------------------------------------- |
+| `.env.local`   | Local dev secrets (git-ignored)       |
+| `.env.example` | Template with required variable names |
+| `.env.test`    | Variables for unit tests              |
 
-This project uses **valibot** for schema validation of environment variables.
-To add a new environment variable:
+### Adding Variables
 
-1. Update the `.env.example` file
-2. Add the new variable to the `envSchema` object in `src/env/serverEnv.ts` or `src/env/clientEnv.ts`
+1. Add to `.env.example`
+2. Add validation in `src/env/serverEnv.ts` (private) or `src/env/clientEnv.ts` (public)
+3. Access via `serverEnv.MY_VAR` or `clientEnv.NEXT_PUBLIC_MY_VAR`
 
-### 3️⃣ **Accessing Environment Variables in Code**
+Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser.
 
-All environment variables should be accessed using the `serverEnv` or `clientEnv` objects.
+## Semantic Search Setup
 
-Example:
-
-```ts
-const projectId = serverEnv.NEXT_PUBLIC_SANITY_PROJECT_ID;
-```
-
-💡 **Public vs. Private Variables:**
-
-- Variables **prefixed with `NEXT_PUBLIC_`** are **exposed to the browser** and can be used in client-side code. Validation of these variables is done in `src/env/clientEnv.ts`.
-- Variables **without `NEXT_PUBLIC_`** remain **server-only**. Validation of these variables is done in `src/env/serverEnv.ts`.
-
-### 4️⃣ **Testing with `.env.test`**
-
-When running unit or integration tests, the `.env.test` file is loaded automatically.
-
----
-
-### 🔒 Best Practices
-
-✔️ **Never commit `.env.local`!** It's ignored by `.gitignore`.  
-✔️ **Use `.env.example`** to document required variables without exposing secrets.  
-✔️ **Keep private keys and API secrets out of `NEXT_PUBLIC_` variables.**
-
----
-
-## Linter and Code Formatting
-
-This project uses ESLint and Prettier for code linting and formatting. Run the following commands to lint and format your code:
+Semantic search relies on a Sanity **dataset embeddings** index scoped to articles (`src/studio/schema/embeddings/projection.ts`):
 
 ```bash
-npm run lint # Lint the code
+npm run embeddings:enable   # enable embeddings with the article projection
+npm run embeddings:status   # check indexing status
 ```
 
-### Custom ESLint Configurations
+## Linting & Formatting
 
-This project has custom ESLint rules configured for the following scenarios:
+This project uses [Biome](https://biomejs.dev/) for linting and formatting:
 
-- Sanity Studio
-  - `next-sanity` package cannot be imported into the studio. This is a frontend only package.
-- Next.js Frontend
-  - Assets from the sanity studio or from studio related packages cannot be imported into the frontend. They can only be used in the `sanity.config.ts` file or in the `src/studio` folder. This is to prevent the frontend from loading unoptimized studio assets.
+```bash
+npm run lint        # Check
+npm run lint:fix    # Fix
+npm run format      # Check formatting
+npm run format:fix  # Fix formatting
+npm run check       # Both
+```
 
-### Analyze Bundle Sizes
-
-Sanity Ignite uses the `@next/bundle-analyzer` plugin to analyze the bundle sizes of the project. To run the bundle analyzer, run the following command:
+### Bundle Analysis
 
 ```bash
 ANALYZE=true npm run next:build
@@ -221,6 +246,10 @@ ANALYZE=true npm run next:build
 ## Learn More
 
 - [Next.js Documentation](https://nextjs.org/docs)
+- [Next.js Cache Components](https://nextjs.org/docs/app/api-reference/directives/use-cache)
 - [Sanity Documentation](https://www.sanity.io/docs)
+- [Sanity Dataset Embeddings](https://www.sanity.io/docs/content-lake/dataset-embeddings)
+- [next-sanity Documentation](https://github.com/sanity-io/next-sanity)
+- [AI SDK Documentation](https://ai-sdk.dev)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [Shadcn/ui Documentation](https://ui.shadcn.com)
+- [shadcn/ui Documentation](https://ui.shadcn.com)

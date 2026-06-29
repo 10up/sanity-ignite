@@ -1,4 +1,5 @@
-import { CogIcon, DocumentIcon, HomeIcon } from '@sanity/icons';
+import { CogIcon, HomeIcon } from '@sanity/icons';
+import { FileText } from 'lucide-react';
 import type { StructureResolver } from 'sanity/structure';
 
 /**
@@ -9,24 +10,32 @@ import type { StructureResolver } from 'sanity/structure';
 
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Website Content')
+    .title('Content')
     .items([
       S.listItem()
+        .id('homePage')
         .title('Home')
         .child(S.document().schemaType('homePage').documentId('homePage'))
         .icon(HomeIcon),
       S.listItem()
-        .title('Blog Page')
-        .child(S.document().schemaType('blogPage').documentId('blogPage'))
-        .icon(DocumentIcon),
-      // Filter out "AI Assist Context" and "Settings" content from the list of content types
+        .id('article')
+        .title('Articles')
+        .child(S.documentTypeList('article').title('Articles'))
+        .icon(FileText),
+      // Filter out all items manually added to the list
       ...S.documentTypeListItems().filter((listItem) => {
         const id = listItem.getId();
         return typeof id !== 'undefined'
-          ? !['settings', 'homePage', 'assist.instruction.context', 'blogPage'].includes(id)
+          ? ![
+              'settings',
+              'article',
+              'homePage',
+              'assist.instruction.context',
+            ].includes(id)
           : false;
       }),
       S.listItem()
+        .id('settings')
         .title('Site Settings')
         .child(S.document().schemaType('settings').documentId('siteSettings'))
         .icon(CogIcon),

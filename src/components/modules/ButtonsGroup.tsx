@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { getLinkByLinkObject } from '@/lib/links';
-import type { ButtonFragmentType } from '@/lib/sanity/queries/fragments/fragment.types';
+import type { ButtonFragmentType } from '@/lib/sanity/queries/schemas';
 import { cn } from '@/lib/utils';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/shadcn/button';
 
 export default function ButtonsGroup({
   buttons,

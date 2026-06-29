@@ -16,6 +16,8 @@ import {
 } from 'sanity/presentation';
 import { structureTool } from 'sanity/structure';
 import { clientEnv } from '@/env/clientEnv';
+import { getDocumentLink } from '@/lib/links';
+import { PublishWithReadTimeAction } from './src/studio/actions/article/publishWithReadTime';
 import { schemaTypes } from './src/studio/schema';
 import { structure } from './src/studio/structure';
 
@@ -29,10 +31,9 @@ const homeLocation = {
 // path for different document types and used in the presentation tool.
 function resolveHref(documentType?: string, slug?: string): string | undefined {
   switch (documentType) {
-    case 'post':
-      return slug ? `/blog/${slug}` : undefined;
+    case 'article':
     case 'page':
-      return slug ? `/${slug}` : undefined;
+      return slug ? getDocumentLink({ _type: documentType, slug }) : undefined;
     default:
       console.warn('Invalid document type:', documentType);
       return undefined;
@@ -48,6 +49,13 @@ export default defineConfig({
   dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
   plugins: [
     // Presentation tool configuration for Visual Editing
+
+    structureTool({
+      structure, // Custom studio structure configuration, imported from ./src/structure.ts
+    }),
+    // Additional plugins for enhanced functionality
+    assist(),
+    visionTool(),
     presentationTool({
       previewUrl: {
         // origin: SANITY_STUDIO_PREVIEW_URL,
@@ -63,8 +71,8 @@ export default defineConfig({
             filter: `_type == "page" && slug.current == $slug || _id == $slug`,
           },
           {
-            route: '/blog/:slug',
-            filter: `_type == "post" && slug.current == $slug || _id == $slug`,
+            route: '/article/:slug',
+            filter: `_type == "article" && slug.current == $slug || _id == $slug`,
           },
         ]),
         // Locations Resolver API allows you to define where data is being used in your application. https://www.sanity.io/docs/presentation-resolver-api#8d8bca7bfcd7
@@ -83,40 +91,28 @@ export default defineConfig({
               locations: [
                 {
                   title: doc?.name || 'Untitled',
-                  href: resolveHref('page', doc?.slug)!,
+                  href: resolveHref('page', doc?.slug) ?? '/',
                 },
               ],
-            }),
-          }),
-          post: defineLocations({
-            select: {
-              title: 'title',
-              slug: 'slug.current',
-            },
-            resolve: (doc) => ({
-              locations: [
-                {
-                  title: doc?.title || 'Untitled',
-                  href: resolveHref('post', doc?.slug)!,
-                },
-                {
-                  title: 'Home',
-                  href: '/',
-                } satisfies DocumentLocation,
-              ].filter(Boolean) as DocumentLocation[],
             }),
           }),
         },
       },
     }),
-    structureTool({
-      structure, // Custom studio structure configuration, imported from ./src/structure.ts
-    }),
-    // Additional plugins for enhanced functionality
-    assist(),
-    visionTool(),
   ],
   schema: {
     types: schemaTypes,
+  },
+  document: {
+    actions: (prev, context) => {
+      if (context.schemaType === 'article') {
+        return prev.map((originalAction) =>
+          originalAction.action === 'publish'
+            ? PublishWithReadTimeAction
+            : originalAction
+        );
+      }
+      return prev;
+    },
   },
 });

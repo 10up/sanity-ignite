@@ -1,7 +1,9 @@
 import { Clock } from 'lucide-react';
 import { readTime } from '@/utils/strings';
 
-export function ReadTime({ wordCount }: { wordCount: number }) {
+export function ReadTime({ wordCount }: { wordCount?: number | null }) {
+  if (!wordCount) return null;
+
   return (
     <div className="flex items-center text-sm text-gray-500">
       <Clock className="w-4 h-4 mr-1" />

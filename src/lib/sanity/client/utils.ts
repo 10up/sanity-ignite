@@ -1,29 +1,38 @@
-import createImageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder } from '@sanity/image-url';
 import type { CreateDataAttributeProps } from 'next-sanity';
 import { createDataAttribute } from 'next-sanity';
 import { clientEnv } from '@/env/clientEnv';
-import type { SeoFragmentType } from '../queries/fragments/fragment.types';
+import type { ImageFragmentType } from '../queries/schemas';
 
 const imageBuilder = createImageUrlBuilder({
   projectId: clientEnv.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: clientEnv.NEXT_PUBLIC_SANITY_DATASET,
 });
 
-export const urlForImage = (source: { asset?: { _ref?: string } }) => {
+export const urlForImage = (
+  source: { asset?: { _ref?: string } | null } | null | undefined
+) => {
   if (!source?.asset?._ref) {
     return undefined;
   }
 
+  // biome-ignore lint/suspicious/noFocusedTests: .fit() is an image-url method, not a test
   return imageBuilder?.image(source).auto('format').fit('max');
 };
 
 export function resolveOpenGraphImage(
-  image?: SeoFragmentType['metaImage'],
+  image?: ImageFragmentType | null,
   width = 1200,
-  height = 627,
+  height = 627
 ) {
   if (!image) return;
-  const url = imageBuilder.image(image)?.width(width).height(height).fit('crop').url();
+
+  const url = imageBuilder
+    .image(image)
+    ?.width(width)
+    .height(height) // biome-ignore lint/suspicious/noFocusedTests: .fit() is an image-url method, not a test
+    .fit('crop')
+    .url();
   if (!url) return;
   return { url, width, height };
 }
