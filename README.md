@@ -1,12 +1,12 @@
-# Ignite for Sanity
+# Ignite for Sanity v2
 
-A Sanity starter kit providing modern, clean designs for your content-driven websites. Built with Next.js 16, Tailwind CSS 4, and Sanity 5.
+A Sanity + Next.js App router starter kit for modern content-driven websites. Built with Next.js 16, Tailwind CSS 4, and Sanity.
 
-Out of the box it includes schema for articles, pages, categories, and authors, plus singletons for the home page, article archive, and global settings. Pages are composed with a page builder whose sections (hero, media + text, article list) are rendered through a component map.
+Out of the box it includes schema for articles, pages, categories, and authors, plus singletons for the home page and global settings. Pages are composed with static and page builder blocks whose sections are rendered through a component map.
 
 ## Key Dependencies
 
-- Next.js 16 (App Router, `use cache`, Cache Components)
+- Next.js 16 (App Router, `use cache`, Cache Components and PPR)
 - Sanity 5 + next-sanity 13
 - Tailwind CSS 4
 - shadcn/ui (Radix UI primitives)
@@ -40,7 +40,7 @@ Open the next app locally at [http://localhost:3000](http://localhost:3000) and 
 
 ### Data Fetching
 
-All Sanity data flows through a unified fetch layer (`src/lib/sanity/client/fetch.ts`):
+All Sanity data flows through a unified fetch transformation layer (`src/lib/sanity/client/fetch.ts`):
 
 ```
 Route -> sanityFetch({ query, schema, tags, perspective, stega }) -> Zod validation -> Component
@@ -55,7 +55,7 @@ Route -> sanityFetch({ query, schema, tags, perspective, stega }) -> Zod validat
 Next.js Cache Components forbid request-time data (cookies, `draftMode()`) inside a `'use cache'` boundary, so `sanityFetch` **must** be called from inside one. Routes resolve this with three layers (see `src/app/(frontend)/page.tsx`):
 
 1. **Orchestrator** — branches on `draftMode()`. The published branch prerenders a static shell; the draft branch streams a dynamic render.
-2. **Dynamic layer** — resolves `perspective`/`stega`/cookies *outside* any cache boundary.
+2. **Dynamic layer** — resolves `perspective`/`stega`/cookies _outside_ any cache boundary.
 3. **Cached layer** — `'use cache'`, receives serializable props, fetches, and renders.
 
 This is what lets Sanity Live + Visual Editing coexist with Cache Components. `defineLive({ strict: true })` enforces that `perspective` and `stega` are always supplied.
@@ -70,8 +70,8 @@ This is what lets Sanity Live + Visual Editing coexist with Cache Components. `d
 
 Article search is exposed as two route handlers backed by one cached helper (`src/lib/sanity/client/search.ts`):
 
-- **`GET /api/search?q=`** — semantic search over the Sanity **dataset embeddings** index using `text::semanticSimilarity()`. Requires embeddings to be enabled on the dataset (`npm run embeddings:enable`).
-- **`POST /api/search/overview`** — streams a short, LLM-generated overview of the results via the AI SDK (Anthropic, Haiku 4.5 by default). Defended with a same-origin guard, per-IP rate limit, and server-authoritative inputs; degrades gracefully (`204`) when `ANTHROPIC_API_KEY` is absent.
+- `GET /api/search?q=` — semantic search over the Sanity **dataset embeddings** index using `text::semanticSimilarity()`. Requires embeddings to be enabled on the dataset (`npm run embeddings:enable`).
+- `POST /api/search/overview` — streams a short, LLM-generated overview of the results via the AI SDK (Anthropic, Haiku 4.5 by default). Defended with a same-origin guard, per-IP rate limit, and server-authoritative inputs; degrades gracefully (`204`) when `ANTHROPIC_API_KEY` is absent.
 
 Both routes call the same `'use cache'` helper with the same term, so they share one cache entry. The search UI (`src/components/modules/SiteSearch.tsx`) debounces input and cancels stale requests with `AbortController`.
 
@@ -84,7 +84,7 @@ Cache is tag-based. Each `sanityFetch` call declares its tags using the builders
 
 #### Configuring the Sanity webhook
 
-The fan-out lives in code (`src/lib/sanity/revalidation.ts`), but the webhook that delivers the payload is configured in Sanity. Create a [GROQ-powered webhook](https://www.sanity.io/docs/content-lake/webhooks) at [sanity.io/manage](https://www.sanity.io/manage) (API → Webhooks) and copy the exported **`filter`** and **`projection`** blocks from `src/lib/sanity/revalidation.ts` into the matching fields. Set:
+The fan-out lives in code (`src/lib/sanity/revalidation.ts`), but the webhook that delivers the payload is configured in Sanity. Create a [GROQ-powered webhook](https://www.sanity.io/docs/content-lake/webhooks) at [sanity.io/manage](https://www.sanity.io/manage) (API → Webhooks) and copy the exported `filter` and `projection` blocks from `src/lib/sanity/revalidation.ts` into the matching fields. Set:
 
 - **URL** — `https://<your-domain>/api/revalidate`
 - **HTTP method** — `POST`
@@ -97,12 +97,36 @@ The projection shapes the payload to exactly what `getRevalidateTags()` expects,
 
 The site publishes machine-readable surfaces so agents can read its content without scraping HTML (see `src/lib/agent-readiness/` and the `src/app/(agent-readiness)/` route group):
 
-- **`/llms.txt`** — a curated Markdown index of the most important content.
-- **`/feed.xml`** and **`/feed.json`** — RSS 2.0 and JSON Feed 1.1 of the latest articles.
-- **`/.well-known/agent-skills/`** — the site publishes its own Agent Skill (`SKILL.md`) plus a discovery index.
+- `/llms.txt` — a curated Markdown index of the most important content.
+- `/feed.xml` and `/feed.json` — RSS 2.0 and JSON Feed 1.1 of the latest articles.
+- `/.well-known/agent-skills/` — the site publishes its own Agent Skill (`SKILL.md`) plus a discovery index.
 - **schema.org JSON-LD** — embedded in each page's server-rendered HTML, with entities linked by `@id`.
-- **Discovery `Link` headers** — every response advertises the above via RFC 8288 `Link` headers (`next.config.ts`).
-- **`robots.ts`** — per-vendor AI crawler rules (opt out of training crawlers, opt in to retrieval crawlers).
+- **Discovery** `Link` **headers** — every response advertises the above via RFC 8288 `Link` headers (`next.config.ts`).
+- `robots.ts` — per-vendor AI crawler rules (opt out of training crawlers, opt in to retrieval crawlers).
+
+### Open Graph Cards
+
+Each page can ship a dynamically generated social share image (1200×630 PNG) rendered with `next/og` (Satori). The system is built around one presentational component so the editor preview and the shipped image can never drift apart:
+
+- **`src/lib/og/OgCard.tsx`** — the single source of truth for the card. Restricted to the CSS subset Satori supports (flexbox + inline styles, no grid, no class names) so the exact same component renders correctly in both the rasterizer and the browser.
+- **`src/app/api/og/[type]/[slug]/route.tsx`** — the generator route. Fetches the card data with `ogCardQuery`, builds CDN image URLs for the background and logo, and returns an `ImageResponse`. `type` is validated against an allow-list (`page`, `article`, `homePage`) and passed to GROQ as a bound parameter. The response is cached immutably (`max-age=31536000`).
+- **`src/lib/og/fonts.ts`** — loads Geist Sans/Mono from Google Fonts as raw buffers for Satori, subsetting each face to only the glyphs the card uses (keeps it under the `ImageResponse` bundle limit). Results are memoised per (family, weight, text) for the life of the server instance.
+- **`src/studio/components/SocialImageInput.tsx`** — the Studio input attached to the `seo.generateCard` toggle. It renders the *same* `OgCard` straight to the DOM, scaled to the field width, so editors get a live, accurate preview as they type.
+
+#### Content resolution
+
+`ogCardQuery` (`src/lib/sanity/queries/queries.ts`) resolves the headline, excerpt, background image, and logo entirely in GROQ via `coalesce()` fallback chains, so the route handler stays presentational:
+
+- **Headline** — `seo.cardHeadline` → `seo.metaTitle` → `title`/`name`
+- **Excerpt** — `seo.cardExcerpt` → `seo.metaDescription` → `excerpt`
+- **Background image** — `seo.metaImage` → document `image` → site `ogImage` (from Settings)
+- **Logo + site name** — always from the `settings` singleton
+
+The optional override fields (`cardLayout`, `cardHeadline`, `cardExcerpt`) live in the SEO object (`src/studio/schema/objects/seo/seo.ts`) and are hidden until `generateCard` is toggled on.
+
+#### Wiring into metadata
+
+`formatMetaData()` (`src/lib/sanity/client/seo.ts`) points `og:image` at the generator route only when the editor has toggled `generateCard` on; otherwise it shares the chosen `metaImage` as-is. It appends a `?v=<updatedAt>` token so an edit produces a fresh URL (and therefore a fresh CDN cache entry) while unchanged content keeps hitting the immutable cache. Next.js mirrors the Open Graph tags into `twitter:*` automatically, so there are no platform-specific fields to maintain.
 
 ### Type Generation
 
@@ -128,6 +152,7 @@ src/
     (agent-readiness)/   # llms.txt, feeds, agent-skills route group
     api/
       draft-mode/enable/ # Visual editing draft mode
+      og/                # Dynamic Open Graph card images (next/og)
       revalidate/        # Webhook revalidation endpoint
       search/            # Semantic search + streamed AI overview
     studio/              # Embedded Sanity Studio
@@ -145,6 +170,7 @@ src/
   hooks/                 # Custom React hooks
   lib/
     agent-readiness/     # llms.txt / feeds / JSON-LD / skill builders
+    og/                  # OgCard component + font loader for dynamic OG images
     sanity/
       client/            # Sanity client, fetch/live layer, search, SEO utils
       queries/           # GROQ queries, fragments + Zod schemas
@@ -159,12 +185,14 @@ src/
 
 ### Component Categories
 
-- **`ui/`** — Pure presentational components. No Sanity types, no data fetching, no global state. Includes vendored `shadcn/` components.
-- **`modules/`** — Accept Sanity data as props. May call server actions but don't fetch directly.
-- **`sections/`** — Page builder sections rendered by `PageSections` via a component map, plus other page-level sections.
-- **`templates/`** — Page-level layout wrappers shared across routes.
+- `ui/` — Pure presentational components. No Sanity types, no data fetching, no global state. Includes vendored `shadcn/` components.
+- `modules/` — Accept Sanity data as props. May call server actions but don't fetch directly.
+- `sections/` — Page builder sections rendered by `PageSections` via a component map, plus other page-level sections.
+- `templates/` — Page-level layout wrappers shared across routes.
 
 ## Environment Variables
+
+Environment variables are typed and validated via Zod to provide a server and client-safe typed API.
 
 ### Setup
 
@@ -174,11 +202,11 @@ cp .env.example .env.local
 
 ### Files
 
-| File | Purpose |
-| --- | --- |
-| `.env.local` | Local dev secrets (git-ignored) |
+| File           | Purpose                               |
+| -------------- | ------------------------------------- |
+| `.env.local`   | Local dev secrets (git-ignored)       |
 | `.env.example` | Template with required variable names |
-| `.env.test` | Variables for unit tests |
+| `.env.test`    | Variables for unit tests              |
 
 ### Adding Variables
 
